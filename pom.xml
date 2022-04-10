@@ -109,6 +109,11 @@
             <artifactId>Lambda</artifactId>
             <version>LATEST</version>
         </dependency>
+        <dependency>
+            <groupId>dev.lightdream</groupId>
+            <artifactId>Logger</artifactId>
+            <version>LATEST</version>
+        </dependency>
 
     </dependencies>
 

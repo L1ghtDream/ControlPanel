@@ -9,6 +9,8 @@ import dev.lightdream.controlpanel.utils.ConsoleColor;
 import dev.lightdream.lambda.LambdaExecutor;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LogManager {
@@ -34,14 +36,12 @@ public class LogManager {
                 //todo
                 //server.node.logChannel.setCommand("tail -f " + server.path + "/session.log");
                 server.node.logChannel.setCommand("tail -f /home/test/session.log");
-                //System.out.println("tail -f " + server.path + "/logs/latest.log");
 
                 ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
                 server.node.logChannel.setOutputStream(responseStream);
                 server.node.logChannel.connect();
 
                 while (server.node.logChannel.isConnected()) {
-                    System.out.println("Getting logs...");
                     if (!responseStream.toString().equals("")) {
                         String output = responseStream.toString();
 
@@ -49,7 +49,16 @@ public class LogManager {
                             output = output.replace(consoleColor.getCode(), consoleColor.getHtml());
                         }
 
-                        Log newLog = new Log(List.of(output.split("\n")));
+                        output = output.replaceAll(ConsoleColor.UNKNOWN, "");
+
+                        List<String> logList = new ArrayList<>(List.of(output.split("\n")));
+                        if(output.endsWith("\n")){
+                            for (int i = 0; i < logList.size(); i++) {
+                                logList.set(i, logList.get(i) + "<br>");
+                            }
+                        }
+
+                        Log newLog = new Log(logList);
                         server.log.addLog(newLog);
 
                         ConsoleService.instance.sendConsole(server, newLog);

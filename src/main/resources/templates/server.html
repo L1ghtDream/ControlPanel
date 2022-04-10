@@ -48,26 +48,30 @@
                 }));
         }
 
+        function getIndex(string, subString, index) {
+            var len = string.length;
+            var i = -1;
+            while (index-- && i++ < len) {
+                i = string.indexOf(subString, i);
+                if (i < 0) {
+                    break;
+                }
+            }
+            return i;
+        }
+
         async function showMessageOutput(messageOutput) {
             var response = document.getElementById("response");
-            response.innerHTML = response.innerHTML + "<br>" + messageOutput;
-            size = size + 1;
-            console.log(size)
-            // If the innerHTML has more then 100 lines, remove the first one
+            response.innerHTML = response.innerHTML + messageOutput;
+            var size = response.innerHTML.split("<br>").length;
 
             if (size > 25) {
-                //Remove the first line
-                response.innerHTML = response.innerHTML.substring(response.innerHTML.indexOf("<br>") + 4); //todo remove comment
-                size = size - 1;
+                //Remove the first line size-25 lines
+                //response.innerHTML = response.innerHTML.substring(getIndex(response.innerHTML, "<br>", size - 25) + 4);
             }
 
-            // Scroll to the bottom
-            response.scrollTop = response.scrollHeight;
-
-            //var p = document.createElement("div");
-            //p.style.wordWrap = "break-word";
-            //p.append(document.createTextNode(messageOutput));
-            //response.appendChild(p);
+            //Scroll to the bottom
+            window.scrollTo(0, document.body.scrollHeight);
         }
     </script>
 </head>

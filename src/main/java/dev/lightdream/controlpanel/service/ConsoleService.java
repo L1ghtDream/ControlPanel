@@ -21,9 +21,19 @@ public class ConsoleService {
     }
 
     public void sendConsole(Server server, Log log) {
-        log.logs.forEach(logMessage ->
-                messageManager.convertAndSend("/server/" + server.id + "/api/console", logMessage)
-        );
+        StringBuilder output = new StringBuilder();
+
+        log.logs.forEach(logMessage -> {
+            if (logMessage.equals("") || logMessage.equals(" ")) {
+                return;
+            }
+            output.append(logMessage);
+            //        .append("<br>");
+        });
+
+        //output.replace(output.length() - 4, output.length(), "");
+
+        messageManager.convertAndSend("/server/" + server.id + "/api/console", output.toString());
     }
 
 }

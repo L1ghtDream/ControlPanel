@@ -2,15 +2,18 @@ package dev.lightdream.controlpanel;
 
 import dev.lightdream.controlpanel.controllers.EndPoints;
 import dev.lightdream.controlpanel.controllers.RestEndPoints;
+import dev.lightdream.controlpanel.dto.Config;
 import dev.lightdream.controlpanel.managers.LogManager;
+import dev.lightdream.logger.LoggableMain;
 
-public class Main {
+public class Main implements LoggableMain {
 
     public static Main instance;
 
     public EndPoints endPoints;
     public RestEndPoints restEndPoints;
 
+    public Config config;
 
     public LogManager logManager;
 
@@ -23,6 +26,16 @@ public class Main {
         logManager = new LogManager();
         logManager.registerLogListener(Executor.servers.get(0));
 
+    }
+
+    @Override
+    public boolean debug() {
+        return false;
+    }
+
+    @Override
+    public void log(String s) {
+        System.out.println(s);
     }
 
     /*Notes
