@@ -67,9 +67,9 @@ public class Node {
         });
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public String sendCommandToServer(String command, Server server) {
-        //TODO
-        return sendCommand("screen -S test -X stuff '" + command + "\\n'");
+        return sendCommand("screen -S " + server.id + " -X stuff '" + command + "\\n'");
     }
 
 

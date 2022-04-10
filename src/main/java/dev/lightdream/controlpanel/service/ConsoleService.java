@@ -28,10 +28,7 @@ public class ConsoleService {
                 return;
             }
             output.append(logMessage);
-            //        .append("<br>");
         });
-
-        //output.replace(output.length() - 4, output.length(), "");
 
         messageManager.convertAndSend("/server/" + server.id + "/api/console", output.toString());
     }

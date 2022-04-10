@@ -57,10 +57,4 @@ public class Main implements LoggableMain, FileManagerMain {
     public void loadConfigs() {
         config = fileManager.load(Config.class);
     }
-
-    /*Notes
-
-    tail needs restarting after server start / stop / restart
-
-     */
 }

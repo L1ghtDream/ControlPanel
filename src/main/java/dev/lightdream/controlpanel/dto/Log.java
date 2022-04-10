@@ -15,10 +15,10 @@ public class Log {
         this.logs = logs;
     }
 
+    @SuppressWarnings("unused")
     public Log(String log) {
         this.logs.add(log);
     }
-
 
     public void addLog(Log log) {
         this.logs.addAll(log.logs);
