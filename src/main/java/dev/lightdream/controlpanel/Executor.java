@@ -41,11 +41,9 @@ public class Executor {
     public static void registerServers() {
         servers.add(
                 new Server(
-                        "survival-tropical",
-                        "Survival Tropical",
-                        10002,
-                        "QP8w6ydMd4Nvwqxx",
-                        "/var/lib/pufferpanel/servers/surv-t",
+                        "test",
+                        "Test Server",
+                        "/home/test",
                         nodes.get(0)
                 )
         );

@@ -1,4 +1,4 @@
-package dev.lightdream.controlpanel.controllers;
+package dev.lightdream.controlpanel.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class EndPoints {
 
+    @SuppressWarnings("unused")
     @GetMapping("/server/{server}")
-    public String index(Model model, @PathVariable String server, HttpServletRequest request) {
+    public String index(Model model, HttpServletRequest request, @PathVariable String server) {
         model.addAttribute("server", server);
         return "server.html";
     }

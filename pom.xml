@@ -114,6 +114,16 @@
             <artifactId>Logger</artifactId>
             <version>LATEST</version>
         </dependency>
+        <dependency>
+            <groupId>dev.lightdream</groupId>
+            <artifactId>FileManager</artifactId>
+            <version>LATEST</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.lightdream</groupId>
+            <artifactId>MessageBuilder</artifactId>
+            <version>LATEST</version>
+        </dependency>
 
     </dependencies>
 

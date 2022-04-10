@@ -1,4 +1,4 @@
-package dev.lightdream.controlpanel.managers;
+package dev.lightdream.controlpanel.manager;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -10,7 +10,6 @@ import dev.lightdream.lambda.LambdaExecutor;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class LogManager {
