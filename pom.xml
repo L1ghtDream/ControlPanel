@@ -124,6 +124,11 @@
             <artifactId>MessageBuilder</artifactId>
             <version>LATEST</version>
         </dependency>
+        <dependency>
+            <groupId>dev.lightdream</groupId>
+            <artifactId>DatabaseManager</artifactId>
+            <version>LATEST</version>
+        </dependency>
 
     </dependencies>
 

@@ -2,8 +2,8 @@ package dev.lightdream.controlpanel.manager;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
+import dev.lightdream.controlpanel.database.Server;
 import dev.lightdream.controlpanel.dto.Log;
-import dev.lightdream.controlpanel.dto.Server;
 import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.controlpanel.utils.ConsoleColor;
 import dev.lightdream.lambda.LambdaExecutor;

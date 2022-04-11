@@ -1,12 +1,13 @@
 package dev.lightdream.controlpanel;
 
-import dev.lightdream.controlpanel.dto.Node;
-import dev.lightdream.controlpanel.dto.Server;
+import dev.lightdream.controlpanel.database.Node;
+import dev.lightdream.controlpanel.database.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
@@ -38,13 +39,17 @@ public class Executor {
         );
     }
 
+    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
     public static void registerServers() {
         servers.add(
                 new Server(
                         "test",
                         "Test Server",
                         "/home/test",
-                        nodes.get(0)
+                        nodes.get(0),
+                        Arrays.asList(
+                                20002
+                        )
                 )
         );
     }

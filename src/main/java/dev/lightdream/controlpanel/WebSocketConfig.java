@@ -1,5 +1,6 @@
 package dev.lightdream.controlpanel;
 
+import dev.lightdream.logger.Logger;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -13,9 +14,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         Executor.servers.forEach(server -> {
-            System.out.println("[Broker] Registering server: " + server.id + " ( " + "/server/" + server.id + "/api/console" + " )");
+            Logger.info("[Broker] Registering server: " + server.serverID + " ( " + "/server/" + server.serverID + "/api/console" + " )");
 
-            config.enableSimpleBroker("/server/" + server.id + "/api/console");
+            config.enableSimpleBroker("/server/" + server.serverID + "/api/console");
         });
 
         config.setApplicationDestinationPrefixes("/app");

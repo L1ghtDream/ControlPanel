@@ -1,36 +1,49 @@
-package dev.lightdream.controlpanel.dto;
+package dev.lightdream.controlpanel.database;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
+import dev.lightdream.controlpanel.Main;
+import dev.lightdream.databasemanager.annotations.database.DatabaseField;
+import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
+import dev.lightdream.databasemanager.dto.DatabaseEntry;
 import dev.lightdream.lambda.LambdaExecutor;
-import lombok.NoArgsConstructor;
 
 import java.io.ByteArrayOutputStream;
 
-@NoArgsConstructor
-public class Node {
+@DatabaseTable(table = "nodes")
+public class Node extends DatabaseEntry {
 
     //Settings
-    public String id;
+    @DatabaseField(columnName = "node_id", unique = true)
+    public String nodeID;
+    @DatabaseField(columnName = "name")
     public String name;
-
     //Credentials
+    @DatabaseField(columnName = "node_ip")
     public String nodeIP;
+    @DatabaseField(columnName = "public_ip")
     public String publicIP;
+    @DatabaseField(columnName = "password")
     public String password;
+    @DatabaseField(columnName = "username")
     public String username;
+    @DatabaseField(columnName = "ssh_port")
     public int sshPort;
-
     //Connections
     public Session session;
     public ChannelExec channel;
-
     public Session logSession;
     public ChannelExec logChannel;
 
-    public Node(String id, String name, String nodeIP, String publicIP, String password, String username, int sshPort) {
-        this.id = id;
+    @SuppressWarnings("unused")
+    public Node() {
+        super(Main.instance);
+    }
+
+    public Node(String nodeID, String name, String nodeIP, String publicIP, String password, String username, int sshPort) {
+        super(Main.instance);
+        this.nodeID = nodeID;
         this.name = name;
         this.nodeIP = nodeIP;
         this.publicIP = publicIP;
@@ -69,7 +82,7 @@ public class Node {
 
     @SuppressWarnings("UnusedReturnValue")
     public String sendCommandToServer(String command, Server server) {
-        return sendCommand("screen -S " + server.id + " -X stuff '" + command + "\\n'");
+        return sendCommand("screen -S " + server.serverID + " -X stuff '" + command + "\\n'");
     }
 
 
