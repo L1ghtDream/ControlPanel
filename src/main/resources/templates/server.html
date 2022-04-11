@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <style>
         body {
@@ -7,11 +7,12 @@
     </style>
 
     <title>Chat WebSocket</title>
+    <!--suppress JSUnresolvedLibraryURL -->
     <script src="https://unpkg.com/kd-shim-sockjs-client@0.3.4/sockjs-0.3.4.js"></script>
+    <!--suppress JSUnresolvedLibraryURL -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
     <script type="text/javascript">
         var stompClient = null;
-        var size = 0;
 
         function setConnected(connected) {
             document.getElementById("connect").disabled = connected;
@@ -86,18 +87,20 @@
 <div id="server" th:text="${server}"></div>
 <div>
     <div>
-        <input type="text" id="from" placeholder="Choose a nickname"/>
+        <!--suppress HtmlFormInputWithoutLabel -->
+        <input id="from" placeholder="Choose a nickname" type="text"/>
     </div>
     <br/>
     <div>
         <button id="connect" onclick="connect();">Connect</button>
-        <button id="disconnect" disabled="disabled" onclick="disconnect();">
+        <button disabled="disabled" id="disconnect" onclick="disconnect();">
             Disconnect
         </button>
     </div>
     <br/>
     <div id="conversationDiv">
-        <input type="text" id="text" placeholder="Write a message..."/>
+        <!--suppress HtmlFormInputWithoutLabel -->
+        <input id="text" placeholder="Write a message..." type="text"/>
         <button id="sendMessage" onclick="sendMessage();">Send</button>
         <p id="response"></p>
     </div>
