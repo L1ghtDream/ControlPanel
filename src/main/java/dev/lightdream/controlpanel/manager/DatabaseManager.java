@@ -12,7 +12,22 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
 
     @Override
     public void setup() {
+
+        registerDataType(Node.class, "TEXT");
+        registerDataType(Server.class, "TEXT");
+
+        registerSDPair(Node.class, node -> node.id, id -> getNode((Integer) id));
+        registerSDPair(Server.class, server -> server.id, id -> getServer((Integer) id));
+
         setup(Node.class);
         setup(Server.class);
+    }
+
+    public Node getNode(int id) {
+        return null; //todo
+    }
+
+    public Server getServer(int id) {
+        return null; //todo
     }
 }
