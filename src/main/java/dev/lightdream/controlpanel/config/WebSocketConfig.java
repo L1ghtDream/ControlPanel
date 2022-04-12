@@ -1,5 +1,6 @@
-package dev.lightdream.controlpanel;
+package dev.lightdream.controlpanel.config;
 
+import dev.lightdream.controlpanel.Executor;
 import dev.lightdream.logger.Logger;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

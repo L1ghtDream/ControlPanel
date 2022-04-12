@@ -3,11 +3,16 @@ package dev.lightdream.controlpanel.controller;
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
 import dev.lightdream.controlpanel.dto.Command;
+import dev.lightdream.controlpanel.dto.data.Cookie;
+import dev.lightdream.controlpanel.dto.data.LoginData;
 import dev.lightdream.controlpanel.dto.response.Response;
 import dev.lightdream.controlpanel.utils.Globals;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import static dev.lightdream.controlpanel.utils.Utils.getServer;
 
@@ -43,5 +48,17 @@ public class RestEndPoints {
         getServer(command.server).sendCommand(command.command);
 
         return Response.OK();
+    }
+
+    @PostMapping("/api/login")
+    @ResponseBody
+    public Response login(@RequestBody LoginData loginData) {
+        Cookie cookie = loginData.generateCookie();
+
+        if (cookie == null) {
+            return Response.UNAUTHORISED("Invalid username or password");
+        }
+
+        return Response.OK(cookie);
     }
 }

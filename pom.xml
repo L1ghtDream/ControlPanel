@@ -75,6 +75,32 @@
             <version>0.1.55</version>
         </dependency>
 
+        <!-- OTP -->
+
+        <dependency>
+            <groupId>de.taimos</groupId>
+            <artifactId>totp</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+
+        <!-- Google -->
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+        </dependency>
+
         <!-- Own Repo -->
 
         <dependency>
@@ -102,7 +128,6 @@
             <artifactId>DatabaseManager</artifactId>
             <version>LATEST</version>
         </dependency>
-
     </dependencies>
 
     <build>

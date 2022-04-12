@@ -3,8 +3,10 @@ package dev.lightdream.controlpanel;
 import dev.lightdream.controlpanel.controller.EndPoints;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
 import dev.lightdream.controlpanel.dto.Config;
+import dev.lightdream.controlpanel.dto.User;
 import dev.lightdream.controlpanel.manager.DatabaseManager;
 import dev.lightdream.controlpanel.manager.LogManager;
+import dev.lightdream.controlpanel.utils.Utils;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.database.IDatabaseManager;
 import dev.lightdream.databasemanager.dto.DriverConfig;
@@ -31,6 +33,12 @@ public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
     public LogManager logManager;
     public FileManager fileManager;
     public DatabaseManager databaseManager;
+
+    public static User user = new User(
+            "admin",
+            "passwd",
+            "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
+    );
 
     public void enable() {
         instance = this;
@@ -83,5 +91,9 @@ public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
         config = fileManager.load(Config.class);
         sqlConfig = fileManager.load(SQLConfig.class);
         driverConfig = fileManager.load(DriverConfig.class);
+    }
+
+    public String qrPath(){
+        return "C:/Users/raduv/OneDrive/Desktop/UserQRsda/";
     }
 }

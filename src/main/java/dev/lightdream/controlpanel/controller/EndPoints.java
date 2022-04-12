@@ -17,4 +17,9 @@ public class EndPoints {
         model.addAttribute("server", server);
         return "server.html";
     }
+
+    @GetMapping("/login")
+    public String login(Model model, HttpServletRequest request ){
+        return "login.html";
+    }
 }

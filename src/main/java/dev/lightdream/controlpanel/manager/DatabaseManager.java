@@ -1,7 +1,9 @@
 package dev.lightdream.controlpanel.manager;
 
+import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
+import dev.lightdream.controlpanel.dto.User;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.database.ProgrammaticHikariDatabaseManager;
 
@@ -30,4 +32,13 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
     public Server getServer(int id) {
         return null; //todo
     }
+
+    public User getUser(int id) {
+        return null; //todo
+    }
+
+    public User getUser(String username) {
+        return Main.user;
+    }
+
 }
