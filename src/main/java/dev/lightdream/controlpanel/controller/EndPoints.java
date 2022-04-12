@@ -19,7 +19,7 @@ public class EndPoints {
     }
 
     @GetMapping("/login")
-    public String login(Model model, HttpServletRequest request ){
+    public String login(Model model, HttpServletRequest request) {
         return "login.html";
     }
 }

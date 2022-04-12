@@ -61,4 +61,14 @@ public class RestEndPoints {
 
         return Response.OK(cookie);
     }
+
+    @PostMapping("/api/login/cookie")
+    @ResponseBody
+    public Response loginCookie(@RequestBody Cookie cookie) {
+        if (cookie.check()) {
+            return Response.OK();
+        }
+        return Response.UNAUTHORISED("Invalid username or password");
+    }
+
 }
