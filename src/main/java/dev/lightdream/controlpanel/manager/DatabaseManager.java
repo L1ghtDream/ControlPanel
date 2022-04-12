@@ -25,20 +25,24 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         setup(Server.class);
     }
 
+    @SuppressWarnings("unused")
     public Node getNode(int id) {
         return null; //todo
     }
 
+    @SuppressWarnings("unused")
     public Server getServer(int id) {
         return null; //todo
     }
 
+    @SuppressWarnings("unused")
     public User getUser(int id) {
         return null; //todo
     }
 
+    @SuppressWarnings("unused")
     public User getUser(String username) {
-        return Main.user;
+        return Main.user; //todo
     }
 
 }

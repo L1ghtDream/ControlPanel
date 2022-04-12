@@ -24,6 +24,7 @@ public class Response {
         return new Response("200", "OK", data);
     }
 
+    @SuppressWarnings("unused")
     public static Response UNAUTHORISED() {
         return new Response("401", "Unauthorised");
     }

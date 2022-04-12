@@ -6,7 +6,6 @@ import dev.lightdream.controlpanel.dto.Config;
 import dev.lightdream.controlpanel.dto.User;
 import dev.lightdream.controlpanel.manager.DatabaseManager;
 import dev.lightdream.controlpanel.manager.LogManager;
-import dev.lightdream.controlpanel.utils.Utils;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.database.IDatabaseManager;
 import dev.lightdream.databasemanager.dto.DriverConfig;
@@ -22,23 +21,19 @@ import java.io.File;
 public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
 
     public static Main instance;
-
-    public EndPoints endPoints;
-    public RestEndPoints restEndPoints;
-
-    public Config config;
-    public SQLConfig sqlConfig;
-    public DriverConfig driverConfig;
-
-    public LogManager logManager;
-    public FileManager fileManager;
-    public DatabaseManager databaseManager;
-
     public static User user = new User(
             "admin",
             "passwd",
             "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
     );
+    public EndPoints endPoints;
+    public RestEndPoints restEndPoints;
+    public Config config;
+    public SQLConfig sqlConfig;
+    public DriverConfig driverConfig;
+    public LogManager logManager;
+    public FileManager fileManager;
+    public DatabaseManager databaseManager;
 
     public void enable() {
         instance = this;
@@ -93,7 +88,7 @@ public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
         driverConfig = fileManager.load(DriverConfig.class);
     }
 
-    public String qrPath(){
+    public String qrPath() {
         return "C:/Users/raduv/OneDrive/Desktop/UserQRsda/";
     }
 }

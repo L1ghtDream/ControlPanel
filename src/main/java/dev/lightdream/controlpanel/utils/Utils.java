@@ -16,7 +16,6 @@ import java.io.FileOutputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.util.Base64;
 
 public class Utils {
 
@@ -36,14 +35,6 @@ public class Utils {
         return TOTP.getOTP(hexKey);
     }
 
-    public static String base64Encode(String raw) {
-        return Base64.getEncoder().encodeToString(raw.getBytes());
-    }
-
-    public static String base64Decode(String encoded) {
-        return new String(Base64.getDecoder().decode(encoded), StandardCharsets.UTF_8);
-    }
-
     @SneakyThrows
     public static String getGoogleAuthenticatorBarCode(String secretKey, String account, String issuer) {
         return "otpauth://totp/"
@@ -60,6 +51,7 @@ public class Utils {
         out.close();
     }
 
+    @SuppressWarnings("unused")
     public static String generateSecretKey() {
         SecureRandom random = new SecureRandom();
         byte[] bytes = new byte[20];

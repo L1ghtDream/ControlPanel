@@ -12,6 +12,7 @@ public class User extends DatabaseEntry {
     public String password;
     public String otpSecret;
 
+    @SuppressWarnings("unused")
     public User() {
         super(Main.instance);
     }
@@ -23,6 +24,7 @@ public class User extends DatabaseEntry {
         this.otpSecret = otpSecret;
     }
 
+    @SuppressWarnings("unused")
     public String generateQR() {
         String path = Main.instance.qrPath() + username + ".png";
         Utils.createQRCode(Utils.getGoogleAuthenticatorBarCode(this.otpSecret, "admin", "Original.gg"), path);

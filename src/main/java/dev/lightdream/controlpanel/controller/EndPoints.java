@@ -18,6 +18,7 @@ public class EndPoints {
         return "server.html";
     }
 
+    @SuppressWarnings("unused")
     @GetMapping("/login")
     public String login(Model model, HttpServletRequest request) {
         return "login.html";
