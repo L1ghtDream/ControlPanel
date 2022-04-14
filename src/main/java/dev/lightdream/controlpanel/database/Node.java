@@ -4,12 +4,17 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import dev.lightdream.controlpanel.Main;
+import dev.lightdream.controlpanel.dto.User;
+import dev.lightdream.controlpanel.dto.permission.Permission;
+import dev.lightdream.controlpanel.dto.permission.PermissionType;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.databasemanager.dto.DatabaseEntry;
 import dev.lightdream.lambda.LambdaExecutor;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @DatabaseTable(table = "nodes")
 public class Node extends DatabaseEntry {
@@ -30,6 +35,11 @@ public class Node extends DatabaseEntry {
     public String username;
     @DatabaseField(columnName = "ssh_port")
     public int sshPort;
+
+    //Node Specific
+    @DatabaseField(columnName = "permissions")
+    public List<Permission> permissions;
+
     //Connections
     public Session session;
     public ChannelExec channel;
@@ -83,6 +93,34 @@ public class Node extends DatabaseEntry {
     @SuppressWarnings("UnusedReturnValue")
     public String sendCommandToServer(String command, Server server) {
         return sendCommand("screen -S " + server.serverID + " -X stuff '" + command + "\\n'");
+    }
+
+    // Perms
+
+    public List<Permission> gerUserPermissions(User user) {
+        return permissions.stream().filter(permission -> permission.user.equals(user)).collect(Collectors.toList());
+    }
+
+    public boolean hasPermission(User user, PermissionType permissionType) {
+        return gerUserPermissions(user).stream().anyMatch(permission -> permission.permission.equals(permissionType));
+    }
+
+    @SuppressWarnings("unused")
+    public void addPermission(User user, PermissionType permissionType) {
+        if (hasPermission(user, permissionType)) {
+            return;
+        }
+        permissions.add(new Permission(user, permissionType));
+        save();
+    }
+
+    @SuppressWarnings("unused")
+    public void removePermission(User user, PermissionType permissionType) {
+        if (!hasPermission(user, permissionType)) {
+            return;
+        }
+        permissions.removeIf(permission -> permission.user.equals(user) && permission.permission.equals(permissionType));
+        save();
     }
 
 
