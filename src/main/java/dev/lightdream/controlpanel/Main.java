@@ -20,17 +20,24 @@ import java.io.File;
 
 public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
 
+    // Statics
     public static Main instance;
     public static User user = new User(
             "admin",
             "passwd",
             "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
     );
+
+    // Spring
     public EndPoints endPoints;
     public RestEndPoints restEndPoints;
+
+    //Config
     public Config config;
     public SQLConfig sqlConfig;
     public DriverConfig driverConfig;
+
+    // Manager
     public LogManager logManager;
     public FileManager fileManager;
     public DatabaseManager databaseManager;
@@ -89,6 +96,6 @@ public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
     }
 
     public String qrPath() {
-        return "C:/Users/raduv/OneDrive/Desktop/UserQRsda/";
+        return "C:/Users/raduv/OneDrive/Desktop/UserQRs/";
     }
 }

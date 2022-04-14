@@ -2,6 +2,8 @@ package dev.lightdream.controlpanel;
 
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
+import dev.lightdream.logger.LoggableMainImpl;
+import dev.lightdream.logger.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -14,10 +16,16 @@ import java.util.List;
 @EnableScheduling
 public class Executor {
 
+    // Servers and nodes
     public static List<Node> nodes = new ArrayList<>();
     public static List<Server> servers = new ArrayList<>();
 
     public static void main(String[] args) {
+
+        // Temp logger init
+        LoggableMainImpl loggableMain = new LoggableMainImpl();
+        Logger.init(loggableMain);
+
         registerNodes();
         registerServers();
 

@@ -3,14 +3,6 @@ if (error !== null) {
     error.hidden = true;
 }
 
-// ----- DEVELOPMENT ONLY -----
-//setCookie("login_data", "", 0);
-
-//Language sanitization
-if (getCookie("lang") == null) {
-    setCookie('lang', "en", 0);
-}
-
 //Login
 loginCookie();
 
@@ -59,12 +51,33 @@ async function verifyCookie() {
     return JSON.parse(await blob.text());
 }
 
-function setCookie(name, value) {
-    window.localStorage.setItem(name, value);
+function setCookie(/*name, value*/name, value, days) {
+    //window.localStorage.setItem(name, value);
+
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
 function getCookie(name) {
-    return window.localStorage.getItem(name);
+    //return window.localStorage.getItem(name);
+
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
 async function loginCookie() {
@@ -90,7 +103,7 @@ async function loginCookie() {
             login.outerHTML = "" +
                 "<img class='user-icon' src='" + url + "' onclick=profile('" + obj.username + "') alt='profile'> " +
                 "<button class='top-btn login' id='logout-button' style='margin-left: 20px'>Logout</button>";
-            document.getElementById("logout-button").addEventListener("click", ()=>{
+            document.getElementById("logout-button").addEventListener("click", () => {
                 setCookie("login_data", "");
                 location.reload();
             })

@@ -4,7 +4,6 @@ package dev.lightdream.controlpanel.dto.data;
 import com.google.common.hash.Hashing;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.dto.User;
-import dev.lightdream.controlpanel.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -20,8 +19,9 @@ public class LoginData {
 
     public boolean checkPassword() {
         User user = Main.instance.databaseManager.getUser(username);
-        return user.password.equals(password) &&
-                otp.equals(Utils.getTOTPCode(user.otpSecret));
+        return true; // TODO Move to actual check
+        //return user.password.equals(password) &&
+        //        otp.equals(Utils.getTOTPCode(user.otpSecret));
     }
 
     public Cookie generateCookie() {

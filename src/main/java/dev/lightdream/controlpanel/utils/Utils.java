@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.Base64;
 
 public class Utils {
 
@@ -58,5 +59,13 @@ public class Utils {
         random.nextBytes(bytes);
         Base32 base32 = new Base32();
         return base32.encodeToString(bytes);
+    }
+
+    public static String base64Encode(String raw) {
+        return Base64.getEncoder().encodeToString(raw.getBytes());
+    }
+
+    public static String base64Decode(String encoded) {
+        return new String(Base64.getDecoder().decode(encoded));
     }
 }

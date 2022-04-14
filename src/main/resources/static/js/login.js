@@ -17,7 +17,7 @@ async function login() {
         password: document.getElementById('password').value,
         otp: document.getElementById('otp').value
     }, () => {
-        setCookie("login_data", JSON.stringify(obj.data), 30)
+        setCookie("login_data", btoa(JSON.stringify(obj.data)), 10 * 365);
         window.location.href = "/";
     });
 }

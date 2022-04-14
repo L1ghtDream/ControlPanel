@@ -1,10 +1,13 @@
 package dev.lightdream.controlpanel.dto.request;
 
-import lombok.AllArgsConstructor;
+import dev.lightdream.controlpanel.dto.data.Cookie;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @NoArgsConstructor
 public class ServerRequest extends Request {
+
+    public ServerRequest(Cookie cookie) {
+        super(cookie);
+    }
 
 }
