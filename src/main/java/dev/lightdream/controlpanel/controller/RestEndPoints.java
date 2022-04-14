@@ -5,6 +5,7 @@ import dev.lightdream.controlpanel.database.Server;
 import dev.lightdream.controlpanel.dto.Command;
 import dev.lightdream.controlpanel.dto.data.Cookie;
 import dev.lightdream.controlpanel.dto.data.LoginData;
+import dev.lightdream.controlpanel.dto.request.ServerRequest;
 import dev.lightdream.controlpanel.dto.response.Response;
 import dev.lightdream.controlpanel.utils.Globals;
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +26,17 @@ public class RestEndPoints {
     }
 
     @MessageMapping("/server/api/server")
-    public Response send(Command command) {
+    public Response console(Command command, @RequestBody ServerRequest serverRequest) {
+        if (!serverRequest.cookie.check()) {
+            return Response.UNAUTHORISED();
+        }
+
         if (command.command.equals("start")) {
             Server server = getServer(command.server);
             Node node = server.node;
 
             if (!node.sendCommand("screen -ls " + server.serverID).contains("No Sockets found")) {
-                //TODO Send response to make the start button not clickable and send message that the server is already running
-                return Response.OK();
+                return Response.LOCKED("Server is already running");
             }
 
             node.sendCommand(Globals.SERVER_START_CMD
@@ -41,7 +45,6 @@ public class RestEndPoints {
                     .parse()
             );
 
-            //TODO Send response to make the start button not clickable
             return Response.OK();
         }
 

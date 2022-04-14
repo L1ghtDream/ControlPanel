@@ -33,5 +33,9 @@ public class Response {
         return new Response("401", text);
     }
 
+    public static Response LOCKED(String text) {
+        return new Response("423", text);
+    }
+
 
 }
