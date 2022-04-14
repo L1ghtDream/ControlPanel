@@ -1,3 +1,4 @@
+<!--suppress HtmlUnknownTarget -->
 <html lang="en">
 <head>
     <style>
@@ -11,8 +12,10 @@
     <script src="https://unpkg.com/kd-shim-sockjs-client@0.3.4/sockjs-0.3.4.js"></script>
     <!--suppress JSUnresolvedLibraryURL -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script src="/js/scripts.js"></script>
     <script type="text/javascript">
         var stompClient = null;
+        var user = JSON.parse(atob(getCookie("login_data")));
 
         function setConnected(connected) {
             document.getElementById("connect").disabled = connected;
@@ -27,11 +30,18 @@
 
             var socket = new SockJS("/server/api/server");
             stompClient = Stomp.over(socket);
-            stompClient.connect({}, function (frame) {
+
+            stompClient.connect({
+                "username": user.username,
+                "password": user.hash
+            }, () => {
                 setConnected(true);
-                console.log("Connected: " + frame);
+                console.log("Connected");
                 stompClient.subscribe("/server/" + server + "/api/console", function (messageOutput) {
                     showMessageOutput(messageOutput.body);
+                }, {
+                    "username": user.username,
+                    "password": user.hash
                 });
             });
         }
@@ -48,7 +58,10 @@
             var server = document.getElementById("server").innerText;
 
             var text = document.getElementById("text").value;
-            stompClient.send("/app/server/api/server", {},
+            stompClient.send("/app/server/api/server", {
+                    "username": user.username,
+                    "password": user.hash
+                },
                 JSON.stringify({
                     "command": text,
                     "server": server

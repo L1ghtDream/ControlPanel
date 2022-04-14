@@ -1,6 +1,8 @@
 package dev.lightdream.controlpanel.dto;
 
 import dev.lightdream.controlpanel.Main;
+import dev.lightdream.controlpanel.database.PermissionHolder;
+import dev.lightdream.controlpanel.dto.permission.PermissionType;
 import dev.lightdream.controlpanel.utils.Utils;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.databasemanager.dto.DatabaseEntry;
@@ -29,5 +31,19 @@ public class User extends DatabaseEntry {
         String path = Main.instance.qrPath() + username + ".png";
         Utils.createQRCode(Utils.getGoogleAuthenticatorBarCode(this.otpSecret, "admin", "Original.gg"), path);
         return path;
+    }
+
+    public boolean hasPermission(PermissionHolder permissionHolder, PermissionType permission) {
+        return permissionHolder.hasPermission(this, permission);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", otpSecret='" + otpSecret + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

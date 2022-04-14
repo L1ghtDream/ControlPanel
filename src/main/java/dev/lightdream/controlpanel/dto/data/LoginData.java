@@ -34,9 +34,13 @@ public class LoginData {
         return new Cookie(
                 username,
                 Hashing.sha256()
-                        .hashString(username + password + user.otpSecret, StandardCharsets.UTF_8)
+                        .hashString(username + user.password + user.otpSecret, StandardCharsets.UTF_8)
                         .toString()
         );
+    }
+
+    public void getUser() {
+
     }
 }
 

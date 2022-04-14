@@ -27,7 +27,7 @@ public class RestEndPoints {
 
     @MessageMapping("/server/api/server")
     public Response console(Command command, @RequestBody ServerRequest serverRequest) {
-        if (!serverRequest.cookie.check()) {
+        if (!serverRequest.cookie.validate()) {
             return Response.UNAUTHORISED();
         }
 
@@ -68,7 +68,7 @@ public class RestEndPoints {
     @PostMapping("/api/login/cookie")
     @ResponseBody
     public Response loginCookie(@RequestBody Cookie cookie) {
-        if (cookie.check()) {
+        if (cookie.validate()) {
             return Response.OK();
         }
         return Response.UNAUTHORISED("Invalid username or password");

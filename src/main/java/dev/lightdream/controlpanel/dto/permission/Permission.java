@@ -16,6 +16,14 @@ public class Permission {
         return new GsonPermission(this);
     }
 
+    @Override
+    public String toString() {
+        return "Permission{" +
+                "user=" + user +
+                ", permission=" + permission +
+                '}';
+    }
+
     public static class GsonPermission {
 
         public int id;
@@ -31,6 +39,4 @@ public class Permission {
         }
 
     }
-
-
 }

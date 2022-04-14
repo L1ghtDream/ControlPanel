@@ -2,6 +2,8 @@ package dev.lightdream.controlpanel;
 
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
+import dev.lightdream.controlpanel.dto.User;
+import dev.lightdream.controlpanel.dto.permission.PermissionType;
 import dev.lightdream.logger.LoggableMainImpl;
 import dev.lightdream.logger.Logger;
 import org.springframework.boot.SpringApplication;
@@ -16,50 +18,8 @@ import java.util.List;
 @EnableScheduling
 public class Executor {
 
-    // Servers and nodes
-    public static List<Node> nodes = new ArrayList<>();
-    public static List<Server> servers = new ArrayList<>();
-
     public static void main(String[] args) {
-
-        // Temp logger init
-        LoggableMainImpl loggableMain = new LoggableMainImpl();
-        Logger.init(loggableMain);
-
-        registerNodes();
-        registerServers();
-
-        SpringApplication.run(Executor.class, args);
         new Main().enable();
-    }
-
-    public static void registerNodes() {
-        nodes.add(
-                new Node(
-                        "htz-1",
-                        "HTZ-1",
-                        "162.55.103.213",
-                        "162.55.103.213",
-                        "kvkfBt33vBxNCdBw",
-                        "root",
-                        22
-                )
-        );
-    }
-
-    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
-    public static void registerServers() {
-        servers.add(
-                new Server(
-                        "test",
-                        "Test Server",
-                        "/home/test",
-                        nodes.get(0),
-                        Arrays.asList(
-                                20002
-                        )
-                )
-        );
     }
 
 }

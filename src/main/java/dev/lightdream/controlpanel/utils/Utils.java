@@ -6,6 +6,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import de.taimos.totp.TOTP;
 import dev.lightdream.controlpanel.Executor;
+import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
 import lombok.SneakyThrows;
@@ -21,12 +22,12 @@ import java.util.Base64;
 public class Utils {
 
     public static Server getServer(String id) {
-        return Executor.servers.stream().filter(server -> server.serverID.equals(id)).findFirst().orElse(null);
+        return Main.servers.stream().filter(server -> server.serverID.equals(id)).findFirst().orElse(null);
     }
 
     @SuppressWarnings("unused")
     public static Node getNode(String id) {
-        return Executor.nodes.stream().filter(node -> node.nodeID.equals(id)).findFirst().orElse(null);
+        return Main.nodes.stream().filter(node -> node.nodeID.equals(id)).findFirst().orElse(null);
     }
 
     public static String getTOTPCode(String secretKey) {

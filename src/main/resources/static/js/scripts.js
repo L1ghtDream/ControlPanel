@@ -1,21 +1,21 @@
-error = document.getElementById("error");
-if (error !== null) {
-    error.hidden = true;
-}
+//error = document.getElementById("error");
+//if (error !== null) {
+//    error.hidden = true;
+//}
 
 //Login
-loginCookie();
+//loginCookie();
 
 //Cancel button
-const cancel = document.getElementById('cancel');
-if (cancel !== null) {
-    cancel.addEventListener('click', function () {
-        window.location.replace("/");
-    });
-}
+//const cancel = document.getElementById('cancel');
+//if (cancel !== null) {
+//    cancel.addEventListener('click', function () {
+//        window.location.replace("/");
+//    });
+//}
 
 //Dashboard sanitization
-dashBoard();
+//dashBoard();
 
 async function dashBoard() {
     logged = await isLoggedIn();
