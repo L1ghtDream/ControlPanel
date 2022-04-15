@@ -1,3 +1,5 @@
+// noinspection JSCheckFunctionSignatures,JSUnresolvedVariable
+
 error = document.getElementById("error");
 if (error !== null) {
     error.hidden = true;
@@ -22,7 +24,7 @@ function getSkinURL(name) {
 }
 
 async function verifyCookie() {
-    blob = await fetch("/api/login/validate", {
+    let blob = await fetch("/api/login/validate", {
         method: "post",
         body: getCookie("login_data")
     }).then(response => response.blob());
@@ -33,9 +35,9 @@ async function verifyCookie() {
 function setCookie(/*name, value*/name, value, days) {
     //window.localStorage.setItem(name, value);
 
-    var expires = "";
+    let expires = "";
     if (days) {
-        var date = new Date();
+        const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         expires = "; expires=" + date.toUTCString();
     }
@@ -45,10 +47,10 @@ function setCookie(/*name, value*/name, value, days) {
 function getCookie(name) {
     //return window.localStorage.getItem(name);
 
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
         while (c.charAt(0) === ' ') c = c.substring(1, c.length);
         if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
     }
@@ -62,6 +64,7 @@ function eraseCookie(name) {
 
 // noinspection JSUnusedGlobalSymbols
 async function loginCookie() {
+    let url;
     if (getCookie("login_data") !== null && getCookie("login_data") !== "" && getCookie("login_data") !== undefined) {
 
         try {
@@ -135,7 +138,7 @@ async function callPutAPI(api, data) {
 }
 
 async function callAPI(api, data, callbackEn, callbackRo, failCallbackEn, failCallbackRo) {
-    var blob = await fetch(api, {
+    const blob = await fetch(api, {
         method: 'post',
         headers: {
             'Accept': 'application/json',
@@ -144,8 +147,9 @@ async function callAPI(api, data, callbackEn, callbackRo, failCallbackEn, failCa
         body: JSON.stringify(data)
     }).then(response => response.blob());
 
-    json = await blob.text();
+    let json = await blob.text();
 
+    let obj;
     try {
         obj = JSON.parse(json);
 

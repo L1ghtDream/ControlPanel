@@ -47,7 +47,7 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
     public FileManager fileManager;
     public DatabaseManager databaseManager;
 
-    public Main(){
+    public Main() {
         super();
         enable();
     }

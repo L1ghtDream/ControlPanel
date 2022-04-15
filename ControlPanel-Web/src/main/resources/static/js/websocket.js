@@ -1,5 +1,7 @@
-var stompClient = null;
-var user = JSON.parse(atob(getCookie("login_data")));
+// noinspection JSUnresolvedFunction,JSUnresolvedVariable,JSCheckFunctionSignatures,JSIgnoredPromiseFromCall
+
+let stompClient = null;
+const user = JSON.parse(atob(getCookie("login_data")));
 
 function setConnected(connected) {
     document.getElementById("connect").disabled = connected;
@@ -10,9 +12,9 @@ function setConnected(connected) {
 }
 
 function connect() {
-    var server = document.getElementById("server").innerText;
+    const server = document.getElementById("server").innerText;
 
-    var socket = new SockJS("/server/api/server");
+    const socket = new SockJS("/server/api/server");
     stompClient = Stomp.over(socket);
 
     stompClient.connect({
@@ -39,9 +41,9 @@ function disconnect() {
 }
 
 function sendMessage() {
-    var server = document.getElementById("server").innerText;
+    const server = document.getElementById("server").innerText;
 
-    var text = document.getElementById("text").value;
+    const text = document.getElementById("text").value;
     stompClient.send("/app/server/api/server", {
             "username": user.username,
             "password": user.hash
@@ -54,8 +56,8 @@ function sendMessage() {
 }
 
 function getIndex(string, subString, index) {
-    var len = string.length;
-    var i = -1;
+    const len = string.length;
+    let i = -1;
     while (index-- && i++ < len) {
         i = string.indexOf(subString, i);
         if (i < 0) {
@@ -66,9 +68,9 @@ function getIndex(string, subString, index) {
 }
 
 async function showMessageOutput(messageOutput) {
-    var response = document.getElementById("response");
+    const response = document.getElementById("response");
     response.innerHTML = response.innerHTML + messageOutput;
-    var size = response.innerHTML.split("<br>").length;
+    const size = response.innerHTML.split("<br>").length;
 
     if (size > 25) {
         //Remove the first line size-25 lines

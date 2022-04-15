@@ -1,3 +1,5 @@
+// noinspection JSCheckFunctionSignatures
+
 async function loginTemplate() {
     /*
     loggedStatus = await isLoggedIn();
@@ -12,7 +14,7 @@ async function loginTemplate() {
 }
 
 async function login() {
-    callAPI("/api/login", {
+    await callAPI("/api/login", {
         username: document.getElementById('username').value,
         password: document.getElementById('password').value,
         otp: document.getElementById('otp').value

@@ -90,6 +90,7 @@ public class Node extends PermissionHolder {
         return CommonMain.instance.getServers().stream().filter(server -> server.node.nodeID.equals(this.nodeID)).collect(Collectors.toList());
     }
 
+    @SuppressWarnings("unused")
     public void installSFTPModule() {
         sendCommand(CommonMain.instance.getConfig().SFTP_MODULE_INSTALL_CMD
                 .parse("path", CommonMain.instance.getConfig().sftpModuleInstallPath)

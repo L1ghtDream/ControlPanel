@@ -18,6 +18,7 @@ public class LoginData {
     public String password;
     public String otp;
 
+    @SuppressWarnings("unused")
     public boolean checkPassword() {
         User user = Main.instance.databaseManager.getUser(username);
         return true; // TODO Move to actual check
@@ -40,6 +41,7 @@ public class LoginData {
         );
     }
 
+    @SuppressWarnings("unused")
     public void getUser() {
         Main.instance.databaseManager.getUser(username);
     }

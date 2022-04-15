@@ -53,7 +53,8 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
                 "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
         );
         user.id = 1;
-        return user;    }
+        return user;
+    }
 
     @SuppressWarnings("unused")
     public User getUser(String username) {
