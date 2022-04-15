@@ -11,6 +11,10 @@ public abstract class CommonMain implements DatabaseMain {
 
     public static CommonMain instance;
 
+    public CommonMain() {
+        instance = this;
+    }
+
     public abstract List<Server> getServers();
 
     public abstract List<Node> getNodes();

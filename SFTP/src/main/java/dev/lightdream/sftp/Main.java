@@ -11,6 +11,7 @@ import dev.lightdream.databasemanager.dto.SQLConfig;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
 import dev.lightdream.logger.LoggableMain;
+import dev.lightdream.logger.Logger;
 import dev.lightdream.sftp.config.Config;
 import dev.lightdream.sftp.manager.SFTPServerManager;
 
@@ -36,16 +37,25 @@ public class Main extends CommonMain implements DatabaseMain, FileManagerMain, L
     public DriverConfig driverConfig;
     public Config config;
 
+
     public void enable() {
         instance = this;
+        Logger.init(this);
 
         fileManage = new FileManager(this);
         loadConfigs();
+
+        databaseManager = new DatabaseManager(this);
 
         registerNodes();
         registerServers();
 
         sftpServerManager = new SFTPServerManager();
+
+        // Infinite loop for sftp server keep alive
+        //noinspection InfiniteLoopStatement,StatementWithEmptyBody
+        while (true) {
+        }
     }
 
     public void loadConfigs() {
@@ -80,6 +90,7 @@ public class Main extends CommonMain implements DatabaseMain, FileManagerMain, L
         );
         servers.get(0).id = 1;
         servers.get(0).addPermission(databaseManager.getUser(1), PermissionType.SERVER_VIEW);
+        servers.get(0).addPermission(databaseManager.getUser(1), PermissionType.SERVER_FILE_MANAGER);
     }
 
     @Override

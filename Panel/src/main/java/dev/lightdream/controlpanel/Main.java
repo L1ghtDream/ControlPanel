@@ -46,7 +46,12 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
     public FileManager fileManager;
     public DatabaseManager databaseManager;
 
-    public void enable() {
+    public Main(){
+        super();
+        enable();
+    }
+
+    private void enable() {
         instance = this;
         Logger.init(this);
 

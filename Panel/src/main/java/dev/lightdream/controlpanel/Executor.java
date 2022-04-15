@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Executor {
 
     public static void main(String[] args) {
-        new Main().enable();
+        new Main();
     }
 
 }

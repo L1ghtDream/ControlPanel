@@ -3,6 +3,7 @@ package dev.lightdream.sftp.manager;
 import com.google.common.hash.Hashing;
 import dev.lightdream.common.dto.permission.PermissionType;
 import dev.lightdream.common.utils.Utils;
+import dev.lightdream.logger.Debugger;
 import dev.lightdream.logger.Logger;
 import dev.lightdream.sftp.Main;
 import lombok.SneakyThrows;
@@ -26,7 +27,7 @@ public class SFTPServerManager {
         SshServer sshd = SshServer.setUpDefaultServer();
 
         // Connection settings
-        sshd.setPort(2222);
+        sshd.setPort(Main.instance.config.port);
 
         // SSH key
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(new File(Main.instance.getDataFolder() + "/host.ser")));
@@ -50,6 +51,7 @@ public class SFTPServerManager {
                 ).collect(Collectors.toList()).forEach(permission -> {
                             String username = permission.user.username + "_" + server.serverID;
                             sftpAccounts.put(username, permission.user.password);
+                            Debugger.log(username + " -> " + server.path);
                             virtualFileSystemFactory.setUserHomeDir(username, Paths.get(server.path));
                         }
                 )
@@ -71,6 +73,8 @@ public class SFTPServerManager {
                     .hashString(_password, StandardCharsets.UTF_8)
                     .toString();
             String password = sftpAccounts.get(username);
+
+            Debugger.log(username + " : " + password + " vs " + passwordHash);
 
             return password.equals(passwordHash);
         });

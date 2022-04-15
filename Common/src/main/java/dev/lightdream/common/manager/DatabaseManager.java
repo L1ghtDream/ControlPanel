@@ -44,8 +44,16 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
 
     @SuppressWarnings("unused")
     public User getUser(int id) {
-        return null; //todo
-    }
+        //TODO
+        User user = new User(
+                "admin",
+                Hashing.sha256()
+                        .hashString("passwd", StandardCharsets.UTF_8)
+                        .toString(),
+                "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
+        );
+        user.id = 1;
+        return user;    }
 
     @SuppressWarnings("unused")
     public User getUser(String username) {
