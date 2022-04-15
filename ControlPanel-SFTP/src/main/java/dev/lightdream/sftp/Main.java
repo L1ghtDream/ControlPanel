@@ -3,6 +3,7 @@ package dev.lightdream.sftp;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
+import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.dto.permission.PermissionType;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.databasemanager.DatabaseMain;
@@ -129,6 +130,11 @@ public class Main extends CommonMain implements DatabaseMain, FileManagerMain, L
     @Override
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
+    }
+
+    @Override
+    public CommonConfig getConfig() {
+        return config;
     }
 
     @Override

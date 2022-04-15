@@ -5,6 +5,7 @@ import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.utils.Utils;
+import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.dto.Command;
 import dev.lightdream.controlpanel.dto.data.LoginData;
 import dev.lightdream.controlpanel.dto.response.Response;
@@ -39,7 +40,7 @@ public class RestEndPoints {
                 return Response.LOCKED("Server is already running");
             }
 
-            node.sendCommand(Globals.SERVER_START_CMD
+            node.sendCommand(Main.instance.config.SERVER_START_CMD
                     .parse("path", server.path)
                     .parse("id", server.serverID)
                     .parse()

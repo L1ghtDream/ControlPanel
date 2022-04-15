@@ -4,6 +4,8 @@ import dev.lightdream.messagebuilder.MessageBuilder;
 
 public class CommonConfig {
 
+    public boolean debug = false;
+
     public MessageBuilder SERVER_START_CMD = new MessageBuilder(
             "cd %path%; screen -dmS %id% -L -Logfile session.log bash -c \"sh start.sh\"; screen -S %id% -X colon \"logfile flush 0^M\""
     );

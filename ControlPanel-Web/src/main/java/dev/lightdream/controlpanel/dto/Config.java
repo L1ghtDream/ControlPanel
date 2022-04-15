@@ -1,8 +1,7 @@
 package dev.lightdream.controlpanel.dto;
 
-public class Config {
+import dev.lightdream.common.dto.CommonConfig;
 
-    public boolean debug = false;
-    public String sftpInstallPath = "";
+public class Config extends CommonConfig {
 
 }

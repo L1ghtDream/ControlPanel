@@ -1,8 +1,9 @@
 package dev.lightdream.sftp.dto;
 
-public class Config {
+import dev.lightdream.common.dto.CommonConfig;
 
-    public boolean debug = false;
+public class Config extends CommonConfig {
+
     public String nodeID = "htz-1";
     public int port = 2222;
 

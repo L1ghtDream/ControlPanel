@@ -22,4 +22,4 @@ jobs:
           prerelease: false
           title: "Latest Release"
           files: |
-            target/*.jar
+            */target/*.jar
