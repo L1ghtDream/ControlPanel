@@ -14,8 +14,9 @@ public class CommonConfig {
     );
 
     public String sftpModuleInstallPath = "/home/ControlPanel/modules/SFTP";
-    public String sftpModuleDownloadURL = "https://google.com";
-
+    public MessageBuilder sftpModuleDownloadURL = new MessageBuilder(
+            "https://github.com/L1ghtDream/ControlPanel/releases/download/latest/ControlPanel-SFTP-%version%.jar"
+    );
 }
 
 

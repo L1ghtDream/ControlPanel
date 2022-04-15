@@ -26,4 +26,8 @@ public abstract class CommonMain implements DatabaseMain {
 
     public abstract CommonConfig getConfig();
 
+    public String getVersion() {
+        return "1.0";
+    }
+
 }
