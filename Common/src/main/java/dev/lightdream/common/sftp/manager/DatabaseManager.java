@@ -1,10 +1,10 @@
-package dev.lightdream.controlpanel.manager;
+package dev.lightdream.common.sftp.manager;
 
 import com.google.gson.Gson;
-import dev.lightdream.controlpanel.database.Node;
-import dev.lightdream.controlpanel.database.Server;
-import dev.lightdream.controlpanel.dto.User;
-import dev.lightdream.controlpanel.dto.permission.Permission;
+import dev.lightdream.common.sftp.database.Node;
+import dev.lightdream.common.sftp.database.Server;
+import dev.lightdream.common.sftp.database.User;
+import dev.lightdream.common.sftp.dto.permission.Permission;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.database.ProgrammaticHikariDatabaseManager;
 

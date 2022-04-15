@@ -1,7 +1,7 @@
 package dev.lightdream.controlpanel.service;
 
-import dev.lightdream.controlpanel.database.Server;
-import dev.lightdream.controlpanel.dto.Log;
+import dev.lightdream.common.sftp.database.Server;
+import dev.lightdream.common.sftp.dto.Log;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

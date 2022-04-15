@@ -1,6 +1,6 @@
 package dev.lightdream.controlpanel.dto.request;
 
-import dev.lightdream.controlpanel.dto.data.Cookie;
+import dev.lightdream.common.sftp.dto.data.Cookie;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

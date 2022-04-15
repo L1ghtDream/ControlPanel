@@ -1,9 +1,9 @@
-package dev.lightdream.controlpanel.database;
+package dev.lightdream.common.sftp.manager;
 
-import dev.lightdream.controlpanel.Main;
-import dev.lightdream.controlpanel.dto.User;
-import dev.lightdream.controlpanel.dto.permission.Permission;
-import dev.lightdream.controlpanel.dto.permission.PermissionType;
+import dev.lightdream.common.sftp.CommonMain;
+import dev.lightdream.common.sftp.database.User;
+import dev.lightdream.common.sftp.dto.permission.Permission;
+import dev.lightdream.common.sftp.dto.permission.PermissionType;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.dto.DatabaseEntry;
 import dev.lightdream.logger.Debugger;
@@ -18,7 +18,7 @@ public class PermissionHolder extends DatabaseEntry {
     public List<Permission> permissions = new ArrayList<>();
 
     public PermissionHolder() {
-        super(Main.instance);
+        super(CommonMain.instance);
     }
 
 

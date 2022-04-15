@@ -1,26 +1,30 @@
-package dev.lightdream.controlpanel.dto;
+package dev.lightdream.common.sftp.database;
 
-import dev.lightdream.controlpanel.Main;
-import dev.lightdream.controlpanel.database.PermissionHolder;
-import dev.lightdream.controlpanel.dto.permission.PermissionType;
-import dev.lightdream.controlpanel.utils.Utils;
+import dev.lightdream.common.sftp.CommonMain;
+import dev.lightdream.common.sftp.dto.permission.PermissionType;
+import dev.lightdream.common.sftp.manager.PermissionHolder;
+import dev.lightdream.common.sftp.utils.Utils;
+import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.databasemanager.dto.DatabaseEntry;
 
 @DatabaseTable(table = "users")
 public class User extends DatabaseEntry {
 
+    @DatabaseField(columnName = "username")
     public String username;
+    @DatabaseField(columnName = "password")
     public String password;
+    @DatabaseField(columnName = "otp_secret")
     public String otpSecret;
 
     @SuppressWarnings("unused")
     public User() {
-        super(Main.instance);
+        super(CommonMain.instance);
     }
 
     public User(String username, String password, String otpSecret) {
-        super(Main.instance);
+        super(CommonMain.instance);
         this.username = username;
         this.password = password;
         this.otpSecret = otpSecret;
@@ -28,7 +32,7 @@ public class User extends DatabaseEntry {
 
     @SuppressWarnings("unused")
     public String generateQR() {
-        String path = Main.instance.qrPath() + username + ".png";
+        String path = CommonMain.instance.qrPath() + username + ".png";
         Utils.createQRCode(Utils.getGoogleAuthenticatorBarCode(this.otpSecret, "admin", "Original.gg"), path);
         return path;
     }

@@ -1,4 +1,4 @@
-package dev.lightdream.controlpanel.utils;
+package dev.lightdream.common.sftp.utils;
 
 import dev.lightdream.messagebuilder.MessageBuilder;
 

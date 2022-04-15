@@ -1,12 +1,12 @@
 package dev.lightdream.controlpanel.config;
 
 import com.google.gson.Gson;
-import dev.lightdream.controlpanel.database.Server;
+import dev.lightdream.common.sftp.database.Server;
+import dev.lightdream.common.sftp.database.User;
+import dev.lightdream.common.sftp.dto.data.Cookie;
+import dev.lightdream.common.sftp.dto.permission.PermissionType;
+import dev.lightdream.common.sftp.utils.Utils;
 import dev.lightdream.controlpanel.dto.Command;
-import dev.lightdream.controlpanel.dto.User;
-import dev.lightdream.controlpanel.dto.data.Cookie;
-import dev.lightdream.controlpanel.dto.permission.PermissionType;
-import dev.lightdream.controlpanel.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;

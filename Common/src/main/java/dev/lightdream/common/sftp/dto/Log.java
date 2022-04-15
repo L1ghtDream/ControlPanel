@@ -1,4 +1,4 @@
-package dev.lightdream.controlpanel.dto;
+package dev.lightdream.common.sftp.dto;
 
 import lombok.NoArgsConstructor;
 

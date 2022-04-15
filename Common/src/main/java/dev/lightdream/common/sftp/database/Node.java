@@ -1,8 +1,9 @@
-package dev.lightdream.controlpanel.database;
+package dev.lightdream.common.sftp.database;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
+import dev.lightdream.common.sftp.manager.PermissionHolder;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.lambda.LambdaExecutor;

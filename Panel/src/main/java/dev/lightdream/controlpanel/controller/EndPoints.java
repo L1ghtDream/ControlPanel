@@ -1,11 +1,11 @@
 package dev.lightdream.controlpanel.controller;
 
 import com.google.gson.Gson;
-import dev.lightdream.controlpanel.database.Server;
-import dev.lightdream.controlpanel.dto.User;
-import dev.lightdream.controlpanel.dto.data.Cookie;
-import dev.lightdream.controlpanel.dto.permission.PermissionType;
-import dev.lightdream.controlpanel.utils.Utils;
+import dev.lightdream.common.sftp.database.Server;
+import dev.lightdream.common.sftp.database.User;
+import dev.lightdream.common.sftp.dto.data.Cookie;
+import dev.lightdream.common.sftp.dto.permission.PermissionType;
+import dev.lightdream.common.sftp.utils.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;

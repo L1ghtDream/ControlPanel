@@ -1,8 +1,8 @@
-package dev.lightdream.controlpanel.dto.data;
+package dev.lightdream.common.sftp.dto.data;
 
 import com.google.common.hash.Hashing;
-import dev.lightdream.controlpanel.Main;
-import dev.lightdream.controlpanel.dto.User;
+import dev.lightdream.common.sftp.CommonMain;
+import dev.lightdream.common.sftp.database.User;
 import dev.lightdream.logger.Debugger;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ public class Cookie {
     public String hash;
 
     public boolean validate() {
-        User user = Main.instance.databaseManager.getUser(username);
+        User user = CommonMain.instance.getDatabaseManager().getUser(username);
 
         Debugger.log(Hashing.sha256()
                 .hashString(username + user.password + user.otpSecret, StandardCharsets.UTF_8));
@@ -31,6 +31,6 @@ public class Cookie {
     }
 
     public User getUser() {
-        return Main.instance.databaseManager.getUser(username);
+        return CommonMain.instance.getDatabaseManager().getUser(username);
     }
 }

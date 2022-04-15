@@ -1,16 +1,16 @@
 package dev.lightdream.controlpanel;
 
+import dev.lightdream.common.sftp.CommonMain;
+import dev.lightdream.common.sftp.database.Node;
+import dev.lightdream.common.sftp.database.Server;
+import dev.lightdream.common.sftp.dto.permission.PermissionType;
+import dev.lightdream.common.sftp.manager.DatabaseManager;
 import dev.lightdream.controlpanel.controller.EndPoints;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
-import dev.lightdream.controlpanel.database.Node;
-import dev.lightdream.controlpanel.database.Server;
 import dev.lightdream.controlpanel.dto.Config;
-import dev.lightdream.controlpanel.dto.permission.PermissionType;
-import dev.lightdream.controlpanel.manager.DatabaseManager;
 import dev.lightdream.controlpanel.manager.LogManager;
 import dev.lightdream.controlpanel.manager.SFTPServerManager;
 import dev.lightdream.databasemanager.DatabaseMain;
-import dev.lightdream.databasemanager.database.IDatabaseManager;
 import dev.lightdream.databasemanager.dto.DriverConfig;
 import dev.lightdream.databasemanager.dto.SQLConfig;
 import dev.lightdream.filemanager.FileManager;
@@ -24,7 +24,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
+public class Main extends CommonMain implements LoggableMain, FileManagerMain, DatabaseMain {
 
     // Statics
     public static Main instance;
@@ -98,7 +98,7 @@ public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
     }
 
     @Override
-    public IDatabaseManager getDatabaseManager() {
+    public DatabaseManager getDatabaseManager() {
         return databaseManager;
     }
 

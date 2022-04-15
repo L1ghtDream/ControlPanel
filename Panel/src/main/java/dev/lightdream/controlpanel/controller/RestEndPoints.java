@@ -1,20 +1,19 @@
 package dev.lightdream.controlpanel.controller;
 
-import dev.lightdream.controlpanel.database.Node;
-import dev.lightdream.controlpanel.database.Server;
+import dev.lightdream.common.sftp.database.Node;
+import dev.lightdream.common.sftp.database.Server;
+import dev.lightdream.common.sftp.dto.data.Cookie;
+import dev.lightdream.common.sftp.utils.Globals;
+import dev.lightdream.common.sftp.utils.Utils;
 import dev.lightdream.controlpanel.dto.Command;
-import dev.lightdream.controlpanel.dto.data.Cookie;
 import dev.lightdream.controlpanel.dto.data.LoginData;
 import dev.lightdream.controlpanel.dto.response.Response;
-import dev.lightdream.controlpanel.utils.Globals;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import static dev.lightdream.controlpanel.utils.Utils.getServer;
 
 @Slf4j
 @Controller
@@ -31,7 +30,7 @@ public class RestEndPoints {
         }
 
         if (command.getCommand().equals("start")) {
-            Server server = getServer(command.server);
+            Server server = Utils.getServer(command.server);
             Node node = server.node;
 
             if (!node.sendCommand("screen -ls " + server.serverID).contains("No Sockets found")) {
@@ -47,7 +46,7 @@ public class RestEndPoints {
             return Response.OK();
         }
 
-        getServer(command.server).sendCommand(command.getCommand());
+        Utils.getServer(command.server).sendCommand(command.getCommand());
 
         return Response.OK();
     }

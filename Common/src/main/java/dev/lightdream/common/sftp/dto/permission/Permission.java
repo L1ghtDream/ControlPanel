@@ -1,7 +1,7 @@
-package dev.lightdream.controlpanel.dto.permission;
+package dev.lightdream.common.sftp.dto.permission;
 
-import dev.lightdream.controlpanel.Main;
-import dev.lightdream.controlpanel.dto.User;
+import dev.lightdream.common.sftp.CommonMain;
+import dev.lightdream.common.sftp.database.User;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -35,7 +35,7 @@ public class Permission {
         }
 
         public Permission toPermission() {
-            return new Permission(Main.instance.databaseManager.getUser(id), PermissionType.valueOf(type));
+            return new Permission(CommonMain.instance.getDatabaseManager().getUser(id), PermissionType.valueOf(type));
         }
 
     }
