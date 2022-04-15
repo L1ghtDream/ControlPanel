@@ -1,4 +1,4 @@
-package dev.lightdream.common.sftp.dto.permission;
+package dev.lightdream.common.dto.permission;
 
 public enum PermissionType {
 

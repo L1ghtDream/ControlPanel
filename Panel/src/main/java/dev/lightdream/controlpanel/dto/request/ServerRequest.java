@@ -1,7 +1,7 @@
 package dev.lightdream.controlpanel.dto.request;
 
-import dev.lightdream.common.sftp.database.Server;
-import dev.lightdream.common.sftp.utils.Utils;
+import dev.lightdream.common.database.Server;
+import dev.lightdream.common.utils.Utils;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

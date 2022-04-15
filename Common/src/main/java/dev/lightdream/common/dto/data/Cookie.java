@@ -1,8 +1,8 @@
-package dev.lightdream.common.sftp.dto.data;
+package dev.lightdream.common.dto.data;
 
 import com.google.common.hash.Hashing;
-import dev.lightdream.common.sftp.CommonMain;
-import dev.lightdream.common.sftp.database.User;
+import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.User;
 import dev.lightdream.logger.Debugger;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

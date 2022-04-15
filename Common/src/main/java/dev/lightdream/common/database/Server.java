@@ -1,7 +1,7 @@
-package dev.lightdream.common.sftp.database;
+package dev.lightdream.common.database;
 
-import dev.lightdream.common.sftp.dto.Log;
-import dev.lightdream.common.sftp.manager.PermissionHolder;
+import dev.lightdream.common.dto.Log;
+import dev.lightdream.common.manager.PermissionHolder;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import lombok.SneakyThrows;

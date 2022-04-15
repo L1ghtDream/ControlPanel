@@ -1,14 +1,17 @@
-package dev.lightdream.common.sftp.database;
+package dev.lightdream.common.database;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
-import dev.lightdream.common.sftp.manager.PermissionHolder;
+import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.manager.PermissionHolder;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.lambda.LambdaExecutor;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @DatabaseTable(table = "nodes")
 public class Node extends PermissionHolder {
@@ -81,6 +84,10 @@ public class Node extends PermissionHolder {
     @SuppressWarnings("UnusedReturnValue")
     public String sendCommandToServer(String command, Server server) {
         return sendCommand("screen -S " + server.serverID + " -X stuff '" + command + "\\n'");
+    }
+
+    public List<Server> getServers() {
+        return CommonMain.instance.getServers().stream().filter(server -> server.node.nodeID.equals(this.nodeID)).collect(Collectors.toList());
     }
 
 

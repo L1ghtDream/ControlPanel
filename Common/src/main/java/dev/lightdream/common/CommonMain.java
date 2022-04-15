@@ -1,8 +1,8 @@
-package dev.lightdream.common.sftp;
+package dev.lightdream.common;
 
-import dev.lightdream.common.sftp.database.Node;
-import dev.lightdream.common.sftp.database.Server;
-import dev.lightdream.common.sftp.manager.DatabaseManager;
+import dev.lightdream.common.database.Node;
+import dev.lightdream.common.database.Server;
+import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.databasemanager.DatabaseMain;
 
 import java.util.List;

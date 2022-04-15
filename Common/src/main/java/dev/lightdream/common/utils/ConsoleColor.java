@@ -1,4 +1,4 @@
-package dev.lightdream.common.sftp.utils;
+package dev.lightdream.common.utils;
 
 public enum ConsoleColor {
 

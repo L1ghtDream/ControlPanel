@@ -1,7 +1,7 @@
-package dev.lightdream.common.sftp.dto.permission;
+package dev.lightdream.common.dto.permission;
 
-import dev.lightdream.common.sftp.CommonMain;
-import dev.lightdream.common.sftp.database.User;
+import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.User;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

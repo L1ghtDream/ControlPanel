@@ -1,9 +1,9 @@
-package dev.lightdream.common.sftp.manager;
+package dev.lightdream.common.manager;
 
-import dev.lightdream.common.sftp.CommonMain;
-import dev.lightdream.common.sftp.database.User;
-import dev.lightdream.common.sftp.dto.permission.Permission;
-import dev.lightdream.common.sftp.dto.permission.PermissionType;
+import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.User;
+import dev.lightdream.common.dto.permission.Permission;
+import dev.lightdream.common.dto.permission.PermissionType;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.dto.DatabaseEntry;
 import dev.lightdream.logger.Debugger;

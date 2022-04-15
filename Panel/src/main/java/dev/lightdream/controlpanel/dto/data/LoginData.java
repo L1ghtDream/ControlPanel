@@ -2,8 +2,8 @@ package dev.lightdream.controlpanel.dto.data;
 
 
 import com.google.common.hash.Hashing;
-import dev.lightdream.common.sftp.database.User;
-import dev.lightdream.common.sftp.dto.data.Cookie;
+import dev.lightdream.common.database.User;
+import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.controlpanel.Main;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

@@ -1,21 +1,24 @@
 package dev.lightdream.sftp;
 
-import dev.lightdream.common.sftp.CommonMain;
-import dev.lightdream.common.sftp.database.Node;
-import dev.lightdream.common.sftp.database.Server;
-import dev.lightdream.common.sftp.dto.permission.PermissionType;
-import dev.lightdream.common.sftp.manager.DatabaseManager;
+import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.Node;
+import dev.lightdream.common.database.Server;
+import dev.lightdream.common.dto.permission.PermissionType;
+import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.dto.DriverConfig;
 import dev.lightdream.databasemanager.dto.SQLConfig;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
+import dev.lightdream.logger.LoggableMain;
+import dev.lightdream.sftp.config.Config;
+import dev.lightdream.sftp.manager.SFTPServerManager;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main extends CommonMain implements DatabaseMain, FileManagerMain {
+public class Main extends CommonMain implements DatabaseMain, FileManagerMain, LoggableMain {
 
     public static Main instance;
 
@@ -26,12 +29,12 @@ public class Main extends CommonMain implements DatabaseMain, FileManagerMain {
     // Managers
     public DatabaseManager databaseManager;
     public FileManager fileManage;
+    public SFTPServerManager sftpServerManager;
 
     // Configs
     public SQLConfig sqlConfig;
     public DriverConfig driverConfig;
-
-    //
+    public Config config;
 
     public void enable() {
         instance = this;
@@ -41,11 +44,14 @@ public class Main extends CommonMain implements DatabaseMain, FileManagerMain {
 
         registerNodes();
         registerServers();
+
+        sftpServerManager = new SFTPServerManager();
     }
 
     public void loadConfigs() {
         driverConfig = fileManage.load(DriverConfig.class);
         sqlConfig = fileManage.load(SQLConfig.class);
+        config = fileManage.load(Config.class);
     }
 
     public void registerNodes() {
@@ -107,9 +113,18 @@ public class Main extends CommonMain implements DatabaseMain, FileManagerMain {
         return "C:/Users/raduv/OneDrive/Desktop/UserQRs/";
     }
 
-
     @Override
     public DatabaseManager getDatabaseManager() {
-        return null;
+        return databaseManager;
+    }
+
+    @Override
+    public boolean debug() {
+        return config.debug;
+    }
+
+    @Override
+    public void log(String s) {
+        System.out.println(s);
     }
 }

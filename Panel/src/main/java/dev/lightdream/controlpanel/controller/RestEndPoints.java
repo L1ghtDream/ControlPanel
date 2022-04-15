@@ -1,10 +1,11 @@
 package dev.lightdream.controlpanel.controller;
 
-import dev.lightdream.common.sftp.database.Node;
-import dev.lightdream.common.sftp.database.Server;
-import dev.lightdream.common.sftp.dto.data.Cookie;
-import dev.lightdream.common.sftp.utils.Globals;
-import dev.lightdream.common.sftp.utils.Utils;
+import com.google.common.hash.Hashing;
+import dev.lightdream.common.database.Node;
+import dev.lightdream.common.database.Server;
+import dev.lightdream.common.dto.data.Cookie;
+import dev.lightdream.common.utils.Globals;
+import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.dto.Command;
 import dev.lightdream.controlpanel.dto.data.LoginData;
 import dev.lightdream.controlpanel.dto.response.Response;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Controller
@@ -54,6 +57,9 @@ public class RestEndPoints {
     @PostMapping("/api/login")
     @ResponseBody
     public Response login(@RequestBody LoginData loginData) {
+        loginData.password = Hashing.sha256()
+                .hashString(loginData.password, StandardCharsets.UTF_8)
+                .toString();
         Cookie cookie = loginData.generateCookie();
 
         if (cookie == null) {

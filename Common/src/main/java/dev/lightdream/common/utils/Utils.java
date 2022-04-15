@@ -1,4 +1,4 @@
-package dev.lightdream.common.sftp.utils;
+package dev.lightdream.common.utils;
 
 import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
@@ -6,10 +6,10 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import de.taimos.totp.TOTP;
-import dev.lightdream.common.sftp.CommonMain;
-import dev.lightdream.common.sftp.database.Node;
-import dev.lightdream.common.sftp.database.Server;
-import dev.lightdream.common.sftp.dto.data.Cookie;
+import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.Node;
+import dev.lightdream.common.database.Server;
+import dev.lightdream.common.dto.data.Cookie;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Hex;

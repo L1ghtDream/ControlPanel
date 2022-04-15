@@ -1,12 +1,15 @@
-package dev.lightdream.common.sftp.manager;
+package dev.lightdream.common.manager;
 
+import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
-import dev.lightdream.common.sftp.database.Node;
-import dev.lightdream.common.sftp.database.Server;
-import dev.lightdream.common.sftp.database.User;
-import dev.lightdream.common.sftp.dto.permission.Permission;
+import dev.lightdream.common.database.Node;
+import dev.lightdream.common.database.Server;
+import dev.lightdream.common.database.User;
+import dev.lightdream.common.dto.permission.Permission;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.database.ProgrammaticHikariDatabaseManager;
+
+import java.nio.charset.StandardCharsets;
 
 public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
     public DatabaseManager(DatabaseMain main) {
@@ -49,7 +52,9 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         //TODO
         User user = new User(
                 "admin",
-                "passwd",
+                Hashing.sha256()
+                        .hashString("passwd", StandardCharsets.UTF_8)
+                        .toString(),
                 "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
         );
         user.id = 1;

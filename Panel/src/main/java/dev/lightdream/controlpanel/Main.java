@@ -1,15 +1,14 @@
 package dev.lightdream.controlpanel;
 
-import dev.lightdream.common.sftp.CommonMain;
-import dev.lightdream.common.sftp.database.Node;
-import dev.lightdream.common.sftp.database.Server;
-import dev.lightdream.common.sftp.dto.permission.PermissionType;
-import dev.lightdream.common.sftp.manager.DatabaseManager;
+import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.Node;
+import dev.lightdream.common.database.Server;
+import dev.lightdream.common.dto.permission.PermissionType;
+import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.controlpanel.controller.EndPoints;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
 import dev.lightdream.controlpanel.dto.Config;
 import dev.lightdream.controlpanel.manager.LogManager;
-import dev.lightdream.controlpanel.manager.SFTPServerManager;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.dto.DriverConfig;
 import dev.lightdream.databasemanager.dto.SQLConfig;
@@ -46,7 +45,6 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
     public LogManager logManager;
     public FileManager fileManager;
     public DatabaseManager databaseManager;
-    public SFTPServerManager sftpServerManager;
 
     public void enable() {
         instance = this;
@@ -69,7 +67,6 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
         logManager = new LogManager();
         logManager.registerLogListener(servers.get(0));
 
-        this.sftpServerManager = new SFTPServerManager();
     }
 
     @Override

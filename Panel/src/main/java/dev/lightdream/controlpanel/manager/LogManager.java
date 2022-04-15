@@ -2,9 +2,9 @@ package dev.lightdream.controlpanel.manager;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
-import dev.lightdream.common.sftp.database.Server;
-import dev.lightdream.common.sftp.dto.Log;
-import dev.lightdream.common.sftp.utils.ConsoleColor;
+import dev.lightdream.common.database.Server;
+import dev.lightdream.common.dto.Log;
+import dev.lightdream.common.utils.ConsoleColor;
 import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.lambda.LambdaExecutor;
 
