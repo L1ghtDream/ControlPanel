@@ -1,7 +1,7 @@
-//error = document.getElementById("error");
-//if (error !== null) {
-//    error.hidden = true;
-//}
+error = document.getElementById("error");
+if (error !== null) {
+    error.hidden = true;
+}
 
 //Login
 //loginCookie();
@@ -16,27 +16,6 @@
 
 //Dashboard sanitization
 //dashBoard();
-
-async function dashBoard() {
-    logged = await isLoggedIn();
-    if (logged) {
-        document.getElementById("complaints-item").hidden = false;
-        document.getElementById("unban-item").hidden = false;
-        document.getElementById("bugs-item").hidden = false;
-        user = JSON.parse(getCookie("login_data"));
-
-        callAPI(`/api/check/staff?user=${user.username}&useCase=any`, {},
-            () => {
-                document.getElementById("entries-item").hidden = false;
-            }, () => {
-                document.getElementById("entries-item").hidden = false;
-            }, () => {
-
-            }, () => {
-
-            });
-    }
-}
 
 function getSkinURL(name) {
     return `https://cravatar.eu/helmavatar/${name}/190.png`
@@ -76,10 +55,12 @@ function getCookie(name) {
     return null;
 }
 
+// noinspection JSUnusedGlobalSymbols
 function eraseCookie(name) {
     document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
+// noinspection JSUnusedGlobalSymbols
 async function loginCookie() {
     if (getCookie("login_data") !== null && getCookie("login_data") !== "" && getCookie("login_data") !== undefined) {
 
@@ -119,18 +100,19 @@ async function isLoggedIn() {
     if (getCookie("login_data") === null || getCookie("login_data") === undefined || getCookie("login_data") === "") {
         return false;
     }
-    verifier = await verifyCookie(getCookie("login_data"));
+    let verifier = await verifyCookie(getCookie("login_data"));
     // noinspection EqualityComparisonWithCoercionJS
     return verifier.code == 200;
 }
 
+// noinspection JSUnusedGlobalSymbols
 async function checkLoggedStatus() {
-    loggedStatus = await isLoggedIn();
+    let loggedStatus = await isLoggedIn();
     if (!loggedStatus) {
         redirect("/401-login");
         return;
     }
-    body = document.getElementById("logged-in-required");
+    let body = document.getElementById("logged-in-required");
     if (body !== undefined && body !== null) {
         body.style.visibility = "visible";
     }
@@ -140,6 +122,7 @@ function redirect(path) {
     window.location.replace(path);
 }
 
+// noinspection JSUnusedGlobalSymbols
 async function callPutAPI(api, data) {
     await fetch(api, {
         method: 'post',
@@ -219,8 +202,4 @@ async function callAPI(api, data, callbackEn, callbackRo, failCallbackEn, failCa
             }
         }
     }
-}
-
-async function callAPI2(api, data, callback, failCallback) {
-    await callAPI(api, data, callback, callback, failCallback, failCallback);
 }
