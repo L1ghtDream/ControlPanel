@@ -2,9 +2,10 @@ package dev.lightdream.controlpanel;
 
 import dev.lightdream.controlpanel.controller.EndPoints;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
+import dev.lightdream.controlpanel.dto.Config;
+import dev.lightdream.controlpanel.manager.SFTPServerManager;
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
-import dev.lightdream.controlpanel.dto.Config;
 import dev.lightdream.controlpanel.dto.User;
 import dev.lightdream.controlpanel.dto.permission.PermissionType;
 import dev.lightdream.controlpanel.manager.DatabaseManager;
@@ -27,18 +28,16 @@ import java.util.List;
 
 public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
 
-    // Statics
-    public static Main instance;
-
     // Dev
-    public static List<Node> nodes = new ArrayList<>();
-    public static List<Server> servers = new ArrayList<>();
-    public static User user = new User(
+    private static final List<Node> nodes = new ArrayList<>();
+    private static final List<Server> servers = new ArrayList<>();
+    private static final User user = new User(
             "admin",
             "passwd",
             "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
     );
-
+    // Statics
+    public static Main instance;
     // Spring
     public EndPoints endPoints;
     public RestEndPoints restEndPoints;
@@ -52,6 +51,7 @@ public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
     public LogManager logManager;
     public FileManager fileManager;
     public DatabaseManager databaseManager;
+    public SFTPServerManager sftpServerManager;
 
     public void enable() {
         user.id = 1;
@@ -75,6 +75,7 @@ public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
         logManager = new LogManager();
         logManager.registerLogListener(servers.get(0));
 
+        this.sftpServerManager = new SFTPServerManager();
     }
 
     @Override
@@ -147,5 +148,20 @@ public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
         );
         servers.get(0).id = 1;
         servers.get(0).addPermission(user, PermissionType.SERVER_VIEW);
+    }
+
+    public List<Server> getServers() {
+        return servers;
+    }
+
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
+    public List<User> getUsers() {
+        return Arrays.asList(
+                user
+        );
     }
 }

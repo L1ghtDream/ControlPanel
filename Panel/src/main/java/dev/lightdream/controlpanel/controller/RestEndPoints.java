@@ -1,12 +1,12 @@
 package dev.lightdream.controlpanel.controller;
 
+import dev.lightdream.controlpanel.utils.Globals;
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
 import dev.lightdream.controlpanel.dto.Command;
 import dev.lightdream.controlpanel.dto.data.Cookie;
 import dev.lightdream.controlpanel.dto.data.LoginData;
 import dev.lightdream.controlpanel.dto.response.Response;
-import dev.lightdream.controlpanel.utils.Globals;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
