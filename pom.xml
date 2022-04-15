@@ -5,12 +5,12 @@
 
     <properties>
         <java.version>11</java.version>
-        <global.version>1.0</global.version>
+        <module.version>1.0</module.version>
     </properties>
 
     <groupId>dev.lightdream</groupId>
     <artifactId>ControlPanel</artifactId>
-    <version>${global.version}</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -124,27 +124,27 @@
         <dependency>
             <groupId>dev.lightdream</groupId>
             <artifactId>Lambda</artifactId>
-            <version>LATEST</version>
+            <version>1.0.4</version>
         </dependency>
         <dependency>
             <groupId>dev.lightdream</groupId>
             <artifactId>Logger</artifactId>
-            <version>LATEST</version>
+            <version>2.3.2</version>
         </dependency>
         <dependency>
             <groupId>dev.lightdream</groupId>
             <artifactId>FileManager</artifactId>
-            <version>LATEST</version>
+            <version>2.0.11</version>
         </dependency>
         <dependency>
             <groupId>dev.lightdream</groupId>
             <artifactId>MessageBuilder</artifactId>
-            <version>LATEST</version>
+            <version>2.1.1</version>
         </dependency>
         <dependency>
             <groupId>dev.lightdream</groupId>
             <artifactId>DatabaseManager</artifactId>
-            <version>LATEST</version>
+            <version>2.7.3</version>
         </dependency>
     </dependencies>
 

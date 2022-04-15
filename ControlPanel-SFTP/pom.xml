@@ -8,10 +8,11 @@
         <groupId>dev.lightdream</groupId>
         <artifactId>ControlPanel</artifactId>
         <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>ControlPanel-SFTP</artifactId>
-    <version>${global.version}</version>
+    <version>${module.version}</version>
     <packaging>jar</packaging>
 
     <properties>
