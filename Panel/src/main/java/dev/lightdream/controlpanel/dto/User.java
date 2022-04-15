@@ -1,9 +1,9 @@
 package dev.lightdream.controlpanel.dto;
 
 import dev.lightdream.controlpanel.Main;
-import dev.lightdream.controlpanel.utils.Utils;
 import dev.lightdream.controlpanel.database.PermissionHolder;
 import dev.lightdream.controlpanel.dto.permission.PermissionType;
+import dev.lightdream.controlpanel.utils.Utils;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.databasemanager.dto.DatabaseEntry;
 

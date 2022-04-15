@@ -2,14 +2,13 @@ package dev.lightdream.controlpanel;
 
 import dev.lightdream.controlpanel.controller.EndPoints;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
-import dev.lightdream.controlpanel.dto.Config;
-import dev.lightdream.controlpanel.manager.SFTPServerManager;
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
-import dev.lightdream.controlpanel.dto.User;
+import dev.lightdream.controlpanel.dto.Config;
 import dev.lightdream.controlpanel.dto.permission.PermissionType;
 import dev.lightdream.controlpanel.manager.DatabaseManager;
 import dev.lightdream.controlpanel.manager.LogManager;
+import dev.lightdream.controlpanel.manager.SFTPServerManager;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.database.IDatabaseManager;
 import dev.lightdream.databasemanager.dto.DriverConfig;
@@ -23,21 +22,17 @@ import org.springframework.boot.SpringApplication;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
 
-    // Dev
-    private static final List<Node> nodes = new ArrayList<>();
-    private static final List<Server> servers = new ArrayList<>();
-    private static final User user = new User(
-            "admin",
-            "passwd",
-            "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
-    );
     // Statics
     public static Main instance;
+
+    // Dev
+    private final List<Node> nodes = new ArrayList<>();
+    private final List<Server> servers = new ArrayList<>();
+
     // Spring
     public EndPoints endPoints;
     public RestEndPoints restEndPoints;
@@ -54,7 +49,6 @@ public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
     public SFTPServerManager sftpServerManager;
 
     public void enable() {
-        user.id = 1;
         instance = this;
         Logger.init(this);
 
@@ -133,21 +127,17 @@ public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
         nodes.get(0).id = 1;
     }
 
-    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
     public void registerServers() {
         servers.add(
                 new Server(
                         "test",
                         "Test Server",
                         "/home/test",
-                        nodes.get(0),
-                        Arrays.asList(
-                                20002
-                        )
+                        nodes.get(0)
                 )
         );
         servers.get(0).id = 1;
-        servers.get(0).addPermission(user, PermissionType.SERVER_VIEW);
+        servers.get(0).addPermission(databaseManager.getUser(1), PermissionType.SERVER_VIEW);
     }
 
     public List<Server> getServers() {
@@ -158,10 +148,4 @@ public class Main implements LoggableMain, FileManagerMain, DatabaseMain {
         return nodes;
     }
 
-    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
-    public List<User> getUsers() {
-        return Arrays.asList(
-                user
-        );
-    }
 }

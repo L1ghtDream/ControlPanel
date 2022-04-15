@@ -1,7 +1,6 @@
 package dev.lightdream.controlpanel.manager;
 
 import com.google.gson.Gson;
-import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
 import dev.lightdream.controlpanel.dto.User;
@@ -47,7 +46,14 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
 
     @SuppressWarnings("unused")
     public User getUser(String username) {
-        return Main.user; //todo
+        //TODO
+        User user = new User(
+                "admin",
+                "passwd",
+                "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
+        );
+        user.id = 1;
+        return user;
     }
 
 }

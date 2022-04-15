@@ -1,12 +1,12 @@
 package dev.lightdream.controlpanel.controller;
 
-import dev.lightdream.controlpanel.utils.Globals;
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
 import dev.lightdream.controlpanel.dto.Command;
 import dev.lightdream.controlpanel.dto.data.Cookie;
 import dev.lightdream.controlpanel.dto.data.LoginData;
 import dev.lightdream.controlpanel.dto.response.Response;
+import dev.lightdream.controlpanel.utils.Globals;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -26,13 +26,11 @@ public class RestEndPoints {
 
     @MessageMapping("/server/api/server")
     public Response console(Command command) {
-        System.out.println(command);
-        System.out.println(command.cookie);
         if (!command.cookie.validate()) {
             return Response.UNAUTHORISED();
         }
 
-        if (command.command.equals("start")) {
+        if (command.getCommand().equals("start")) {
             Server server = getServer(command.server);
             Node node = server.node;
 
@@ -49,7 +47,7 @@ public class RestEndPoints {
             return Response.OK();
         }
 
-        getServer(command.server).sendCommand(command.command);
+        getServer(command.server).sendCommand(command.getCommand());
 
         return Response.OK();
     }

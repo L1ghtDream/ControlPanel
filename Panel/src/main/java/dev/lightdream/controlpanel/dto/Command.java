@@ -12,6 +12,7 @@ public class Command extends ServerRequest {
      */
     public String command;
 
+    @SuppressWarnings("unused")
     public Command(String command) {
         this.command = command;
     }

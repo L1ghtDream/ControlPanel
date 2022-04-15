@@ -2,12 +2,11 @@ package dev.lightdream.controlpanel.config;
 
 import com.google.gson.Gson;
 import dev.lightdream.controlpanel.database.Server;
+import dev.lightdream.controlpanel.dto.Command;
 import dev.lightdream.controlpanel.dto.User;
 import dev.lightdream.controlpanel.dto.data.Cookie;
-import dev.lightdream.controlpanel.utils.Utils;
-import dev.lightdream.controlpanel.dto.Command;
 import dev.lightdream.controlpanel.dto.permission.PermissionType;
-import dev.lightdream.logger.Debugger;
+import dev.lightdream.controlpanel.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -24,12 +23,10 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         StompCommand command = (StompCommand) message.getHeaders().get("stompCommand");
 
         if (command == null) {
-            Debugger.log("Error 6");
             throw new IllegalArgumentException("403");
         }
 
         if (command.equals(StompCommand.DISCONNECT)) {
-            Debugger.log("Disconnect with headers " + message.getHeaders());
             return message;
         }
 
@@ -39,8 +36,6 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         List<String> passwords = headers.getNativeHeader("password");
 
         if (usernames == null || passwords == null) {
-            Debugger.log("Error 5");
-            Debugger.log(headers);
             throw new IllegalArgumentException("401");
         }
 
@@ -49,26 +44,21 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
 
         if (command.equals(StompCommand.CONNECT)) {
             if (!validateConnection(user, password)) {
-                Debugger.log("Error 3");
                 throw new IllegalArgumentException("401");
             }
         }
 
         if (command.equals(StompCommand.SUBSCRIBE)) {
             if (!validateSubscription(user, password, headers.getDestination())) {
-                Debugger.log("Error 4");
                 throw new IllegalArgumentException("401");
             }
         }
 
         if (command.equals(StompCommand.SEND)) {
             if (!validateCommand(user, password, headers.getDestination(), Utils.payloadToString(message))) {
-                Debugger.log("Error 4");
                 throw new IllegalArgumentException("401");
             }
         }
-
-        Debugger.log("7");
 
         return message;
     }

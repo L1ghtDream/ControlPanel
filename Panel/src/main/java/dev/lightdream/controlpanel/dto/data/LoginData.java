@@ -40,7 +40,7 @@ public class LoginData {
     }
 
     public void getUser() {
-
+        Main.instance.databaseManager.getUser(username);
     }
 }
 

@@ -45,9 +45,7 @@ public class SFTPServerManager {
                 new SftpSubsystemFactory()
         ));
 
-        sshd.setPasswordAuthenticator((username, password, session) -> {
-            return username.equals("admin") && password.equals("passwd");
-        });
+        sshd.setPasswordAuthenticator((username, password, session) -> username.equals("admin") && password.equals("passwd"));
 
         // Start and log
         sshd.start();

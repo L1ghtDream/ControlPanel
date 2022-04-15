@@ -6,7 +6,6 @@ import dev.lightdream.controlpanel.dto.User;
 import dev.lightdream.controlpanel.dto.data.Cookie;
 import dev.lightdream.controlpanel.dto.permission.PermissionType;
 import dev.lightdream.controlpanel.utils.Utils;
-import dev.lightdream.logger.Debugger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -25,7 +24,6 @@ public class EndPoints {
         Cookie cookie = getCookie(cookieBase64);
 
         if (!cookie.validate()) {
-            Debugger.log("Error 1");
             model.addAttribute("error", "401");
             return "error.html";
         }
@@ -35,7 +33,6 @@ public class EndPoints {
 
         if (!user.hasPermission(server, PermissionType.SERVER_VIEW)) {
             model.addAttribute("error", "401");
-            Debugger.log("Error 2");
             return "error.html";
         }
 

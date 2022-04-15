@@ -5,11 +5,11 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import dev.lightdream.controlpanel.Main;
-import dev.lightdream.controlpanel.dto.data.Cookie;
 import de.taimos.totp.TOTP;
+import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
+import dev.lightdream.controlpanel.dto.data.Cookie;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Hex;
@@ -24,14 +24,15 @@ import java.util.Base64;
 public class Utils {
 
     public static Server getServer(String id) {
-        return Main.servers.stream().filter(server -> server.serverID.equals(id)).findFirst().orElse(null);
+        return Main.instance.getServers().stream().filter(server -> server.serverID.equals(id)).findFirst().orElse(null);
     }
 
     @SuppressWarnings("unused")
     public static Node getNode(String id) {
-        return Main.nodes.stream().filter(node -> node.nodeID.equals(id)).findFirst().orElse(null);
+        return Main.instance.getNodes().stream().filter(node -> node.nodeID.equals(id)).findFirst().orElse(null);
     }
 
+    @SuppressWarnings("unused")
     public static String getTOTPCode(String secretKey) {
         Base32 base32 = new Base32();
         byte[] bytes = base32.decode(secretKey);
@@ -64,6 +65,7 @@ public class Utils {
         return base32.encodeToString(bytes);
     }
 
+    @SuppressWarnings("unused")
     public static String base64Encode(String raw) {
         return Base64.getEncoder().encodeToString(raw.getBytes());
     }
@@ -78,6 +80,7 @@ public class Utils {
         return (payload instanceof String ? (String) payload : new String((byte[]) payload, StandardCharsets.UTF_8));
     }
 
+    @SuppressWarnings("unused")
     public static Cookie getCookieFromString(String cookie) {
         return new Gson().fromJson(Utils.base64Decode(cookie), Cookie.class);
     }
