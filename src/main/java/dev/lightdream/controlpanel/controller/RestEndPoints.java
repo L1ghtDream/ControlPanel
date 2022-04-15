@@ -5,7 +5,6 @@ import dev.lightdream.controlpanel.database.Server;
 import dev.lightdream.controlpanel.dto.Command;
 import dev.lightdream.controlpanel.dto.data.Cookie;
 import dev.lightdream.controlpanel.dto.data.LoginData;
-import dev.lightdream.controlpanel.dto.request.ServerRequest;
 import dev.lightdream.controlpanel.dto.response.Response;
 import dev.lightdream.controlpanel.utils.Globals;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +25,10 @@ public class RestEndPoints {
     }
 
     @MessageMapping("/server/api/server")
-    public Response console(Command command, @RequestBody ServerRequest serverRequest) {
-        if (!serverRequest.cookie.validate()) {
+    public Response console(Command command) {
+        System.out.println(command);
+        System.out.println(command.cookie);
+        if (!command.cookie.validate()) {
             return Response.UNAUTHORISED();
         }
 

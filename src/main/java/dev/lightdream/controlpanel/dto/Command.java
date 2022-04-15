@@ -1,13 +1,15 @@
 package dev.lightdream.controlpanel.dto;
 
-import lombok.AllArgsConstructor;
+import dev.lightdream.controlpanel.dto.request.ServerRequest;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @NoArgsConstructor
-public class Command {
+public class Command extends ServerRequest {
 
     public String command;
-    public String server;
+
+    public Command(String command) {
+        this.command = command;
+    }
 
 }

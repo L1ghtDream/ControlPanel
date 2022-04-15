@@ -1,5 +1,6 @@
 package dev.lightdream.controlpanel.utils;
 
+import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -9,9 +10,11 @@ import dev.lightdream.controlpanel.Executor;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.database.Node;
 import dev.lightdream.controlpanel.database.Server;
+import dev.lightdream.controlpanel.dto.data.Cookie;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Hex;
+import org.springframework.messaging.Message;
 
 import java.io.FileOutputStream;
 import java.net.URLEncoder;
@@ -68,5 +71,15 @@ public class Utils {
 
     public static String base64Decode(String encoded) {
         return new String(Base64.getDecoder().decode(encoded));
+    }
+
+
+    public static String payloadToString(Message<?> message) {
+        Object payload = message.getPayload();
+        return (payload instanceof String ? (String) payload : new String((byte[]) payload, StandardCharsets.UTF_8));
+    }
+
+    public static Cookie getCookieFromString(String cookie) {
+        return new Gson().fromJson(Utils.base64Decode(cookie), Cookie.class);
     }
 }
