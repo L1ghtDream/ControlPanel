@@ -1,9 +1,13 @@
 package dev.lightdream.controlpanel.config;
 
+import com.google.gson.Gson;
 import dev.lightdream.controlpanel.database.Server;
+import dev.lightdream.controlpanel.dto.Command;
+import dev.lightdream.controlpanel.dto.User;
+import dev.lightdream.controlpanel.dto.data.Cookie;
+import dev.lightdream.controlpanel.dto.permission.PermissionType;
 import dev.lightdream.controlpanel.utils.Utils;
 import dev.lightdream.logger.Debugger;
-import dev.lightdream.messagebuilder.MessageBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -17,10 +21,6 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(@NotNull Message<?> message, @NotNull MessageChannel channel) {
-
-        Debugger.log("[1] " + message.getHeaders());
-        Debugger.log("[2] " + message.getHeaders().get("stompCommand"));
-
         StompCommand command = (StompCommand) message.getHeaders().get("stompCommand");
 
         if (command == null) {
@@ -73,63 +73,49 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         return message;
     }
 
-    private boolean validateConnection(String user, String password) {
-
-        if (user == null || password == null) {
+    private boolean validateConnection(String username, String password) {
+        if (username == null || password == null) {
             return false;
         }
 
+        Cookie cookie = new Cookie(username, password);
 
-        Debugger.log(new MessageBuilder("[Connection] %user% : %password%")
-                .parse("user", user)
-                .parse("password", password)
-                .parse()
-        );
-
-        return true;
+        return cookie.validate();
     }
 
-    private boolean validateSubscription(String user, String password, String destination) {
-
-        if (user == null || password == null || destination == null) {
+    private boolean validateSubscription(String username, String password, String destination) {
+        if (username == null || password == null || destination == null) {
             return false;
         }
 
         // /server/{server}/api/console
         String serverName = destination.split("/")[2];
 
+        Cookie cookie = new Cookie(username, password);
+        User user = cookie.getUser();
         Server server = Utils.getServer(serverName);
 
-        Debugger.log(new MessageBuilder("[Subscription] %user% : %password% @ %server% (%server_url%)")
-                .parse("user", user)
-                .parse("password", password)
-                .parse("server", serverName)
-                .parse("server_url", destination)
-                .parse()
-        );
-
-        return true;
+        return user.hasPermission(server, PermissionType.SERVER_CONSOLE);
     }
 
-    private boolean validateCommand(String user, String password, String destination, String command) {
-        if (user == null || password == null || destination == null || command == null) {
+    private boolean validateCommand(String username, String password, String destination, String commandJson) {
+        if (username == null || password == null || destination == null || commandJson == null) {
             return false;
         }
 
         // /server/{server}/api/console
         String serverName = destination.split("/")[2];
+
+        Cookie cookie = new Cookie(username, password);
+        User user = cookie.getUser();
         Server server = Utils.getServer(serverName);
 
-        Debugger.log(new MessageBuilder("[Subscription] %user% : %password% @ %server% (%server_url%) - %command%")
-                .parse("user", user)
-                .parse("password", password)
-                .parse("server", serverName)
-                .parse("server_url", destination)
-                .parse("command", command)
-                .parse()
-        );
+        Command command = new Gson().fromJson(commandJson, Command.class);
+        if (command.isServerCommand()) {
+            return user.hasPermission(server, PermissionType.SERVER_CONTROL);
+        }
 
-        return true;
+        return user.hasPermission(server, PermissionType.SERVER_CONSOLE);
     }
 
 
