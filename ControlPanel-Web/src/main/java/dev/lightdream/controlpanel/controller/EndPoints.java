@@ -6,6 +6,7 @@ import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionType;
 import dev.lightdream.common.utils.Utils;
+import dev.lightdream.controlpanel.Main;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("SpringMVCViewInspection")
 @Controller
@@ -48,5 +50,34 @@ public class EndPoints {
 
     public Cookie getCookie(String cookie) {
         return new Gson().fromJson(Utils.base64Decode(cookie), Cookie.class);
+    }
+
+    @GetMapping("/servers")
+    public String servers(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
+        Cookie cookie = getCookie(cookieBase64);
+
+        if (!cookie.validate()) {
+            model.addAttribute("error", "401");
+            return "error.html";
+        }
+
+        User user = cookie.getUser();
+
+        model.addAttribute("servers",
+                Main.instance.getServers().stream().filter(server ->
+                        user.hasPermission(server, PermissionType.SERVER_VIEW)).collect(Collectors.toList())
+        );
+        return "servers.html";
+    }
+
+    @GetMapping("/")
+    public String index(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
+        Cookie cookie = getCookie(cookieBase64);
+
+        if (!cookie.validate()) {
+            return login(model, request);
+        }
+
+        return servers(model, request, cookieBase64);
     }
 }
