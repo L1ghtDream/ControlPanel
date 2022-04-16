@@ -5,6 +5,10 @@ import java.util.List;
 
 public enum PermissionEnum {
 
+    // Global perms
+    /* NOT IMPLEMENTED */ GLOBAL_MANAGE_USERS,
+    /* NOT IMPLEMENTED */ GLOBAL_MANAGE_NODES,
+
     // Node Perms
     /* NOT IMPLEMENTED */ NODE_VIEW, // View node
     /* NOT IMPLEMENTED */ NODE_MANAGE, // Create, Delete, Edit nodes
@@ -38,7 +42,8 @@ public enum PermissionEnum {
 
     public enum PermissionType {
         NODE,
-        SERVER
+        SERVER,
+        GLOBAL
     }
 
 }

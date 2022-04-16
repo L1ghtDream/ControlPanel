@@ -2,6 +2,7 @@ package dev.lightdream.common.dto.permission;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.User;
+import dev.lightdream.common.dto.permission.impl.GlobalPermissionTarget;
 import dev.lightdream.databasemanager.dto.DatabaseEntry;
 
 import java.util.List;
@@ -25,6 +26,9 @@ public abstract class PermissionTarget extends DatabaseEntry {
                 break;
             case NODE:
                 target = CommonMain.instance.getDatabaseManager().getNode(id);
+                break;
+            case GLOBAL:
+                target = GlobalPermissionTarget.getInstance();
                 break;
         }
 
