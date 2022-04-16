@@ -71,7 +71,7 @@ public abstract class PermissionTarget extends DatabaseEntry {
 
     public abstract PermissionEnum.PermissionType getType();
 
-    public List<Permission> getPermissions(){
+    public List<Permission> getPermissions() {
         return CommonMain.instance.getDatabaseManager().getPermissions(this);
     }
 

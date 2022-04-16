@@ -45,16 +45,17 @@ public class SFTPServerManager {
 
         HashMap<String, String> sftpAccounts = new HashMap<>();
 
+        //noinspection CodeBlock2Expr
         Utils.getNode(Main.instance.config.nodeID).getServers().forEach(server -> {
-                    server.getPermissions().stream().filter(permission -> {
-                        return permission.permission == PermissionEnum.SERVER_FILE_MANAGER;
-                    }).collect(Collectors.toList()).forEach(permission -> {
-                                String username = permission.user.username + "_" + server.serverID;
-                                sftpAccounts.put(username, permission.user.password);
-                                Debugger.log(username + " -> " + server.path);
-                                virtualFileSystemFactory.setUserHomeDir(username, Paths.get(server.path));
-                            }
-                    );
+                    server.getPermissions().stream().filter(permission ->
+                                    permission.permission == PermissionEnum.SERVER_FILE_MANAGER)
+                            .collect(Collectors.toList()).forEach(permission -> {
+                                        String username = permission.user.username + "_" + server.serverID;
+                                        sftpAccounts.put(username, permission.user.password);
+                                        Debugger.log(username + " -> " + server.path);
+                                        virtualFileSystemFactory.setUserHomeDir(username, Paths.get(server.path));
+                                    }
+                            );
                 }
 
         );
