@@ -1,0 +1,1 @@
+screen -dmS ControlPanel-SFTP bash -c "/usr/lib/jvm/java-11-openjdk-amd64/bin/java -jar ControlPanel-SFTP.jar"
