@@ -1,4 +1,4 @@
-package dev.lightdream.common.dto;
+package dev.lightdream.controlpanel.dto;
 
 import lombok.NoArgsConstructor;
 
@@ -20,6 +20,7 @@ public class Log {
         this.logs.add(log);
     }
 
+    @SuppressWarnings("unused")
     public void addLog(Log log) {
         this.logs.addAll(log.logs);
         while (this.logs.size() > maxSize) {

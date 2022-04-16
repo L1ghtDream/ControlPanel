@@ -19,6 +19,7 @@ public enum PermissionEnum {
     /* NOT IMPLEMENTED */ SERVER_USER_MANAGER; // Add, remover users, Change perms
 
 
+    @SuppressWarnings("unused")
     public static List<PermissionEnum> getOfType(PermissionType type) {
         List<PermissionEnum> output = new ArrayList<>();
 

@@ -6,6 +6,7 @@ import com.jcraft.jsch.Session;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.permission.PermissionTarget;
+import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.lambda.LambdaExecutor;
@@ -34,12 +35,6 @@ public class Node extends PermissionTarget {
     @DatabaseField(columnName = "ssh_port")
     public int sshPort;
 
-    //Connections
-    public Session session;
-    public ChannelExec channel;
-    public Session logSession;
-    public ChannelExec logChannel;
-
     @SuppressWarnings("unused")
     public Node() {
     }
@@ -59,26 +54,35 @@ public class Node extends PermissionTarget {
         return PermissionEnum.PermissionType.NODE;
     }
 
+    public SSHManager.NodeSSH getSSH() {
+        return CommonMain.instance.getSSHManager().getSSH(this);
+    }
+
     public String sendCommand(String command) {
         return LambdaExecutor.LambdaCatch.ReturnLambdaCatch.executeCatch(() -> {
-            if (this.session == null || !this.session.isConnected()) {
-                this.session = new JSch().getSession(this.username, this.nodeIP, 22);
-                this.session.setPassword(this.password);
-                this.session.setConfig("StrictHostKeyChecking", "no");
-                this.session.connect();
+            SSHManager.NodeSSH ssh = getSSH();
+            Session session = ssh.session;
+            ChannelExec channel = ssh.channel;
+
+
+            if (session == null || !session.isConnected()) {
+                session = new JSch().getSession(this.username, this.nodeIP, 22);
+                session.setPassword(this.password);
+                session.setConfig("StrictHostKeyChecking", "no");
+                session.connect();
             }
 
-            if (this.channel == null || !this.channel.isConnected()) {
-                this.channel = (ChannelExec) this.session.openChannel("exec");
+            if (channel == null || !channel.isConnected()) {
+                channel = (ChannelExec) session.openChannel("exec");
             }
 
-            this.channel.setCommand(command);
+            channel.setCommand(command);
 
             ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-            this.channel.setOutputStream(responseStream);
-            this.channel.connect();
+            channel.setOutputStream(responseStream);
+            channel.connect();
 
-            while (this.channel.isConnected()) {
+            while (channel.isConnected()) {
                 //noinspection BusyWait
                 Thread.sleep(100);
             }

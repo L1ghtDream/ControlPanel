@@ -2,43 +2,60 @@ package dev.lightdream.controlpanel.manager;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 import dev.lightdream.common.database.Server;
-import dev.lightdream.common.dto.Log;
+import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.common.utils.ConsoleColor;
+import dev.lightdream.controlpanel.dto.Log;
 import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.lambda.LambdaExecutor;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class LogManager {
+
+    public HashMap<Integer, Log> logMap = new HashMap<>();
 
     public LogManager() {
 
     }
 
+    public Log getLog(Server server) {
+        Log log = logMap.get(server.id);
+        if (log == null) {
+            return logMap.put(server.id, new Log());
+        }
+        return log;
+    }
+
     public void registerLogListener(Server server) {
         new Thread(() ->
                 LambdaExecutor.LambdaCatch.NoReturnLambdaCatch.executeCatch(() -> {
-                    if (server.node.logSession == null || !server.node.logSession.isConnected()) {
-                        server.node.logSession = new JSch().getSession(server.node.username, server.node.nodeIP, 22);
-                        server.node.logSession.setPassword(server.node.password);
-                        server.node.logSession.setConfig("StrictHostKeyChecking", "no");
-                        server.node.logSession.connect();
+                    SSHManager.NodeSSH ssh = server.node.getSSH();
+                    Session logSession = ssh.logSession;
+                    ChannelExec logChannel = ssh.channel;
+
+                    if (logSession == null || !logSession.isConnected()) {
+                        logSession = new JSch().getSession(server.node.username, server.node.nodeIP, 22);
+                        logSession.setPassword(server.node.password);
+                        logSession.setConfig("StrictHostKeyChecking", "no");
+                        logSession.connect();
                     }
 
-                    if (server.node.logChannel == null || !server.node.logChannel.isConnected()) {
-                        server.node.logChannel = (ChannelExec) server.node.logSession.openChannel("exec");
+                    if (logChannel == null || !logChannel.isConnected()) {
+                        logChannel = (ChannelExec) logSession.openChannel("exec");
                     }
 
-                    server.node.logChannel.setCommand("tail -f " + server.path + "/session.log");
+                    logChannel.setCommand("tail -f " + server.path + "/session.log");
 
                     ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-                    server.node.logChannel.setOutputStream(responseStream);
-                    server.node.logChannel.connect();
+                    logChannel.setOutputStream(responseStream);
+                    logChannel.connect();
 
-                    while (server.node.logChannel.isConnected()) {
+                    while (logChannel.isConnected()) {
                         if (!responseStream.toString().equals("")) {
                             String output = responseStream.toString();
 
@@ -56,13 +73,13 @@ public class LogManager {
                             }
 
                             Log newLog = new Log(logList);
-                            server.log.addLog(newLog);
+                            getLog(server).addLog(newLog);
 
                             ConsoleService.instance.sendConsole(server, newLog);
                         }
 
                         responseStream = new ByteArrayOutputStream();
-                        server.node.logChannel.setOutputStream(responseStream);
+                        logChannel.setOutputStream(responseStream);
 
                         //noinspection BusyWait
                         Thread.sleep(100);

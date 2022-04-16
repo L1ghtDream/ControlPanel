@@ -23,6 +23,7 @@ public class User extends DatabaseEntry {
         super(CommonMain.instance);
     }
 
+    @SuppressWarnings("unused")
     public User(String username, String password, String otpSecret) {
         super(CommonMain.instance);
         this.username = username;

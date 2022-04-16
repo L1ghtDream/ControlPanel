@@ -1,6 +1,5 @@
 package dev.lightdream.common.database;
 
-import dev.lightdream.common.dto.Log;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.permission.PermissionTarget;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
@@ -22,15 +21,12 @@ public class Server extends PermissionTarget {
     @DatabaseField(columnName = "node")
     public Node node;
 
-    //Data
-    public Log log;
 
     public Server(String serverID, String name, String path, Node node) {
         this.serverID = serverID;
         this.name = name;
         this.path = path;
         this.node = node;
-        this.log = new Log();
     }
 
     @SuppressWarnings("unused")
