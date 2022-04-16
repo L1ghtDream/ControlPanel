@@ -9,6 +9,7 @@ import dev.lightdream.common.utils.ConsoleColor;
 import dev.lightdream.controlpanel.dto.Log;
 import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.lambda.LambdaExecutor;
+import dev.lightdream.logger.Debugger;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -35,11 +36,12 @@ public class LogManager {
         new Thread(() ->
                 LambdaExecutor.LambdaCatch.NoReturnLambdaCatch.executeCatch(() -> {
                     SSHManager.NodeSSH ssh = server.node.getSSH();
+                    Debugger.log(ssh);
                     Session logSession = ssh.logSession;
                     ChannelExec logChannel = ssh.channel;
 
                     if (logSession == null || !logSession.isConnected()) {
-                        logSession = new JSch().getSession(server.node.username, server.node.nodeIP, 22);
+                        logSession = new JSch().getSession(server.node.username, server.node.ip, 22);
                         logSession.setPassword(server.node.password);
                         logSession.setConfig("StrictHostKeyChecking", "no");
                         logSession.connect();

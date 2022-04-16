@@ -1,10 +1,7 @@
 package dev.lightdream.controlpanel;
 
 import dev.lightdream.common.CommonMain;
-import dev.lightdream.common.database.Node;
-import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.CommonConfig;
-import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.controlpanel.controller.EndPoints;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
@@ -21,17 +18,11 @@ import dev.lightdream.messagebuilder.MessageBuilderManager;
 import org.springframework.boot.SpringApplication;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main extends CommonMain implements LoggableMain, FileManagerMain, DatabaseMain {
 
     // Statics
     public static Main instance;
-
-    // Dev
-    private final List<Node> nodes = new ArrayList<>();
-    private final List<Server> servers = new ArrayList<>();
 
     // Spring
     public EndPoints endPoints;
@@ -61,19 +52,49 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
         loadConfigs();
 
         databaseManager = new DatabaseManager(this);
+        createUsers(); // TODO remove for production
+        createNodes(); // TODO remove for production
+        createServers(); // TODO remove for production
 
         this.endPoints = new EndPoints();
         this.restEndPoints = new RestEndPoints();
 
-        registerNodes();
-        registerServers();
-
         SpringApplication.run(Executor.class);
 
         logManager = new LogManager();
-        logManager.registerLogListener(servers.get(0));
+        logManager.registerLogListener(databaseManager.getServer("test"));
 
     }
+
+    public void createUsers() {
+        databaseManager.createUser(
+                "admin",
+                "passwd",
+                "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
+        );
+    }
+
+    public void createNodes() {
+        databaseManager.createNode(
+                "htz-1",
+                "HTZ-1",
+                "htz1.original.gg",
+                config.mockServerPassword,
+                "root",
+                22
+        );
+    }
+
+    public void createServers() {
+        databaseManager.createServer(
+                "test",
+                "Test Server",
+                "/home/test",
+                databaseManager.getNode("htz-1"),
+                20002
+        );
+    }
+
 
     @Override
     public boolean debug() {
@@ -119,45 +140,5 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
     public String qrPath() {
         return "C:/Users/raduv/OneDrive/Desktop/UserQRs/";
     }
-
-    public void registerNodes() {
-        nodes.add(
-                new Node(
-                        "htz-1",
-                        "HTZ-1",
-                        "162.55.103.213",
-                        "162.55.103.213",
-                        "kvkfBt33vBxNCdBw",
-                        "root",
-                        22
-                )
-        );
-        nodes.get(0).id = 1;
-    }
-
-    public void registerServers() {
-        servers.add(
-                new Server(
-                        "test",
-                        "Test Server",
-                        "/home/test",
-                        nodes.get(0)
-                )
-        );
-        servers.get(0).id = 1;
-        servers.get(0).addPermission(databaseManager.getUser(1), PermissionEnum.SERVER_VIEW);
-    }
-
-    public List<Server> getServers() {
-        return servers;
-    }
-
-    public List<Node> getNodes() {
-        return nodes;
-    }
-
-    /*
-
-     */
 
 }

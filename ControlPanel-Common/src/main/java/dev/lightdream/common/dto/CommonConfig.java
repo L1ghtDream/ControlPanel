@@ -18,7 +18,7 @@ public class CommonConfig {
 
     // ---------- Urls ----------
 
-    public String installScriptURL = "https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/node_install.sh";
+    public String nodeInstallScriptURL = "https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/node_install.sh";
     public MessageBuilder sftpModuleDownloadURL = new MessageBuilder(
             "https://github.com/L1ghtDream/ControlPanel/releases/download/latest/ControlPanel-SFTP-%version%.jar"
     );
@@ -47,6 +47,10 @@ public class CommonConfig {
 
     public MessageBuilder CPU_USAGE_CMD = new MessageBuilder(
             "top -b -n 1 -p %pid% | tail -n 1 | awk '{print $9}'"
+    );
+
+    public MessageBuilder EXECUTE_SCRIPT_CMD = new MessageBuilder(
+            "curl -s %url% | bash"
     );
 
 }

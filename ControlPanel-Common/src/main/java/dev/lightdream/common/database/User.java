@@ -11,7 +11,7 @@ import dev.lightdream.databasemanager.dto.DatabaseEntry;
 @DatabaseTable(table = "users")
 public class User extends DatabaseEntry {
 
-    @DatabaseField(columnName = "username")
+    @DatabaseField(columnName = "username", unique = true)
     public String username;
     @DatabaseField(columnName = "password")
     public String password;

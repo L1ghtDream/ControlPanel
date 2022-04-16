@@ -24,10 +24,8 @@ public class Node extends PermissionTarget {
     @DatabaseField(columnName = "name")
     public String name;
     //Credentials
-    @DatabaseField(columnName = "node_ip")
-    public String nodeIP;
-    @DatabaseField(columnName = "public_ip")
-    public String publicIP;
+    @DatabaseField(columnName = "ip")
+    public String ip;
     @DatabaseField(columnName = "password")
     public String password;
     @DatabaseField(columnName = "username")
@@ -39,11 +37,10 @@ public class Node extends PermissionTarget {
     public Node() {
     }
 
-    public Node(String nodeID, String name, String nodeIP, String publicIP, String password, String username, int sshPort) {
+    public Node(String nodeID, String name, String ip, String password, String username, int sshPort) {
         this.nodeID = nodeID;
         this.name = name;
-        this.nodeIP = nodeIP;
-        this.publicIP = publicIP;
+        this.ip = ip;
         this.password = password;
         this.username = username;
         this.sshPort = sshPort;
@@ -66,7 +63,7 @@ public class Node extends PermissionTarget {
 
 
             if (session == null || !session.isConnected()) {
-                session = new JSch().getSession(this.username, this.nodeIP, 22);
+                session = new JSch().getSession(this.username, this.ip, 22);
                 session.setPassword(this.password);
                 session.setConfig("StrictHostKeyChecking", "no");
                 session.connect();
@@ -111,6 +108,14 @@ public class Node extends PermissionTarget {
                 .parse("url", CommonMain.instance.getConfig().sftpModuleDownloadURL
                         .parse("version", CommonMain.instance.getVersion())
                         .parse())
+                .parse()
+        );
+    }
+
+    @SuppressWarnings("unused")
+    public void install() {
+        sendCommand(CommonMain.instance.getConfig().EXECUTE_SCRIPT_CMD
+                .parse("url", CommonMain.instance.getConfig().nodeInstallScriptURL)
                 .parse()
         );
     }

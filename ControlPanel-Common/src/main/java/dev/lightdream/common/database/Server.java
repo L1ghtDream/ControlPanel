@@ -11,7 +11,7 @@ import lombok.SneakyThrows;
 public class Server extends PermissionTarget {
 
     //Settings
-    @DatabaseField(columnName = "server_id")
+    @DatabaseField(columnName = "server_id", unique = true)
     public String serverID;
     @DatabaseField(columnName = "name")
     public String name;
