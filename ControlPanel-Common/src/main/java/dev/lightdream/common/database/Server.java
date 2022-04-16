@@ -20,6 +20,8 @@ public class Server extends PermissionTarget {
     public String path;
     @DatabaseField(columnName = "node")
     public Node node;
+    @DatabaseField(columnName = "port")
+    public int port; // In debate
 
 
     public Server(String serverID, String name, String path, Node node) {
@@ -27,6 +29,7 @@ public class Server extends PermissionTarget {
         this.name = name;
         this.path = path;
         this.node = node;
+
     }
 
     @SuppressWarnings("unused")

@@ -17,6 +17,20 @@ public class CommonConfig {
     public MessageBuilder sftpModuleDownloadURL = new MessageBuilder(
             "https://github.com/L1ghtDream/ControlPanel/releases/download/latest/ControlPanel-SFTP-%version%.jar"
     );
+
+    public MessageBuilder oneClickSFTPURL = new MessageBuilder(
+            "sftp://username:password@host:port/"
+    );
+
+    public MessageBuilder passwordSFTPURL = new MessageBuilder(
+            "sftp://username@host:port/"
+    );
+
+    public MessageBuilder installNode = new MessageBuilder(
+            "sftp://username@host:port/"
+    );
+
+    public String installScriptURL = "https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/node_install.sh";
 }
 
 

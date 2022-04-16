@@ -17,6 +17,8 @@ public class User extends DatabaseEntry {
     public String password;
     @DatabaseField(columnName = "otp_secret")
     public String otpSecret;
+    @DatabaseField(columnName = "one_click_sftp")
+    public boolean oneClickSftp; // In debate
 
     @SuppressWarnings("unused")
     public User() {
@@ -29,6 +31,7 @@ public class User extends DatabaseEntry {
         this.username = username;
         this.password = password;
         this.otpSecret = otpSecret;
+        this.oneClickSftp = false;
     }
 
     @SuppressWarnings("unused")
