@@ -1,10 +1,7 @@
 package dev.lightdream.sftp;
 
 import dev.lightdream.common.CommonMain;
-import dev.lightdream.common.database.Node;
-import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.CommonConfig;
-import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.dto.DriverConfig;
@@ -18,16 +15,10 @@ import dev.lightdream.sftp.dto.Config;
 import dev.lightdream.sftp.manager.SFTPServerManager;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main extends CommonMain implements DatabaseMain, FileManagerMain, LoggableMain {
 
     public static Main instance;
-
-    // Dev
-    private final List<Node> nodes = new ArrayList<>();
-    private final List<Server> servers = new ArrayList<>();
 
     // Managers
     public DatabaseManager databaseManager;
@@ -50,8 +41,6 @@ public class Main extends CommonMain implements DatabaseMain, FileManagerMain, L
 
         databaseManager = new DatabaseManager(this);
 
-        registerNodes();
-        registerServers();
 
         sftpServerManager = new SFTPServerManager();
 
@@ -65,35 +54,6 @@ public class Main extends CommonMain implements DatabaseMain, FileManagerMain, L
         driverConfig = fileManager.load(DriverConfig.class);
         sqlConfig = fileManager.load(SQLConfig.class);
         config = fileManager.load(Config.class);
-    }
-
-    public void registerNodes() {
-        nodes.add(
-                new Node(
-                        "htz-1",
-                        "HTZ-1",
-                        "162.55.103.213",
-                        "162.55.103.213",
-                        "kvkfBt33vBxNCdBw",
-                        "root",
-                        22
-                )
-        );
-        nodes.get(0).id = 1;
-    }
-
-    public void registerServers() {
-        servers.add(
-                new Server(
-                        "test",
-                        "Test Server",
-                        "/home/test",
-                        nodes.get(0)
-                )
-        );
-        servers.get(0).id = 1;
-        servers.get(0).addPermission(databaseManager.getUser(1), PermissionEnum.SERVER_VIEW);
-        servers.get(0).addPermission(databaseManager.getUser(1), PermissionEnum.SERVER_FILE_MANAGER);
     }
 
     @Override
@@ -110,16 +70,6 @@ public class Main extends CommonMain implements DatabaseMain, FileManagerMain, L
     @Override
     public DriverConfig getDriverConfig() {
         return driverConfig;
-    }
-
-    @Override
-    public List<Server> getServers() {
-        return servers;
-    }
-
-    @Override
-    public List<Node> getNodes() {
-        return nodes;
     }
 
     @Override

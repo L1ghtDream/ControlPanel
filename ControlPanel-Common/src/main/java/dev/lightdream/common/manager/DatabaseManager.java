@@ -145,7 +145,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
     }
 
 
-    public void createNode(String nodeID, String name, String ip, String password, String username, int sshPort) {
+    public void createNode(String nodeID, String name, String ip, String username, int sshPort) {
         if (getNode(nodeID) != null) {
             return;
         }
@@ -154,7 +154,6 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
                 nodeID,
                 name,
                 ip,
-                password,
                 username,
                 sshPort
         ).save();

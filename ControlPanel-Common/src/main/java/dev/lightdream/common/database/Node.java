@@ -1,8 +1,5 @@
 package dev.lightdream.common.database;
 
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.permission.PermissionTarget;
@@ -26,8 +23,6 @@ public class Node extends PermissionTarget {
     //Credentials
     @DatabaseField(columnName = "ip")
     public String ip;
-    @DatabaseField(columnName = "password")
-    public String password;
     @DatabaseField(columnName = "username")
     public String username;
     @DatabaseField(columnName = "ssh_port")
@@ -37,11 +32,10 @@ public class Node extends PermissionTarget {
     public Node() {
     }
 
-    public Node(String nodeID, String name, String ip, String password, String username, int sshPort) {
+    public Node(String nodeID, String name, String ip, String username, int sshPort) {
         this.nodeID = nodeID;
         this.name = name;
         this.ip = ip;
-        this.password = password;
         this.username = username;
         this.sshPort = sshPort;
     }
@@ -58,28 +52,12 @@ public class Node extends PermissionTarget {
     public String sendCommand(String command) {
         return LambdaExecutor.LambdaCatch.ReturnLambdaCatch.executeCatch(() -> {
             SSHManager.NodeSSH ssh = getSSH();
-            Session session = ssh.session;
-            ChannelExec channel = ssh.channel;
-
-
-            if (session == null || !session.isConnected()) {
-                session = new JSch().getSession(this.username, this.ip, 22);
-                session.setPassword(this.password);
-                session.setConfig("StrictHostKeyChecking", "no");
-                session.connect();
-            }
-
-            if (channel == null || !channel.isConnected()) {
-                channel = (ChannelExec) session.openChannel("exec");
-            }
-
-            channel.setCommand(command);
+            ssh.setCommand(command);
 
             ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-            channel.setOutputStream(responseStream);
-            channel.connect();
+            ssh.setOutputStream(responseStream);
 
-            while (channel.isConnected()) {
+            while (ssh.isConnected()) {
                 //noinspection BusyWait
                 Thread.sleep(100);
             }

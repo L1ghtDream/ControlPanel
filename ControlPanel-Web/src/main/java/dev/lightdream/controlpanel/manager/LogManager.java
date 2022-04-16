@@ -1,15 +1,11 @@
 package dev.lightdream.controlpanel.manager;
 
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.common.utils.ConsoleColor;
 import dev.lightdream.controlpanel.dto.Log;
 import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.lambda.LambdaExecutor;
-import dev.lightdream.logger.Debugger;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -36,28 +32,13 @@ public class LogManager {
         new Thread(() ->
                 LambdaExecutor.LambdaCatch.NoReturnLambdaCatch.executeCatch(() -> {
                     SSHManager.NodeSSH ssh = server.node.getSSH();
-                    Debugger.log(ssh);
-                    Session logSession = ssh.logSession;
-                    ChannelExec logChannel = ssh.channel;
 
-                    if (logSession == null || !logSession.isConnected()) {
-                        logSession = new JSch().getSession(server.node.username, server.node.ip, 22);
-                        logSession.setPassword(server.node.password);
-                        logSession.setConfig("StrictHostKeyChecking", "no");
-                        logSession.connect();
-                    }
-
-                    if (logChannel == null || !logChannel.isConnected()) {
-                        logChannel = (ChannelExec) logSession.openChannel("exec");
-                    }
-
-                    logChannel.setCommand("tail -f " + server.path + "/session.log");
+                    ssh.setCommandLog("tail -f " + server.path + "/session.log");
 
                     ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-                    logChannel.setOutputStream(responseStream);
-                    logChannel.connect();
+                    ssh.setOutputStreamLog(responseStream);
 
-                    while (logChannel.isConnected()) {
+                    while (ssh.isConnectedLog()) {
                         if (!responseStream.toString().equals("")) {
                             String output = responseStream.toString();
 
@@ -81,7 +62,7 @@ public class LogManager {
                         }
 
                         responseStream = new ByteArrayOutputStream();
-                        logChannel.setOutputStream(responseStream);
+                        ssh.setOutputStreamLog(responseStream);
 
                         //noinspection BusyWait
                         Thread.sleep(100);

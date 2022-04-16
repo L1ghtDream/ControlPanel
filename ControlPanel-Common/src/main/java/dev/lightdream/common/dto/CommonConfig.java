@@ -8,11 +8,8 @@ public class CommonConfig {
 
     public String sftpModuleInstallPath = "/home/ControlPanel/modules/SFTP";
 
-    public MessageBuilder passwordSFTPURL = new MessageBuilder(
-            "sftp://username@host:port/"
-    );
-
-    public MessageBuilder installNode = new MessageBuilder(
+    @SuppressWarnings("unused")
+    public MessageBuilder sftpURL = new MessageBuilder(
             "sftp://username@host:port/"
     );
 

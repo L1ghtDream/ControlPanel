@@ -1,3 +1,7 @@
+# Server installation
+
+# SFTP Module installation
+
 # Node Installation
 
 You will need to create an ssh key for the node that you want to create and add in the folder /config/ssh_keys/[node_id]
@@ -21,3 +25,11 @@ echo "from [allowed_ip] $(cat id_rsa.pub)" > authorized_keys
 ssh-keygen -m PEM
 echo "$(cat id_rsa.pub)" > authorized_keys
 ```
+
+# Server setup
+
+# Admin user creation
+
+# User setup
+
+

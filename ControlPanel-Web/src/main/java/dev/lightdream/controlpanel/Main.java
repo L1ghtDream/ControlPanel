@@ -79,7 +79,6 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
                 "htz-1",
                 "HTZ-1",
                 "htz1.original.gg",
-                config.mockServerPassword,
                 "root",
                 22
         );

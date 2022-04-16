@@ -8,6 +8,7 @@ import dev.lightdream.common.database.Node;
 import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 public class SSHManager {
@@ -27,14 +28,13 @@ public class SSHManager {
     public static class NodeSSH {
         public String nodeID;
         public String username;
-        //public String password;
         public String ip;
         public int port;
 
-        public Session session;
-        public ChannelExec channel;
-        public Session logSession;
-        public ChannelExec logChannel;
+        private Session session;
+        private ChannelExec channel;
+        private Session logSession;
+        private ChannelExec logChannel;
 
         public NodeSSH(Node node) {
             this.nodeID = node.nodeID;
@@ -42,27 +42,69 @@ public class SSHManager {
             this.ip = node.ip;
             this.port = node.sshPort;
             auth();
+            authLog();
         }
 
-        public String sendCommand() {
+        public void setCommand(String command) {
             auth();
-            return "";
+            channel.setCommand(command);
+        }
+
+        public void setCommandLog(String command) {
+            authLog();
+            logChannel.setCommand(command);
+        }
+
+        @SneakyThrows
+        public void setOutputStream(ByteArrayOutputStream outputStream) {
+            channel.setOutputStream(outputStream);
+            channel.connect();
+        }
+
+        @SneakyThrows
+        public void setOutputStreamLog(ByteArrayOutputStream outputStream) {
+            logChannel.setOutputStream(outputStream);
+            logChannel.connect();
+        }
+
+        public boolean isConnected() {
+            return channel.isConnected();
+        }
+
+        public boolean isConnectedLog() {
+            return logChannel.isConnected();
         }
 
         @SneakyThrows
         public void auth() {
-            if (session != null && session.isConnected()) {
-                return;
+            if (session == null || !session.isConnected()) {
+                JSch jsch = new JSch();
+                Debugger.log("Grabbing ssh key from " + CommonMain.instance.getDataFolder().toString() + "/ssh_keys/" + nodeID);
+                jsch.addIdentity(CommonMain.instance.getDataFolder().toString() + "/ssh_keys/" + nodeID);
+
+                session = jsch.getSession(username, ip, port);
+                session.setConfig("StrictHostKeyChecking", "no");
+                session.connect();
             }
 
-            JSch jsch = new JSch();
-            Debugger.log("Grabbing ssh key from " + CommonMain.instance.getDataFolder().toString() + "/ssh_keys/" + nodeID);
-            jsch.addIdentity(CommonMain.instance.getDataFolder().toString() + "/ssh_keys/" + nodeID);
+            if (channel == null || !channel.isConnected()) {
+                channel = (ChannelExec) session.openChannel("exec");
+            }
+        }
 
-            session = jsch.getSession(username, ip, port);
-            //logSession.setPassword(password);
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
+        @SneakyThrows
+        public void authLog() {
+            if (logSession == null || !logSession.isConnected()) {
+                JSch jsch = new JSch();
+                jsch.addIdentity(CommonMain.instance.getDataFolder().toString() + "/ssh_keys/" + nodeID);
+
+                logSession = jsch.getSession(username, ip, port);
+                logSession.setConfig("StrictHostKeyChecking", "no");
+                logSession.connect();
+            }
+            if (logChannel == null || !logChannel.isConnected()) {
+                logChannel = (ChannelExec) logSession.openChannel("exec");
+            }
         }
 
     }
