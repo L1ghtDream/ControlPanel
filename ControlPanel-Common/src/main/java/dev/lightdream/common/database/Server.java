@@ -1,13 +1,14 @@
 package dev.lightdream.common.database;
 
 import dev.lightdream.common.dto.Log;
-import dev.lightdream.common.manager.PermissionHolder;
+import dev.lightdream.common.dto.permission.PermissionEnum;
+import dev.lightdream.common.dto.permission.PermissionTarget;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import lombok.SneakyThrows;
 
 @DatabaseTable(table = "servers")
-public class Server extends PermissionHolder {
+public class Server extends PermissionTarget {
 
     //Settings
     @DatabaseField(columnName = "server_id")
@@ -34,6 +35,11 @@ public class Server extends PermissionHolder {
 
     @SuppressWarnings("unused")
     public Server() {
+    }
+
+    @Override
+    public PermissionEnum.PermissionType getType() {
+        return PermissionEnum.PermissionType.SERVER;
     }
 
     @SneakyThrows

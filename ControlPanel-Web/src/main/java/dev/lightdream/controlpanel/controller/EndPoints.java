@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.data.Cookie;
-import dev.lightdream.common.dto.permission.PermissionType;
+import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import org.springframework.stereotype.Controller;
@@ -33,7 +33,7 @@ public class EndPoints {
         User user = cookie.getUser();
         Server server = Utils.getServer(serverName);
 
-        if (!user.hasPermission(server, PermissionType.SERVER_VIEW)) {
+        if (!user.hasPermission(server, PermissionEnum.SERVER_VIEW)) {
             model.addAttribute("error", "401");
             return "error.html";
         }
@@ -52,6 +52,7 @@ public class EndPoints {
         return new Gson().fromJson(Utils.base64Decode(cookie), Cookie.class);
     }
 
+    @SuppressWarnings("unused")
     @GetMapping("/servers")
     public String servers(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
         Cookie cookie = getCookie(cookieBase64);
@@ -65,7 +66,7 @@ public class EndPoints {
 
         model.addAttribute("servers",
                 Main.instance.getServers().stream().filter(server ->
-                        user.hasPermission(server, PermissionType.SERVER_VIEW)).collect(Collectors.toList())
+                        user.hasPermission(server, PermissionEnum.SERVER_VIEW)).collect(Collectors.toList())
         );
         return "servers.html";
     }

@@ -1,8 +1,8 @@
 package dev.lightdream.common.database;
 
 import dev.lightdream.common.CommonMain;
-import dev.lightdream.common.dto.permission.PermissionType;
-import dev.lightdream.common.manager.PermissionHolder;
+import dev.lightdream.common.dto.permission.PermissionEnum;
+import dev.lightdream.common.dto.permission.PermissionTarget;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
@@ -37,17 +37,7 @@ public class User extends DatabaseEntry {
         return path;
     }
 
-    public boolean hasPermission(PermissionHolder permissionHolder, PermissionType permission) {
-        return permissionHolder.hasPermission(this, permission);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", otpSecret='" + otpSecret + '\'' +
-                ", id=" + id +
-                '}';
+    public boolean hasPermission(PermissionTarget permissionTarget, PermissionEnum permission) {
+        return permissionTarget.hasPermission(this, permission);
     }
 }

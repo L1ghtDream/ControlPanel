@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.data.Cookie;
-import dev.lightdream.common.dto.permission.PermissionType;
+import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.dto.Command;
 import org.jetbrains.annotations.NotNull;
@@ -85,7 +85,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         User user = cookie.getUser();
         Server server = Utils.getServer(serverName);
 
-        return user.hasPermission(server, PermissionType.SERVER_CONSOLE);
+        return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
     }
 
     private boolean validateCommand(String username, String password, String destination, String commandJson) {
@@ -102,10 +102,10 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
 
         Command command = new Gson().fromJson(commandJson, Command.class);
         if (command.isServerCommand()) {
-            return user.hasPermission(server, PermissionType.SERVER_CONTROL);
+            return user.hasPermission(server, PermissionEnum.SERVER_CONTROL);
         }
 
-        return user.hasPermission(server, PermissionType.SERVER_CONSOLE);
+        return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
     }
 
 

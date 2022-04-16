@@ -2,33 +2,29 @@ package dev.lightdream.common.dto.permission;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.User;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import dev.lightdream.databasemanager.annotations.database.DatabaseField;
+import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
+import dev.lightdream.databasemanager.dto.DatabaseEntry;
 
-@AllArgsConstructor
-@NoArgsConstructor
-public class Permission {
+@DatabaseTable(table = "permissions")
+public class Permission extends DatabaseEntry {
 
+    @DatabaseField(columnName = "user_id")
     public User user;
-    public PermissionType permission;
+    @DatabaseField(columnName = "permission")
+    public PermissionEnum permission;
+    @DatabaseField(columnName = "target")
+    public PermissionTarget target;
 
-    public GsonPermission toGsonCompatible() {
-        return new GsonPermission(this);
+    @SuppressWarnings("unused")
+    public Permission() {
+        super(CommonMain.instance);
     }
 
-    public static class GsonPermission {
-
-        public int id;
-        public String type;
-
-        public GsonPermission(Permission permission) {
-            this.id = permission.user.id;
-            this.type = permission.permission.name();
-        }
-
-        public Permission toPermission() {
-            return new Permission(CommonMain.instance.getDatabaseManager().getUser(id), PermissionType.valueOf(type));
-        }
-
+    public Permission(User user, PermissionEnum permission, PermissionTarget target) {
+        super(CommonMain.instance);
+        this.user = user;
+        this.permission = permission;
+        this.target = target;
     }
 }

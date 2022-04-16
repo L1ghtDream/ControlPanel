@@ -1,7 +1,7 @@
 package dev.lightdream.sftp.manager;
 
 import com.google.common.hash.Hashing;
-import dev.lightdream.common.dto.permission.PermissionType;
+import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.logger.Debugger;
 import dev.lightdream.logger.Logger;
@@ -45,16 +45,18 @@ public class SFTPServerManager {
 
         HashMap<String, String> sftpAccounts = new HashMap<>();
 
-        Utils.getNode(Main.instance.config.nodeID).getServers().forEach(server ->
-                server.permissions.stream().filter(permission ->
-                        permission.permission == PermissionType.SERVER_FILE_MANAGER
-                ).collect(Collectors.toList()).forEach(permission -> {
-                            String username = permission.user.username + "_" + server.serverID;
-                            sftpAccounts.put(username, permission.user.password);
-                            Debugger.log(username + " -> " + server.path);
-                            virtualFileSystemFactory.setUserHomeDir(username, Paths.get(server.path));
-                        }
-                )
+        Utils.getNode(Main.instance.config.nodeID).getServers().forEach(server -> {
+                    server.getPermissions().stream().filter(permission -> {
+                        return permission.permission == PermissionEnum.SERVER_FILE_MANAGER;
+                    }).collect(Collectors.toList()).forEach(permission -> {
+                                String username = permission.user.username + "_" + server.serverID;
+                                sftpAccounts.put(username, permission.user.password);
+                                Debugger.log(username + " -> " + server.path);
+                                virtualFileSystemFactory.setUserHomeDir(username, Paths.get(server.path));
+                            }
+                    );
+                }
+
         );
 
         sshd.setFileSystemFactory(virtualFileSystemFactory);

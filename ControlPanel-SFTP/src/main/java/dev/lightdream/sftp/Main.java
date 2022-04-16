@@ -4,7 +4,7 @@ import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.CommonConfig;
-import dev.lightdream.common.dto.permission.PermissionType;
+import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.dto.DriverConfig;
@@ -92,8 +92,8 @@ public class Main extends CommonMain implements DatabaseMain, FileManagerMain, L
                 )
         );
         servers.get(0).id = 1;
-        servers.get(0).addPermission(databaseManager.getUser(1), PermissionType.SERVER_VIEW);
-        servers.get(0).addPermission(databaseManager.getUser(1), PermissionType.SERVER_FILE_MANAGER);
+        servers.get(0).addPermission(databaseManager.getUser(1), PermissionEnum.SERVER_VIEW);
+        servers.get(0).addPermission(databaseManager.getUser(1), PermissionEnum.SERVER_FILE_MANAGER);
     }
 
     @Override

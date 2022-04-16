@@ -4,7 +4,8 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import dev.lightdream.common.CommonMain;
-import dev.lightdream.common.manager.PermissionHolder;
+import dev.lightdream.common.dto.permission.PermissionEnum;
+import dev.lightdream.common.dto.permission.PermissionTarget;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.lambda.LambdaExecutor;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @DatabaseTable(table = "nodes")
-public class Node extends PermissionHolder {
+public class Node extends PermissionTarget {
 
     //Settings
     @DatabaseField(columnName = "node_id", unique = true)
@@ -51,6 +52,11 @@ public class Node extends PermissionHolder {
         this.password = password;
         this.username = username;
         this.sshPort = sshPort;
+    }
+
+    @Override
+    public PermissionEnum.PermissionType getType() {
+        return PermissionEnum.PermissionType.NODE;
     }
 
     public String sendCommand(String command) {
