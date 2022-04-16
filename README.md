@@ -16,7 +16,7 @@ commands.
 
 ```shell
 ssh-keygen -m PEM
-echo "from [allowed_ip] $(cat id_rsa.pub)" > authorized_keys
+echo "from=\"[allowed_ip]\" $(cat id_rsa.pub)" > authorized_keys
 ```
 
 ### Creating normal ssh key
