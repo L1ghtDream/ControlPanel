@@ -84,4 +84,5 @@ public class Utils {
     public static Cookie getCookieFromString(String cookie) {
         return new Gson().fromJson(Utils.base64Decode(cookie), Cookie.class);
     }
+
 }

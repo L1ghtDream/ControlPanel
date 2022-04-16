@@ -91,6 +91,10 @@ public class Node extends PermissionTarget {
         });
     }
 
+    public String executeCommand(String command) {
+        return sendCommand(command);
+    }
+
     @SuppressWarnings("UnusedReturnValue")
     public String sendCommandToServer(String command, Server server) {
         return sendCommand("screen -S " + server.serverID + " -X stuff '" + command + "\\n'");
