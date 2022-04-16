@@ -1,5 +1,5 @@
-# Install the dependencies
-apt install openjdk-11-jdk screen
+# Installing dependencies
+sudo apt-get install screen openjdk-11-jdk
 
 # Get the start script and make it executable
 wget https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/web/web_start.sh start.sh
