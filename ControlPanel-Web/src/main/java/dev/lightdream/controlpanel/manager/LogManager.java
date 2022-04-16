@@ -23,7 +23,8 @@ public class LogManager {
     public Log getLog(Server server) {
         Log log = logMap.get(server.id);
         if (log == null) {
-            return logMap.put(server.id, new Log());
+            logMap.put(server.id, new Log());
+            return getLog(server);
         }
         return log;
     }

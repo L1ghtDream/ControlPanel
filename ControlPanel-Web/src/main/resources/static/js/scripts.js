@@ -122,7 +122,7 @@ async function checkLoggedStatus() {
 }
 
 function redirect(path) {
-    window.location.replace(path);
+    window.location.href = path
 }
 
 // noinspection JSUnusedGlobalSymbols
@@ -137,7 +137,7 @@ async function callPutAPI(api, data) {
     });
 }
 
-async function callAPI(api, data, callbackEn, callbackRo, failCallbackEn, failCallbackRo) {
+async function callAPI(api, data, callback, failCallback) {
     const blob = await fetch(api, {
         method: 'post',
         headers: {
@@ -151,59 +151,27 @@ async function callAPI(api, data, callbackEn, callbackRo, failCallbackEn, failCa
 
     let obj;
     try {
+        console.log("JSON received: " + json);
         obj = JSON.parse(json);
 
         if (obj.code !== "200") {
-            if (getCookie("lang") === "en") {
-                if (failCallbackEn === undefined) {
-                    error.hidden = false;
-                    error.innerText = obj.messageEn;
-                } else {
-                    failCallbackEn();
-                }
-            } else {
-                if (failCallbackRo === undefined) {
-                    if (failCallbackEn === undefined) {
-                        error.hidden = false;
-                        error.innerText = obj.messageRo;
-                    } else {
-                        failCallbackEn();
-                    }
-                }
-                failCallbackRo();
+            if (failCallback === undefined) {
+                error.hidden = false;
+                error.innerText = obj.text;
+                return;
             }
-        } else {
-            if (getCookie("lang") === "en") {
-                callbackEn();
-            } else {
-                if (callbackRo === undefined || callbackRo === null) {
-                    callbackEn()
-                } else {
-                    callbackRo();
-                }
-            }
+            failCallback(obj);
+            return
         }
-
+        callback(obj);
     } catch (error) {
         if (error !== undefined) {
             error.hidden = false;
         }
-        if (getCookie("lang") === "en") {
-            if (failCallbackEn === undefined) {
-                error.innerText = obj.messageEn;
-            } else {
-                failCallbackEn();
-            }
-        } else {
-            if (failCallbackRo === undefined) {
-                if (failCallbackEn === undefined) {
-                    error.innerText = obj.messageRo;
-                } else {
-                    failCallbackEn();
-                }
-            } else {
-                failCallbackRo();
-            }
+        if (failCallback === undefined) {
+            error.innerText = obj.messageEn;
+            return;
         }
+        failCallback(obj);
     }
 }

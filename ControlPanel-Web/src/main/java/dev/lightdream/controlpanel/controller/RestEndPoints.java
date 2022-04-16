@@ -9,6 +9,7 @@ import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.dto.Command;
 import dev.lightdream.controlpanel.dto.data.LoginData;
 import dev.lightdream.controlpanel.dto.response.Response;
+import dev.lightdream.logger.Debugger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -65,6 +66,8 @@ public class RestEndPoints {
         if (cookie == null) {
             return Response.UNAUTHORISED("Invalid username or password");
         }
+
+        Debugger.log(cookie);
 
         return Response.OK(cookie);
     }

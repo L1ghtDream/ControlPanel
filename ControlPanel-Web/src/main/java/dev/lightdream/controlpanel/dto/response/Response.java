@@ -1,5 +1,6 @@
 package dev.lightdream.controlpanel.dto.response;
 
+import dev.lightdream.logger.Debugger;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +22,9 @@ public class Response {
     }
 
     public static Response OK(Object data) {
-        return new Response("200", "OK", data);
+        Response r = new Response("200", "OK", data);
+        Debugger.log(data);
+        return r;
     }
 
     @SuppressWarnings("unused")
