@@ -135,13 +135,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
             return;
         }
 
-        new Server(
-                serverID,
-                name,
-                path,
-                node,
-                port
-        ).save();
+        new Server(serverID, name, path, node, port).save();
     }
 
 
@@ -150,12 +144,6 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
             return;
         }
 
-        new Node(
-                nodeID,
-                name,
-                ip,
-                username,
-                sshPort
-        ).save();
+        new Node(nodeID, name, ip, username, sshPort).save();
     }
 }

@@ -1,7 +1,6 @@
 package dev.lightdream.controlpanel;
 
 import dev.lightdream.common.CommonMain;
-import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.controlpanel.controller.EndPoints;
@@ -9,14 +8,10 @@ import dev.lightdream.controlpanel.controller.RestEndPoints;
 import dev.lightdream.controlpanel.dto.Config;
 import dev.lightdream.controlpanel.manager.LogManager;
 import dev.lightdream.databasemanager.DatabaseMain;
-import dev.lightdream.databasemanager.dto.DriverConfig;
-import dev.lightdream.databasemanager.dto.SQLConfig;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
 import dev.lightdream.logger.Debugger;
 import org.springframework.boot.SpringApplication;
-
-import java.util.List;
 
 public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
 
@@ -29,13 +24,10 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
 
     //Config
     public Config config;
-    public SQLConfig sqlConfig;
-    public DriverConfig driverConfig;
 
     // Manager
     public LogManager logManager;
     public DatabaseManager databaseManager;
-    List<Server> cacheServers = null;
 
     public Main() {
         super();
@@ -120,7 +112,4 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         super.loadConfigs(fileManager);
     }
 
-    public String qrPath() {
-        return "C:/Users/raduv/OneDrive/Desktop/UserQRs/";
-    }
 }

@@ -55,7 +55,7 @@ public class Server extends PermissionTarget {
      */
     @Nullable
     public Integer getPID() {
-        String output = node.executeCommandOnNewSession(
+        String output = node.executeCommand(
                 CommonMain.instance.getConfig().PID_GRAB_CMD
                         .parse("port", String.valueOf(port))
                         .parse()
@@ -86,7 +86,7 @@ public class Server extends PermissionTarget {
             return 0.0;
         }
 
-        return Double.parseDouble(node.executeCommandOnNewSession(
+        return Double.parseDouble(node.executeCommand(
                 CommonMain.instance.getConfig().MEMORY_USAGE_CMD
                         .parse("pid", pid.toString())
                         .parse()
@@ -137,7 +137,7 @@ public class Server extends PermissionTarget {
             return 0.0;
         }
 
-        return Double.parseDouble(node.executeCommandOnNewSession(
+        return Double.parseDouble(node.executeCommand(
                 CommonMain.instance.getConfig().MEMORY_ALLOCATED_CMD
                         .parse("pid", pid.toString())
                         .parse()
@@ -172,7 +172,7 @@ public class Server extends PermissionTarget {
         }
 
 
-        return Double.parseDouble(node.executeCommandOnNewSession(
+        return Double.parseDouble(node.executeCommand(
                 CommonMain.instance.getConfig().CPU_USAGE_CMD
                         .parse("pid", pid.toString())
                         .parse()
@@ -191,7 +191,7 @@ public class Server extends PermissionTarget {
      */
     @SuppressWarnings("unused")
     public Double getStorageUsageReal() {
-        return Double.parseDouble(node.executeCommandOnNewSession(
+        return Double.parseDouble(node.executeCommand(
                 CommonMain.instance.getConfig().STORAGE_USAGE_CMD
                         .parse("path", path)
                         .parse()

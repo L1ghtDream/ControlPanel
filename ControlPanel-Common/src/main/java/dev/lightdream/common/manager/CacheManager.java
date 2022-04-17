@@ -21,9 +21,8 @@ public class CacheManager {
         memoryUsageCache = new Cache<>(cache -> {
             HashMap<Integer, Double> output = new HashMap<>();
 
-            CommonMain.instance.getServers().forEach(server -> {
-                output.put(server.id, server.getMemoryUsageReal());
-            });
+            CommonMain.instance.getServers().forEach(server ->
+                    output.put(server.id, server.getMemoryUsageReal()));
 
             cache.update(new ServersCache(output));
         }, 10 * 1000L); // 10s
@@ -31,9 +30,8 @@ public class CacheManager {
         memoryAllocationCache = new Cache<>(cache -> {
             HashMap<Integer, Double> output = new HashMap<>();
 
-            CommonMain.instance.getServers().forEach(server -> {
-                output.put(server.id, server.getMemoryAllocationReal());
-            });
+            CommonMain.instance.getServers().forEach(server ->
+                    output.put(server.id, server.getMemoryAllocationReal()));
 
             cache.update(new ServersCache(output));
         }, 10 * 1000L); // 10s
@@ -41,9 +39,8 @@ public class CacheManager {
         cpuUsageCache = new Cache<>(cache -> {
             HashMap<Integer, Double> output = new HashMap<>();
 
-            CommonMain.instance.getServers().forEach(server -> {
-                output.put(server.id, server.getCPUUsageReal());
-            });
+            CommonMain.instance.getServers().forEach(server ->
+                    output.put(server.id, server.getCPUUsageReal()));
 
             cache.update(new ServersCache(output));
         }, 20 * 1000L); // 20s
@@ -51,9 +48,8 @@ public class CacheManager {
         storageUsageCache = new Cache<>(cache -> {
             HashMap<Integer, Double> output = new HashMap<>();
 
-            CommonMain.instance.getServers().forEach(server -> {
-                output.put(server.id, server.getStorageUsageReal());
-            });
+            CommonMain.instance.getServers().forEach(server ->
+                    output.put(server.id, server.getStorageUsageReal()));
 
             cache.update(new ServersCache(output));
         }, 60 * 60 * 1000L); // 1h

@@ -76,65 +76,15 @@ public class SSHManager {
     }
 
     public static class NodeSSH {
-        public SSHSession session;
-        public SSHSession logSession;
-
         public Node node;
 
         public NodeSSH(Node node) {
             this.node = node;
-            this.session = new SSHSession(node);
-            this.logSession = new SSHSession(node);
         }
 
         public SSHSession createNew() {
             return new SSHSession(node);
         }
-
-        @Deprecated
-        public void setCommand(String command) {
-            session.setCommand(command);
-        }
-
-        @Deprecated
-        public void setCommandLog(String command) {
-            logSession.setCommand(command);
-        }
-
-        @SneakyThrows
-        @Deprecated
-        public void setOutputStream(ByteArrayOutputStream outputStream) {
-            session.setOutputStream(outputStream);
-        }
-
-        @SneakyThrows
-        @Deprecated
-        public void setOutputStreamLog(ByteArrayOutputStream outputStream) {
-            logSession.setOutputStream(outputStream);
-        }
-
-        @Deprecated
-        public boolean isConnected() {
-            return session.channel.isConnected();
-        }
-
-        @Deprecated
-        public boolean isConnectedLog() {
-            return logSession.channel.isConnected();
-        }
-
-        @SneakyThrows
-        @Deprecated
-        public void auth() {
-            session.auth();
-        }
-
-        @SneakyThrows
-        @Deprecated
-        public void authLog() {
-            logSession.auth();
-        }
-
     }
 
 }

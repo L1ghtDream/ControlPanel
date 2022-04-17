@@ -33,13 +33,14 @@ public class LogManager {
         new Thread(() ->
                 LambdaExecutor.LambdaCatch.NoReturnLambdaCatch.executeCatch(() -> {
                     SSHManager.NodeSSH ssh = server.node.getSSH();
+                    SSHManager.SSHSession session = ssh.createNew();
 
-                    ssh.setCommandLog("tail -f " + server.path + "/session.log");
+                    session.setCommand("tail -f " + server.path + "/session.log");
 
                     ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-                    ssh.setOutputStreamLog(responseStream);
+                    session.setOutputStream(responseStream);
 
-                    while (ssh.isConnectedLog()) {
+                    while (session.isConnected()) {
                         if (!responseStream.toString().equals("")) {
                             String output = responseStream.toString();
 
@@ -63,7 +64,7 @@ public class LogManager {
                         }
 
                         responseStream = new ByteArrayOutputStream();
-                        ssh.setOutputStreamLog(responseStream);
+                        session.setOutputStream(responseStream);
 
                         //noinspection BusyWait
                         Thread.sleep(100);

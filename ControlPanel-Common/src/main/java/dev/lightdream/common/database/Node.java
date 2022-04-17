@@ -49,24 +49,8 @@ public class Node extends PermissionTarget {
         return CommonMain.instance.getSSHManager().getSSH(this);
     }
 
-    public String sendCommand(String command) {
-        return LambdaExecutor.LambdaCatch.ReturnLambdaCatch.executeCatch(() -> {
-            SSHManager.NodeSSH ssh = getSSH();
-            ssh.setCommand(command);
-
-            ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-            ssh.setOutputStream(responseStream);
-
-            while (ssh.isConnected()) {
-                //noinspection BusyWait
-                Thread.sleep(100);
-            }
-
-            return responseStream.toString();
-        });
-    }
-
-    public String sendCommandOnNewSession(String command) {
+    @SuppressWarnings("unused")
+    public String executeCommand(String command) {
         return LambdaExecutor.LambdaCatch.ReturnLambdaCatch.executeCatch(() -> {
             SSHManager.NodeSSH ssh = getSSH();
             SSHManager.SSHSession session = ssh.createNew();
@@ -84,17 +68,9 @@ public class Node extends PermissionTarget {
         });
     }
 
-    public String executeCommand(String command) {
-        return sendCommand(command);
-    }
-
-    public String executeCommandOnNewSession(String command) {
-        return sendCommandOnNewSession(command);
-    }
-
     @SuppressWarnings("UnusedReturnValue")
     public String sendCommandToServer(String command, Server server) {
-        return sendCommand("screen -S " + server.serverID + " -X stuff '" + command + "\\n'");
+        return executeCommand("screen -S " + server.serverID + " -X stuff '" + command + "\\n'");
     }
 
     public List<Server> getServers() {
@@ -103,7 +79,7 @@ public class Node extends PermissionTarget {
 
     @SuppressWarnings("unused")
     public void installSFTPModule() {
-        sendCommand(CommonMain.instance.getConfig().SFTP_MODULE_INSTALL_CMD
+        executeCommand(CommonMain.instance.getConfig().SFTP_MODULE_INSTALL_CMD
                 .parse("path", CommonMain.instance.getConfig().sftpModuleInstallPath)
                 .parse("url", CommonMain.instance.getConfig().sftpModuleDownloadURL
                         .parse("version", CommonMain.instance.getVersion())
@@ -114,7 +90,7 @@ public class Node extends PermissionTarget {
 
     @SuppressWarnings("unused")
     public void install() {
-        sendCommand(CommonMain.instance.getConfig().EXECUTE_SCRIPT_CMD
+        executeCommand(CommonMain.instance.getConfig().EXECUTE_SCRIPT_CMD
                 .parse("url", CommonMain.instance.getConfig().nodeInstallScriptURL)
                 .parse()
         );

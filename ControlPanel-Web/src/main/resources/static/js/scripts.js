@@ -122,7 +122,7 @@ async function checkLoggedStatus() {
 }
 
 function redirect(path, removeQuotes = true) {
-    if(removeQuotes){
+    if (removeQuotes) {
         path = path.replace(/'/g, "");
         path = path.replace(/"/g, "");
     }

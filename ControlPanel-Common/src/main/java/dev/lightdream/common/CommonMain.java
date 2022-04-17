@@ -56,7 +56,9 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         return getDatabaseManager().getNodes();
     }
 
-    public abstract String qrPath();
+    public String qrPath() {
+        return getConfig().qrStorageLocation;
+    }
 
     public abstract CommonConfig getConfig();
 
@@ -78,7 +80,7 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         System.out.println(s);
     }
 
-    public void loadConfigs(FileManager fileManager){
+    public void loadConfigs(FileManager fileManager) {
         sqlConfig = fileManager.load(SQLConfig.class);
         driverConfig = fileManager.load(DriverConfig.class);
     }

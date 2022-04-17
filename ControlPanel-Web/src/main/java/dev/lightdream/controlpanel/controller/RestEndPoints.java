@@ -37,11 +37,11 @@ public class RestEndPoints {
             Server server = Utils.getServer(command.server);
             Node node = server.node;
 
-            if (!node.sendCommand("screen -ls " + server.serverID).contains("No Sockets found")) {
+            if (!node.executeCommand("screen -ls " + server.serverID).contains("No Sockets found")) {
                 return Response.LOCKED("Server is already running");
             }
 
-            node.sendCommand(Main.instance.config.SERVER_START_CMD
+            node.executeCommand(Main.instance.config.SERVER_START_CMD
                     .parse("path", server.path)
                     .parse("id", server.serverID)
                     .parse()

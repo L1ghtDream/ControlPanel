@@ -7,6 +7,7 @@ public class CommonConfig {
     public boolean debug = false;
 
     public String sftpModuleInstallPath = "/home/ControlPanel/modules/SFTP";
+    public String qrStorageLocation = "C:/Users/raduv/OneDrive/Desktop/UserQRs/";
 
     @SuppressWarnings("unused")
     public MessageBuilder sftpURL = new MessageBuilder(
