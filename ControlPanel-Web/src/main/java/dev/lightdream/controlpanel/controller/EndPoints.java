@@ -67,7 +67,8 @@ public class EndPoints {
         Debugger.log("Servers: " + Main.instance.getServers());
 
         model.addAttribute("servers",
-                Main.instance.getServers() // TODO Move back to permission based display
+                Main.instance.getServers()
+                // TODO Move back to permission based display
                 //Main.instance.getServers().stream().filter(server ->
                 //        user.hasPermission(server, PermissionEnum.SERVER_VIEW)).collect(Collectors.toList())
         );
