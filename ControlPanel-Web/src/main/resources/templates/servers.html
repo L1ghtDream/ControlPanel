@@ -1,4 +1,4 @@
-<!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL -->
+<!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL, ThymeleafVariablesResolveInspection -->
 <html lang="en">
 <!--suppress HtmlRequiredTitleElement -->
 <head th:replace="fragments/global :: head(title='Servers')"></head>
@@ -12,36 +12,41 @@
             <div class="container">
                 <div class="panel-table">
                     <table>
-                        <tr>
+                        <tr class="grid-card" th:each="server : ${servers}"
+                            th:onclick="redirect('/server/[[${server.serverID}]]')">
                             <td class="server">
                                 <div class="server-icon"><i class="mdi mdi-server"></i></div>
                             </td>
                             <td class="server-name">
-                                <a href="#">
-                                    <div class="sn-l">Creative</div>
-                                    <div class="sn-s">Dedicated Server</div>
-                                </a>
+                                <div class="s-label">Name</div>
+                                <div class="sn-l" th:text="${server.name}"></div>
                             </td>
                             <td class="server-type">
-                                <div class="s-label">Dedicated Server</div>
-                                <i class="mdi mdi-database"></i>HTZ-4:10062
+                                <div class="s-label">Server</div>
+                                <i class="mdi mdi-database"></i>
+                                <span th:text="${server.node.name} + ':' + ${server.port}"></span>
                             </td>
                             <td class="processor">
-                                <div class="s-label">Processor</div>
-                                <i class="mdi mdi-memory"></i>94.23%
+                                <div class="s-label">CPU</div>
+                                <i class="mdi mdi-memory"></i>
+                                <span th:text="${server.getCPUUsage} + '%'"></span>
                             </td>
                             <td class="ram">
                                 <div class="s-label">RAM</div>
-                                <i class="mdi mdi-chip"></i>780kB
+                                <i class="mdi mdi-chip"></i>
+                                <!-- <span th:text="${server.getMemoryUsageFormatted} + ' / ' + ${server.getMemoryAllocationFormatted}"></span> -->
+                                <span th:text="${server.getMemoryUsageFormatted}"></span>
                             </td>
                             <td class="storage">
                                 <div class="s-label">Storage</div>
-                                <i class="mdi mdi-cloud"></i>369kB
+                                <i class="mdi mdi-cloud"></i>
+                                <span th:text="${server.getStorageUsageFormatted}"></span>
                             </td>
                             <td class="status">
                                 <div class="bar"></div>
                             </td>
                         </tr>
+
                     </table>
                 </div>
             </div>

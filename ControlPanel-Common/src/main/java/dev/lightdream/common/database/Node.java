@@ -66,8 +66,30 @@ public class Node extends PermissionTarget {
         });
     }
 
+    public String sendCommandOnNewSession(String command) {
+        return LambdaExecutor.LambdaCatch.ReturnLambdaCatch.executeCatch(() -> {
+            SSHManager.NodeSSH ssh = getSSH();
+            SSHManager.SSHSession session = ssh.createNew();
+            session.setCommand(command);
+
+            ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
+            session.setOutputStream(responseStream);
+
+            while (session.isConnected()) {
+                //noinspection BusyWait
+                Thread.sleep(100);
+            }
+
+            return responseStream.toString();
+        });
+    }
+
     public String executeCommand(String command) {
         return sendCommand(command);
+    }
+
+    public String executeCommandOnNewSession(String command) {
+        return sendCommandOnNewSession(command);
     }
 
     @SuppressWarnings("UnusedReturnValue")

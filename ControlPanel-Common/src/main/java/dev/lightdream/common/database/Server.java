@@ -6,16 +6,20 @@ import dev.lightdream.common.dto.permission.PermissionTarget;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.text.DecimalFormat;
 
 @DatabaseTable(table = "servers")
 public class Server extends PermissionTarget {
 
+    private static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
     //Settings
     @DatabaseField(columnName = "server_id", unique = true)
     public String serverID;
     @DatabaseField(columnName = "name")
     public String name;
-
     //Location
     @DatabaseField(columnName = "path")
     public String path;
@@ -49,47 +53,156 @@ public class Server extends PermissionTarget {
     /**
      * @return The server's PID running on the port
      */
+    @Nullable
     public Integer getPID() {
-        return Integer.parseInt(node.executeCommand(
+        String output = node.executeCommandOnNewSession(
                 CommonMain.instance.getConfig().PID_GRAB_CMD
                         .parse("port", String.valueOf(port))
                         .parse()
-        ));
+        ).trim();
+
+        if (output.equals("")) {
+            return null;
+        }
+
+        return Integer.parseInt(output);
     }
 
     /**
-     * @return The server's memory usage in kb
+     * @return The server's memory usage in kb (cached)
+     */
+    public Double getMemoryUsage() {
+        return CommonMain.instance.cacheManager.memoryUsageCache.get().get(this);
+    }
+
+    /**
+     * @return The server's memory usage in kb (real)
      */
     @SuppressWarnings("unused")
-    public int getMemoryUsage() {
-        return Integer.parseInt(node.executeCommand(
+    public Double getMemoryUsageReal() {
+        Integer pid = getPID();
+
+        if (pid == null) {
+            return 0.0;
+        }
+
+        return Double.parseDouble(node.executeCommandOnNewSession(
                 CommonMain.instance.getConfig().MEMORY_USAGE_CMD
-                        .parse("pid", String.valueOf(getPID()))
+                        .parse("pid", pid.toString())
                         .parse()
-        ));
+        ).trim());
     }
 
     /**
-     * @return The server's memory allocation in kb
+     * @return The server's memory usage in formatted (cached)
      */
     @SuppressWarnings("unused")
-    public int getMemoryAllocation() {
-        return Integer.parseInt(node.executeCommand(
+    public String getMemoryUsageFormatted() {
+        return formatMemory(getMemoryUsage());
+    }
+
+    /**
+     * @return Formats amount of memory initially in kb into KB, MB, GB, TB according to the size
+     */
+    @NotNull
+    private String formatMemory(Double usage) {
+        if (usage < 1024) {
+            return decimalFormat.format(usage) + "KB";
+        }
+        if (usage < 1024 * 1024) {
+            return decimalFormat.format(usage / 1024) + "MB";
+        }
+        if (usage < 1024 * 1024 * 1024) {
+            return decimalFormat.format(usage / 1024 / 1024) + "GB";
+        }
+        return decimalFormat.format(usage / 1024 / 1024 / 1024) + "TB";
+    }
+
+    /**
+     * @return The server's memory allocation in kb (cached)
+     */
+    @SuppressWarnings("unused")
+    public Double getMemoryAllocation() {
+        return CommonMain.instance.cacheManager.memoryAllocationCache.get().get(this);
+    }
+
+    /**
+     * @return The server's memory allocation in kb (real)
+     */
+    @SuppressWarnings("unused")
+    public Double getMemoryAllocationReal() {
+        Integer pid = getPID();
+
+        if (pid == null) {
+            return 0.0;
+        }
+
+        return Double.parseDouble(node.executeCommandOnNewSession(
                 CommonMain.instance.getConfig().MEMORY_ALLOCATED_CMD
-                        .parse("pid", String.valueOf(getPID()))
+                        .parse("pid", pid.toString())
                         .parse()
-        ));
+        ).trim());
     }
 
     /**
-     * @return The server's CPU usage in percentages of a core
+     * @return The server's memory allocation formatted (cached)
      */
     @SuppressWarnings("unused")
-    public double getCPUUsage() {
-        return Double.parseDouble(node.executeCommand(
+    public String getMemoryAllocationFormatted() {
+        return formatMemory(getMemoryAllocation());
+    }
+
+    /**
+     * @return The server's CPU usage in percentages of a core (cached)
+     */
+    @SuppressWarnings("unused")
+    public Double getCPUUsage() {
+        return CommonMain.instance.cacheManager.cpuUsageCache.get().get(this);
+    }
+
+    /**
+     * @return The server's CPU usage in percentages of a core (real)
+     */
+    @SuppressWarnings("unused")
+    public Double getCPUUsageReal() {
+        Integer pid = getPID();
+
+        if (pid == null) {
+            return 0.0;
+        }
+
+
+        return Double.parseDouble(node.executeCommandOnNewSession(
                 CommonMain.instance.getConfig().CPU_USAGE_CMD
-                        .parse("pid", String.valueOf(getPID()))
+                        .parse("pid", pid.toString())
                         .parse()
-        ));
+        ).trim());
+    }
+
+    /**
+     * @return The server's storage usage in kb (cached)
+     */
+    public Double getStorageUsage() {
+        return CommonMain.instance.cacheManager.storageUsageCache.get().get(this);
+    }
+
+    /**
+     * @return The server's storage usage in kb (cached)
+     */
+    @SuppressWarnings("unused")
+    public Double getStorageUsageReal() {
+        return Double.parseDouble(node.executeCommandOnNewSession(
+                CommonMain.instance.getConfig().STORAGE_USAGE_CMD
+                        .parse("path", path)
+                        .parse()
+        ).trim().replaceAll("^[\n\r]", "").replaceAll("[\n\r]$", ""));
+    }
+
+    /**
+     * @return The server's storage usage formatted (cached)
+     */
+    @SuppressWarnings("unused")
+    public String getStorageUsageFormatted() {
+        return formatMemory(getStorageUsage());
     }
 }

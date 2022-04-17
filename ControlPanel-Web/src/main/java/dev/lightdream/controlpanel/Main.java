@@ -1,6 +1,7 @@
 package dev.lightdream.controlpanel;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.controlpanel.controller.EndPoints;
@@ -12,14 +13,12 @@ import dev.lightdream.databasemanager.dto.DriverConfig;
 import dev.lightdream.databasemanager.dto.SQLConfig;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
-import dev.lightdream.logger.LoggableMain;
-import dev.lightdream.logger.Logger;
-import dev.lightdream.messagebuilder.MessageBuilderManager;
+import dev.lightdream.logger.Debugger;
 import org.springframework.boot.SpringApplication;
 
-import java.io.File;
+import java.util.List;
 
-public class Main extends CommonMain implements LoggableMain, FileManagerMain, DatabaseMain {
+public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
 
     // Statics
     public static Main instance;
@@ -35,8 +34,8 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
 
     // Manager
     public LogManager logManager;
-    public FileManager fileManager;
     public DatabaseManager databaseManager;
+    List<Server> cacheServers = null;
 
     public Main() {
         super();
@@ -45,11 +44,6 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
 
     private void enable() {
         instance = this;
-        Logger.init(this);
-
-        fileManager = new FileManager(this);
-        MessageBuilderManager.init(fileManager);
-        loadConfigs();
 
         databaseManager = new DatabaseManager(this);
         createUsers(); // TODO remove for production
@@ -64,6 +58,7 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
         logManager = new LogManager();
         logManager.registerLogListener(databaseManager.getServer("test"));
 
+        Debugger.log(databaseManager.getServer("test").getPID());
     }
 
     public void createUsers() {
@@ -90,39 +85,28 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
                 "Test Server",
                 "/home/test",
                 databaseManager.getNode("htz-1"),
-                20002
+                20001
         );
-    }
-
-
-    @Override
-    public boolean debug() {
-        return config.debug;
-    }
-
-    @Override
-    public void log(String s) {
-        System.out.println(s);
-    }
-
-    @Override
-    public File getDataFolder() {
-        return new File(System.getProperty("user.dir") + "/config");
-    }
-
-    @Override
-    public SQLConfig getSqlConfig() {
-        return sqlConfig;
-    }
-
-    @Override
-    public DriverConfig getDriverConfig() {
-        return driverConfig;
-    }
-
-    @Override
-    public DatabaseManager getDatabaseManager() {
-        return databaseManager;
+        databaseManager.createServer("test1", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test2", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test3", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test4", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test5", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test6", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test7", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test8", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test9", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test10", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test11", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test12", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test13", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test14", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test15", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test16", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test17", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test18", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test19", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        databaseManager.createServer("test20", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
     }
 
     @Override
@@ -130,14 +114,13 @@ public class Main extends CommonMain implements LoggableMain, FileManagerMain, D
         return config;
     }
 
-    public void loadConfigs() {
+    @Override
+    public void loadConfigs(FileManager fileManager) {
         config = fileManager.load(Config.class);
-        sqlConfig = fileManager.load(SQLConfig.class);
-        driverConfig = fileManager.load(DriverConfig.class);
+        super.loadConfigs(fileManager);
     }
 
     public String qrPath() {
         return "C:/Users/raduv/OneDrive/Desktop/UserQRs/";
     }
-
 }

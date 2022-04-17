@@ -35,7 +35,8 @@ public class CommonConfig {
     );
 
     public MessageBuilder MEMORY_ALLOCATED_CMD = new MessageBuilder(
-            "pmap -x %pid% | tail -n 1 | awk '{print $3}'"
+            "jstat -gccapacity %pid% | tail -n 1 | awk '{print $2}'"
+            //"pmap -x %pid% | tail -n 1 | awk '{print $3}'"
     );
 
     public MessageBuilder PID_GRAB_CMD = new MessageBuilder(
@@ -48,6 +49,10 @@ public class CommonConfig {
 
     public MessageBuilder EXECUTE_SCRIPT_CMD = new MessageBuilder(
             "curl -s %url% | bash"
+    );
+
+    public MessageBuilder STORAGE_USAGE_CMD = new MessageBuilder(
+            "du -s %path% | awk '{print $1}'"
     );
 
 }

@@ -7,6 +7,7 @@ import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
+import dev.lightdream.logger.Debugger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("SpringMVCViewInspection")
 @Controller
@@ -64,9 +64,12 @@ public class EndPoints {
 
         User user = cookie.getUser();
 
+        Debugger.log("Servers: " + Main.instance.getServers());
+
         model.addAttribute("servers",
-                Main.instance.getServers().stream().filter(server ->
-                        user.hasPermission(server, PermissionEnum.SERVER_VIEW)).collect(Collectors.toList())
+                Main.instance.getServers() // TODO Move back to permission based display
+                //Main.instance.getServers().stream().filter(server ->
+                //        user.hasPermission(server, PermissionEnum.SERVER_VIEW)).collect(Collectors.toList())
         );
         return "servers.html";
     }

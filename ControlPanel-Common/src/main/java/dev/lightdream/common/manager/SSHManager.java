@@ -24,8 +24,7 @@ public class SSHManager {
         return ssh;
     }
 
-
-    public static class NodeSSH {
+    public static class SSHSession {
         public String nodeID;
         public String username;
         public String ip;
@@ -33,26 +32,18 @@ public class SSHManager {
 
         private Session session;
         private ChannelExec channel;
-        private Session logSession;
-        private ChannelExec logChannel;
 
-        public NodeSSH(Node node) {
+        public SSHSession(Node node) {
             this.nodeID = node.nodeID;
             this.username = node.username;
             this.ip = node.ip;
             this.port = node.sshPort;
             auth();
-            authLog();
         }
 
         public void setCommand(String command) {
             auth();
             channel.setCommand(command);
-        }
-
-        public void setCommandLog(String command) {
-            authLog();
-            logChannel.setCommand(command);
         }
 
         @SneakyThrows
@@ -61,18 +52,8 @@ public class SSHManager {
             channel.connect();
         }
 
-        @SneakyThrows
-        public void setOutputStreamLog(ByteArrayOutputStream outputStream) {
-            logChannel.setOutputStream(outputStream);
-            logChannel.connect();
-        }
-
         public boolean isConnected() {
             return channel.isConnected();
-        }
-
-        public boolean isConnectedLog() {
-            return logChannel.isConnected();
         }
 
         @SneakyThrows
@@ -92,19 +73,66 @@ public class SSHManager {
             }
         }
 
-        @SneakyThrows
-        public void authLog() {
-            if (logSession == null || !logSession.isConnected()) {
-                JSch jsch = new JSch();
-                jsch.addIdentity(CommonMain.instance.getDataFolder().toString() + "/ssh_keys/" + nodeID);
+    }
 
-                logSession = jsch.getSession(username, ip, port);
-                logSession.setConfig("StrictHostKeyChecking", "no");
-                logSession.connect();
-            }
-            if (logChannel == null || !logChannel.isConnected()) {
-                logChannel = (ChannelExec) logSession.openChannel("exec");
-            }
+    public static class NodeSSH {
+        public SSHSession session;
+        public SSHSession logSession;
+
+        public Node node;
+
+        public NodeSSH(Node node) {
+            this.node = node;
+            this.session = new SSHSession(node);
+            this.logSession = new SSHSession(node);
+        }
+
+        public SSHSession createNew() {
+            return new SSHSession(node);
+        }
+
+        @Deprecated
+        public void setCommand(String command) {
+            session.setCommand(command);
+        }
+
+        @Deprecated
+        public void setCommandLog(String command) {
+            logSession.setCommand(command);
+        }
+
+        @SneakyThrows
+        @Deprecated
+        public void setOutputStream(ByteArrayOutputStream outputStream) {
+            session.setOutputStream(outputStream);
+        }
+
+        @SneakyThrows
+        @Deprecated
+        public void setOutputStreamLog(ByteArrayOutputStream outputStream) {
+            logSession.setOutputStream(outputStream);
+        }
+
+        @Deprecated
+        public boolean isConnected() {
+            return session.channel.isConnected();
+        }
+
+        @Deprecated
+        public boolean isConnectedLog() {
+            return logSession.channel.isConnected();
+        }
+
+        @SneakyThrows
+        @Deprecated
+        public void auth() {
+            session.auth();
+        }
+
+        @SneakyThrows
+        @Deprecated
+        public void authLog() {
+            logSession.auth();
         }
 
     }

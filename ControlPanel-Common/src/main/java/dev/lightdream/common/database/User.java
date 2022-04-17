@@ -39,6 +39,9 @@ public class User extends DatabaseEntry {
     }
 
     public boolean hasPermission(PermissionTarget permissionTarget, PermissionEnum permission) {
+        if (permissionTarget == null) {
+            return false;
+        }
         return permissionTarget.hasPermission(this, permission);
     }
 }

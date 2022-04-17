@@ -121,7 +121,12 @@ async function checkLoggedStatus() {
     }
 }
 
-function redirect(path) {
+function redirect(path, removeQuotes = true) {
+    if(removeQuotes){
+        path = path.replace(/'/g, "");
+        path = path.replace(/"/g, "");
+    }
+
     window.location.href = path
 }
 
