@@ -10,10 +10,11 @@ import java.util.HashMap;
 
 public class CacheManager {
 
-    public Cache<ServersCache> memoryUsageCache;
-    public Cache<ServersCache> memoryAllocationCache;
-    public Cache<ServersCache> cpuUsageCache;
-    public Cache<ServersCache> storageUsageCache;
+    public Cache<ServersCache<Double>> memoryUsageCache;
+    public Cache<ServersCache<Double>> memoryAllocationCache;
+    public Cache<ServersCache<Double>> cpuUsageCache;
+    public Cache<ServersCache<Double>> storageUsageCache;
+    public Cache<ServersCache<Boolean>> onlineStatusCache;
 
     public CacheManager() {
         Logger.good("Starting caching...");
@@ -24,7 +25,7 @@ public class CacheManager {
             CommonMain.instance.getServers().forEach(server ->
                     output.put(server.id, server.getMemoryUsageReal()));
 
-            cache.update(new ServersCache(output));
+            cache.update(new ServersCache<>(output));
         }, 10 * 1000L); // 10s
 
         memoryAllocationCache = new Cache<>(cache -> {
@@ -33,7 +34,7 @@ public class CacheManager {
             CommonMain.instance.getServers().forEach(server ->
                     output.put(server.id, server.getMemoryAllocationReal()));
 
-            cache.update(new ServersCache(output));
+            cache.update(new ServersCache<>(output));
         }, 10 * 1000L); // 10s
 
         cpuUsageCache = new Cache<>(cache -> {
@@ -42,7 +43,7 @@ public class CacheManager {
             CommonMain.instance.getServers().forEach(server ->
                     output.put(server.id, server.getCPUUsageReal()));
 
-            cache.update(new ServersCache(output));
+            cache.update(new ServersCache<>(output));
         }, 20 * 1000L); // 20s
 
         storageUsageCache = new Cache<>(cache -> {
@@ -51,20 +52,28 @@ public class CacheManager {
             CommonMain.instance.getServers().forEach(server ->
                     output.put(server.id, server.getStorageUsageReal()));
 
-            cache.update(new ServersCache(output));
+            cache.update(new ServersCache<>(output));
         }, 60 * 60 * 1000L); // 1h
+
+        onlineStatusCache = new Cache<>(cache -> {
+            HashMap<Integer, Boolean> output = new HashMap<>();
+
+            CommonMain.instance.getServers().forEach(server ->
+                    output.put(server.id, server.isOnlineReal()));
+
+            cache.update(new ServersCache<>(output));
+        }, 20 * 1000L); // 20s
 
         Logger.good("Caching enabled!");
     }
 
     @AllArgsConstructor
-    public static class ServersCache {
-        public HashMap<Integer, Double> servers;
+    public static class ServersCache<T> {
+        public HashMap<Integer, T> servers;
 
-        public Double get(Server server) {
+        public T get(Server server) {
             return servers.get(server.id);
         }
     }
-
 
 }

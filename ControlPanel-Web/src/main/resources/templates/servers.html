@@ -43,7 +43,12 @@
                                 <span th:text="${server.getStorageUsageFormatted}"></span>
                             </td>
                             <td class="status">
-                                <div class="bar"></div>
+                                <div class="bar"
+                                     style="background: #8bc34a !important; box-shadow: 0 0 10px #8bc34a !important; "
+                                     th:if="${server.isOnline}"></div>
+                                <div class="bar"
+                                     style="background: #f44336 !important; box-shadow: 0 0 10px #f4433685 !important"
+                                     th:if="!${server.isOnline}"></div>
                             </td>
                         </tr>
 

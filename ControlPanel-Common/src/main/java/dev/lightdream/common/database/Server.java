@@ -205,4 +205,20 @@ public class Server extends PermissionTarget {
     public String getStorageUsageFormatted() {
         return formatMemory(getStorageUsage());
     }
+
+    /**
+     * @return Weather the server is running or not (cached)
+     */
+    @SuppressWarnings("unused")
+    public boolean isOnline() {
+        return CommonMain.instance.cacheManager.onlineStatusCache.get().get(this);
+    }
+
+    /**
+     * @return Weather the server is running or not
+     */
+    @SuppressWarnings("unused")
+    public boolean isOnlineReal() {
+        return getPID() != null;
+    }
 }
