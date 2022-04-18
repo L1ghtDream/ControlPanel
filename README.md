@@ -1,57 +1,10 @@
-# Requirements
-
-Run
-
-```shell
-apt update
-apt upgrade
-```
-
-# Server installation
-
-Go to the folder your want to install the panel to and run
-
-```shell
-curl -s https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/web_install.sh | bash
-sh start.sh
-```
-
-# Node Installation
-
-Go to the folder your want to install the node to and run
-
-```shell
-curl -s https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/node_install.sh | bash
-sh start.sh
-```
-
-You will need to create an ssh key for the node that you want to create and add in the folder /config/ssh_keys/[node_id]
-where `node_id` is the id of the node you want to install.
-
-## Creating an ssh key
-
-All the bellow are created with the user `root` if you want to create another user just change the user in all the
-commands.
-
-### Creating ip bound ssh key
-
-Do not forget the change the `[allowed_ip]` to the ip that you want to allow
-
-```shell
-ssh-keygen -m PEM
-echo "from=\"[allowed_ip]\" $(cat id_rsa.pub)" > authorized_keys
-```
-
-### Creating normal ssh key
-
-```shell
-ssh-keygen -m PEM
-echo "$(cat id_rsa.pub)" > authorized_keys
-```
-
-# Server setup
-
-# Admin user creation
-
-# User setup
-
+&emsp;&emsp;&emsp; A web application that lets the server managers and developers more easily interact with server
+instances. The panel is mainly aimed at java processes, but it may support other processes as well that use a port. 
+The panel lets the manager create new nodes ~ associated with new physical servers ~ as well as create new servers, 
+or instances of java. Each server has its own permissions for each user, so one developer can have access only to 
+what he needs to work on. The server allows created on SFTP servers on each node with custom credentials made with 
+the permissions of each user on each server. Each server is started in a linux screen so in case of a web crash the 
+servers will not have to suffer any damage. Each server can be accessed and has an open console (if the user has 
+permission to see it), as well as start / stop / restart / kill actions and stats about the server as CPU, Memory, 
+Storage usage and Memory allocation of the process (java only). As this is interacting directly with bare metal 
+the system administrator has the option to force all the users to have 2fa (via Google otp) enabled. 
