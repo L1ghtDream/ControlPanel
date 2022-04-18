@@ -27,12 +27,10 @@ public class Utils {
         return CommonMain.instance.getServers().stream().filter(server -> server.serverID.equals(id)).findFirst().orElse(null);
     }
 
-    @SuppressWarnings("unused")
     public static Node getNode(String id) {
         return CommonMain.instance.getNodes().stream().filter(node -> node.nodeID.equals(id)).findFirst().orElse(null);
     }
 
-    @SuppressWarnings("unused")
     public static String getTOTPCode(String secretKey) {
         Base32 base32 = new Base32();
         byte[] bytes = base32.decode(secretKey);

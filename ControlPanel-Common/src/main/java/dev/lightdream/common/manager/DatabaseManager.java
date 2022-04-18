@@ -5,8 +5,8 @@ import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.permission.Permission;
+import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
-import dev.lightdream.common.dto.permission.PermissionTarget;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.database.ProgrammaticHikariDatabaseManager;
 import dev.lightdream.databasemanager.dto.QueryConstrains;
@@ -28,14 +28,14 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
 
         registerDataType(Server.class, "TEXT");
         registerDataType(PermissionEnum.class, "TEXT");
-        registerDataType(PermissionTarget.class, "TEXT");
+        registerDataType(PermissionContainer.class, "TEXT");
 
         registerSDPair(Node.class, node -> node.id, id -> getNode((Integer) id));
         registerSDPair(User.class, user -> user.id, id -> getUser((Integer) id));
         registerSDPair(Server.class, server -> server.id, id -> getServer((Integer) id));
         registerSDPair(PermissionEnum.class, Enum::toString, str -> PermissionEnum.valueOf((String) str));
-        registerSDPair(PermissionTarget.class, PermissionTarget::getPermissionIdentifier,
-                str -> PermissionTarget.getByIdentifier((String) str));
+        registerSDPair(PermissionContainer.class, PermissionContainer::getPermissionIdentifier,
+                str -> PermissionContainer.getByIdentifier((String) str));
 
         setup(Node.class);
         setup(Server.class);
@@ -43,12 +43,10 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         setup(User.class);
     }
 
-    @SuppressWarnings("unused")
     public List<Node> getNodes() {
         return get(Node.class).query();
     }
 
-    @SuppressWarnings("unused")
     @Nullable
     public Node getNode(int id) {
         return get(Node.class).query(
@@ -64,12 +62,10 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
                 .stream().findAny().orElse(null);
     }
 
-    @SuppressWarnings("unused")
     public List<Server> getServers() {
         return get(Server.class).query();
     }
 
-    @SuppressWarnings("unused")
     @Nullable
     public Server getServer(int id) {
         return get(Server.class).query(
@@ -85,7 +81,6 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
                 .stream().findAny().orElse(null);
     }
 
-    @SuppressWarnings("unused")
     @Nullable
     public User getUser(int id) {
         return get(User.class).query(
@@ -94,7 +89,6 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
                 .stream().findAny().orElse(null);
     }
 
-    @SuppressWarnings("unused")
     public User getUser(String username) {
         return get(User.class).query(
                         new QueryConstrains().equals("username", username)
@@ -102,7 +96,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
                 .stream().findAny().orElse(null);
     }
 
-    public List<Permission> getPermissions(User user, PermissionTarget target) {
+    public List<Permission> getPermissions(User user, PermissionContainer target) {
         return get(Permission.class).query(
                 new QueryConstrains().and(
                         new QueryConstrains().equals("user_id", user.id),
@@ -111,7 +105,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         ).query();
     }
 
-    public List<Permission> getPermissions(PermissionTarget target) {
+    public List<Permission> getPermissions(PermissionContainer target) {
         return get(Permission.class).query(
                 new QueryConstrains().equals("target", target.getPermissionIdentifier())
         ).query();

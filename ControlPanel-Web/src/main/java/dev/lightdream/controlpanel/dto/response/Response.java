@@ -1,6 +1,5 @@
 package dev.lightdream.controlpanel.dto.response;
 
-import dev.lightdream.logger.Debugger;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -22,12 +21,9 @@ public class Response {
     }
 
     public static Response OK(Object data) {
-        Response r = new Response("200", "OK", data);
-        Debugger.log(data);
-        return r;
+        return new Response("200", "OK", data);
     }
 
-    @SuppressWarnings("unused")
     public static Response UNAUTHORISED() {
         return new Response("401", "Unauthorised");
     }

@@ -52,9 +52,7 @@ public class LogManager {
 
                             List<String> logList = new ArrayList<>(List.of(output.split("\n")));
                             if (output.endsWith("\n")) {
-                                for (int i = 0; i < logList.size(); i++) {
-                                    logList.set(i, logList.get(i) + "<br>");
-                                }
+                                logList.replaceAll(s -> s + "<br>");
                             }
 
                             Log newLog = new Log(logList);

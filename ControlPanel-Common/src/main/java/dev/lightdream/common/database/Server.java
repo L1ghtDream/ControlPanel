@@ -1,10 +1,11 @@
 package dev.lightdream.common.database;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
-import dev.lightdream.common.dto.permission.PermissionTarget;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +13,8 @@ import org.jetbrains.annotations.Nullable;
 import java.text.DecimalFormat;
 
 @DatabaseTable(table = "servers")
-public class Server extends PermissionTarget {
+@NoArgsConstructor
+public class Server extends PermissionContainer {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
     //Settings
@@ -36,10 +38,6 @@ public class Server extends PermissionTarget {
         this.port = port;
     }
 
-    @SuppressWarnings("unused")
-    public Server() {
-    }
-
     @Override
     public PermissionEnum.PermissionType getType() {
         return PermissionEnum.PermissionType.SERVER;
@@ -50,9 +48,6 @@ public class Server extends PermissionTarget {
         node.sendCommandToServer(command, this);
     }
 
-    /**
-     * @return The server's PID running on the port
-     */
     @Nullable
     public Integer getPID() {
         String output = node.executeCommand(
@@ -78,7 +73,6 @@ public class Server extends PermissionTarget {
     /**
      * @return The server's memory usage in kb (real)
      */
-    @SuppressWarnings("unused")
     public Double getMemoryUsageReal() {
         Integer pid = getPID();
 
@@ -121,7 +115,6 @@ public class Server extends PermissionTarget {
     /**
      * @return The server's memory allocation in kb (cached)
      */
-    @SuppressWarnings("unused")
     public Double getMemoryAllocation() {
         return CommonMain.instance.cacheManager.memoryAllocationCache.get().get(this);
     }
@@ -129,7 +122,6 @@ public class Server extends PermissionTarget {
     /**
      * @return The server's memory allocation in kb (real)
      */
-    @SuppressWarnings("unused")
     public Double getMemoryAllocationReal() {
         Integer pid = getPID();
 
@@ -163,7 +155,6 @@ public class Server extends PermissionTarget {
     /**
      * @return The server's CPU usage in percentages of a core (real)
      */
-    @SuppressWarnings("unused")
     public Double getCPUUsageReal() {
         Integer pid = getPID();
 
@@ -189,7 +180,6 @@ public class Server extends PermissionTarget {
     /**
      * @return The server's storage usage in kb (cached)
      */
-    @SuppressWarnings("unused")
     public Double getStorageUsageReal() {
         return Double.parseDouble(node.executeCommand(
                 CommonMain.instance.getConfig().STORAGE_USAGE_CMD
@@ -217,7 +207,6 @@ public class Server extends PermissionTarget {
     /**
      * @return Weather the server is running or not
      */
-    @SuppressWarnings("unused")
     public boolean isOnlineReal() {
         return getPID() != null;
     }

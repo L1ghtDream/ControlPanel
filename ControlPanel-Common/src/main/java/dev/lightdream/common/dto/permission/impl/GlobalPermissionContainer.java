@@ -1,15 +1,15 @@
 package dev.lightdream.common.dto.permission.impl;
 
+import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
-import dev.lightdream.common.dto.permission.PermissionTarget;
 
-public class GlobalPermissionTarget extends PermissionTarget {
+public class GlobalPermissionContainer extends PermissionContainer {
 
-    public static GlobalPermissionTarget instance;
+    public static GlobalPermissionContainer instance;
 
-    public static GlobalPermissionTarget getInstance() {
+    public static GlobalPermissionContainer getInstance() {
         if (instance == null) {
-            instance = new GlobalPermissionTarget();
+            instance = new GlobalPermissionContainer();
         }
         return instance;
     }

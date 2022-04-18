@@ -7,7 +7,6 @@ import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
-import dev.lightdream.logger.Debugger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -63,8 +62,6 @@ public class EndPoints {
         }
 
         User user = cookie.getUser();
-
-        Debugger.log("Servers: " + Main.instance.getServers());
 
         model.addAttribute("servers",
                 Main.instance.getServers()

@@ -6,21 +6,21 @@ import java.util.List;
 public enum PermissionEnum {
 
     // Global perms
-    /* NOT IMPLEMENTED */ GLOBAL_MANAGE_USERS,
-    /* NOT IMPLEMENTED */ GLOBAL_MANAGE_NODES,
+    GLOBAL_MANAGE_USERS, // Create / Delete / Change password / Disable OTP for users
+    GLOBAL_MANAGE_NODES, // Create / Delete / Manage nodes
 
-    // Node Perms
-    /* NOT IMPLEMENTED */ NODE_VIEW, // View node
-    /* NOT IMPLEMENTED */ NODE_MANAGE, // Create, Delete, Edit nodes
-    /* NOT IMPLEMENTED */ NODE_CREATE_SERVER, // Create server on node
+
+    NODE_VIEW, // View node
+    NODE_MANAGE, // Create, Delete, Edit nodes
+    NODE_CREATE_SERVER, // Create server on node
 
     // Server Perms
-    /* NOT IMPLEMENTED */ SERVER_VIEW, // View server
-    /* IMPLEMENTED */ SERVER_CONSOLE, // Read, Send commands
-    /* IMPLEMENTED */ SERVER_CONTROL, // Start, Stop, Restart, Kill
-    /* NOT IMPLEMENTED */ SERVER_MANAGE, // Delete server
-    /* NOT IMPLEMENTED */ SERVER_FILE_MANAGER, // Read, Write Files
-    /* NOT IMPLEMENTED */ SERVER_USER_MANAGER; // Add, remover users, Change perms
+    SERVER_VIEW, // View server
+    SERVER_CONSOLE, // Read, Send commands
+    SERVER_CONTROL, // Start, Stop, Restart, Kill
+    SERVER_MANAGE, // Delete server
+    SERVER_FILE_MANAGER, // Read, Write Files
+    SERVER_USER_MANAGER; // Add, remover users, Change perms
 
 
     @SuppressWarnings("unused")

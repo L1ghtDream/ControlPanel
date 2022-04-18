@@ -1,19 +1,21 @@
 package dev.lightdream.common.database;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
-import dev.lightdream.common.dto.permission.PermissionTarget;
 import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.lambda.LambdaExecutor;
+import lombok.NoArgsConstructor;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @DatabaseTable(table = "nodes")
-public class Node extends PermissionTarget {
+@NoArgsConstructor
+public class Node extends PermissionContainer {
 
     //Settings
     @DatabaseField(columnName = "node_id", unique = true)
@@ -27,10 +29,6 @@ public class Node extends PermissionTarget {
     public String username;
     @DatabaseField(columnName = "ssh_port")
     public int sshPort;
-
-    @SuppressWarnings("unused")
-    public Node() {
-    }
 
     public Node(String nodeID, String name, String ip, String username, int sshPort) {
         this.nodeID = nodeID;
@@ -49,7 +47,6 @@ public class Node extends PermissionTarget {
         return CommonMain.instance.getSSHManager().getSSH(this);
     }
 
-    @SuppressWarnings("unused")
     public String executeCommand(String command) {
         return LambdaExecutor.LambdaCatch.ReturnLambdaCatch.executeCatch(() -> {
             SSHManager.NodeSSH ssh = getSSH();

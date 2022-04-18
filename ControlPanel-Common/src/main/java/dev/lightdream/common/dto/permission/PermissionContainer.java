@@ -2,23 +2,27 @@ package dev.lightdream.common.dto.permission;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.User;
-import dev.lightdream.common.dto.permission.impl.GlobalPermissionTarget;
+import dev.lightdream.common.dto.permission.impl.GlobalPermissionContainer;
 import dev.lightdream.databasemanager.dto.DatabaseEntry;
 
 import java.util.List;
 
-public abstract class PermissionTarget extends DatabaseEntry {
+public abstract class PermissionContainer extends DatabaseEntry {
 
-
-    public PermissionTarget() {
+    public PermissionContainer() {
         super(CommonMain.instance);
     }
 
-    public static PermissionTarget getByIdentifier(String identifier) {
+    /**
+     * @param identifier Unique identifier for the server / node / global in the format
+     *                   {@link PermissionEnum.PermissionType}_{@link #id}
+     * @return The server / node / global context of the identifier
+     */
+    public static PermissionContainer getByIdentifier(String identifier) {
         PermissionEnum.PermissionType type = PermissionEnum.PermissionType.valueOf(identifier.split("_")[0]);
         int id = Integer.parseInt(identifier.split("_")[1]);
 
-        PermissionTarget target = null;
+        PermissionContainer target = null;
 
         switch (type) {
             case SERVER:
@@ -28,7 +32,7 @@ public abstract class PermissionTarget extends DatabaseEntry {
                 target = CommonMain.instance.getDatabaseManager().getNode(id);
                 break;
             case GLOBAL:
-                target = GlobalPermissionTarget.getInstance();
+                target = GlobalPermissionContainer.getInstance();
                 break;
         }
 
@@ -69,6 +73,9 @@ public abstract class PermissionTarget extends DatabaseEntry {
         permission.delete();
     }
 
+    /**
+     * @return Unique identifier for the server / node / global in the format {@link PermissionEnum.PermissionType}_{@link #id}
+     */
     public String getPermissionIdentifier() {
         return getType() + "_" + id;
     }

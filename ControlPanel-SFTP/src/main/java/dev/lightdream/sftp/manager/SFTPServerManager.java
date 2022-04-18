@@ -3,7 +3,6 @@ package dev.lightdream.sftp.manager;
 import com.google.common.hash.Hashing;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.logger.Debugger;
 import dev.lightdream.logger.Logger;
 import dev.lightdream.sftp.Main;
 import lombok.SneakyThrows;
@@ -24,67 +23,64 @@ public class SFTPServerManager {
     @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
     @SneakyThrows
     public SFTPServerManager() {
-        SshServer sshd = SshServer.setUpDefaultServer();
+        try (SshServer sshd = SshServer.setUpDefaultServer()) {
+            // Connection settings
+            sshd.setPort(Main.instance.config.port);
 
-        // Connection settings
-        sshd.setPort(Main.instance.config.port);
+            // SSH key
+            sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(new File(Main.instance.getDataFolder() + "/host.ser")));
 
-        // SSH key
-        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(new File(Main.instance.getDataFolder() + "/host.ser")));
+            // Factory
+            SftpSubsystemFactory subsystemFactory = new SftpSubsystemFactory.Builder()
+                    .build();
 
-        // Factory
-        SftpSubsystemFactory subsystemFactory = new SftpSubsystemFactory.Builder()
-                .build();
+            sshd.setSubsystemFactories(Arrays.asList(
+                    subsystemFactory
+            ));
 
-        sshd.setSubsystemFactories(Arrays.asList(
-                subsystemFactory
-        ));
+            // User home directory
+            VirtualFileSystemFactory virtualFileSystemFactory = new VirtualFileSystemFactory();
 
-        // User home directory
-        VirtualFileSystemFactory virtualFileSystemFactory = new VirtualFileSystemFactory();
+            HashMap<String, String> sftpAccounts = new HashMap<>();
 
-        HashMap<String, String> sftpAccounts = new HashMap<>();
+            //noinspection CodeBlock2Expr
+            Utils.getNode(Main.instance.config.nodeID).getServers().forEach(server -> {
+                        server.getPermissions().stream().filter(permission ->
+                                        permission.permission == PermissionEnum.SERVER_FILE_MANAGER)
+                                .collect(Collectors.toList()).forEach(permission -> {
+                                            String username = permission.user.username + "_" + server.serverID;
+                                            sftpAccounts.put(username, permission.user.password);
+                                            virtualFileSystemFactory.setUserHomeDir(username, Paths.get(server.path));
+                                        }
+                                );
+                    }
 
-        //noinspection CodeBlock2Expr
-        Utils.getNode(Main.instance.config.nodeID).getServers().forEach(server -> {
-                    server.getPermissions().stream().filter(permission ->
-                                    permission.permission == PermissionEnum.SERVER_FILE_MANAGER)
-                            .collect(Collectors.toList()).forEach(permission -> {
-                                        String username = permission.user.username + "_" + server.serverID;
-                                        sftpAccounts.put(username, permission.user.password);
-                                        Debugger.log(username + " -> " + server.path);
-                                        virtualFileSystemFactory.setUserHomeDir(username, Paths.get(server.path));
-                                    }
-                            );
+            );
+
+            sshd.setFileSystemFactory(virtualFileSystemFactory);
+
+            // Sub-System
+            sshd.setSubsystemFactories(Arrays.asList(
+                    new SftpSubsystemFactory()
+            ));
+
+            sshd.setPasswordAuthenticator((username, _password, session) -> {
+                if (!sftpAccounts.containsKey(username)) {
+                    return false;
                 }
 
-        );
+                String passwordHash = Hashing.sha256()
+                        .hashString(_password, StandardCharsets.UTF_8)
+                        .toString();
+                String password = sftpAccounts.get(username);
 
-        sshd.setFileSystemFactory(virtualFileSystemFactory);
+                return password.equals(passwordHash);
+            });
 
-        // Sub-System
-        sshd.setSubsystemFactories(Arrays.asList(
-                new SftpSubsystemFactory()
-        ));
-
-        sshd.setPasswordAuthenticator((username, _password, session) -> {
-            if (!sftpAccounts.containsKey(username)) {
-                return false;
-            }
-
-            String passwordHash = Hashing.sha256()
-                    .hashString(_password, StandardCharsets.UTF_8)
-                    .toString();
-            String password = sftpAccounts.get(username);
-
-            Debugger.log(username + " : " + password + " vs " + passwordHash);
-
-            return password.equals(passwordHash);
-        });
-
-        // Start and log
-        sshd.start();
-        Logger.good("SFTP Server started");
+            // Start and log
+            sshd.start();
+            Logger.good("SFTP Server started");
+        }
     }
 
 }

@@ -5,7 +5,6 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
-import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 
 import java.io.ByteArrayOutputStream;
@@ -60,7 +59,6 @@ public class SSHManager {
         public void auth() {
             if (session == null || !session.isConnected()) {
                 JSch jsch = new JSch();
-                Debugger.log("Grabbing ssh key from " + CommonMain.instance.getDataFolder().toString() + "/ssh_keys/" + nodeID);
                 jsch.addIdentity(CommonMain.instance.getDataFolder().toString() + "/ssh_keys/" + nodeID);
 
                 session = jsch.getSession(username, ip, port);

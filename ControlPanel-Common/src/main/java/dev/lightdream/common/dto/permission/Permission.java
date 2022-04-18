@@ -14,14 +14,14 @@ public class Permission extends DatabaseEntry {
     @DatabaseField(columnName = "permission")
     public PermissionEnum permission;
     @DatabaseField(columnName = "target")
-    public PermissionTarget target;
+    public PermissionContainer target;
 
     @SuppressWarnings("unused")
     public Permission() {
         super(CommonMain.instance);
     }
 
-    public Permission(User user, PermissionEnum permission, PermissionTarget target) {
+    public Permission(User user, PermissionEnum permission, PermissionContainer target) {
         super(CommonMain.instance);
         this.user = user;
         this.permission = permission;

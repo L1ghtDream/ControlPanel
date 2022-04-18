@@ -10,7 +10,6 @@ import dev.lightdream.controlpanel.manager.LogManager;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
-import dev.lightdream.logger.Debugger;
 import org.springframework.boot.SpringApplication;
 
 public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
@@ -34,6 +33,7 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         enable();
     }
 
+    @SuppressWarnings("resource")
     private void enable() {
         instance = this;
 
@@ -49,8 +49,6 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
 
         logManager = new LogManager();
         logManager.registerLogListener(databaseManager.getServer("test"));
-
-        Debugger.log(databaseManager.getServer("test").getPID());
     }
 
     public void createUsers() {

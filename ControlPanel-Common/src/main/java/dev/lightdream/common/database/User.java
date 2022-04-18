@@ -1,8 +1,8 @@
 package dev.lightdream.common.database;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
-import dev.lightdream.common.dto.permission.PermissionTarget;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
@@ -38,10 +38,10 @@ public class User extends DatabaseEntry {
         return path;
     }
 
-    public boolean hasPermission(PermissionTarget permissionTarget, PermissionEnum permission) {
-        if (permissionTarget == null) {
+    public boolean hasPermission(PermissionContainer PermissionContainer, PermissionEnum permission) {
+        if (PermissionContainer == null) {
             return false;
         }
-        return permissionTarget.hasPermission(this, permission);
+        return PermissionContainer.hasPermission(this, permission);
     }
 }
