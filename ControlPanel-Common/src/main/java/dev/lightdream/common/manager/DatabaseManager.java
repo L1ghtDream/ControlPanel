@@ -10,6 +10,7 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.database.ProgrammaticHikariDatabaseManager;
 import dev.lightdream.databasemanager.dto.QueryConstrains;
+import dev.lightdream.logger.Debugger;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
@@ -23,18 +24,20 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
     @Override
     public void setup() {
 
-        registerDataType(Node.class, "INT");
+        registerDataType(Node.class, "TEXT");
         registerDataType(User.class, "INT");
-
         registerDataType(Server.class, "TEXT");
         registerDataType(PermissionEnum.class, "TEXT");
         registerDataType(PermissionContainer.class, "TEXT");
 
-        registerSDPair(Node.class, node -> node.id, id -> getNode((Integer) id));
-        registerSDPair(User.class, user -> user.id, id -> getUser((Integer) id));
-        registerSDPair(Server.class, server -> server.id, id -> getServer((Integer) id));
-        registerSDPair(PermissionEnum.class, Enum::toString, str -> PermissionEnum.valueOf((String) str));
-        registerSDPair(PermissionContainer.class, PermissionContainer::getPermissionIdentifier,
+        registerSDPair(User.class, user -> user.id, id -> {
+            Debugger.log("User ID: " + id);
+            return getUser((Integer) id);
+        });
+        registerSDPair(Node.class, node -> "\"" + node.getIdentifier() + "\"", id -> (Node) Node.getByIdentifier((String) id));
+        registerSDPair(Server.class, server -> "\"" + server.getIdentifier() + "\"", id -> (Server) Node.getByIdentifier((String) id));
+        registerSDPair(PermissionEnum.class, permission -> "\""  + permission.toString()+ "\"", str -> PermissionEnum.valueOf((String) str));
+        registerSDPair(PermissionContainer.class, PermissionContainer::getIdentifier,
                 str -> PermissionContainer.getByIdentifier((String) str));
 
         setup(Node.class);
@@ -100,14 +103,14 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         return get(Permission.class).query(
                 new QueryConstrains().and(
                         new QueryConstrains().equals("user_id", user.id),
-                        new QueryConstrains().equals("target", target.getPermissionIdentifier())
+                        new QueryConstrains().equals("target", target.getIdentifier())
                 )
         ).query();
     }
 
     public List<Permission> getPermissions(PermissionContainer target) {
         return get(Permission.class).query(
-                new QueryConstrains().equals("target", target.getPermissionIdentifier())
+                new QueryConstrains().equals("target", target.getIdentifier())
         ).query();
     }
 

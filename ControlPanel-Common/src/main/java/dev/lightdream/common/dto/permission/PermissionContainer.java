@@ -76,7 +76,7 @@ public abstract class PermissionContainer extends DatabaseEntry {
     /**
      * @return Unique identifier for the server / node / global in the format {@link PermissionEnum.PermissionType}_{@link #id}
      */
-    public String getPermissionIdentifier() {
+    public String getIdentifier() {
         return getType() + "_" + id;
     }
 
@@ -86,4 +86,8 @@ public abstract class PermissionContainer extends DatabaseEntry {
         return CommonMain.instance.getDatabaseManager().getPermissions(this);
     }
 
+    @Override
+    public String toString() {
+        return getIdentifier();
+    }
 }

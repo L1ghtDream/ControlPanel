@@ -1,7 +1,9 @@
 package dev.lightdream.controlpanel;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.CommonConfig;
+import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.controlpanel.controller.EndPoints;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
@@ -38,9 +40,9 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         instance = this;
 
         databaseManager = new DatabaseManager(this);
-        createUsers(); // TODO remove for production
         createNodes(); // TODO remove for production
         createServers(); // TODO remove for production
+        createUsers(); // TODO remove for production
 
         this.endPoints = new EndPoints();
         this.restEndPoints = new RestEndPoints();
@@ -48,15 +50,21 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         SpringApplication.run(Executor.class);
 
         logManager = new LogManager();
-        logManager.registerLogListener(databaseManager.getServer("test"));
+            logManager.registerLogListener(databaseManager.getServer("test"));
+
     }
 
     public void createUsers() {
+        System.out.println("Creating dev users... ");
         databaseManager.createUser(
                 "admin",
                 "passwd",
                 "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
         );
+        User user = databaseManager.getUser("admin");
+        for (PermissionEnum permission : PermissionEnum.values()) {
+            databaseManager.getServer("test").addPermission(user, permission);
+        }
     }
 
     public void createNodes() {
@@ -77,26 +85,26 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
                 databaseManager.getNode("htz-1"),
                 20001
         );
-        databaseManager.createServer("test1", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test2", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test3", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test4", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test5", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test6", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test7", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test8", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test9", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test10", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test11", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test12", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test13", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test14", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test15", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test16", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test17", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test18", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test19", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
-        databaseManager.createServer("test20", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test1", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test2", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test3", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test4", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test5", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test6", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test7", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test8", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test9", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test10", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test11", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test12", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test13", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test14", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test15", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test16", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test17", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test18", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test19", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
+        //databaseManager.createServer("test20", "Test Server", "/home/test", databaseManager.getNode("htz-1"), 20001);
     }
 
     @Override
@@ -111,3 +119,12 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     }
 
 }
+
+/*
+
+TODO:
+- Add User#addPermission
+- Add dev mode to disable caching and return dummy values for RAM, CPU, storage and online status
+- Add protection agains badly given permissions (ex. SERVER type to NODE)
+
+ */

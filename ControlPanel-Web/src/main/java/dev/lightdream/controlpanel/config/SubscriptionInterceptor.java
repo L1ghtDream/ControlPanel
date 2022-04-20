@@ -1,21 +1,26 @@
 package dev.lightdream.controlpanel.config;
 
+import com.google.gson.Gson;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.data.Cookie;
+import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
+import dev.lightdream.controlpanel.dto.Command;
+import dev.lightdream.logger.Debugger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.stomp.StompCommand;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+
+import java.util.List;
 
 public class SubscriptionInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(@NotNull Message<?> message, @NotNull MessageChannel channel) {
-        return message;
-
-        /*
         StompCommand command = (StompCommand) message.getHeaders().get("stompCommand");
 
         if (command == null) {
@@ -32,7 +37,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         List<String> passwords = headers.getNativeHeader("password");
 
         if (usernames == null || passwords == null) {
-            throw new IllegalArgumentException("401");
+            throw new IllegalArgumentException("401. Null credentials");
         }
 
         String user = usernames.get(0);
@@ -40,24 +45,23 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
 
         if (command.equals(StompCommand.CONNECT)) {
             if (!validateConnection(user, password)) {
-                throw new IllegalArgumentException("401");
+                throw new IllegalArgumentException("401. Invalid credentials for connect");
             }
         }
 
         if (command.equals(StompCommand.SUBSCRIBE)) {
             if (!validateSubscription(user, password, headers.getDestination())) {
-                throw new IllegalArgumentException("401");
+                throw new IllegalArgumentException("401. Invalid credentials for subscribe");
             }
         }
 
         if (command.equals(StompCommand.SEND)) {
-            if (!validateCommand(user, password, headers.getDestination(), Utils.payloadToString(message))) {
-                throw new IllegalArgumentException("401");
+            if (!validateCommand(user, password, Utils.payloadToString(message))) {
+                throw new IllegalArgumentException("401. Invalid credentials for send");
             }
         }
 
         return message;
-        */
     }
 
     private boolean validateConnection(String username, String password) {
@@ -67,9 +71,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
 
         Cookie cookie = new Cookie(username, password);
 
-        //todo remove comment
-        //return cookie.validate();
-        return true;
+        return cookie.validate();
     }
 
     private boolean validateSubscription(String username, String password, String destination) {
@@ -84,32 +86,26 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         User user = cookie.getUser();
         Server server = Utils.getServer(serverName);
 
-        //todo remove comment
-        //return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
-        return true;
+        return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
     }
 
-    private boolean validateCommand(String username, String password, String destination, String commandJson) {
-        if (username == null || password == null || destination == null || commandJson == null) {
+    private boolean validateCommand(String username, String password, String commandJson) {
+        if (username == null || password == null || commandJson == null) {
+            Debugger.log(1);
             return false;
         }
 
-        // /server/{server}/api/console
-        String serverName = destination.split("/")[2];
-
+        Command command = new Gson().fromJson(commandJson, Command.class);
         Cookie cookie = new Cookie(username, password);
         User user = cookie.getUser();
-        Server server = Utils.getServer(serverName);
+        Server server = command.getServer();
 
-        //todo remove comment
-        //Command command = new Gson().fromJson(commandJson, Command.class);
-        //if (command.isServerCommand()) {
-        //    return user.hasPermission(server, PermissionEnum.SERVER_CONTROL);
-        //}
+        if (command.isServerCommand()) {
+            Debugger.log(2);
+            return user.hasPermission(server, PermissionEnum.SERVER_CONTROL);
+        }
 
-        //todo remove comment
-        //return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
-        return true;
+        return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
     }
 
 
