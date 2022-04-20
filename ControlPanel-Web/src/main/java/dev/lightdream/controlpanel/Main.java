@@ -1,7 +1,9 @@
 package dev.lightdream.controlpanel;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.CommonConfig;
+import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.controlpanel.controller.EndPoints;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
@@ -38,9 +40,9 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         instance = this;
 
         databaseManager = new DatabaseManager(this);
-        createUsers(); // TODO remove for production
         createNodes(); // TODO remove for production
         createServers(); // TODO remove for production
+        createUsers(); // TODO remove for production
 
         this.endPoints = new EndPoints();
         this.restEndPoints = new RestEndPoints();
@@ -52,11 +54,16 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     }
 
     public void createUsers() {
+        System.out.println("Creating dev users... ");
         databaseManager.createUser(
                 "admin",
                 "passwd",
                 "UHPVYHCTF3LRTCGAHEJCX3MYTMRHPXPM"
         );
+        User user = databaseManager.getUser("admin");
+        for (PermissionEnum permission : PermissionEnum.values()) {
+            databaseManager.getServer("test").addPermission(user, permission);
+        }
     }
 
     public void createNodes() {

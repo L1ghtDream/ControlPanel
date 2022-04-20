@@ -9,6 +9,7 @@ public class Cache<T> {
     public long updatePeriod;
     public T value;
     public Consumer<Cache<T>> updater;
+    public boolean enabled = true;
 
     public Cache(Consumer<Cache<T>> updater, long updatePeriod) {
         this.updater = updater;
@@ -28,7 +29,9 @@ public class Cache<T> {
     public void registerUpdater() {
         TimerTask task = new TimerTask() {
             public void run() {
-                update();
+                if (enabled) {
+                    update();
+                }
             }
         };
         Timer timer = new Timer();
@@ -38,6 +41,10 @@ public class Cache<T> {
 
     public T get() {
         return value;
+    }
+
+    public void cancel() {
+        enabled = false;
     }
 
 }

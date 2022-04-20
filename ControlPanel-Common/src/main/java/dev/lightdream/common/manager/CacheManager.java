@@ -23,45 +23,50 @@ public class CacheManager {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, server.getMemoryUsageReal()));
+                    output.put(server.id, 0.0));
 
             cache.update(new ServersCache<>(output));
+            cache.cancel();
         }, 10 * 1000L); // 10s
 
         memoryAllocationCache = new Cache<>(cache -> {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, server.getMemoryAllocationReal()));
+                    output.put(server.id, 0.0));
 
             cache.update(new ServersCache<>(output));
+            cache.cancel();
         }, 10 * 1000L); // 10s
 
         cpuUsageCache = new Cache<>(cache -> {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, server.getCPUUsageReal()));
+                    output.put(server.id, 0.0));
 
             cache.update(new ServersCache<>(output));
+            cache.cancel();
         }, 20 * 1000L); // 20s
 
         storageUsageCache = new Cache<>(cache -> {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, server.getStorageUsageReal()));
+                    output.put(server.id, 0.0));
 
             cache.update(new ServersCache<>(output));
+            cache.cancel();
         }, 60 * 60 * 1000L); // 1h
 
         onlineStatusCache = new Cache<>(cache -> {
             HashMap<Integer, Boolean> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, server.isOnlineReal()));
+                    output.put(server.id, true));
 
             cache.update(new ServersCache<>(output));
+            cache.cancel();
         }, 20 * 1000L); // 20s
 
         Logger.good("Caching enabled!");
