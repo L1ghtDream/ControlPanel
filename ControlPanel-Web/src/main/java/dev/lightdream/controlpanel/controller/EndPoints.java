@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.data.Cookie;
-import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import org.springframework.stereotype.Controller;
@@ -24,18 +23,20 @@ public class EndPoints {
     public String server(Model model, HttpServletRequest request, @PathVariable String serverName, @CookieValue(value = "login_data") String cookieBase64) {
         Cookie cookie = getCookie(cookieBase64);
 
-        if (!cookie.validate()) {
-            model.addAttribute("error", "401");
-            return "error.html";
-        }
+        //todo remove comment
+        //if (!cookie.validate()) {
+        //    model.addAttribute("error", "401");
+        //    return "error.html";
+        //}
 
         User user = cookie.getUser();
         Server server = Utils.getServer(serverName);
 
-        if (!user.hasPermission(server, PermissionEnum.SERVER_VIEW)) {
-            model.addAttribute("error", "401");
-            return "error.html";
-        }
+        //todo remove comment
+        //if (!user.hasPermission(server, PermissionEnum.SERVER_VIEW)) {
+        //    model.addAttribute("error", "401");
+        //    return "error.html";
+        //}
 
         model.addAttribute("server", serverName);
         return "server.html";

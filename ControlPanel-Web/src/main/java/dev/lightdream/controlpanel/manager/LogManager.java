@@ -32,8 +32,8 @@ public class LogManager {
     public void registerLogListener(Server server) {
         new Thread(() ->
                 LambdaExecutor.LambdaCatch.NoReturnLambdaCatch.executeCatch(() -> {
-                    SSHManager.NodeSSH ssh = server.node.getSSH();
-                    SSHManager.SSHSession session = ssh.createNew();
+                    System.out.println("Registering log listener for server " + server.serverID);
+                    SSHManager.SSHSession session = server.node.getSSH().createNew();
 
                     session.setCommand("tail -f " + server.path + "/session.log");
 
@@ -50,6 +50,7 @@ public class LogManager {
 
                             output = output.replaceAll(ConsoleColor.UNKNOWN, "");
 
+                            System.out.println(output);
                             List<String> logList = new ArrayList<>(List.of(output.split("\n")));
                             if (output.endsWith("\n")) {
                                 logList.replaceAll(s -> s + "<br>");

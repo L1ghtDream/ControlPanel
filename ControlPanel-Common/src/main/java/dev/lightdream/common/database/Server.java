@@ -181,11 +181,17 @@ public class Server extends PermissionContainer {
      * @return The server's storage usage in kb (cached)
      */
     public Double getStorageUsageReal() {
-        return Double.parseDouble(node.executeCommand(
+        String data = node.executeCommand(
                 CommonMain.instance.getConfig().STORAGE_USAGE_CMD
                         .parse("path", path)
                         .parse()
-        ).trim().replaceAll("^[\n\r]", "").replaceAll("[\n\r]$", ""));
+        ).trim().replaceAll("^[\n\r]", "").replaceAll("[\n\r]$", "");
+
+        if (data.equals("")) {
+            return 0.0;
+        }
+
+        return Double.parseDouble(data);
     }
 
     /**

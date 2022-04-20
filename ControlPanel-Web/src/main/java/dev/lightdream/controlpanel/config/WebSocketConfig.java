@@ -16,7 +16,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         Main.instance.getServers().forEach(server -> {
-            Logger.info("[Broker] Registering server: " + server.serverID + " ( " + "/server/" + server.serverID + "/api/console" + " )");
+            Logger.info("[Broker] Registering server: " + server.serverID + " @ /server/" + server.serverID + "/api/console");
 
             config.enableSimpleBroker("/server/" + server.serverID + "/api/console");
         });

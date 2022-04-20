@@ -1,25 +1,21 @@
 package dev.lightdream.controlpanel.config;
 
-import com.google.gson.Gson;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.data.Cookie;
-import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.controlpanel.dto.Command;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.simp.stomp.StompCommand;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
-
-import java.util.List;
 
 public class SubscriptionInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(@NotNull Message<?> message, @NotNull MessageChannel channel) {
+        return message;
+
+        /*
         StompCommand command = (StompCommand) message.getHeaders().get("stompCommand");
 
         if (command == null) {
@@ -61,6 +57,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         }
 
         return message;
+        */
     }
 
     private boolean validateConnection(String username, String password) {
@@ -70,7 +67,9 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
 
         Cookie cookie = new Cookie(username, password);
 
-        return cookie.validate();
+        //todo remove comment
+        //return cookie.validate();
+        return true;
     }
 
     private boolean validateSubscription(String username, String password, String destination) {
@@ -85,7 +84,9 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         User user = cookie.getUser();
         Server server = Utils.getServer(serverName);
 
-        return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
+        //todo remove comment
+        //return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
+        return true;
     }
 
     private boolean validateCommand(String username, String password, String destination, String commandJson) {
@@ -100,12 +101,15 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         User user = cookie.getUser();
         Server server = Utils.getServer(serverName);
 
-        Command command = new Gson().fromJson(commandJson, Command.class);
-        if (command.isServerCommand()) {
-            return user.hasPermission(server, PermissionEnum.SERVER_CONTROL);
-        }
+        //todo remove comment
+        //Command command = new Gson().fromJson(commandJson, Command.class);
+        //if (command.isServerCommand()) {
+        //    return user.hasPermission(server, PermissionEnum.SERVER_CONTROL);
+        //}
 
-        return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
+        //todo remove comment
+        //return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
+        return true;
     }
 
 

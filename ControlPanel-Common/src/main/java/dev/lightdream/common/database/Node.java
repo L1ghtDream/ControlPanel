@@ -6,8 +6,8 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
-import dev.lightdream.lambda.LambdaExecutor;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -47,22 +47,21 @@ public class Node extends PermissionContainer {
         return CommonMain.instance.getSSHManager().getSSH(this);
     }
 
+    @SneakyThrows
     public String executeCommand(String command) {
-        return LambdaExecutor.LambdaCatch.ReturnLambdaCatch.executeCatch(() -> {
-            SSHManager.NodeSSH ssh = getSSH();
-            SSHManager.SSHSession session = ssh.createNew();
-            session.setCommand(command);
+        SSHManager.NodeSSH ssh = getSSH();
+        SSHManager.SSHSession session = ssh.createNew();
+        session.setCommand(command);
 
-            ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-            session.setOutputStream(responseStream);
+        ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
+        session.setOutputStream(responseStream);
 
-            while (session.isConnected()) {
-                //noinspection BusyWait
-                Thread.sleep(100);
-            }
+        while (session.isConnected()) {
+            //noinspection BusyWait
+            Thread.sleep(100);
+        }
 
-            return responseStream.toString();
-        });
+        return responseStream.toString();
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -76,22 +75,12 @@ public class Node extends PermissionContainer {
 
     @SuppressWarnings("unused")
     public void installSFTPModule() {
-        executeCommand(CommonMain.instance.getConfig().SFTP_MODULE_INSTALL_CMD
-                .parse("path", CommonMain.instance.getConfig().sftpModuleInstallPath)
-                .parse("url", CommonMain.instance.getConfig().sftpModuleDownloadURL
-                        .parse("version", CommonMain.instance.getVersion())
-                        .parse())
-                .parse()
-        );
+        executeCommand(CommonMain.instance.getConfig().SFTP_MODULE_INSTALL_CMD.parse("path", CommonMain.instance.getConfig().sftpModuleInstallPath).parse("url", CommonMain.instance.getConfig().sftpModuleDownloadURL.parse("version", CommonMain.instance.getVersion()).parse()).parse());
     }
 
     @SuppressWarnings("unused")
     public void install() {
-        executeCommand(CommonMain.instance.getConfig().EXECUTE_SCRIPT_CMD
-                .parse("url", CommonMain.instance.getConfig().nodeInstallScriptURL)
-                .parse()
-        );
+        executeCommand(CommonMain.instance.getConfig().EXECUTE_SCRIPT_CMD.parse("url", CommonMain.instance.getConfig().nodeInstallScriptURL).parse());
     }
-
 
 }
