@@ -6,6 +6,7 @@ import dev.lightdream.common.utils.ConsoleColor;
 import dev.lightdream.controlpanel.dto.Log;
 import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.lambda.LambdaExecutor;
+import dev.lightdream.logger.Debugger;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class LogManager {
     public HashMap<Integer, Log> logMap = new HashMap<>();
 
     public LogManager() {
-
+        //TODO Auto register log listeners for all servers
     }
 
     public Log getLog(Server server) {
@@ -42,7 +43,9 @@ public class LogManager {
 
                     while (session.isConnected()) {
                         if (!responseStream.toString().equals("")) {
+                            Debugger.log("Response stream is not empty");
                             String output = responseStream.toString();
+                            Debugger.log(output);
 
                             for (ConsoleColor consoleColor : ConsoleColor.values()) {
                                 output = output.replace(consoleColor.getCode(), consoleColor.getHtml());
@@ -62,11 +65,12 @@ public class LogManager {
                         }
 
                         responseStream = new ByteArrayOutputStream();
-                        session.setOutputStream(responseStream);
+                        session.setOutputStream(responseStream, false);
 
                         //noinspection BusyWait
                         Thread.sleep(100);
                     }
+                    Debugger.log("NO! NO! NO! NO! NO! NO!");
                     registerLogListener(server);
                 })).start();
     }

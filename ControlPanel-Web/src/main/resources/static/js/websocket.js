@@ -14,7 +14,7 @@ function setConnected(connected) {
 function connect() {
     const server = document.getElementById("server").innerText;
 
-    const socket = new SockJS("/server/api/server");
+    const socket = new SockJS("/server/" + server + "/api/server");
     stompClient = Stomp.over(socket);
 
     stompClient.connect({
@@ -24,6 +24,7 @@ function connect() {
         setConnected(true);
         console.log("Connected");
         stompClient.subscribe("/server/" + server + "/api/console", function (messageOutput) {
+            console.log("Received response @ " + Date.now());
             showMessageOutput(messageOutput.body);
         }, {
             "username": user.username,
@@ -41,6 +42,7 @@ function disconnect() {
 }
 
 function sendMessage() {
+    console.log("Sending message @ " + Date.now());
     const server = document.getElementById("server").innerText;
 
     const text = document.getElementById("text").value;
