@@ -28,9 +28,7 @@ public class RedisManager {
 
             @Override
             public void onMessage(String channel, String command) {
-                Debugger.info("[E - " + channel + "] " + command);
-                command = CommonMain.instance.encryptionManager.decrypt(command);
-                Debugger.info("[D - " + channel + "] " + command);
+                Debugger.info("[E" + channel + "] " + command);
                 Gson gson = new Gson();
                 Class<? extends RedisCommand> clazz = gson.fromJson(command, RedisCommand.class).getClassByName();
                 gson.fromJson(command, clazz).fireEvent();
@@ -58,7 +56,7 @@ public class RedisManager {
     }
 
     public void send(RedisCommand command) {
-        jedis.publish(CommonMain.instance.redisConfig.channel, CommonMain.instance.encryptionManager.encrypt(command.toString()));
+        jedis.publish(CommonMain.instance.redisConfig.channel, command.toString());
     }
 
 

@@ -4,7 +4,6 @@ import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.dto.redis.RedisConfig;
-import dev.lightdream.common.dto.redis.command.impl.PublicKeySend;
 import dev.lightdream.common.manager.*;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.dto.DriverConfig;
@@ -32,8 +31,6 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
     public CacheManager cacheManager;
     public DatabaseManager databaseManager;
     public RedisManager redisManager;
-    public EncryptionManager encryptionManager;
-    public RedisEventListener redisEventListener;
 
     @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal"})
     private FileManager fileManager;
@@ -48,14 +45,13 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         loadConfigs(fileManager);
 
         databaseManager = new DatabaseManager(this);
-        encryptionManager = new EncryptionManager();
         redisManager = new RedisManager();
         sshManager = new SSHManager();
         cacheManager = new CacheManager();
-        redisEventListener = new RedisEventListener();
-
-        redisManager.send(new PublicKeySend("htz-1", "Hello there."));
     }
+
+    @SuppressWarnings("unused")
+    public abstract RedisEventListener getRedisEventListener();
 
     public List<Server> getServers() {
         return getDatabaseManager().getServers();

@@ -5,6 +5,7 @@ import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
+import dev.lightdream.common.manager.RedisEventListener;
 import dev.lightdream.controlpanel.controller.EndPoints;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
 import dev.lightdream.controlpanel.dto.Config;
@@ -29,10 +30,16 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     // Manager
     public LogManager logManager;
     public DatabaseManager databaseManager;
+    public RedisEventListener redisEventListener;
 
     public Main() {
         super();
         enable();
+    }
+
+    @Override
+    public RedisEventListener getRedisEventListener() {
+        return redisEventListener;
     }
 
     @SuppressWarnings("resource")
@@ -44,14 +51,14 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         createServers(); // TODO remove for production
         createUsers(); // TODO remove for production
 
-        this.endPoints = new EndPoints();
-        this.restEndPoints = new RestEndPoints();
-
         SpringApplication.run(Executor.class);
 
-        logManager = new LogManager();
-            logManager.registerLogListener(databaseManager.getServer("test"));
+        this.endPoints = new EndPoints();
+        this.restEndPoints = new RestEndPoints();
+        this.redisEventListener = new RedisEventListener();
 
+        logManager = new LogManager();
+        logManager.registerLogListener(databaseManager.getServer("test"));
     }
 
     public void createUsers() {

@@ -7,6 +7,7 @@ import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.logger.Logger;
 import dev.lightdream.node.controller.RestEndPoints;
 import dev.lightdream.node.dto.Config;
+import dev.lightdream.node.manager.RedisEventListener;
 import dev.lightdream.node.manager.SFTPServerManager;
 import org.springframework.boot.SpringApplication;
 
@@ -17,6 +18,7 @@ public class Main extends CommonMain {
     // Managers
     public SFTPServerManager sftpServerManager;
     public RestEndPoints restEndPoints;
+    public RedisEventListener redisEventListener;
 
     // Configs
     public Config config;
@@ -33,6 +35,7 @@ public class Main extends CommonMain {
         SpringApplication.run(Executor.class);
 
         restEndPoints = new RestEndPoints();
+        redisEventListener = new RedisEventListener();
 
         // Infinite loop for sftp server keep alive
         //noinspection InfiniteLoopStatement,StatementWithEmptyBody
@@ -44,6 +47,11 @@ public class Main extends CommonMain {
     public void loadConfigs(FileManager fileManager) {
         config = fileManager.load(Config.class);
         super.loadConfigs(fileManager);
+    }
+
+    @Override
+    public dev.lightdream.common.manager.RedisEventListener getRedisEventListener() {
+        return redisEventListener;
     }
 
     @Override

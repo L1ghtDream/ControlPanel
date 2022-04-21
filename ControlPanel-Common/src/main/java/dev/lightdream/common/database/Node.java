@@ -3,6 +3,7 @@ package dev.lightdream.common.database;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
+import dev.lightdream.common.dto.redis.command.impl.ExecuteCommand;
 import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
@@ -79,10 +80,16 @@ public class Node extends PermissionContainer {
     }
 
     @SneakyThrows
-    private void _executeCommandLocal(String commandStr) {
-        //CommonMain.instance.redisManager.send(commandStr); // TODO
+    private void _executeCommandLocal(String command) {
+        CommonMain.instance.redisManager.send(new ExecuteCommand(command));
     }
 
+    /**
+     * Executes a command directly on the current machine (node)
+     *
+     * @param command The command to execute
+     * @return The output of the command
+     */
     @SneakyThrows
     public static String executeCommandLocal(String command) {
         Process process = new ProcessBuilder("bash", "-c", command)
