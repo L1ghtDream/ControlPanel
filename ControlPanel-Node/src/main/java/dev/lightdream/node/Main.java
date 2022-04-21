@@ -38,7 +38,6 @@ public class Main extends CommonMain {
         restEndPoints = new RestEndPoints();
         redisEventListener = new RedisEventListener();
 
-
         // Infinite loop for sftp server keep alive
         //noinspection InfiniteLoopStatement,StatementWithEmptyBody
         while (true) {

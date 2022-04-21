@@ -15,9 +15,6 @@ import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
 import org.springframework.boot.SpringApplication;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
 
     // Statics
@@ -61,8 +58,6 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         this.redisEventListener = new RedisEventListener();
 
         logManager = new LogManager();
-
-        Logger.getLogger("com.zaxxer.hikari.HikariConfig").setLevel(Level.INFO);
     }
 
     public void createUsers() {
@@ -127,5 +122,10 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         config = fileManager.load(Config.class);
         super.loadConfigs(fileManager);
     }
+
+    /*
+    TODO
+    - Remove debug logger for Hikari
+    */
 
 }
