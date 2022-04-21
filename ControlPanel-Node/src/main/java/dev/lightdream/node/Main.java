@@ -11,6 +11,7 @@ import dev.lightdream.node.manager.RedisEventListener;
 import dev.lightdream.node.manager.SFTPServerManager;
 import org.springframework.boot.SpringApplication;
 
+
 public class Main extends CommonMain {
 
     public static Main instance;
@@ -36,6 +37,7 @@ public class Main extends CommonMain {
 
         restEndPoints = new RestEndPoints();
         redisEventListener = new RedisEventListener();
+
 
         // Infinite loop for sftp server keep alive
         //noinspection InfiniteLoopStatement,StatementWithEmptyBody
