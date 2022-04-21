@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.data.Cookie;
+import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("SpringMVCViewInspection")
 @Controller
@@ -23,20 +25,18 @@ public class EndPoints {
     public String server(Model model, HttpServletRequest request, @PathVariable String serverName, @CookieValue(value = "login_data") String cookieBase64) {
         Cookie cookie = getCookie(cookieBase64);
 
-        //todo remove comment
-        //if (!cookie.validate()) {
-        //    model.addAttribute("error", "401");
-        //    return "error.html";
-        //}
+        if (!cookie.validate()) {
+            model.addAttribute("error", "401");
+            return "error.html";
+        }
 
         User user = cookie.getUser();
         Server server = Utils.getServer(serverName);
 
-        //todo remove comment
-        //if (!user.hasPermission(server, PermissionEnum.SERVER_VIEW)) {
-        //    model.addAttribute("error", "401");
-        //    return "error.html";
-        //}
+        if (!user.hasPermission(server, PermissionEnum.SERVER_VIEW)) {
+            model.addAttribute("error", "401");
+            return "error.html";
+        }
 
         model.addAttribute("server", serverName);
         return "server.html";
@@ -65,10 +65,8 @@ public class EndPoints {
         User user = cookie.getUser();
 
         model.addAttribute("servers",
-                Main.instance.getServers()
-                // TODO Move back to permission based display
-                //Main.instance.getServers().stream().filter(server ->
-                //        user.hasPermission(server, PermissionEnum.SERVER_VIEW)).collect(Collectors.toList())
+                Main.instance.getServers().stream().filter(server ->
+                        user.hasPermission(server, PermissionEnum.SERVER_VIEW)).collect(Collectors.toList())
         );
         return "servers.html";
     }

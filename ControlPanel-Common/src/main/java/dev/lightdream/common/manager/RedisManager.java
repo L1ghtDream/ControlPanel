@@ -28,7 +28,7 @@ public class RedisManager {
 
             @Override
             public void onMessage(String channel, String command) {
-                Debugger.info("[E" + channel + "] " + command);
+                Debugger.info("[" + channel + "] " + command);
                 Gson gson = new Gson();
                 Class<? extends RedisCommand> clazz = gson.fromJson(command, RedisCommand.class).getClassByName();
                 gson.fromJson(command, clazz).fireEvent();

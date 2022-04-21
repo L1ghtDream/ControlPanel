@@ -5,6 +5,7 @@ import dev.lightdream.common.database.User;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.databasemanager.dto.DatabaseEntry;
+import dev.lightdream.logger.Debugger;
 
 @DatabaseTable(table = "permissions")
 public class Permission extends DatabaseEntry {
@@ -26,5 +27,15 @@ public class Permission extends DatabaseEntry {
         this.user = user;
         this.permission = permission;
         this.target = target;
+    }
+
+    @Override
+    public void save() {
+        if (!permission.getType().equals(target.getType())) {
+            Debugger.log("Permission type mismatch: " + permission.getType() + " != " + target.getType() + " for "
+                    + permission + " @ " + target.getIdentifier());
+            return;
+        }
+        super.save();
     }
 }

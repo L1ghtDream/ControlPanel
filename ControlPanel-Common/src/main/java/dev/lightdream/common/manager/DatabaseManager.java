@@ -10,7 +10,6 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.database.ProgrammaticHikariDatabaseManager;
 import dev.lightdream.databasemanager.dto.QueryConstrains;
-import dev.lightdream.logger.Debugger;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
@@ -30,13 +29,10 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         registerDataType(PermissionEnum.class, "TEXT");
         registerDataType(PermissionContainer.class, "TEXT");
 
-        registerSDPair(User.class, user -> user.id, id -> {
-            Debugger.log("User ID: " + id);
-            return getUser((Integer) id);
-        });
+        registerSDPair(User.class, user -> user.id, id -> getUser((Integer) id));
         registerSDPair(Node.class, node -> "\"" + node.getIdentifier() + "\"", id -> (Node) Node.getByIdentifier((String) id));
         registerSDPair(Server.class, server -> "\"" + server.getIdentifier() + "\"", id -> (Server) Node.getByIdentifier((String) id));
-        registerSDPair(PermissionEnum.class, permission -> "\""  + permission.toString()+ "\"", str -> PermissionEnum.valueOf((String) str));
+        registerSDPair(PermissionEnum.class, permission -> "\"" + permission.toString() + "\"", str -> PermissionEnum.valueOf((String) str));
         registerSDPair(PermissionContainer.class, PermissionContainer::getIdentifier,
                 str -> PermissionContainer.getByIdentifier((String) str));
 

@@ -50,26 +50,16 @@ public class Node extends PermissionContainer {
         return CommonMain.instance.getSSHManager().getSSH(this);
     }
 
-    /*
-    @SneakyThrows
-    public String executeCommand(String command) {
-        Debugger.log(command);
-        AtomicReference<String> output = new AtomicReference<>();
-
-        Process process = Runtime.getRuntime().exec(command);
-        StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), output::set);
-        Executors.newSingleThreadExecutor().submit(streamGobbler);
-        int exitCode = process.waitFor();
-        assert exitCode == 0;
-
-        return output.get();
-    }
-    */
-
     public String executeCommand(String command) {
         return executeCommand(command, false);
     }
 
+    /**
+     * Executes a command on the node via SSH or redis
+     * @param command The command to execute
+     * @param local Whether to execute the command via SSH or redis
+     * @return The output of the command
+     */
     @SneakyThrows
     public String executeCommand(String command, boolean local) {
         if (local) {
@@ -90,6 +80,7 @@ public class Node extends PermissionContainer {
      * @param command The command to execute
      * @return The output of the command
      */
+    @SuppressWarnings("UnusedReturnValue")
     @SneakyThrows
     public static String executeCommandLocal(String command) {
         Process process = new ProcessBuilder("bash", "-c", command)
@@ -101,7 +92,6 @@ public class Node extends PermissionContainer {
         String line;
 
         while ((line = br.readLine()) != null) {
-            System.out.println(line);
             output.append(line).append("\n");
         }
 
@@ -112,6 +102,12 @@ public class Node extends PermissionContainer {
         return output.toString();
     }
 
+    /**
+     * Executes a command on the node via SSH
+     *
+     * @param command The command to execute
+     * @return The output of the command
+     */
     @SneakyThrows
     private String executeCommandSSH(String command) {
         SSHManager.NodeSSH ssh = getSSH();
@@ -129,6 +125,12 @@ public class Node extends PermissionContainer {
         return responseStream.toString();
     }
 
+    /**
+     * Executes a command on the node via SSH
+     * @param command The command to execute
+     * @param server The server to execute the command on
+     * @return The output of the command
+     */
     @SuppressWarnings("UnusedReturnValue")
     public String sendCommandToServer(String command, Server server) {
         return executeCommand("screen -S " + server.serverID + " -X stuff '" + command + "^M'", true);

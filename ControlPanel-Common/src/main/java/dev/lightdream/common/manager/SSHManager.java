@@ -5,7 +5,6 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
-import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 
 import java.io.ByteArrayOutputStream;
@@ -66,7 +65,6 @@ public class SSHManager {
         @SneakyThrows
         public void auth() {
             if (session == null || !session.isConnected()) {
-                Debugger.log("Opening SSH session");
                 JSch jsch = new JSch();
                 jsch.addIdentity(CommonMain.instance.getDataFolder().toString() + "/ssh_keys/" + nodeID);
 
@@ -76,7 +74,6 @@ public class SSHManager {
             }
 
             if (channel == null || !channel.isConnected()) {
-                Debugger.log("Opening SSH channel");
                 channel = (ChannelExec) session.openChannel("exec");
             }
         }

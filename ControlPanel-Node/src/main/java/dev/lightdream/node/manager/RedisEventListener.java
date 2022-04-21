@@ -8,10 +8,7 @@ public class RedisEventListener extends dev.lightdream.common.manager.RedisEvent
     public RedisEventListener() {
         super();
 
-        ExecuteEvent.registerListener(event -> {
-            System.out.println("Executing command: " + event.command);
-            Node.executeCommandLocal(event.command);
-        });
+        ExecuteEvent.registerListener(event -> Node.executeCommandLocal(event.command));
     }
 
 

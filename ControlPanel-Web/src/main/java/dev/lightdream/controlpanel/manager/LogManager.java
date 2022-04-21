@@ -6,7 +6,7 @@ import dev.lightdream.common.utils.ConsoleColor;
 import dev.lightdream.controlpanel.dto.Log;
 import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.lambda.LambdaExecutor;
-import dev.lightdream.logger.Debugger;
+import dev.lightdream.logger.Logger;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -33,7 +33,6 @@ public class LogManager {
     public void registerLogListener(Server server) {
         new Thread(() ->
                 LambdaExecutor.LambdaCatch.NoReturnLambdaCatch.executeCatch(() -> {
-                    System.out.println("Registering log listener for server " + server.serverID);
                     SSHManager.SSHSession session = server.node.getSSH().createNew();
 
                     session.setCommand("tail -f " + server.path + "/session.log");
@@ -43,9 +42,7 @@ public class LogManager {
 
                     while (session.isConnected()) {
                         if (!responseStream.toString().equals("")) {
-                            Debugger.log("Response stream is not empty");
                             String output = responseStream.toString();
-                            Debugger.log(output);
 
                             for (ConsoleColor consoleColor : ConsoleColor.values()) {
                                 output = output.replace(consoleColor.getCode(), consoleColor.getHtml());
@@ -53,7 +50,6 @@ public class LogManager {
 
                             output = output.replaceAll(ConsoleColor.UNKNOWN, "");
 
-                            System.out.println(output);
                             List<String> logList = new ArrayList<>(List.of(output.split("\n")));
                             if (output.endsWith("\n")) {
                                 logList.replaceAll(s -> s + "<br>");
@@ -71,7 +67,7 @@ public class LogManager {
                         //noinspection BusyWait
                         Thread.sleep(100);
                     }
-                    Debugger.log("File: " + server.path + "/session.log was not found. Creating it and restarting the log listener");
+                    Logger.error("File: " + server.path + "/session.log was not found. Creating it and restarting the log listener");
                     server.node.executeCommand("touch " + server.path + "/session.log");
                     registerLogListener(server);
                 })).start();

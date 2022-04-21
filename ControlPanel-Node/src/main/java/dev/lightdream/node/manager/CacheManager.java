@@ -1,4 +1,4 @@
-package dev.lightdream.common.manager;
+package dev.lightdream.node.manager;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Server;
@@ -23,7 +23,7 @@ public class CacheManager {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, 0.0));
+                    output.put(server.id, server.getMemoryUsageReal()));
 
             cache.update(new ServersCache<>(output));
             cache.cancel();
@@ -33,7 +33,7 @@ public class CacheManager {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, 0.0));
+                    output.put(server.id, server.getMemoryAllocationReal()));
 
             cache.update(new ServersCache<>(output));
             cache.cancel();
@@ -43,7 +43,7 @@ public class CacheManager {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, 0.0));
+                    output.put(server.id, server.getCPUUsageReal()));
 
             cache.update(new ServersCache<>(output));
             cache.cancel();
@@ -53,7 +53,7 @@ public class CacheManager {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, 0.0));
+                    output.put(server.id, server.getStorageUsageReal()));
 
             cache.update(new ServersCache<>(output));
             cache.cancel();
@@ -63,7 +63,7 @@ public class CacheManager {
             HashMap<Integer, Boolean> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, true));
+                    output.put(server.id, server.isOnlineReal()));
 
             cache.update(new ServersCache<>(output));
             cache.cancel();
@@ -76,6 +76,7 @@ public class CacheManager {
     public static class ServersCache<T> {
         public HashMap<Integer, T> servers;
 
+        @SuppressWarnings("unused")
         public T get(Server server) {
             return servers.get(server.id);
         }

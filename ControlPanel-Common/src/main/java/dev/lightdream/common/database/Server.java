@@ -7,16 +7,12 @@ import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.text.DecimalFormat;
 
 @DatabaseTable(table = "servers")
 @NoArgsConstructor
 public class Server extends PermissionContainer {
 
-    private static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
     //Settings
     @DatabaseField(columnName = "server_id", unique = true)
     public String serverID;
@@ -64,13 +60,6 @@ public class Server extends PermissionContainer {
     }
 
     /**
-     * @return The server's memory usage in kb (cached)
-     */
-    public Double getMemoryUsage() {
-        return CommonMain.instance.cacheManager.memoryUsageCache.get().get(this);
-    }
-
-    /**
      * @return The server's memory usage in kb (real)
      */
     public Double getMemoryUsageReal() {
@@ -88,38 +77,6 @@ public class Server extends PermissionContainer {
     }
 
     /**
-     * @return The server's memory usage in formatted (cached)
-     */
-    @SuppressWarnings("unused")
-    public String getMemoryUsageFormatted() {
-        return formatMemory(getMemoryUsage());
-    }
-
-    /**
-     * @return Formats amount of memory initially in kb into KB, MB, GB, TB according to the size
-     */
-    @NotNull
-    private String formatMemory(Double usage) {
-        if (usage < 1024) {
-            return decimalFormat.format(usage) + "KB";
-        }
-        if (usage < 1024 * 1024) {
-            return decimalFormat.format(usage / 1024) + "MB";
-        }
-        if (usage < 1024 * 1024 * 1024) {
-            return decimalFormat.format(usage / 1024 / 1024) + "GB";
-        }
-        return decimalFormat.format(usage / 1024 / 1024 / 1024) + "TB";
-    }
-
-    /**
-     * @return The server's memory allocation in kb (cached)
-     */
-    public Double getMemoryAllocation() {
-        return CommonMain.instance.cacheManager.memoryAllocationCache.get().get(this);
-    }
-
-    /**
      * @return The server's memory allocation in kb (real)
      */
     public Double getMemoryAllocationReal() {
@@ -134,22 +91,6 @@ public class Server extends PermissionContainer {
                         .parse("pid", pid.toString())
                         .parse()
         ).trim());
-    }
-
-    /**
-     * @return The server's memory allocation formatted (cached)
-     */
-    @SuppressWarnings("unused")
-    public String getMemoryAllocationFormatted() {
-        return formatMemory(getMemoryAllocation());
-    }
-
-    /**
-     * @return The server's CPU usage in percentages of a core (cached)
-     */
-    @SuppressWarnings("unused")
-    public Double getCPUUsage() {
-        return CommonMain.instance.cacheManager.cpuUsageCache.get().get(this);
     }
 
     /**
@@ -173,13 +114,6 @@ public class Server extends PermissionContainer {
     /**
      * @return The server's storage usage in kb (cached)
      */
-    public Double getStorageUsage() {
-        return CommonMain.instance.cacheManager.storageUsageCache.get().get(this);
-    }
-
-    /**
-     * @return The server's storage usage in kb (cached)
-     */
     public Double getStorageUsageReal() {
         String data = node.executeCommand(
                 CommonMain.instance.getConfig().STORAGE_USAGE_CMD
@@ -192,22 +126,6 @@ public class Server extends PermissionContainer {
         }
 
         return Double.parseDouble(data);
-    }
-
-    /**
-     * @return The server's storage usage formatted (cached)
-     */
-    @SuppressWarnings("unused")
-    public String getStorageUsageFormatted() {
-        return formatMemory(getStorageUsage());
-    }
-
-    /**
-     * @return Weather the server is running or not (cached)
-     */
-    @SuppressWarnings("unused")
-    public boolean isOnline() {
-        return CommonMain.instance.cacheManager.onlineStatusCache.get().get(this);
     }
 
     /**

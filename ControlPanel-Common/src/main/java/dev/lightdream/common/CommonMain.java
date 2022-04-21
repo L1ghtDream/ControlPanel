@@ -28,7 +28,6 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
 
     // Managers
     public SSHManager sshManager;
-    public CacheManager cacheManager;
     public DatabaseManager databaseManager;
     public RedisManager redisManager;
 
@@ -47,7 +46,6 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         databaseManager = new DatabaseManager(this);
         redisManager = new RedisManager();
         sshManager = new SSHManager();
-        cacheManager = new CacheManager();
     }
 
     @SuppressWarnings("unused")

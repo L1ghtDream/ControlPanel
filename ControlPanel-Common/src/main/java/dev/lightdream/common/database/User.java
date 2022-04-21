@@ -44,4 +44,12 @@ public class User extends DatabaseEntry {
         }
         return PermissionContainer.hasPermission(this, permission);
     }
+
+    @SuppressWarnings("unused")
+    public void addPermission(PermissionContainer PermissionContainer, PermissionEnum permission) {
+        if (PermissionContainer == null) {
+            return;
+        }
+        PermissionContainer.addPermission(this, permission);
+    }
 }

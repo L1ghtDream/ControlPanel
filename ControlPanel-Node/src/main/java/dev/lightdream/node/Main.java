@@ -50,7 +50,7 @@ public class Main extends CommonMain {
     }
 
     @Override
-    public dev.lightdream.common.manager.RedisEventListener getRedisEventListener() {
+    public RedisEventListener getRedisEventListener() {
         return redisEventListener;
     }
 

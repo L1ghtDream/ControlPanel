@@ -3,11 +3,10 @@ package dev.lightdream.controlpanel.config;
 import com.google.gson.Gson;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
+import dev.lightdream.common.dto.Command;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.common.dto.Command;
-import dev.lightdream.logger.Debugger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -91,7 +90,6 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
 
     private boolean validateCommand(String username, String password, String commandJson) {
         if (username == null || password == null || commandJson == null) {
-            Debugger.log(1);
             return false;
         }
 
@@ -101,7 +99,6 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         Server server = command.getServer();
 
         if (command.isServerCommand()) {
-            Debugger.log(2);
             return user.hasPermission(server, PermissionEnum.SERVER_CONTROL);
         }
 
