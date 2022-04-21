@@ -8,3 +8,9 @@ servers will not have to suffer any damage. Each server can be accessed and has 
 permission to see it), as well as start / stop / restart / kill actions and stats about the server as CPU, Memory,
 Storage usage and Memory allocation of the process (java only). As this is interacting directly with bare metal
 the system administrator has the option to force all the users to have 2fa (via Google otp) enabled. 
+
+
+# Build
+```bash
+mvn clean package spring-boot:repackage
+```

@@ -5,6 +5,7 @@ import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.manager.CacheManager;
 import dev.lightdream.common.manager.DatabaseManager;
+import dev.lightdream.common.manager.RedisManager;
 import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.dto.DriverConfig;
@@ -30,6 +31,7 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
     public SSHManager sshManager;
     public CacheManager cacheManager;
     public DatabaseManager databaseManager;
+    public RedisManager redisManager;
 
     @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal"})
     private FileManager fileManager;
@@ -43,6 +45,7 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         loadConfigs(fileManager);
 
         databaseManager = new DatabaseManager(this);
+        redisManager = new RedisManager(this);
 
         sshManager = new SSHManager();
         cacheManager = new CacheManager();

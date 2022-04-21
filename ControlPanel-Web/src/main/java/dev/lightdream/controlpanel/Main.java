@@ -71,7 +71,7 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         databaseManager.createNode(
                 "htz-1",
                 "HTZ-1",
-                "htz1.original.gg",
+                "192.128.100.1",
                 "root",
                 22
         );

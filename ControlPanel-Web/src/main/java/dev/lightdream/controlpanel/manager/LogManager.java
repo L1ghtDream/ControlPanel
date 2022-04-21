@@ -71,7 +71,8 @@ public class LogManager {
                         //noinspection BusyWait
                         Thread.sleep(100);
                     }
-                    Debugger.log("NO! NO! NO! NO! NO! NO!");
+                    Debugger.log("File: " + server.path + "/session.log was not found. Creating it and restarting the log listener");
+                    server.node.executeCommand("touch " + server.path + "/session.log");
                     registerLogListener(server);
                 })).start();
     }

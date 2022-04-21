@@ -1,10 +1,8 @@
 package dev.lightdream.common.database;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
-import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
@@ -13,10 +11,7 @@ import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,14 +79,32 @@ public class Node extends PermissionContainer {
     }
 
     @SneakyThrows
-    private void _executeCommandLocal(String command) {
-        URL url = new URL("127.0.0.1:14000/api/execute");
+    private void _executeCommandLocal(String commandStr) {
+
+        CommonMain.instance.redisManager.jedis.publish("control_panel", commandStr);
+
+        /*
+        Command command = new Command(commandStr);
+
+        URL url = new URL("http://127.0.0.1:14000/api/execute");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestProperty("accept", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestMethod("POST");
+
+        connection.setDoOutput(true);
+        OutputStream os = connection.getOutputStream();
+        OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
+        osw.write(new Gson().toJson(command));
+        osw.flush();
+        osw.close();
+        os.close();
+
         InputStream responseStream = connection.getInputStream();
         ObjectMapper mapper = new ObjectMapper();
         Response response = mapper.readValue(responseStream, Response.class);
         System.out.println(response);
+         */
     }
 
     @SneakyThrows
@@ -135,7 +148,7 @@ public class Node extends PermissionContainer {
 
     @SuppressWarnings("UnusedReturnValue")
     public String sendCommandToServer(String command, Server server) {
-        return executeCommand("screen -S " + server.serverID + " -X stuff '" + command + "^M'");
+        return executeCommand("screen -S " + server.serverID + " -X stuff '" + command + "^M'", true);
     }
 
     public List<Server> getServers() {
