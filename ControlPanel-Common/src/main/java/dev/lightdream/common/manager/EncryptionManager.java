@@ -30,8 +30,9 @@ public class EncryptionManager {
         return decryptedMessage;
     }
 
+    //TODO make private
     @SneakyThrows
-    private static KeyPair getKeyPair() {
+    public KeyPair getKeyPair() {
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
         kpg.initialize(1024);
         return kpg.genKeyPair();

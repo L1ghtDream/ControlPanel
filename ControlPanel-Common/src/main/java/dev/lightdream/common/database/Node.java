@@ -80,7 +80,7 @@ public class Node extends PermissionContainer {
 
     @SneakyThrows
     private void _executeCommandLocal(String commandStr) {
-        CommonMain.instance.redisManager.send(commandStr);
+        //CommonMain.instance.redisManager.send(commandStr); // TODO
     }
 
     @SneakyThrows

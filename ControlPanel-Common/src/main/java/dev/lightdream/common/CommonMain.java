@@ -4,10 +4,8 @@ import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.dto.redis.RedisConfig;
-import dev.lightdream.common.manager.CacheManager;
-import dev.lightdream.common.manager.DatabaseManager;
-import dev.lightdream.common.manager.RedisManager;
-import dev.lightdream.common.manager.SSHManager;
+import dev.lightdream.common.dto.redis.command.PublicKeySend;
+import dev.lightdream.common.manager.*;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.dto.DriverConfig;
 import dev.lightdream.databasemanager.dto.SQLConfig;
@@ -18,6 +16,7 @@ import dev.lightdream.logger.Logger;
 import dev.lightdream.messagebuilder.MessageBuilderManager;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public abstract class CommonMain implements DatabaseMain, LoggableMain, FileManagerMain {
@@ -51,6 +50,12 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
 
         sshManager = new SSHManager();
         cacheManager = new CacheManager();
+
+        new RedisEventListener();
+
+        redisManager.send(new PublicKeySend("htz-1",
+                new String(new EncryptionManager().getKeyPair().getPublic().getEncoded(), StandardCharsets.UTF_8))
+        );
     }
 
     public List<Server> getServers() {
@@ -111,5 +116,4 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         return databaseManager;
     }
 
-    public abstract boolean subscribeRedis();
 }
