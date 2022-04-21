@@ -12,18 +12,13 @@ public class RedisManager {
     public Jedis jedis;
     private final Jedis subscriberJedis;
     private JedisPubSub subscriberJedisPubSub;
-    public CommonMain main;
 
-    public RedisManager(CommonMain main) {
-        this.main = main;
+    public RedisManager() {
+        this.jedis = new Jedis(CommonMain.instance.redisConfig.host, CommonMain.instance.redisConfig.port);
+        this.jedis.auth(CommonMain.instance.redisConfig.username, CommonMain.instance.redisConfig.password);
 
-        Debugger.log(main.redisConfig.host);
-
-        this.jedis = new Jedis(main.redisConfig.host, main.redisConfig.port);
-        this.jedis.auth(main.redisConfig.username, main.redisConfig.password);
-
-        this.subscriberJedis = new Jedis(main.redisConfig.host, main.redisConfig.port);
-        this.subscriberJedis.auth(main.redisConfig.username, main.redisConfig.password);
+        this.subscriberJedis = new Jedis(CommonMain.instance.redisConfig.host, CommonMain.instance.redisConfig.port);
+        this.subscriberJedis.auth(CommonMain.instance.redisConfig.username, CommonMain.instance.redisConfig.password);
 
         subscribe();
     }
@@ -33,8 +28,12 @@ public class RedisManager {
 
             @Override
             public void onMessage(String channel, String command) {
-                Debugger.info("[" + channel + "] " + command);
-                new Gson().fromJson(command, RedisCommand.class).fireEvent();
+                Debugger.info("[E - " + channel + "] " + command);
+                command = CommonMain.instance.encryptionManager.decrypt(command);
+                Debugger.info("[D - " + channel + "] " + command);
+                Gson gson = new Gson();
+                Class<? extends RedisCommand> clazz = gson.fromJson(command, RedisCommand.class).getClassByName();
+                gson.fromJson(command, clazz).fireEvent();
             }
 
             @Override
@@ -49,7 +48,7 @@ public class RedisManager {
 
         };
 
-        new Thread(() -> subscriberJedis.subscribe(subscriberJedisPubSub, main.redisConfig.channel)).start();
+        new Thread(() -> subscriberJedis.subscribe(subscriberJedisPubSub, CommonMain.instance.redisConfig.channel)).start();
 
     }
 
@@ -59,7 +58,7 @@ public class RedisManager {
     }
 
     public void send(RedisCommand command) {
-        jedis.publish(main.redisConfig.channel, command.toString());
+        jedis.publish(CommonMain.instance.redisConfig.channel, CommonMain.instance.encryptionManager.encrypt(command.toString()));
     }
 
 

@@ -1,6 +1,6 @@
 package dev.lightdream.common.dto.redis.event;
 
-import dev.lightdream.common.dto.redis.command.PublicKeySend;
+import dev.lightdream.common.dto.redis.command.impl.PublicKeySend;
 import dev.lightdream.lambda.LambdaExecutor;
 
 import java.util.ArrayList;

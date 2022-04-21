@@ -2,14 +2,27 @@ package dev.lightdream.common.dto.redis.command;
 
 import com.google.gson.Gson;
 import dev.lightdream.common.dto.redis.event.RedisEvent;
-import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 
-@NoArgsConstructor
-public abstract class RedisCommand {
+public class RedisCommand {
 
-    public abstract RedisEvent getEvent();
+    public String className;
 
-    public void fireEvent(){
+    public RedisCommand() {
+        this.className = getClass().getName();
+    }
+
+    public RedisEvent getEvent() {
+        throw new IllegalArgumentException(getClassByName().getSimpleName() + "#_getEvent() is not implemented");
+    }
+
+    @SuppressWarnings("unchecked")
+    @SneakyThrows
+    public Class<? extends RedisCommand> getClassByName() {
+        return (Class<? extends RedisCommand>) Class.forName(className);
+    }
+
+    public void fireEvent() {
         getEvent().fire();
     }
 

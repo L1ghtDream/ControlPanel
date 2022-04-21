@@ -1,5 +1,6 @@
-package dev.lightdream.common.dto.redis.command;
+package dev.lightdream.common.dto.redis.command.impl;
 
+import dev.lightdream.common.dto.redis.command.RedisCommand;
 import dev.lightdream.common.dto.redis.event.PublicKeyReceive;
 import dev.lightdream.common.dto.redis.event.RedisEvent;
 import lombok.AllArgsConstructor;
@@ -16,5 +17,9 @@ public class PublicKeySend extends RedisCommand {
     public RedisEvent getEvent() {
         return new PublicKeyReceive(this);
     }
+
+
+
+
 
 }

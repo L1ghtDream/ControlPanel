@@ -4,7 +4,7 @@ import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.dto.redis.RedisConfig;
-import dev.lightdream.common.dto.redis.command.PublicKeySend;
+import dev.lightdream.common.dto.redis.command.impl.PublicKeySend;
 import dev.lightdream.common.manager.*;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.dto.DriverConfig;
@@ -16,7 +16,6 @@ import dev.lightdream.logger.Logger;
 import dev.lightdream.messagebuilder.MessageBuilderManager;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public abstract class CommonMain implements DatabaseMain, LoggableMain, FileManagerMain {
@@ -33,9 +32,12 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
     public CacheManager cacheManager;
     public DatabaseManager databaseManager;
     public RedisManager redisManager;
+    public EncryptionManager encryptionManager;
+    public RedisEventListener redisEventListener;
 
     @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal"})
     private FileManager fileManager;
+
 
     public CommonMain() {
         instance = this;
@@ -46,16 +48,13 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         loadConfigs(fileManager);
 
         databaseManager = new DatabaseManager(this);
-        redisManager = new RedisManager(this);
-
+        encryptionManager = new EncryptionManager();
+        redisManager = new RedisManager();
         sshManager = new SSHManager();
         cacheManager = new CacheManager();
+        redisEventListener = new RedisEventListener();
 
-        new RedisEventListener();
-
-        redisManager.send(new PublicKeySend("htz-1",
-                new String(new EncryptionManager().getKeyPair().getPublic().getEncoded(), StandardCharsets.UTF_8))
-        );
+        redisManager.send(new PublicKeySend("htz-1", "Hello there."));
     }
 
     public List<Server> getServers() {

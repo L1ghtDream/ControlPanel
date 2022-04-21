@@ -6,6 +6,7 @@ import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.util.Base64;
 
 public class EncryptionManager {
 
@@ -14,27 +15,26 @@ public class EncryptionManager {
     @SneakyThrows
     public String encrypt(String message) {
         Cipher encryptCipher = Cipher.getInstance("RSA");
-        encryptCipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
+        encryptCipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());   
         byte[] secretMessageBytes = message.getBytes(StandardCharsets.UTF_8);
         byte[] encryptedMessageBytes = encryptCipher.doFinal(secretMessageBytes);
-        return new String(encryptedMessageBytes, StandardCharsets.UTF_8);
+        return Base64.getEncoder().encodeToString(encryptedMessageBytes);
     }
 
     @SneakyThrows
     public String decrypt(String message) {
         Cipher decryptCipher = Cipher.getInstance("RSA");
         decryptCipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
-        byte[] secretMessageBytes = message.getBytes(StandardCharsets.UTF_8);
+        byte[] secretMessageBytes = Base64.getDecoder().decode(message);
         byte[] decryptedMessageBytes = decryptCipher.doFinal(secretMessageBytes);
-        String decryptedMessage = new String(decryptedMessageBytes, StandardCharsets.UTF_8);
-        return decryptedMessage;
+        return new String(decryptedMessageBytes, StandardCharsets.UTF_8);
     }
 
     //TODO make private
     @SneakyThrows
     public KeyPair getKeyPair() {
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
-        kpg.initialize(1024);
-        return kpg.genKeyPair();
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(2048);
+        return keyPairGenerator.genKeyPair();
     }
 }
