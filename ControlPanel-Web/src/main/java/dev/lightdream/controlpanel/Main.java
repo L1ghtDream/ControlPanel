@@ -5,11 +5,11 @@ import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
-import dev.lightdream.common.manager.RedisEventListener;
 import dev.lightdream.controlpanel.controller.EndPoints;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
 import dev.lightdream.controlpanel.dto.Config;
 import dev.lightdream.controlpanel.manager.LogManager;
+import dev.lightdream.controlpanel.manager.RedisEventListener;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
@@ -62,7 +62,6 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     }
 
     public void createUsers() {
-        System.out.println("Creating dev users... ");
         databaseManager.createUser(
                 "admin",
                 "passwd",
