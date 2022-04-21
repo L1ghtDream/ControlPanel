@@ -6,7 +6,7 @@ import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.controlpanel.dto.Command;
+import dev.lightdream.common.dto.Command;
 import dev.lightdream.logger.Debugger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.Message;

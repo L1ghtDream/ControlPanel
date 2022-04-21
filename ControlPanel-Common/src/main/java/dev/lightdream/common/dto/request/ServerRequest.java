@@ -1,4 +1,4 @@
-package dev.lightdream.controlpanel.dto.request;
+package dev.lightdream.common.dto.request;
 
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.utils.Utils;

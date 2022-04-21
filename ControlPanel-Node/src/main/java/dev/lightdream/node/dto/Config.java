@@ -1,4 +1,4 @@
-package dev.lightdream.sftp.dto;
+package dev.lightdream.node.dto;
 
 import dev.lightdream.common.dto.CommonConfig;
 

@@ -1,10 +1,10 @@
-package dev.lightdream.sftp.manager;
+package dev.lightdream.node.manager;
 
 import com.google.common.hash.Hashing;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.logger.Logger;
-import dev.lightdream.sftp.Main;
+import dev.lightdream.node.Main;
 import lombok.SneakyThrows;
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
 import org.apache.sshd.server.SshServer;

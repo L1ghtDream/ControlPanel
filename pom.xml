@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>ControlPanel-SFTP</module>
+        <module>ControlPanel-Node</module>
         <module>ControlPanel-Common</module>
         <module>ControlPanel-Web</module>
     </modules>

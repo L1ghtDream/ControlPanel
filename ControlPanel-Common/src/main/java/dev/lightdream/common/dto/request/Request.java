@@ -1,4 +1,4 @@
-package dev.lightdream.controlpanel.dto.request;
+package dev.lightdream.common.dto.request;
 
 import dev.lightdream.common.dto.data.Cookie;
 import lombok.AllArgsConstructor;

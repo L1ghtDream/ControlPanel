@@ -1,4 +1,4 @@
-package dev.lightdream.controlpanel.dto.response;
+package dev.lightdream.common.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -37,4 +37,12 @@ public class Response {
     }
 
 
+    @Override
+    public String toString() {
+        return "Response{" +
+                "code='" + code + '\'' +
+                ", text='" + text + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

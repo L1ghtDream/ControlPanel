@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>ControlPanel-SFTP</artifactId>
+    <artifactId>ControlPanel-Node</artifactId>
     <version>${module.version}</version>
     <packaging>jar</packaging>
 

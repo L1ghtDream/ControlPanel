@@ -1,6 +1,6 @@
-package dev.lightdream.controlpanel.dto;
+package dev.lightdream.common.dto;
 
-import dev.lightdream.controlpanel.dto.request.ServerRequest;
+import dev.lightdream.common.dto.request.ServerRequest;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

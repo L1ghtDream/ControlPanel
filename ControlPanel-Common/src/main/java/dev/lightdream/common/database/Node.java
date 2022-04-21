@@ -1,22 +1,23 @@
 package dev.lightdream.common.database;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
+import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
-import dev.lightdream.logger.Debugger;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @DatabaseTable(table = "nodes")
@@ -53,6 +54,7 @@ public class Node extends PermissionContainer {
         return CommonMain.instance.getSSHManager().getSSH(this);
     }
 
+    /*
     @SneakyThrows
     public String executeCommand(String command) {
         Debugger.log(command);
@@ -66,10 +68,56 @@ public class Node extends PermissionContainer {
 
         return output.get();
     }
+    */
 
-    /*
-    @SneakyThrows
     public String executeCommand(String command) {
+        return executeCommand(command, false);
+    }
+
+    @SneakyThrows
+    public String executeCommand(String command, boolean local) {
+        if (local) {
+            _executeCommandLocal(command);
+            return "";
+        }
+        return executeCommandSSH(command);
+    }
+
+    @SneakyThrows
+    private void _executeCommandLocal(String command) {
+        URL url = new URL("127.0.0.1:14000/api/execute");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("accept", "application/json");
+        InputStream responseStream = connection.getInputStream();
+        ObjectMapper mapper = new ObjectMapper();
+        Response response = mapper.readValue(responseStream, Response.class);
+        System.out.println(response);
+    }
+
+    @SneakyThrows
+    public static String executeCommandLocal(String command) {
+        Process process = new ProcessBuilder("bash", "-c", command)
+                .redirectErrorStream(true)
+                .start();
+
+        StringBuilder output = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+            output.append(line).append("\n");
+        }
+
+        if (0 != process.waitFor()) {
+            return null;
+        }
+
+        return output.toString();
+    }
+
+    @SneakyThrows
+    private String executeCommandSSH(String command) {
         SSHManager.NodeSSH ssh = getSSH();
         SSHManager.SSHSession session = ssh.createNew();
         session.setCommand(command);
@@ -84,28 +132,10 @@ public class Node extends PermissionContainer {
 
         return responseStream.toString();
     }
-    */
-
-    private static class StreamGobbler implements Runnable {
-        private final InputStream inputStream;
-        private final Consumer<String> consumer;
-
-        public StreamGobbler(InputStream inputStream, Consumer<String> consumer) {
-            this.inputStream = inputStream;
-            this.consumer = consumer;
-        }
-
-        @Override
-        public void run() {
-            new BufferedReader(new InputStreamReader(inputStream)).lines()
-                    .forEach(consumer);
-        }
-    }
 
     @SuppressWarnings("UnusedReturnValue")
     public String sendCommandToServer(String command, Server server) {
         return executeCommand("screen -S " + server.serverID + " -X stuff '" + command + "^M'");
-        //return executeCommand("screen -S " + server.serverID + " -X stuff '" + command + "\\n'");
     }
 
     public List<Server> getServers() {
