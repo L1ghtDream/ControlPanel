@@ -58,7 +58,6 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         this.redisEventListener = new RedisEventListener();
 
         logManager = new LogManager();
-        logManager.registerLogListener(databaseManager.getServer("test"));
     }
 
     public void createUsers() {
@@ -125,12 +124,3 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     }
 
 }
-
-/*
-
-TODO:
-- Add User#addPermission
-- Add dev mode to disable caching and return dummy values for RAM, CPU, storage and online status
-- Add protection agains badly given permissions (ex. SERVER type to NODE)
-
- */

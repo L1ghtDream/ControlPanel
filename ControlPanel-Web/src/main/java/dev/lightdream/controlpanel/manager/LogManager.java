@@ -3,6 +3,7 @@ package dev.lightdream.controlpanel.manager;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.common.utils.ConsoleColor;
+import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.dto.Log;
 import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.lambda.LambdaExecutor;
@@ -18,7 +19,7 @@ public class LogManager {
     public HashMap<Integer, Log> logMap = new HashMap<>();
 
     public LogManager() {
-        //TODO Auto register log listeners for all servers
+        Main.instance.getServers().forEach(this::registerLogListener);
     }
 
     public Log getLog(Server server) {
