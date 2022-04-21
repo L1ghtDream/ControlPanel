@@ -3,6 +3,7 @@ package dev.lightdream.common;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.CommonConfig;
+import dev.lightdream.common.dto.redis.RedisConfig;
 import dev.lightdream.common.manager.CacheManager;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.common.manager.RedisManager;
@@ -26,6 +27,7 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
     // Config
     public DriverConfig driverConfig;
     public SQLConfig sqlConfig;
+    public RedisConfig redisConfig;
 
     // Managers
     public SSHManager sshManager;
@@ -86,6 +88,7 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
     public void loadConfigs(FileManager fileManager) {
         sqlConfig = fileManager.load(SQLConfig.class);
         driverConfig = fileManager.load(DriverConfig.class);
+        redisConfig = fileManager.load(RedisConfig.class);
     }
 
     @Override
@@ -107,4 +110,6 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
     }
+
+    public abstract boolean subscribeRedis();
 }

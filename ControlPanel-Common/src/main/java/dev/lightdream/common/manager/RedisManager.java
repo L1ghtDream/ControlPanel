@@ -9,23 +9,25 @@ import redis.clients.jedis.JedisPubSub;
 public class RedisManager {
 
     public Jedis jedis;
-    public Jedis subscriberJedis;
-    public JedisPubSub subscriberJedisPubSub;
+    private Jedis subscriberJedis;
+    private JedisPubSub subscriberJedisPubSub;
     public CommonMain main;
 
     public RedisManager(CommonMain main) {
         this.main = main;
 
-        this.jedis = new Jedis("redis-13050.c135.eu-central-1-1.ec2.cloud.redislabs.com", 13050);
-        this.jedis.auth("default", "3Ud7sUzQjRc6YiFBRvEJyeBlCPWBf5qY");
+        this.jedis = new Jedis(main.redisConfig.host, main.redisConfig.port);
+        this.jedis.auth(main.redisConfig.username, main.redisConfig.password);
 
-        this.subscriberJedis = new Jedis("redis-13050.c135.eu-central-1-1.ec2.cloud.redislabs.com", 13050);
-        this.subscriberJedis.auth("default", "3Ud7sUzQjRc6YiFBRvEJyeBlCPWBf5qY");
+        if (main.subscribeRedis()) {
+            this.subscriberJedis = new Jedis(main.redisConfig.host, main.redisConfig.port);
+            this.subscriberJedis.auth(main.redisConfig.username, main.redisConfig.password);
 
-        registerCommunicationChannel();
+            subscribe();
+        }
     }
 
-    public void registerCommunicationChannel() {
+    private void subscribe() {
         subscriberJedisPubSub = new JedisPubSub() {
 
             @Override
@@ -46,13 +48,17 @@ public class RedisManager {
 
         };
 
-        new Thread(() -> subscriberJedis.subscribe(subscriberJedisPubSub, "control_panel")).start();
+        new Thread(() -> subscriberJedis.subscribe(subscriberJedisPubSub, main.redisConfig.channel)).start();
 
     }
 
     @SuppressWarnings("unused")
     public void unsubscribe() {
         subscriberJedisPubSub.unsubscribe();
+    }
+
+    public void send(String message){
+        jedis.publish(main.redisConfig.channel, message);
     }
 
 

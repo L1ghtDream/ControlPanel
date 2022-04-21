@@ -80,31 +80,7 @@ public class Node extends PermissionContainer {
 
     @SneakyThrows
     private void _executeCommandLocal(String commandStr) {
-
-        CommonMain.instance.redisManager.jedis.publish("control_panel", commandStr);
-
-        /*
-        Command command = new Command(commandStr);
-
-        URL url = new URL("http://127.0.0.1:14000/api/execute");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestMethod("POST");
-
-        connection.setDoOutput(true);
-        OutputStream os = connection.getOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
-        osw.write(new Gson().toJson(command));
-        osw.flush();
-        osw.close();
-        os.close();
-
-        InputStream responseStream = connection.getInputStream();
-        ObjectMapper mapper = new ObjectMapper();
-        Response response = mapper.readValue(responseStream, Response.class);
-        System.out.println(response);
-         */
+        CommonMain.instance.redisManager.send(commandStr);
     }
 
     @SneakyThrows
