@@ -16,6 +16,7 @@ public class ServersCache<T> {
         return servers.get(server.id);
     }
 
+    @SuppressWarnings("unused")
     public void set(Server server, T value) {
         servers.put(server.id, value);
     }

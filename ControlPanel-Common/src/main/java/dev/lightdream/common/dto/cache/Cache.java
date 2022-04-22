@@ -22,6 +22,7 @@ public class Cache<T> {
         this.updater.accept(this);
     }
 
+    @SuppressWarnings("unused")
     public void update(T value) {
         this.value = value;
     }
@@ -43,6 +44,7 @@ public class Cache<T> {
         return value;
     }
 
+    @SuppressWarnings("unused")
     public void cancel() {
         enabled = false;
     }

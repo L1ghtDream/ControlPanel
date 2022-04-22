@@ -69,6 +69,7 @@ public class Server extends PermissionContainer {
     /**
      * @return The server's memory usage in kb (real)
      */
+    @SuppressWarnings("unused")
     public Double getMemoryUsage() {
         Integer pid = getPID();
 
@@ -86,6 +87,7 @@ public class Server extends PermissionContainer {
     /**
      * @return The server's memory allocation in kb (real)
      */
+    @SuppressWarnings("unused")
     public Double getMemoryAllocation() {
         Integer pid = getPID();
 
@@ -103,6 +105,7 @@ public class Server extends PermissionContainer {
     /**
      * @return The server's CPU usage in percentages of a core (real)
      */
+    @SuppressWarnings("unused")
     public Double getCPUUsage() {
         Integer pid = getPID();
 
@@ -121,6 +124,7 @@ public class Server extends PermissionContainer {
     /**
      * @return The server's storage usage in kb (cached)
      */
+    @SuppressWarnings("unused")
     public Double getStorageUsage() {
         String data = node.executeCommand(
                 CommonMain.instance.getConfig().STORAGE_USAGE_CMD
@@ -138,6 +142,7 @@ public class Server extends PermissionContainer {
     /**
      * @return Weather the server is running or not
      */
+    @SuppressWarnings("unused")
     public boolean isOnline() {
         return getPID() != null;
     }

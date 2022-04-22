@@ -13,6 +13,7 @@ public class CacheRegistry {
     public ServersCache<Double> storageUsageCache = new ServersCache<>();
     public ServersCache<Boolean> onlineStatusCache = new ServersCache<>();
 
+    @SuppressWarnings("unused")
     public void updateRegistry(CacheRegistry registry) {
         memoryUsageCache.set(registry.memoryUsageCache);
         memoryAllocationCache.set(registry.memoryAllocationCache);
