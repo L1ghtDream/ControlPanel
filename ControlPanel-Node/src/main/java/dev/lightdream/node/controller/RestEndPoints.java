@@ -4,8 +4,6 @@ import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.Command;
 import dev.lightdream.common.dto.response.Response;
-import dev.lightdream.logger.Debugger;
-import dev.lightdream.common.dto.ServerStats;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -33,16 +31,8 @@ public class RestEndPoints {
     @PostMapping("/api/stats/{serverName}")
     @ResponseBody
     public Response cpuUsage(@PathVariable String serverName) {
-        Debugger.log("Received request for cpu usage");
-        Thread.sleep(10000);
-        Debugger.log("Sending cpu usage");
         Server server = Server.getServer(serverName);
-
-
-
-        return Response.OK(new ServerStats(
-
-        ));
+        return Response.OK(server.getStats());
     }
 
 }

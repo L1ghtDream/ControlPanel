@@ -4,6 +4,7 @@ import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.command.RedisCommand;
 import dev.lightdream.common.dto.redis.command.impl.RedisResponseCommand;
+import dev.lightdream.common.utils.Utils;
 import dev.lightdream.logger.Debugger;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
@@ -40,11 +41,11 @@ public class RedisManager {
 
             @Override
             public void onMessage(String channel, String command) {
-                Class<? extends RedisCommand> clazz = Globals.gson.fromJson(command, RedisCommand.class).getClassByName();
+                Class<? extends RedisCommand> clazz = Utils.fromJson(command, RedisCommand.class).getClassByName();
 
                 if (clazz.equals(RedisResponseCommand.class)) {
                     Debugger.info("[Receive-Response] [" + channel + "] " + command);
-                    RedisResponseCommand responseCommand = Globals.gson.fromJson(command, RedisResponseCommand.class);
+                    RedisResponseCommand responseCommand = Utils.fromJson(command, RedisResponseCommand.class);
                     RedisResponse response = getResponse(responseCommand);
                     if (response == null) {
                         return;
@@ -54,7 +55,7 @@ public class RedisManager {
                 }
 
                 Debugger.info("[Receive         ] [" + channel + "] " + command);
-                Globals.gson.fromJson(command, clazz).fireEvent();
+                Utils.fromJson(command, clazz).fireEvent();
             }
 
             @Override

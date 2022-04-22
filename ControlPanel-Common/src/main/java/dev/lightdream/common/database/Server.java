@@ -143,20 +143,38 @@ public class Server extends PermissionContainer {
     }
 
     public ServerStats getStats() {
+        Integer pid = getPID();
+
+        if (pid == null) {
+            return new ServerStats(
+                    serverID,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    false
+            );
+        }
+
         String command = new MessageBuilder(" && ",
-                CommonMain.instance.getConfig().MEMORY_USAGE_CMD
-                        .parse("pid", "$(" + CommonMain.instance.getConfig().PID_GRAB_CMD + ")"),
-                CommonMain.instance.getConfig().MEMORY_ALLOCATED_CMD
-                        .parse("pid", "$(" + CommonMain.instance.getConfig().PID_GRAB_CMD + ")"),
-                CommonMain.instance.getConfig().CPU_USAGE_CMD
-                        .parse("pid", "$(" + CommonMain.instance.getConfig().PID_GRAB_CMD + ")"),
+                CommonMain.instance.getConfig().MEMORY_USAGE_CMD,
+                CommonMain.instance.getConfig().MEMORY_ALLOCATED_CMD,
+                CommonMain.instance.getConfig().CPU_USAGE_CMD,
                 CommonMain.instance.getConfig().STORAGE_USAGE_CMD)
                 .parse("path", path)
                 .parse("port", port)
+                .parse("pid", pid)
                 .parse();
 
-        this.node.executeCommand(command, true);
-
-        return null;
+        String output = this.node.executeCommand(command, true);
+        String[] stats = output.split("\n");
+        return new ServerStats(
+                serverID,
+                Double.parseDouble(stats[0]),
+                Double.parseDouble(stats[1]),
+                Double.parseDouble(stats[2]),
+                Double.parseDouble(stats[3]),
+                true
+        );
     }
 }

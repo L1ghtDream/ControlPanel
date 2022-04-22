@@ -1,5 +1,7 @@
 package dev.lightdream.common.utils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -9,7 +11,6 @@ import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.data.Cookie;
-import dev.lightdream.common.manager.Globals;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Hex;
@@ -26,6 +27,9 @@ import java.util.Base64;
 public class Utils {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
+    private static final Gson gson = new GsonBuilder()
+            .disableHtmlEscaping()
+            .create();
 
     public static Server getServer(String id) {
         return CommonMain.instance.getServers().stream().filter(server -> server.serverID.equals(id)).findFirst().orElse(null);
@@ -85,7 +89,15 @@ public class Utils {
 
     @SuppressWarnings("unused")
     public static Cookie getCookieFromString(String cookie) {
-        return Globals.gson.fromJson(Utils.base64Decode(cookie), Cookie.class);
+        return fromJson(Utils.base64Decode(cookie), Cookie.class);
+    }
+
+    public static String toJson(Object object) {
+        return gson.toJson(object);
+    }
+
+    public static <T> T fromJson(String json, Class<T> type) {
+        return gson.fromJson(json, type);
     }
 
     /**

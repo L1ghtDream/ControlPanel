@@ -1,5 +1,6 @@
 package dev.lightdream.common.dto;
 
+import dev.lightdream.common.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -14,4 +15,8 @@ public class ServerStats {
     public Double storageUsage;
     public Boolean isOnline;
 
+    @Override
+    public String toString() {
+        return Utils.toJson(this);
+    }
 }

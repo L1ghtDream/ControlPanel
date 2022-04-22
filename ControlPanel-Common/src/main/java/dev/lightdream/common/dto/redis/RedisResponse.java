@@ -1,6 +1,6 @@
 package dev.lightdream.common.dto.redis;
 
-import dev.lightdream.common.manager.Globals;
+import dev.lightdream.common.utils.Utils;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -30,6 +30,6 @@ public class RedisResponse {
 
     @Override
     public String toString() {
-        return Globals.gson.toJson(this);
+        return Utils.toJson(this);
     }
 }

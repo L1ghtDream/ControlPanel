@@ -94,8 +94,11 @@ public class Node extends PermissionContainer {
     @SneakyThrows
     public String executeCommand(String command, boolean local) {
         if (local) {
-            _executeCommandLocal(command);
-            return "";
+            RedisResponse response = _executeCommandLocal(command);
+            if (response == null || response.response == null) {
+                return "";
+            }
+            return response.response.toString();
         }
         return executeCommandSSH(command);
     }
