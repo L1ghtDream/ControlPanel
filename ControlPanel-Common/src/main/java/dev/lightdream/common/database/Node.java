@@ -3,10 +3,12 @@ package dev.lightdream.common.database;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
+import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.command.impl.ExecuteCommand;
 import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
+import dev.lightdream.logger.Debugger;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
@@ -41,39 +43,6 @@ public class Node extends PermissionContainer {
         this.sshPort = sshPort;
     }
 
-    @Override
-    public PermissionEnum.PermissionType getType() {
-        return PermissionEnum.PermissionType.NODE;
-    }
-
-    public SSHManager.NodeSSH getSSH() {
-        return CommonMain.instance.getSSHManager().getSSH(this);
-    }
-
-    public String executeCommand(String command) {
-        return executeCommand(command, false);
-    }
-
-    /**
-     * Executes a command on the node via SSH or redis
-     * @param command The command to execute
-     * @param local Whether to execute the command via SSH or redis
-     * @return The output of the command
-     */
-    @SneakyThrows
-    public String executeCommand(String command, boolean local) {
-        if (local) {
-            _executeCommandLocal(command);
-            return "";
-        }
-        return executeCommandSSH(command);
-    }
-
-    @SneakyThrows
-    private void _executeCommandLocal(String command) {
-        CommonMain.instance.redisManager.send(new ExecuteCommand(command));
-    }
-
     /**
      * Executes a command directly on the current machine (node)
      *
@@ -102,6 +71,49 @@ public class Node extends PermissionContainer {
         return output.toString();
     }
 
+    @Override
+    public PermissionEnum.PermissionType getType() {
+        return PermissionEnum.PermissionType.NODE;
+    }
+
+    public SSHManager.NodeSSH getSSH() {
+        return CommonMain.instance.getSSHManager().getSSH(this);
+    }
+
+    public String executeCommand(String command) {
+        return executeCommand(command, false);
+    }
+
+    /**
+     * Executes a command on the node via SSH or redis
+     *
+     * @param command The command to execute
+     * @param local   Whether to execute the command via SSH or redis
+     * @return The output of the command
+     */
+    @SneakyThrows
+    public String executeCommand(String command, boolean local) {
+        if (local) {
+            _executeCommandLocal(command);
+            return "";
+        }
+        return executeCommandSSH(command);
+    }
+
+    @SuppressWarnings("BusyWait")
+    @SneakyThrows
+    private RedisResponse _executeCommandLocal(String command) {
+        RedisResponse response = CommonMain.instance.redisManager.send(new ExecuteCommand(command));
+
+        while (!response.isFinished()) {
+            Thread.sleep(100);
+        }
+
+        Debugger.log(response);
+
+        return response;
+    }
+
     /**
      * Executes a command on the node via SSH
      *
@@ -127,8 +139,9 @@ public class Node extends PermissionContainer {
 
     /**
      * Executes a command on the node via SSH
+     *
      * @param command The command to execute
-     * @param server The server to execute the command on
+     * @param server  The server to execute the command on
      * @return The output of the command
      */
     @SuppressWarnings("UnusedReturnValue")

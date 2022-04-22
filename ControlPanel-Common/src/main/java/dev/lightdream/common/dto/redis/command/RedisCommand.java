@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 
 public class RedisCommand {
 
+    public int id = -1;
     public String className;
 
     public RedisCommand() {

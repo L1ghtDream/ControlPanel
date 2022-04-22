@@ -1,16 +1,23 @@
 package dev.lightdream.common.manager;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.command.RedisCommand;
-import dev.lightdream.common.dto.redis.command.impl.ExecuteCommand;
+import dev.lightdream.common.dto.redis.command.impl.RedisResponseCommand;
 import dev.lightdream.logger.Debugger;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+
 public class RedisManager {
 
-    public Jedis jedis;
     private final Jedis subscriberJedis;
+    private final List<RedisResponse> awaitingResponses = new ArrayList<>();
+    public Jedis jedis;
+    public int id = 0;
     private JedisPubSub subscriberJedisPubSub;
 
     public RedisManager() {
@@ -23,15 +30,30 @@ public class RedisManager {
         subscribe();
     }
 
+    @Nullable
+    private RedisResponse getResponse(RedisResponseCommand command) {
+        return awaitingResponses.stream().filter(response -> response.id == command.id).findAny().orElse(null);
+    }
+
     private void subscribe() {
         subscriberJedisPubSub = new JedisPubSub() {
 
             @Override
             public void onMessage(String channel, String command) {
-                Debugger.info("[Receive] [" + channel + "] " + command);
-                //command = Utils.base64Decode(command);
-                //Debugger.info("[Receive] [" + channel + "] [ASCII]  " + command);
                 Class<? extends RedisCommand> clazz = Globals.gson.fromJson(command, RedisCommand.class).getClassByName();
+
+                if (clazz.equals(RedisResponseCommand.class)) {
+                    Debugger.info("[Receive-Response] [" + channel + "] " + command);
+                    RedisResponseCommand responseCommand = Globals.gson.fromJson(command, RedisResponseCommand.class);
+                    RedisResponse response = getResponse(responseCommand);
+                    if (response == null) {
+                        return;
+                    }
+                    response.respond(responseCommand.response);
+                    return;
+                }
+
+                Debugger.info("[Receive         ] [" + channel + "] " + command);
                 Globals.gson.fromJson(command, clazz).fireEvent();
             }
 
@@ -56,10 +78,22 @@ public class RedisManager {
         subscriberJedisPubSub.unsubscribe();
     }
 
-    public void send(RedisCommand command) {
-        Debugger.log("[Send]   [" + CommonMain.instance.redisConfig.channel + "] " + command);
-        //Debugger.log("[Send]   [" + CommonMain.instance.redisConfig.channel + "] [Base64] " + Utils.base64Encode(command.toString()));
+    public RedisResponse send(RedisCommand command) {
+        if (command instanceof RedisResponseCommand) {
+            Debugger.log("[Send-Response   ] [" + CommonMain.instance.redisConfig.channel + "] " + command);
+            jedis.publish(CommonMain.instance.redisConfig.channel, command.toString());
+            return null;
+        }
+
+        command.id = ++id;
+        Debugger.log("[Send            ] [" + CommonMain.instance.redisConfig.channel + "] " + command);
+
+        RedisResponse redisResponse = new RedisResponse(command.id);
         jedis.publish(CommonMain.instance.redisConfig.channel, command.toString());
+
+        awaitingResponses.add(redisResponse);
+
+        return redisResponse;
     }
 
 
