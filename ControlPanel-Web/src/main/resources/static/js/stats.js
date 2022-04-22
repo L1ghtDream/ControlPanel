@@ -16,8 +16,3 @@ async function getCpuUsage(server, callback) {
     console.log("Getting CPU usage for " + server);
     callAPI("/api/stats/" + server, {}, callback);
 }
-
-/*
-import { hello } from './module.js';
-let val = hello();  // val is "Hello";
- */

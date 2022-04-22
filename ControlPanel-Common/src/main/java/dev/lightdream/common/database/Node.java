@@ -4,7 +4,7 @@ import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.redis.RedisResponse;
-import dev.lightdream.common.dto.redis.command.impl.ExecuteCommand;
+import dev.lightdream.common.dto.redis.event.impl.ExecuteCommandEvent;
 import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
@@ -106,7 +106,7 @@ public class Node extends PermissionContainer {
     @SuppressWarnings("BusyWait")
     @SneakyThrows
     private RedisResponse _executeCommandLocal(String command) {
-        RedisResponse response = CommonMain.instance.redisManager.send(new ExecuteCommand(command));
+        RedisResponse response = CommonMain.instance.redisManager.send(new ExecuteCommandEvent(command));
 
         while (!response.isFinished()) {
             Thread.sleep(100);

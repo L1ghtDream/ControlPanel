@@ -4,10 +4,7 @@ import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.dto.redis.RedisConfig;
-import dev.lightdream.common.manager.DatabaseManager;
-import dev.lightdream.common.manager.RedisEventListener;
-import dev.lightdream.common.manager.RedisManager;
-import dev.lightdream.common.manager.SSHManager;
+import dev.lightdream.common.manager.*;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.dto.DriverConfig;
 import dev.lightdream.databasemanager.dto.SQLConfig;
@@ -33,6 +30,7 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
     public SSHManager sshManager;
     public DatabaseManager databaseManager;
     public RedisManager redisManager;
+    public RedisEventManager redisEventManager;
 
     @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal"})
     private FileManager fileManager;
@@ -49,6 +47,8 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         databaseManager = new DatabaseManager(this);
         redisManager = new RedisManager();
         sshManager = new SSHManager();
+        redisManager = new RedisManager();
+        redisEventManager = new RedisEventManager();
     }
 
     @SuppressWarnings("unused")
@@ -56,6 +56,10 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
 
     public List<Server> getServers() {
         return getDatabaseManager().getServers();
+    }
+
+    public List<Server> getServers(Node node) {
+        return getDatabaseManager().getServers(node);
     }
 
     public List<Node> getNodes() {

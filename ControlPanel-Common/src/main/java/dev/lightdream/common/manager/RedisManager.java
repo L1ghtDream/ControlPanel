@@ -2,8 +2,8 @@ package dev.lightdream.common.manager;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.redis.RedisResponse;
-import dev.lightdream.common.dto.redis.command.RedisCommand;
-import dev.lightdream.common.dto.redis.command.impl.RedisResponseCommand;
+import dev.lightdream.common.dto.redis.event.RedisEvent;
+import dev.lightdream.common.dto.redis.event.impl.ResponseEvent;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.logger.Debugger;
 import redis.clients.jedis.Jedis;
@@ -32,7 +32,7 @@ public class RedisManager {
     }
 
     @Nullable
-    private RedisResponse getResponse(RedisResponseCommand command) {
+    private RedisResponse getResponse(ResponseEvent command) {
         return awaitingResponses.stream().filter(response -> response.id == command.id).findAny().orElse(null);
     }
 
@@ -41,16 +41,16 @@ public class RedisManager {
 
             @Override
             public void onMessage(String channel, String command) {
-                Class<? extends RedisCommand> clazz = Utils.fromJson(command, RedisCommand.class).getClassByName();
+                Class<? extends RedisEvent> clazz = Utils.fromJson(command, RedisEvent.class).getClassByName();
 
-                if (clazz.equals(RedisResponseCommand.class)) {
+                if (clazz.equals(ResponseEvent.class)) {
                     Debugger.info("[Receive-Response] [" + channel + "] " + command);
-                    RedisResponseCommand responseCommand = Utils.fromJson(command, RedisResponseCommand.class);
-                    RedisResponse response = getResponse(responseCommand);
+                    ResponseEvent responseEvent = Utils.fromJson(command, ResponseEvent.class);
+                    RedisResponse response = getResponse(responseEvent);
                     if (response == null) {
                         return;
                     }
-                    response.respond(responseCommand.response);
+                    response.respond(responseEvent.response);
                     return;
                 }
 
@@ -79,8 +79,8 @@ public class RedisManager {
         subscriberJedisPubSub.unsubscribe();
     }
 
-    public RedisResponse send(RedisCommand command) {
-        if (command instanceof RedisResponseCommand) {
+    public RedisResponse send(RedisEvent command) {
+        if (command instanceof ResponseEvent) {
             Debugger.log("[Send-Response   ] [" + CommonMain.instance.redisConfig.channel + "] " + command);
             jedis.publish(CommonMain.instance.redisConfig.channel, command.toString());
             return null;

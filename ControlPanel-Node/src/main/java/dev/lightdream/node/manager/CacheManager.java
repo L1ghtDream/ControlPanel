@@ -1,24 +1,23 @@
 package dev.lightdream.node.manager;
 
-import dev.lightdream.common.CommonMain;
-import dev.lightdream.common.database.Server;
-import dev.lightdream.common.dto.Cache;
+import dev.lightdream.common.dto.cache.Cache;
+import dev.lightdream.logger.Debugger;
 import dev.lightdream.logger.Logger;
-import lombok.AllArgsConstructor;
-
-import java.util.HashMap;
+import dev.lightdream.node.Main;
 
 public class CacheManager {
 
-    public Cache<ServersCache<Double>> memoryUsageCache;
-    public Cache<ServersCache<Double>> memoryAllocationCache;
-    public Cache<ServersCache<Double>> cpuUsageCache;
-    public Cache<ServersCache<Double>> storageUsageCache;
-    public Cache<ServersCache<Boolean>> onlineStatusCache;
 
     public CacheManager() {
         Logger.good("Starting caching...");
 
+        new Cache<>(cache -> {
+            Main.instance.getServers(Main.instance.getNode()).forEach(server -> {
+                Debugger.log("Sending stats of server " + server.serverID + " to cache registry");
+            });
+        }, 20 * 1000L); //20 seconds
+
+        /*
         memoryUsageCache = new Cache<>(cache -> {
             HashMap<Integer, Double> output = new HashMap<>();
 
@@ -68,18 +67,9 @@ public class CacheManager {
             cache.update(new ServersCache<>(output));
             cache.cancel();
         }, 20 * 1000L); // 20s
+        */
 
         Logger.good("Caching enabled!");
-    }
-
-    @AllArgsConstructor
-    public static class ServersCache<T> {
-        public HashMap<Integer, T> servers;
-
-        @SuppressWarnings("unused")
-        public T get(Server server) {
-            return servers.get(server.id);
-        }
     }
 
 }

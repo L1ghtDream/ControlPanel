@@ -1,12 +1,15 @@
 package dev.lightdream.node;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.Node;
 import dev.lightdream.common.dto.CommonConfig;
+import dev.lightdream.common.dto.redis.event.impl.ExecuteCommandEvent;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.logger.Logger;
 import dev.lightdream.node.controller.RestEndPoints;
 import dev.lightdream.node.dto.Config;
+import dev.lightdream.node.manager.CacheManager;
 import dev.lightdream.node.manager.RedisEventListener;
 import dev.lightdream.node.manager.SFTPServerManager;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +23,7 @@ public class Main extends CommonMain {
     public SFTPServerManager sftpServerManager;
     public RestEndPoints restEndPoints;
     public RedisEventListener redisEventListener;
+    public CacheManager cacheManager;
 
     // Configs
     public Config config;
@@ -37,9 +41,12 @@ public class Main extends CommonMain {
 
         restEndPoints = new RestEndPoints();
         redisEventListener = new RedisEventListener();
+        cacheManager = new CacheManager();
+
+        redisEventManager.fire(new ExecuteCommandEvent("ls"));
 
         // Infinite loop for sftp server keep alive
-        //noinspection InfiniteLoopStatement,StatementWithEmptyBody
+        // noinspection InfiniteLoopStatement,StatementWithEmptyBody
         while (true) {
         }
     }
@@ -58,5 +65,9 @@ public class Main extends CommonMain {
     @Override
     public CommonConfig getConfig() {
         return config;
+    }
+
+    public Node getNode() {
+        return databaseManager.getNode(config.nodeID);
     }
 }

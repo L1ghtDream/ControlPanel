@@ -1,4 +1,4 @@
-package dev.lightdream.common.dto;
+package dev.lightdream.common.dto.cache;
 
 import java.util.Timer;
 import java.util.TimerTask;

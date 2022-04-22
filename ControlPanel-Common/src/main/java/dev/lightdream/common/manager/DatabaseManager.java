@@ -65,6 +65,17 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         return get(Server.class).query();
     }
 
+    /**
+     * @param node The node to get the server from
+     * @return The server of the node
+     */
+    public List<Server> getServers(Node node) {
+        return get(Server.class)
+                .query(new QueryConstrains()
+                        .equals("id", node.id)
+                ).query();
+    }
+
     @Nullable
     public Server getServer(int id) {
         return get(Server.class).query(
