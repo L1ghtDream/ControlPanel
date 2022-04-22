@@ -1,11 +1,11 @@
 package dev.lightdream.controlpanel.config;
 
-import com.google.gson.Gson;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.Command;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionEnum;
+import dev.lightdream.common.manager.Globals;
 import dev.lightdream.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.Message;
@@ -93,7 +93,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
             return false;
         }
 
-        Command command = new Gson().fromJson(commandJson, Command.class);
+        Command command = Globals.gson.fromJson(commandJson, Command.class);
         Cookie cookie = new Cookie(username, password);
         User user = cookie.getUser();
         Server server = command.getServer();

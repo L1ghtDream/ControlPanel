@@ -17,7 +17,10 @@ public class Cookie {
     public String hash;
 
     public boolean validate() {
-        User user = CommonMain.instance.getDatabaseManager().getUser(username);
+        User user = getUser();
+
+        System.out.println("Cookie: " + username + ":" + hash);
+        System.out.println("User: " + user.username + ":" + user.password + ":" + user.otpSecret);
 
         return Hashing.sha256()
                 .hashString(username + user.password + user.otpSecret, StandardCharsets.UTF_8)

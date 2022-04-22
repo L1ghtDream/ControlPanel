@@ -22,7 +22,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         List<String> paths = new ArrayList<>();
 
         Main.instance.getServers().forEach(server -> {
-            Logger.info("[Broker] Registering server: " + server.serverID + " @ /server/" + server.serverID + "/api/console");
+            Logger.info("[Broker] Registering server: " + server.serverID + " @ \"/server/" + server.serverID + "/api/console\"");
 
             paths.add("/server/" + server.serverID + "/api/console");
         });
@@ -34,7 +34,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(@NotNull StompEndpointRegistry registry) {
         Main.instance.getServers().forEach(server -> {
-            Logger.info("[Stomp] Registering server: " + server.serverID + " ( " + "/server/" + server.serverID + "/api/server" + " )");
+            Logger.info("[Stomp] Registering server: " + server.serverID + " @ \"/server/" + server.serverID + "/api/server\"");
 
             registry.addEndpoint("/server/" + server.serverID + "/api/server");
             registry.addEndpoint("/server/" + server.serverID + "/api/server").withSockJS();

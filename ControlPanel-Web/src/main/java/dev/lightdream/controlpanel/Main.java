@@ -1,6 +1,7 @@
 package dev.lightdream.controlpanel;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.dto.permission.PermissionEnum;
@@ -58,6 +59,8 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         this.redisEventListener = new RedisEventListener();
 
         logManager = new LogManager();
+
+        Server.getServer("test").getStats(); // TODO remove for production
     }
 
     public void createUsers() {
@@ -122,10 +125,5 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         config = fileManager.load(Config.class);
         super.loadConfigs(fileManager);
     }
-
-    /*
-    TODO
-    - Remove debug logger for Hikari
-    */
 
 }

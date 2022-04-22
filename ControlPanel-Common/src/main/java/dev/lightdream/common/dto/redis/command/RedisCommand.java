@@ -1,7 +1,7 @@
 package dev.lightdream.common.dto.redis.command;
 
-import com.google.gson.Gson;
 import dev.lightdream.common.dto.redis.event.RedisEvent;
+import dev.lightdream.common.manager.Globals;
 import lombok.SneakyThrows;
 
 public class RedisCommand {
@@ -28,6 +28,6 @@ public class RedisCommand {
 
     @Override
     public String toString() {
-        return new Gson().toJson(this);
+        return Globals.gson.toJson(this);
     }
 }

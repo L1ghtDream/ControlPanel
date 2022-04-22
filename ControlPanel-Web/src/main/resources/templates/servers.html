@@ -29,26 +29,34 @@
                             <td class="processor">
                                 <div class="s-label">CPU</div>
                                 <i class="mdi mdi-memory"></i>
-                                <span th:text="${server.getCPUUsage} + '%'"></span>
+                                <span class="cpu_usage" th:th:classappend="${server.serverID}">
+                                   Loading...
+                                </span>
+                                <!-- <span th:text="${server.getCPUUsage} + '%'"></span> -->
                             </td>
                             <td class="ram">
                                 <div class="s-label">RAM</div>
                                 <i class="mdi mdi-chip"></i>
+                                Loading...
                                 <!-- <span th:text="${server.getMemoryUsageFormatted} + ' / ' + ${server.getMemoryAllocationFormatted}"></span> -->
-                                <span th:text="${server.getMemoryUsageFormatted}"></span>
+                                <!-- <span th:text="${server.getMemoryUsageFormatted}"></span> -->
                             </td>
                             <td class="storage">
                                 <div class="s-label">Storage</div>
                                 <i class="mdi mdi-cloud"></i>
-                                <span th:text="${server.getStorageUsageFormatted}"></span>
+                                Loading...
+                                <!-- <span th:text="${server.getStorageUsageFormatted}"></span> -->
                             </td>
                             <td class="status">
+                                Loading...
+                                <!--
                                 <div class="bar"
                                      style="background: #8bc34a !important; box-shadow: 0 0 10px #8bc34a !important; "
                                      th:if="${server.isOnline}"></div>
                                 <div class="bar"
                                      style="background: #f44336 !important; box-shadow: 0 0 10px #f4433685 !important"
                                      th:if="!${server.isOnline}"></div>
+                                 -->
                             </td>
                         </tr>
 
@@ -59,5 +67,9 @@
     </div>
 </div>
 <div th:replace="fragments/global :: scripts"></div>
+<script src="/js/stats.js"></script>
+<script>
+    addStats();
+</script>
 </body>
 </html>

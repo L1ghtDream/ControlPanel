@@ -23,7 +23,7 @@ public class CacheManager {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, server.getMemoryUsageReal()));
+                    output.put(server.id, server.getMemoryUsage()));
 
             cache.update(new ServersCache<>(output));
             cache.cancel();
@@ -33,7 +33,7 @@ public class CacheManager {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, server.getMemoryAllocationReal()));
+                    output.put(server.id, server.getMemoryAllocation()));
 
             cache.update(new ServersCache<>(output));
             cache.cancel();
@@ -43,7 +43,7 @@ public class CacheManager {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, server.getCPUUsageReal()));
+                    output.put(server.id, server.getCPUUsage()));
 
             cache.update(new ServersCache<>(output));
             cache.cancel();
@@ -53,7 +53,7 @@ public class CacheManager {
             HashMap<Integer, Double> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, server.getStorageUsageReal()));
+                    output.put(server.id, server.getStorageUsage()));
 
             cache.update(new ServersCache<>(output));
             cache.cancel();
@@ -63,7 +63,7 @@ public class CacheManager {
             HashMap<Integer, Boolean> output = new HashMap<>();
 
             CommonMain.instance.getServers().forEach(server ->
-                    output.put(server.id, server.isOnlineReal()));
+                    output.put(server.id, server.isOnline()));
 
             cache.update(new ServersCache<>(output));
             cache.cancel();

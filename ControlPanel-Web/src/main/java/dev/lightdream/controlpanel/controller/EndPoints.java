@@ -1,10 +1,10 @@
 package dev.lightdream.controlpanel.controller;
 
-import com.google.gson.Gson;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionEnum;
+import dev.lightdream.common.manager.Globals;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import org.springframework.stereotype.Controller;
@@ -49,7 +49,7 @@ public class EndPoints {
     }
 
     public Cookie getCookie(String cookie) {
-        return new Gson().fromJson(Utils.base64Decode(cookie), Cookie.class);
+        return Globals.gson.fromJson(Utils.base64Decode(cookie), Cookie.class);
     }
 
     @SuppressWarnings("unused")

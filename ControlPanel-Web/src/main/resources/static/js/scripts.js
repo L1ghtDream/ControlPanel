@@ -142,6 +142,13 @@ async function callPutAPI(api, data) {
     });
 }
 
+/**
+ * @param api The api you want to call
+ * @param data The body of the request
+ * @param callback The successful callback (the argument is the data of the response)
+ * @param failCallback The failed callback (the argument is the data itself)
+ * @returns {Promise<void>}
+ */
 async function callAPI(api, data, callback, failCallback) {
     const blob = await fetch(api, {
         method: 'post',
@@ -168,7 +175,7 @@ async function callAPI(api, data, callback, failCallback) {
             failCallback(obj);
             return
         }
-        callback(obj);
+        callback(obj.data);
     } catch (error) {
         if (error !== undefined) {
             error.hidden = false;

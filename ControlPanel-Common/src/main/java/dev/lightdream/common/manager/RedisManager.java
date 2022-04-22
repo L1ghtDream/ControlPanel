@@ -1,8 +1,8 @@
 package dev.lightdream.common.manager;
 
-import com.google.gson.Gson;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.redis.command.RedisCommand;
+import dev.lightdream.common.dto.redis.command.impl.ExecuteCommand;
 import dev.lightdream.logger.Debugger;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
@@ -28,10 +28,11 @@ public class RedisManager {
 
             @Override
             public void onMessage(String channel, String command) {
-                Debugger.info("[" + channel + "] " + command);
-                Gson gson = new Gson();
-                Class<? extends RedisCommand> clazz = gson.fromJson(command, RedisCommand.class).getClassByName();
-                gson.fromJson(command, clazz).fireEvent();
+                Debugger.info("[Receive] [" + channel + "] " + command);
+                //command = Utils.base64Decode(command);
+                //Debugger.info("[Receive] [" + channel + "] [ASCII]  " + command);
+                Class<? extends RedisCommand> clazz = Globals.gson.fromJson(command, RedisCommand.class).getClassByName();
+                Globals.gson.fromJson(command, clazz).fireEvent();
             }
 
             @Override
@@ -56,6 +57,8 @@ public class RedisManager {
     }
 
     public void send(RedisCommand command) {
+        Debugger.log("[Send]   [" + CommonMain.instance.redisConfig.channel + "] " + command);
+        //Debugger.log("[Send]   [" + CommonMain.instance.redisConfig.channel + "] [Base64] " + Utils.base64Encode(command.toString()));
         jedis.publish(CommonMain.instance.redisConfig.channel, command.toString());
     }
 

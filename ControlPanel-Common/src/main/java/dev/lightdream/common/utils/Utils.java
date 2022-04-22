@@ -1,6 +1,5 @@
 package dev.lightdream.common.utils;
 
-import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -10,6 +9,7 @@ import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.data.Cookie;
+import dev.lightdream.common.manager.Globals;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Hex;
@@ -85,7 +85,7 @@ public class Utils {
 
     @SuppressWarnings("unused")
     public static Cookie getCookieFromString(String cookie) {
-        return new Gson().fromJson(Utils.base64Decode(cookie), Cookie.class);
+        return Globals.gson.fromJson(Utils.base64Decode(cookie), Cookie.class);
     }
 
     /**
