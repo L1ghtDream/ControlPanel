@@ -19,9 +19,6 @@ public class Cookie {
     public boolean validate() {
         User user = getUser();
 
-        System.out.println("Cookie: " + username + ":" + hash);
-        System.out.println("User: " + user.username + ":" + user.password + ":" + user.otpSecret);
-
         return Hashing.sha256()
                 .hashString(username + user.password + user.otpSecret, StandardCharsets.UTF_8)
                 .toString()

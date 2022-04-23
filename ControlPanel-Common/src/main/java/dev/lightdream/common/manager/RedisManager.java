@@ -92,13 +92,13 @@ public class RedisManager {
 
     public RedisResponse send(RedisEvent command) {
         if (command instanceof ResponseEvent) {
-            Debugger.log("[Send-Response      ] [" + CommonMain.instance.redisConfig.channel + "] " + command);
+            Debugger.info("[Send-Response      ] [" + CommonMain.instance.redisConfig.channel + "] " + command);
             jedis.publish(CommonMain.instance.redisConfig.channel, command.toString());
             return null;
         }
 
         command.id = ++id;
-        Debugger.log("[Send               ] [" + CommonMain.instance.redisConfig.channel + "] " + command);
+        Debugger.info("[Send               ] [" + CommonMain.instance.redisConfig.channel + "] " + command);
 
         RedisResponse redisResponse = new RedisResponse(command.id);
         jedis.publish(CommonMain.instance.redisConfig.channel, command.toString());

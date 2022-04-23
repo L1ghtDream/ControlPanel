@@ -32,7 +32,7 @@ public class Permission extends DatabaseEntry {
     @Override
     public void save() {
         if (!permission.getType().equals(target.getType())) {
-            Debugger.log("Permission type mismatch: " + permission.getType() + " != " + target.getType() + " for "
+            Debugger.info("Permission type mismatch: " + permission.getType() + " != " + target.getType() + " for "
                     + permission + " @ " + target.getIdentifier());
             return;
         }

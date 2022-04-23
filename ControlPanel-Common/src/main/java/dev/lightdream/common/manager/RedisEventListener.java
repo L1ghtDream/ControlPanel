@@ -28,15 +28,8 @@ public class RedisEventListener {
             Parameter parameter = method.getParameters()[0];
             Class<?> clazz = parameter.getType();
 
-            Debugger.log(clazz);
-
             CommonMain.instance.redisEventManager.registerListener((Class<? extends RedisEvent>) clazz, obj -> {
-                Debugger.log(obj.getClass());
-                Debugger.log(obj.getClassByName());
                 try {
-                    Debugger.log(method);
-                    Debugger.log(clazz);
-                    Debugger.log(obj);
                     method.invoke(this, clazz.cast(obj));
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();

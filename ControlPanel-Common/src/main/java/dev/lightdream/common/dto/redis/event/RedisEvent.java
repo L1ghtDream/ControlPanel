@@ -41,9 +41,7 @@ public class RedisEvent {
     }
 
     public void respond(Object response) {
-        Debugger.log("Event id: " + id);
         ResponseEvent responseEvent = new ResponseEvent(this, response);
-        Debugger.log("Response id: " + responseEvent.id);
         CommonMain.instance.redisManager.send(responseEvent);
     }
 

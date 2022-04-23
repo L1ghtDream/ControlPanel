@@ -1,7 +1,6 @@
 package dev.lightdream.controlpanel;
 
 import dev.lightdream.common.CommonMain;
-import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.dto.permission.PermissionEnum;
@@ -14,7 +13,6 @@ import dev.lightdream.controlpanel.manager.RedisEventListener;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
-import dev.lightdream.logger.Debugger;
 import org.springframework.boot.SpringApplication;
 
 public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
@@ -65,8 +63,6 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         this.redisEventListener = new RedisEventListener();
 
         logManager = new LogManager();
-
-        Debugger.log(Server.getServer("test").getStats()); // TODO remove for production
     }
 
     public void createUsers() {

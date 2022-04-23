@@ -112,8 +112,6 @@ public class Node extends PermissionContainer {
             Thread.sleep(100);
         }
 
-        Debugger.log(response);
-
         return response;
     }
 
