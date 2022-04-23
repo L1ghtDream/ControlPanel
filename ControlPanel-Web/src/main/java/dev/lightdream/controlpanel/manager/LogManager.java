@@ -15,16 +15,16 @@ import java.util.List;
 
 public class LogManager {
 
-    public HashMap<Integer, Log> logMap = new HashMap<>();
+    public HashMap<String, Log> logMap = new HashMap<>();
 
     public LogManager() {
         Main.instance.getServers().forEach(this::registerLogListener);
     }
 
     public Log getLog(Server server) {
-        Log log = logMap.get(server.id);
+        Log log = logMap.get(server.getID());
         if (log == null) {
-            logMap.put(server.id, new Log());
+            logMap.put(server.getID(), new Log());
             return getLog(server);
         }
         return log;

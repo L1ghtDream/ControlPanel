@@ -24,8 +24,6 @@ import java.util.stream.Collectors;
 public class Node extends PermissionContainer {
 
     //Settings
-    @DatabaseField(columnName = "node_id", unique = true)
-    public String nodeID;
     @DatabaseField(columnName = "name")
     public String name;
     //Credentials
@@ -36,8 +34,8 @@ public class Node extends PermissionContainer {
     @DatabaseField(columnName = "ssh_port")
     public int sshPort;
 
-    public Node(String nodeID, String name, String ip, String username, int sshPort) {
-        this.nodeID = nodeID;
+    public Node(String id, String name, String ip, String username, int sshPort) {
+        this.id = id;
         this.name = name;
         this.ip = ip;
         this.username = username;
@@ -85,7 +83,7 @@ public class Node extends PermissionContainer {
      */
     @SneakyThrows
     public String executeCommand(String command) {
-        if (nodeID.equals(CommonMain.instance.getRedisID())) {
+        if (getID().equals(CommonMain.instance.getRedisID())) {
             return executeCommandLocal(command);
         }
 
@@ -117,11 +115,11 @@ public class Node extends PermissionContainer {
      */
     @SuppressWarnings("UnusedReturnValue")
     public String sendCommandToServer(String command, Server server) {
-        return executeCommand("screen -S " + server.serverID + " -X stuff '" + command + "^M'");
+        return executeCommand("screen -S " + server.id + " -X stuff '" + command + "^M'");
     }
 
     public List<Server> getServers() {
-        return CommonMain.instance.getServers().stream().filter(server -> server.node.nodeID.equals(this.nodeID)).collect(Collectors.toList());
+        return CommonMain.instance.getServers().stream().filter(server -> server.node.id.equals(this.id)).collect(Collectors.toList());
     }
 
     @SuppressWarnings("unused")
@@ -174,5 +172,4 @@ public class Node extends PermissionContainer {
 
         return registry;
     }
-
 }

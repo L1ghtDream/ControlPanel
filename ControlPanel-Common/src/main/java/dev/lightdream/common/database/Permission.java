@@ -1,14 +1,15 @@
-package dev.lightdream.common.dto.permission;
+package dev.lightdream.common.database;
 
 import dev.lightdream.common.CommonMain;
-import dev.lightdream.common.database.User;
+import dev.lightdream.common.dto.permission.PermissionContainer;
+import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
-import dev.lightdream.databasemanager.dto.DatabaseEntry;
+import dev.lightdream.databasemanager.dto.entry.impl.IntegerDatabaseEntry;
 import dev.lightdream.logger.Debugger;
 
 @DatabaseTable(table = "permissions")
-public class Permission extends DatabaseEntry {
+public class Permission extends IntegerDatabaseEntry {
 
     @DatabaseField(columnName = "user_id")
     public User user;

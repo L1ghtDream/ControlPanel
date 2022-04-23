@@ -37,18 +37,30 @@
                             <td class="ram">
                                 <div class="s-label">RAM</div>
                                 <i class="mdi mdi-chip"></i>
-                                Loading...
+                                <span class="memory_usage" th:th:classappend="${server.serverID}">
+                                   Loading...
+                                </span>
+                                <span>
+                                    /
+                                </span>
+                                <span class="memory_allocation" th:th:classappend="${server.serverID}">
+                                   Loading...
+                                </span>
                                 <!-- <span th:text="${server.getMemoryUsageFormatted} + ' / ' + ${server.getMemoryAllocationFormatted}"></span> -->
                                 <!-- <span th:text="${server.getMemoryUsageFormatted}"></span> -->
                             </td>
                             <td class="storage">
                                 <div class="s-label">Storage</div>
                                 <i class="mdi mdi-cloud"></i>
-                                Loading...
+                                <span class="storage_ussage" th:th:classappend="${server.serverID}">
+                                   Loading...
+                                </span>
                                 <!-- <span th:text="${server.getStorageUsageFormatted}"></span> -->
                             </td>
                             <td class="status">
-                                Loading...
+                                <span class="in_online" th:th:classappend="${server.serverID}">
+                                   Loading...
+                                </span>
                                 <!--
                                 <div class="bar"
                                      style="background: #8bc34a !important; box-shadow: 0 0 10px #8bc34a !important; "

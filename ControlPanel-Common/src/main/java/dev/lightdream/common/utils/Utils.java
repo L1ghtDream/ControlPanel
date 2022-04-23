@@ -32,11 +32,11 @@ public class Utils {
             .create();
 
     public static Server getServer(String id) {
-        return CommonMain.instance.getServers().stream().filter(server -> server.serverID.equals(id)).findFirst().orElse(null);
+        return CommonMain.instance.getServers().stream().filter(server -> server.id.equals(id)).findFirst().orElse(null);
     }
 
     public static Node getNode(String id) {
-        return CommonMain.instance.getNodes().stream().filter(node -> node.nodeID.equals(id)).findFirst().orElse(null);
+        return CommonMain.instance.getNodes().stream().filter(node -> node.id.equals(id)).findFirst().orElse(null);
     }
 
     @SuppressWarnings("unused")

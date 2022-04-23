@@ -5,6 +5,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
+import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 
 import java.io.ByteArrayOutputStream;
@@ -12,12 +13,12 @@ import java.util.HashMap;
 
 public class SSHManager {
 
-    private final static HashMap<Integer, NodeSSH> sshMap = new HashMap<>();
+    private final static HashMap<String, NodeSSH> sshMap = new HashMap<>();
 
     public static NodeSSH getSSH(Node node) {
-        NodeSSH ssh = sshMap.get(node.id);
+        NodeSSH ssh = sshMap.get(node.getID());
         if (ssh == null) {
-            sshMap.put(node.id, new NodeSSH(node));
+            sshMap.put(node.getID(), new NodeSSH(node));
             return getSSH(node);
         }
         return ssh;
@@ -33,7 +34,7 @@ public class SSHManager {
         private ChannelExec channel;
 
         public SSHSession(Node node) {
-            this.nodeID = node.nodeID;
+            this.nodeID = node.getID();
             this.username = node.username;
             this.ip = node.ip;
             this.port = node.sshPort;
@@ -66,6 +67,11 @@ public class SSHManager {
         public void auth() {
             if (session == null || !session.isConnected()) {
                 JSch jsch = new JSch();
+                Debugger.log("Getting ssh key from " + CommonMain.instance.getDataFolder().toString() + "/ssh_keys/" + nodeID);
+                Debugger.log("Username: " + username);
+                Debugger.log("IP: " + ip);
+                Debugger.log("Port: " + port);
+
                 jsch.addIdentity(CommonMain.instance.getDataFolder().toString() + "/ssh_keys/" + nodeID);
 
                 session = jsch.getSession(username, ip, port);

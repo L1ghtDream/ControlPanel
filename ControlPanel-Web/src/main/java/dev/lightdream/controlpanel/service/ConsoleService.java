@@ -30,7 +30,7 @@ public class ConsoleService {
             output.append(logMessage);
         });
 
-        messageManager.convertAndSend("/server/" + server.serverID + "/api/console", output.toString());
+        messageManager.convertAndSend("/server/" + server.id + "/api/console", output.toString());
     }
 
 }

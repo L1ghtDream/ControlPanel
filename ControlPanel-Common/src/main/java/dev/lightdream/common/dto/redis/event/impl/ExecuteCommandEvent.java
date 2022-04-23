@@ -10,7 +10,7 @@ public class ExecuteCommandEvent extends RedisEvent {
     public String command;
 
     public ExecuteCommandEvent(String command, Node target) {
-        super(target.nodeID);
+        super(target.getID());
         this.command = command;
     }
 

@@ -1,13 +1,14 @@
 package dev.lightdream.common.dto.permission;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.GlobalPermissionContainer;
+import dev.lightdream.common.database.Permission;
 import dev.lightdream.common.database.User;
-import dev.lightdream.common.dto.permission.impl.GlobalPermissionContainer;
-import dev.lightdream.databasemanager.dto.DatabaseEntry;
+import dev.lightdream.databasemanager.dto.entry.impl.StringDatabaseEntry;
 
 import java.util.List;
 
-public abstract class PermissionContainer extends DatabaseEntry {
+public abstract class PermissionContainer extends StringDatabaseEntry {
 
     public PermissionContainer() {
         super(CommonMain.instance);
@@ -20,7 +21,7 @@ public abstract class PermissionContainer extends DatabaseEntry {
      */
     public static PermissionContainer getByIdentifier(String identifier) {
         PermissionEnum.PermissionType type = PermissionEnum.PermissionType.valueOf(identifier.split("_")[0]);
-        int id = Integer.parseInt(identifier.split("_")[1]);
+        String id = identifier.split("_")[1];
 
         PermissionContainer target = null;
 

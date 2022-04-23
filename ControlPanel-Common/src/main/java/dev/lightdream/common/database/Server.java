@@ -18,8 +18,6 @@ import org.jetbrains.annotations.Nullable;
 public class Server extends PermissionContainer {
 
     //Settings
-    @DatabaseField(columnName = "server_id", unique = true)
-    public String serverID;
     @DatabaseField(columnName = "name")
     public String name;
     //Location
@@ -30,8 +28,8 @@ public class Server extends PermissionContainer {
     @DatabaseField(columnName = "port")
     public Integer port;
 
-    public Server(String serverID, String name, String path, Node node, Integer port) {
-        this.serverID = serverID;
+    public Server(String id, String name, String path, Node node, Integer port) {
+        this.id = id;
         this.name = name;
         this.path = path;
         this.node = node;

@@ -6,10 +6,10 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
-import dev.lightdream.databasemanager.dto.DatabaseEntry;
+import dev.lightdream.databasemanager.dto.entry.impl.IntegerDatabaseEntry;
 
 @DatabaseTable(table = "users")
-public class User extends DatabaseEntry {
+public class User extends IntegerDatabaseEntry {
 
     @DatabaseField(columnName = "username", unique = true)
     public String username;

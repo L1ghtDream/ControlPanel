@@ -48,7 +48,7 @@ public class SFTPServerManager {
                         server.getPermissions().stream().filter(permission ->
                                         permission.permission == PermissionEnum.SERVER_FILE_MANAGER)
                                 .collect(Collectors.toList()).forEach(permission -> {
-                                            String username = permission.user.username + "_" + server.serverID;
+                                            String username = permission.user.username + "_" + server.id;
                                             sftpAccounts.put(username, permission.user.password);
                                             virtualFileSystemFactory.setUserHomeDir(username, Paths.get(server.path));
                                         }

@@ -22,9 +22,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         List<String> paths = new ArrayList<>();
 
         Main.instance.getServers().forEach(server -> {
-            Logger.info("[Broker] Registering server: " + server.serverID + " @ \"/server/" + server.serverID + "/api/console\"");
+            Logger.info("[Broker] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/console\"");
 
-            paths.add("/server/" + server.serverID + "/api/console");
+            paths.add("/server/" + server.id + "/api/console");
         });
 
         config.enableSimpleBroker(paths.toArray(new String[0]));
@@ -34,10 +34,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(@NotNull StompEndpointRegistry registry) {
         Main.instance.getServers().forEach(server -> {
-            Logger.info("[Stomp] Registering server: " + server.serverID + " @ \"/server/" + server.serverID + "/api/server\"");
+            Logger.info("[Stomp] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/server\"");
 
-            registry.addEndpoint("/server/" + server.serverID + "/api/server");
-            registry.addEndpoint("/server/" + server.serverID + "/api/server").withSockJS();
+            registry.addEndpoint("/server/" + server.id + "/api/server");
+            registry.addEndpoint("/server/" + server.id + "/api/server").withSockJS();
         });
     }
 

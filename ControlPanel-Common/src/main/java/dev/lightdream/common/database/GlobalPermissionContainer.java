@@ -1,4 +1,4 @@
-package dev.lightdream.common.dto.permission.impl;
+package dev.lightdream.common.database;
 
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
@@ -18,4 +18,5 @@ public class GlobalPermissionContainer extends PermissionContainer {
     public PermissionEnum.PermissionType getType() {
         return PermissionEnum.PermissionType.GLOBAL;
     }
+
 }

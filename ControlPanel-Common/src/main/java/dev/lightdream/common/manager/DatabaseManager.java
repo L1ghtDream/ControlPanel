@@ -4,7 +4,7 @@ import com.google.common.hash.Hashing;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
-import dev.lightdream.common.dto.permission.Permission;
+import dev.lightdream.common.database.Permission;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.databasemanager.DatabaseMain;
@@ -56,7 +56,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
 
     public Node getNode(String nodeID) {
         return get(Node.class).query(
-                        new QueryConstrains().equals("node_id", nodeID)
+                        new QueryConstrains().equals("id", nodeID)
                 ).query()
                 .stream().findAny().orElse(null);
     }
@@ -84,9 +84,9 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
                 .stream().findAny().orElse(null);
     }
 
-    public Server getServer(String serverID) {
+    public Server getServer(String id) {
         return get(Server.class).query(
-                        new QueryConstrains().equals("server_id", serverID)
+                        new QueryConstrains().equals("id", id)
                 ).query()
                 .stream().findAny().orElse(null);
     }
