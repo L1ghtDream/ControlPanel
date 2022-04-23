@@ -1,5 +1,3 @@
-// noinspection JSCheckFunctionSignatures,JSUnresolvedVariable
-
 error = document.getElementById("error");
 if (error !== null) {
     error.hidden = true;
@@ -32,9 +30,7 @@ async function verifyCookie() {
     return JSON.parse(await blob.text());
 }
 
-function setCookie(/*name, value*/name, value, days) {
-    //window.localStorage.setItem(name, value);
-
+function setCookie(name, value, days) {
     let expires = "";
     if (days) {
         const date = new Date();
@@ -45,8 +41,6 @@ function setCookie(/*name, value*/name, value, days) {
 }
 
 function getCookie(name) {
-    //return window.localStorage.getItem(name);
-
     const nameEQ = name + "=";
     const ca = document.cookie.split(';');
     for (let i = 0; i < ca.length; i++) {
@@ -95,32 +89,6 @@ async function loginCookie() {
     }
 }
 
-function profile(name) {
-    window.location.replace(`/profile/?user=${name}`);
-}
-
-async function isLoggedIn() {
-    if (getCookie("login_data") === null || getCookie("login_data") === undefined || getCookie("login_data") === "") {
-        return false;
-    }
-    let verifier = await verifyCookie(getCookie("login_data"));
-    // noinspection EqualityComparisonWithCoercionJS
-    return verifier.code == 200;
-}
-
-// noinspection JSUnusedGlobalSymbols
-async function checkLoggedStatus() {
-    let loggedStatus = await isLoggedIn();
-    if (!loggedStatus) {
-        redirect("/401-login");
-        return;
-    }
-    let body = document.getElementById("logged-in-required");
-    if (body !== undefined && body !== null) {
-        body.style.visibility = "visible";
-    }
-}
-
 function redirect(path, removeQuotes = true) {
     if (removeQuotes) {
         path = path.replace(/'/g, "");
@@ -128,18 +96,6 @@ function redirect(path, removeQuotes = true) {
     }
 
     window.location.href = path
-}
-
-// noinspection JSUnusedGlobalSymbols
-async function callPutAPI(api, data) {
-    await fetch(api, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
 }
 
 /**
