@@ -125,4 +125,9 @@ public class Utils {
             return -1.0;
         }
     }
+
+    public static Cookie getCookie(String cookie) {
+        return Utils.fromJson(Utils.base64Decode(cookie), Cookie.class);
+    }
+
 }

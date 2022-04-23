@@ -22,7 +22,7 @@ public class EndPoints {
     @SuppressWarnings("unused")
     @GetMapping("/server/{serverName}")
     public String server(Model model, HttpServletRequest request, @PathVariable String serverName, @CookieValue(value = "login_data") String cookieBase64) {
-        Cookie cookie = getCookie(cookieBase64);
+        Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
             model.addAttribute("error", "401");
@@ -47,14 +47,10 @@ public class EndPoints {
         return "login.html";
     }
 
-    public Cookie getCookie(String cookie) {
-        return Utils.fromJson(Utils.base64Decode(cookie), Cookie.class);
-    }
-
     @SuppressWarnings("unused")
     @GetMapping("/servers")
     public String servers(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
-        Cookie cookie = getCookie(cookieBase64);
+        Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
             model.addAttribute("error", "401");
@@ -72,7 +68,7 @@ public class EndPoints {
 
     @GetMapping("/")
     public String index(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
-        Cookie cookie = getCookie(cookieBase64);
+        Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
             return login(model, request);

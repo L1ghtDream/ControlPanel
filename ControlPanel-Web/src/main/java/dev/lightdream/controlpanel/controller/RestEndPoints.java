@@ -14,10 +14,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
 
@@ -93,6 +90,15 @@ public class RestEndPoints {
         Server server = Server.getServer(serverID);
         Debugger.log("Getting stats for server " + serverID);
         return Response.OK(Main.instance.serversCache.getStats(server));
+    }
+
+    @PostMapping("/api/cookie-check")
+    public Response cookieCheck(@CookieValue(value = "login_data") String cookieBase64) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+        if (cookie == null) {
+            return Response.UNAUTHORISED();
+        }
+        return Response.OK();
     }
 
 }

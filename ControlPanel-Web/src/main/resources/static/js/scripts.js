@@ -58,7 +58,17 @@ function eraseCookie(name) {
 
 // noinspection JSUnusedGlobalSymbols
 async function loginCookie() {
-    let url;
+    let cookie = getCookie("login_data");
+
+    if (cookie == null || cookie === "") {
+        callAPI("/api/cookie-check", {}, () => {
+        }, () => {
+            eraseCookie("login_data");
+            redirect("/login");
+        });
+    }
+
+
     if (getCookie("login_data") !== null && getCookie("login_data") !== "" && getCookie("login_data") !== undefined) {
 
         try {
