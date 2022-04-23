@@ -1,12 +1,12 @@
 // noinspection JSCheckFunctionSignatures
 
 async function loginTemplate() {
-    /*
-    loggedStatus = await isLoggedIn();
-    if (loggedStatus) {
-        redirect("/401");
+    document.getElementById("logout").hidden = true;
+
+    //Check if the user is already logged in and if so redirect to the home page
+    if (hasLoginDataInCookies()) {
+        redirect("/");
     }
-    */
 
     document.getElementById('login-submit').addEventListener('click', function () {
         login();

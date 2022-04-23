@@ -1,16 +1,20 @@
-<!--suppress JSUnresolvedLibraryURL, HtmlRequiredTitleElement -->
-<html lang="en">
+<!--suppress JSUnresolvedLibraryURL, HtmlUnknownTarget, HtmlRequiredTitleElement -->
+<html lang="en_us">
 <head th:replace="fragments/global :: head(title='Login')"></head>
+
 <body>
 <div id="page">
     <div class="page-content">
         <div th:replace="fragments/global :: topbar"></div>
+
         <div class="content-wrap">
             <div class="container">
-                <h1 class="panel-title">Login</h1>
+                <h1 class="panel-title" id="login-title">Login</h1>
+
                 <h3 id="error">Error message here</h3>
+
                 <div class="panel-form">
-                    <form>
+                    <div class="form-block">
                         <div class="form-group">
                             <label for="username" id="username-label">Username</label>
                             <input class="form-control" id="username" name="fname" type="text">
@@ -24,18 +28,17 @@
                             <input class="form-control" id="otp" type="text">
                         </div>
                         <div class="form-buttons">
-                            <button class="form-button submit" id="submit" type="button">Login</button>
+                            <button class="form-button submit" id="login-submit" type="button">Login</button>
+                            <button class="form-button cancel" id="cancel">Cancel</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <div th:replace="fragments/global :: scripts"></div>
+
 <script src="/js/login.js"></script>
 
 <script>

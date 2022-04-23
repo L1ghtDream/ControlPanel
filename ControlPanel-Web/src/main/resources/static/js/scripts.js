@@ -51,6 +51,11 @@ function getCookie(name) {
     return null;
 }
 
+function hasLoginDataInCookies(){
+    let cookie = getCookie("login_data");
+    return cookie != null && cookie !== ""
+}
+
 // noinspection JSUnusedGlobalSymbols
 function eraseCookie(name) {
     document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -58,44 +63,12 @@ function eraseCookie(name) {
 
 // noinspection JSUnusedGlobalSymbols
 async function loginCookie() {
-    let cookie = getCookie("login_data");
-
-    if (cookie == null || cookie === "") {
+    if (hasLoginDataInCookies()) {
         callAPI("/api/cookie-check", {}, () => {
         }, () => {
             eraseCookie("login_data");
             redirect("/login");
         });
-    }
-
-
-    if (getCookie("login_data") !== null && getCookie("login_data") !== "" && getCookie("login_data") !== undefined) {
-
-        try {
-            if ((await verifyCookie()).code !== "200") {
-                setCookie("login_data", "", 0)
-            }
-
-        } catch (error) {
-            setCookie("login_data", "", 0)
-        }
-
-
-        //Login
-        if (getCookie("login_data") !== null) {
-            login = document.getElementById("login-button");
-
-            let obj = JSON.parse(getCookie("login_data"));
-            url = getSkinURL(obj.username);
-
-            login.outerHTML = "" +
-                "<img class='user-icon' src='" + url + "' onclick=profile('" + obj.username + "') alt='profile'> " +
-                "<button class='top-btn login' id='logout-button' style='margin-left: 20px'>Logout</button>";
-            document.getElementById("logout-button").addEventListener("click", () => {
-                setCookie("login_data", "");
-                location.reload();
-            })
-        }
     }
 }
 
