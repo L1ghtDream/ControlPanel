@@ -1,7 +1,6 @@
 package dev.lightdream.controlpanel.manager;
 
 import dev.lightdream.common.database.Server;
-import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.common.utils.ConsoleColor;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.dto.Log;
@@ -34,7 +33,7 @@ public class LogManager {
     public void registerLogListener(Server server) {
         new Thread(() ->
                 LambdaExecutor.LambdaCatch.NoReturnLambdaCatch.executeCatch(() -> {
-                    SSHManager.SSHSession session = server.node.getSSH().createNew();
+                    SSHManager.SSHSession session = SSHManager.getSSH(server.node).createNew();
 
                     session.setCommand("tail -f " + server.path + "/session.log");
 

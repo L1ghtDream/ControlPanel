@@ -3,7 +3,6 @@ package dev.lightdream.common.manager;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.annotations.RedisEventHandler;
 import dev.lightdream.common.dto.redis.event.RedisEvent;
-import dev.lightdream.logger.Debugger;
 import dev.lightdream.logger.Logger;
 
 import java.lang.reflect.InvocationTargetException;
@@ -14,7 +13,7 @@ public class RedisEventListener {
 
 
     @SuppressWarnings("unchecked")
-    public RedisEventListener() {
+    public RedisEventListener(CommonMain main) {
         for (Method method : getClass().getMethods()) {
             if (!method.isAnnotationPresent(RedisEventHandler.class)) {
                 continue;
@@ -28,7 +27,7 @@ public class RedisEventListener {
             Parameter parameter = method.getParameters()[0];
             Class<?> clazz = parameter.getType();
 
-            CommonMain.instance.redisEventManager.registerListener((Class<? extends RedisEvent>) clazz, obj -> {
+            main.redisEventManager.registerListener((Class<? extends RedisEvent>) clazz, obj -> {
                 try {
                     method.invoke(this, clazz.cast(obj));
                 } catch (IllegalAccessException | InvocationTargetException e) {

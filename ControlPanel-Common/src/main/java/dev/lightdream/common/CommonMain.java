@@ -27,10 +27,9 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
     public RedisConfig redisConfig;
 
     // Managers
-    public SSHManager sshManager;
     public DatabaseManager databaseManager;
     public RedisManager redisManager;
-    public RedisEventManager redisEventManager;
+    public RedisEventManager redisEventManager = new RedisEventManager();
 
     @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal"})
     private FileManager fileManager;
@@ -45,8 +44,6 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         loadConfigs(fileManager);
 
         databaseManager = new DatabaseManager(this);
-        sshManager = new SSHManager();
-        redisEventManager = new RedisEventManager();
         redisManager = new RedisManager(getRedisID());
     }
 
@@ -72,10 +69,6 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
     }
 
     public abstract CommonConfig getConfig();
-
-    public SSHManager getSSHManager() {
-        return sshManager;
-    }
 
     public String getVersion() {
         return "1.0";

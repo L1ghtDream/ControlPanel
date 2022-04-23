@@ -1,4 +1,4 @@
-package dev.lightdream.common.manager;
+package dev.lightdream.controlpanel.manager;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -12,9 +12,9 @@ import java.util.HashMap;
 
 public class SSHManager {
 
-    private final HashMap<Integer, NodeSSH> sshMap = new HashMap<>();
+    private final static HashMap<Integer, NodeSSH> sshMap = new HashMap<>();
 
-    public NodeSSH getSSH(Node node) {
+    public static NodeSSH getSSH(Node node) {
         NodeSSH ssh = sshMap.get(node.id);
         if (ssh == null) {
             sshMap.put(node.id, new NodeSSH(node));

@@ -72,7 +72,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
     public List<Server> getServers(Node node) {
         return get(Server.class)
                 .query(new QueryConstrains()
-                        .equals("id", node.id)
+                        .equals("node", node.toString())
                 ).query();
     }
 

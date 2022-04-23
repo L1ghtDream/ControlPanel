@@ -145,12 +145,18 @@
         <dependency>
             <groupId>dev.lightdream</groupId>
             <artifactId>MessageBuilder</artifactId>
-            <version>2.1.7</version>
+            <version>2.1.10</version>
         </dependency>
+        <!--suppress VulnerableLibrariesLocal -->
         <dependency>
             <groupId>dev.lightdream</groupId>
             <artifactId>DatabaseManager</artifactId>
             <version>2.10.2</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.lightdream</groupId>
+            <artifactId>Cache</artifactId>
+            <version>1.0.1</version>
         </dependency>
 
         <!-- Redis -->

@@ -22,13 +22,13 @@ public class SFTPServerManager {
 
     @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
     @SneakyThrows
-    public SFTPServerManager() {
+    public SFTPServerManager(Main main) {
         try (SshServer sshd = SshServer.setUpDefaultServer()) {
             // Connection settings
-            sshd.setPort(Main.instance.config.port);
+            sshd.setPort(main.config.port);
 
             // SSH key
-            sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(new File(Main.instance.getDataFolder() + "/host.ser")));
+            sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(new File(main.getDataFolder() + "/host.ser")));
 
             // Factory
             SftpSubsystemFactory subsystemFactory = new SftpSubsystemFactory.Builder()
@@ -44,7 +44,7 @@ public class SFTPServerManager {
             HashMap<String, String> sftpAccounts = new HashMap<>();
 
             //noinspection CodeBlock2Expr
-            Utils.getNode(Main.instance.config.nodeID).getServers().forEach(server -> {
+            Utils.getNode(main.config.nodeID).getServers().forEach(server -> {
                         server.getPermissions().stream().filter(permission ->
                                         permission.permission == PermissionEnum.SERVER_FILE_MANAGER)
                                 .collect(Collectors.toList()).forEach(permission -> {

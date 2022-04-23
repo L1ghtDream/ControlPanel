@@ -10,6 +10,7 @@ import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.messagebuilder.MessageBuilder;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @DatabaseTable(table = "servers")
@@ -147,6 +148,18 @@ public class Server extends PermissionContainer {
         return getPID() != null;
     }
 
+    public String getServerStatsCommand(@NotNull Integer pid) {
+        return new MessageBuilder(" && ",
+                CommonMain.instance.getConfig().MEMORY_USAGE_CMD,
+                CommonMain.instance.getConfig().MEMORY_ALLOCATED_CMD,
+                CommonMain.instance.getConfig().CPU_USAGE_CMD,
+                CommonMain.instance.getConfig().STORAGE_USAGE_CMD)
+                .parse("path", path)
+                .parse("port", port)
+                .parse("pid", pid)
+                .parse();
+    }
+
     public ServerStats getStats() {
         Integer pid = getPID();
 
@@ -161,25 +174,22 @@ public class Server extends PermissionContainer {
             );
         }
 
-        String command = new MessageBuilder(" && ",
-                CommonMain.instance.getConfig().MEMORY_USAGE_CMD,
-                CommonMain.instance.getConfig().MEMORY_ALLOCATED_CMD,
-                CommonMain.instance.getConfig().CPU_USAGE_CMD,
-                CommonMain.instance.getConfig().STORAGE_USAGE_CMD)
-                .parse("path", path)
-                .parse("port", port)
-                .parse("pid", pid)
-                .parse();
+        String command = getServerStatsCommand(pid);
 
-        String output = this.node.executeCommand(command, true);
+        String output = this.node.executeCommand(command);
+
+        if (output == null) {
+            return new ServerStats();
+        }
+
         String[] stats = output.split("\n");
         return new ServerStats(
-                serverID,
-                Double.parseDouble(stats[0]),
-                Double.parseDouble(stats[1]),
-                Double.parseDouble(stats[2]),
-                Double.parseDouble(stats[3]),
-                true
+                serverID,                     // Server ID
+                Double.parseDouble(stats[0]), // memory usage
+                Double.parseDouble(stats[1]), // memory allocation
+                Double.parseDouble(stats[2]), // cpu usage
+                Double.parseDouble(stats[3]), // storage usage
+                true                          // online status
         );
     }
 }

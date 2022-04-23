@@ -3,7 +3,6 @@ package dev.lightdream.common.dto.redis.event;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.redis.event.impl.ResponseEvent;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 
 public class RedisEvent {
@@ -43,6 +42,10 @@ public class RedisEvent {
     public void respond(Object response) {
         ResponseEvent responseEvent = new ResponseEvent(this, response);
         CommonMain.instance.redisManager.send(responseEvent);
+    }
+
+    public void send() {
+        CommonMain.instance.redisManager.send(this);
     }
 
 }

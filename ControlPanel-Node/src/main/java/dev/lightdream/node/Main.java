@@ -33,14 +33,13 @@ public class Main extends CommonMain {
         Logger.init(this);
 
         databaseManager = new DatabaseManager(this);
-
-        sftpServerManager = new SFTPServerManager();
+        sftpServerManager = new SFTPServerManager(this);
 
         SpringApplication.run(Executor.class);
 
         restEndPoints = new RestEndPoints();
-        redisEventListener = new RedisEventListener();
-        cacheManager = new CacheManager();
+        redisEventListener = new RedisEventListener(this);
+        cacheManager = new CacheManager(this);
 
         // Infinite loop for sftp server keep alive
         // noinspection InfiniteLoopStatement,StatementWithEmptyBody

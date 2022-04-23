@@ -1,20 +1,21 @@
 package dev.lightdream.common.database;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.dto.cache.CacheRegistry;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.event.impl.ExecuteCommandEvent;
-import dev.lightdream.common.manager.SSHManager;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.logger.Debugger;
+import dev.lightdream.messagebuilder.MessageBuilder;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,31 +77,23 @@ public class Node extends PermissionContainer {
         return PermissionEnum.PermissionType.NODE;
     }
 
-    public SSHManager.NodeSSH getSSH() {
-        return CommonMain.instance.getSSHManager().getSSH(this);
-    }
-
-    public String executeCommand(String command) {
-        return executeCommand(command, false);
-    }
-
     /**
-     * Executes a command on the node via SSH or redis
+     * Executes a command on the node via redis
      *
      * @param command The command to execute
-     * @param local   Whether to execute the command via SSH or redis
      * @return The output of the command
      */
     @SneakyThrows
-    public String executeCommand(String command, boolean local) {
-        if (local) {
-            RedisResponse response = _executeCommandLocal(command);
-            if (response == null || response.response == null) {
-                return "";
-            }
-            return response.response.toString();
+    public String executeCommand(String command) {
+        if (nodeID.equals(CommonMain.instance.getRedisID())) {
+            return executeCommandLocal(command);
         }
-        return executeCommandSSH(command);
+
+        RedisResponse response = _executeCommandLocal(command);
+        if (response == null || response.response == null) {
+            return "";
+        }
+        return response.response.toString();
     }
 
     @SuppressWarnings("BusyWait")
@@ -119,35 +112,12 @@ public class Node extends PermissionContainer {
      * Executes a command on the node via SSH
      *
      * @param command The command to execute
-     * @return The output of the command
-     */
-    @SneakyThrows
-    private String executeCommandSSH(String command) {
-        SSHManager.NodeSSH ssh = getSSH();
-        SSHManager.SSHSession session = ssh.createNew();
-        session.setCommand(command);
-
-        ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-        session.setOutputStream(responseStream);
-
-        while (session.isConnected()) {
-            //noinspection BusyWait
-            Thread.sleep(100);
-        }
-
-        return responseStream.toString();
-    }
-
-    /**
-     * Executes a command on the node via SSH
-     *
-     * @param command The command to execute
      * @param server  The server to execute the command on
      * @return The output of the command
      */
     @SuppressWarnings("UnusedReturnValue")
     public String sendCommandToServer(String command, Server server) {
-        return executeCommand("screen -S " + server.serverID + " -X stuff '" + command + "^M'", true);
+        return executeCommand("screen -S " + server.serverID + " -X stuff '" + command + "^M'");
     }
 
     public List<Server> getServers() {
@@ -162,6 +132,47 @@ public class Node extends PermissionContainer {
     @SuppressWarnings("unused")
     public void install() {
         executeCommand(CommonMain.instance.getConfig().EXECUTE_SCRIPT_CMD.parse("url", CommonMain.instance.getConfig().nodeInstallScriptURL).parse());
+    }
+
+    @Deprecated
+    public CacheRegistry getServersStats() {
+
+        List<String> commands = new ArrayList<>();
+        CacheRegistry registry = new CacheRegistry();
+        List<Server> servers = CommonMain.instance.getServers(this);
+
+        servers.forEach(server -> {
+            Integer pid = server.getPID();
+
+            if (pid == null) {
+                registry.memoryUsageCache.set(server, 0.0);
+                registry.memoryAllocationCache.set(server, 0.0);
+                registry.cpuUsageCache.set(server, 0.0);
+                registry.storageUsageCache.set(server, 0.0);
+                registry.onlineStatusCache.set(server, false);
+                return;
+            }
+
+            commands.add(server.getServerStatsCommand(pid));
+        });
+
+        String command = new MessageBuilder(" && ", commands).parse();
+
+        Debugger.log(command);
+
+        String output = executeCommand(command);
+        String[] stats = output.split("\n");
+
+        for (int i = 0; i < stats.length / 4; i++) {
+            Server server = servers.get(i);
+            registry.memoryUsageCache.set(server, Double.parseDouble(stats[i]));
+            registry.memoryAllocationCache.set(server, Double.parseDouble(stats[i + 1]));
+            registry.cpuUsageCache.set(server, Double.parseDouble(stats[i + 2]));
+            registry.storageUsageCache.set(server, Double.parseDouble(stats[i + 3]));
+            registry.onlineStatusCache.set(server, true);
+        }
+
+        return registry;
     }
 
 }

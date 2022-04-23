@@ -23,6 +23,7 @@ public class RedisManager {
     private JedisPubSub subscriberJedisPubSub;
 
     public RedisManager(String id) {
+        Debugger.info("Creating RedisManager with listenID: " + id);
         this.listenID = id;
         this.jedis = new Jedis(CommonMain.instance.redisConfig.host, CommonMain.instance.redisConfig.port);
         this.jedis.auth(CommonMain.instance.redisConfig.username, CommonMain.instance.redisConfig.password);
@@ -91,6 +92,8 @@ public class RedisManager {
     }
 
     public RedisResponse send(RedisEvent command) {
+        command.originator = listenID;
+
         if (command instanceof ResponseEvent) {
             Debugger.info("[Send-Response      ] [" + CommonMain.instance.redisConfig.channel + "] " + command);
             jedis.publish(CommonMain.instance.redisConfig.channel, command.toString());
