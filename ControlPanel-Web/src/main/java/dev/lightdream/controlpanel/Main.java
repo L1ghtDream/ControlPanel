@@ -3,6 +3,7 @@ package dev.lightdream.controlpanel;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.CommonConfig;
+import dev.lightdream.common.dto.cache.CacheRegistry;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.controlpanel.controller.EndPoints;
@@ -31,6 +32,7 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     public LogManager logManager;
     public DatabaseManager databaseManager;
     public RedisEventListener redisEventListener;
+    public CacheRegistry serversCache;
 
     public Main() {
         super();

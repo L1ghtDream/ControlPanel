@@ -165,7 +165,7 @@ public class Server extends PermissionContainer {
 
         if (pid == null) {
             return new ServerStats(
-                    serverID,
+                    this,
                     0.0,
                     0.0,
                     0.0,
@@ -184,7 +184,7 @@ public class Server extends PermissionContainer {
 
         String[] stats = output.split("\n");
         return new ServerStats(
-                serverID,                     // Server ID
+                this,                     // Server ID
                 Double.parseDouble(stats[0]), // memory usage
                 Double.parseDouble(stats[1]), // memory allocation
                 Double.parseDouble(stats[2]), // cpu usage

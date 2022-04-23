@@ -1,5 +1,7 @@
 package dev.lightdream.common.dto.cache;
 
+import dev.lightdream.common.database.Server;
+import dev.lightdream.common.dto.ServerStats;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -21,5 +23,18 @@ public class CacheRegistry {
         storageUsageCache.set(registry.storageUsageCache);
         onlineStatusCache.set(registry.onlineStatusCache);
     }
+
+    public ServerStats getStats(Server server) {
+        return new ServerStats(
+                server,
+                memoryUsageCache.get(server),
+                memoryAllocationCache.get(server),
+                cpuUsageCache.get(server),
+                storageUsageCache.get(server),
+                onlineStatusCache.get(server)
+        );
+
+    }
+
 
 }
