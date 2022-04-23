@@ -46,14 +46,6 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         return get(Node.class).query();
     }
 
-    @Nullable
-    public Node getNode(int id) {
-        return get(Node.class).query(
-                        new QueryConstrains().equals("id", id)
-                ).query()
-                .stream().findAny().orElse(null);
-    }
-
     public Node getNode(String nodeID) {
         return get(Node.class).query(
                         new QueryConstrains().equals("id", nodeID)
@@ -74,14 +66,6 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
                 .query(new QueryConstrains()
                         .equals("node", node.toString())
                 ).query();
-    }
-
-    @Nullable
-    public Server getServer(int id) {
-        return get(Server.class).query(
-                        new QueryConstrains().equals("id", id)
-                ).query()
-                .stream().findAny().orElse(null);
     }
 
     public Server getServer(String id) {
