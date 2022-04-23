@@ -106,7 +106,7 @@ public class Node extends PermissionContainer {
     @SuppressWarnings("BusyWait")
     @SneakyThrows
     private RedisResponse _executeCommandLocal(String command) {
-        RedisResponse response = CommonMain.instance.redisManager.send(new ExecuteCommandEvent(command));
+        RedisResponse response = CommonMain.instance.redisManager.send(new ExecuteCommandEvent(command, this));
 
         while (!response.isFinished()) {
             Thread.sleep(100);

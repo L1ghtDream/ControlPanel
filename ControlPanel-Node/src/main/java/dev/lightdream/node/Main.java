@@ -3,7 +3,6 @@ package dev.lightdream.node;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.dto.CommonConfig;
-import dev.lightdream.common.dto.redis.event.impl.ExecuteCommandEvent;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.logger.Logger;
@@ -43,8 +42,6 @@ public class Main extends CommonMain {
         redisEventListener = new RedisEventListener();
         cacheManager = new CacheManager();
 
-        redisEventManager.fire(new ExecuteCommandEvent("ls"));
-
         // Infinite loop for sftp server keep alive
         // noinspection InfiniteLoopStatement,StatementWithEmptyBody
         while (true) {
@@ -60,6 +57,11 @@ public class Main extends CommonMain {
     @Override
     public RedisEventListener getRedisEventListener() {
         return redisEventListener;
+    }
+
+    @Override
+    public String getRedisID() {
+        return config.nodeID;
     }
 
     @Override

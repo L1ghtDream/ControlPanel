@@ -44,6 +44,11 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         return redisEventListener;
     }
 
+    @Override
+    public String getRedisID() {
+        return "master";
+    }
+
     @SuppressWarnings("resource")
     private void enable() {
         instance = this;

@@ -31,13 +31,17 @@ public class RedisEventListener {
             Debugger.log(clazz);
 
             CommonMain.instance.redisEventManager.registerListener((Class<? extends RedisEvent>) clazz, obj -> {
+                Debugger.log(obj.getClass());
+                Debugger.log(obj.getClassByName());
                 try {
-                    Debugger.log(obj.getClass());
-                    Debugger.log(obj.getClassByName());
+                    Debugger.log(method);
+                    Debugger.log(clazz);
+                    Debugger.log(obj);
                     method.invoke(this, clazz.cast(obj));
                 } catch (IllegalAccessException | InvocationTargetException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
+
             });
 
         }

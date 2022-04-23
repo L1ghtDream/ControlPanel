@@ -45,14 +45,15 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         loadConfigs(fileManager);
 
         databaseManager = new DatabaseManager(this);
-        redisManager = new RedisManager();
         sshManager = new SSHManager();
-        redisManager = new RedisManager();
         redisEventManager = new RedisEventManager();
+        redisManager = new RedisManager(getRedisID());
     }
 
     @SuppressWarnings("unused")
     public abstract RedisEventListener getRedisEventListener();
+
+    public abstract String getRedisID();
 
     public List<Server> getServers() {
         return getDatabaseManager().getServers();
