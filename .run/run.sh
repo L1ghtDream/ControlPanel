@@ -7,7 +7,7 @@ HOME=/home/ControlPanel
 CURRENT_DIR=$(pwd)
 
 # Go to the working directory
-cd $HOME
+cd $HOME || exit
 
 # Build the project
 mvn package
@@ -22,4 +22,4 @@ rm ControlPanel-Web/target -r
 rm ControlPanel-Node/target -r
 
 # Go back to the working directory
-cd $CURRENT_DIR
+cd "$CURRENT_DIR" || exit
