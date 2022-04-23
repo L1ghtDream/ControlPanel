@@ -1,4 +1,4 @@
-&emsp;&emsp;&emsp; A web application that lets the server managers and developers more easily interact with server
+A web application that lets the server managers and developers more easily interact with server
 instances. The panel is mainly aimed at java processes, but it may support other processes as well that use a port.
 The panel lets the manager create new nodes ~ associated with new physical servers ~ as well as create new servers,
 or instances of java. Each server has its own permissions for each user, so one developer can have access only to
@@ -14,3 +14,9 @@ the system administrator has the option to force all the users to have 2fa (via 
 ```bash
 mvn clean package spring-boot:repackage
 ```
+
+# Install
+[docs/install.md](https://github.com/L1ghtDream/ControlPanel/blob/master/docs/install.md)
+
+# How it works?
+[docs/how_it_works.md](https://github.com/L1ghtDream/ControlPanel/blob/master/docs/how_it_works.md)
