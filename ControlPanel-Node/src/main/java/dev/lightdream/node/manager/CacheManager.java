@@ -4,7 +4,6 @@ import dev.lightdream.cache.Cache;
 import dev.lightdream.common.dto.ServerStats;
 import dev.lightdream.common.dto.cache.CacheRegistry;
 import dev.lightdream.common.dto.redis.event.impl.CacheUpdateEvent;
-import dev.lightdream.logger.Debugger;
 import dev.lightdream.logger.Logger;
 import dev.lightdream.node.Main;
 
@@ -15,7 +14,6 @@ public class CacheManager {
         Logger.good("Starting caching...");
 
         new Cache<>(cache -> {
-            Debugger.log("Starting cache @ " + System.currentTimeMillis());
             CacheRegistry registry = new CacheRegistry();
 
             main.getServers(main.getNode()).forEach(server -> {
@@ -31,9 +29,6 @@ public class CacheManager {
             });
 
             new CacheUpdateEvent(registry).send();
-
-            Debugger.log("Finishing cache @ " + System.currentTimeMillis());
-            cache.cancel();
         }, 20 * 1000L); //20 seconds
 
         Logger.good("Caching enabled!");

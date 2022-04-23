@@ -117,4 +117,12 @@ public class Utils {
         }
         return decimalFormat.format(usage / 1024 / 1024 / 1024) + "TB";
     }
+
+    public static Double doubleOrNegative(String value) {
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return -1.0;
+        }
+    }
 }

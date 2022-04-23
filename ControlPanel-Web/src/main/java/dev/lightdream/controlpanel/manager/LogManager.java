@@ -6,6 +6,7 @@ import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.dto.Log;
 import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.lambda.LambdaExecutor;
+import dev.lightdream.logger.Debugger;
 import dev.lightdream.logger.Logger;
 
 import java.io.ByteArrayOutputStream;
@@ -31,9 +32,10 @@ public class LogManager {
     }
 
     public void registerLogListener(Server server) {
+        Debugger.info("Registering log listener for server " + server.getID());
         new Thread(() ->
                 LambdaExecutor.LambdaCatch.NoReturnLambdaCatch.executeCatch(() -> {
-                    SSHManager.SSHSession session = SSHManager.getSSH(server.node).createNew();
+                    SSHManager.SSHSession session = SSHManager.createSSHSession(server.node);
 
                     session.setCommand("tail -f " + server.path + "/session.log");
 

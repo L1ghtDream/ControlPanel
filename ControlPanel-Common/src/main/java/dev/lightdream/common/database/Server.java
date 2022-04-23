@@ -7,6 +7,7 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
+import dev.lightdream.logger.Debugger;
 import dev.lightdream.messagebuilder.MessageBuilder;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -167,7 +168,7 @@ public class Server extends PermissionContainer {
                     0.0,
                     0.0,
                     0.0,
-                    0.0,
+                    getStorageUsage(),
                     false
             );
         }
@@ -180,14 +181,17 @@ public class Server extends PermissionContainer {
             return new ServerStats();
         }
 
+        Debugger.log(command);
+        Debugger.log(output);
         String[] stats = output.split("\n");
+
         return new ServerStats(
-                this,                     // Server ID
-                Double.parseDouble(stats[0]), // memory usage
-                Double.parseDouble(stats[1]), // memory allocation
-                Double.parseDouble(stats[2]), // cpu usage
-                Double.parseDouble(stats[3]), // storage usage
-                true                          // online status
+                this,                              // Server ID
+                Utils.doubleOrNegative(stats[0].trim()), // memory usage
+                Utils.doubleOrNegative(stats[1].trim()), // memory allocation
+                Utils.doubleOrNegative(stats[2].trim()), // cpu usage
+                Utils.doubleOrNegative(stats[3].trim()), // storage usage
+                true                                     // online status
         );
     }
 }

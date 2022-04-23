@@ -8,7 +8,6 @@ import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.event.impl.ExecuteCommandEvent;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
-import dev.lightdream.logger.Debugger;
 import dev.lightdream.messagebuilder.MessageBuilder;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -45,7 +44,7 @@ public class Node extends PermissionContainer {
     /**
      * Executes a command directly on the current machine (node)
      *
-     * @param command The command to execute
+     * @param command The command to execurete
      * @return The output of the command
      */
     @SuppressWarnings("UnusedReturnValue")
@@ -155,8 +154,6 @@ public class Node extends PermissionContainer {
         });
 
         String command = new MessageBuilder(" && ", commands).parse();
-
-        Debugger.log(command);
 
         String output = executeCommand(command);
         String[] stats = output.split("\n");

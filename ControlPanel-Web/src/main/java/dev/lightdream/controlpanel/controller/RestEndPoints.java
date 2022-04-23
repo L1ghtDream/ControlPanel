@@ -9,6 +9,7 @@ import dev.lightdream.common.dto.data.LoginData;
 import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
+import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -38,17 +39,22 @@ public class RestEndPoints {
             Server server = Utils.getServer(command.server);
             Node node = server.node;
 
-            if (!node.executeCommand("screen -ls " + server.id).contains("No Sockets found")) {
-                return Response.LOCKED("Server is already running");
+            String response = node.executeCommand("screen -ls " + server.id);
+
+            if (response.contains("No Sockets found") ||
+                    response.equals("")) {
+                node.executeCommand(Main.instance.config.SERVER_START_CMD
+                        .parse("path", server.path)
+                        .parse("id", server.id)
+                        .parse()
+                );
+
+                return Response.OK();
             }
 
-            node.executeCommand(Main.instance.config.SERVER_START_CMD
-                    .parse("path", server.path)
-                    .parse("id", server.id)
-                    .parse()
-            );
+            return Response.LOCKED("Server is already running");
 
-            return Response.OK();
+
         }
 
         Utils.getServer(command.server).sendCommand(command.getCommand());
@@ -81,10 +87,11 @@ public class RestEndPoints {
     }
 
     @SneakyThrows
-    @PostMapping("/api/stats/{serverName}")
+    @PostMapping("/api/stats/{serverID}")
     @ResponseBody
-    public Response cpuUsage(@PathVariable String serverName) {
-        Server server = Server.getServer(serverName);
+    public Response cpuUsage(@PathVariable String serverID) {
+        Server server = Server.getServer(serverID);
+        Debugger.log("Getting stats for server " + serverID);
         return Response.OK(Main.instance.serversCache.getStats(server));
     }
 
