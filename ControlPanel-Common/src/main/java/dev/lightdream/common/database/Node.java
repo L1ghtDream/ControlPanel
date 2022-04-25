@@ -99,7 +99,6 @@ public class Node extends StringDatabaseEntry {
         return response;
     }
 
-    @SuppressWarnings("BusyWait")
     @SneakyThrows
     private RedisResponse _executeCommandLocal(String command) {
         return new ExecuteCommandEvent(command, this).sendAndWait();
@@ -118,7 +117,7 @@ public class Node extends StringDatabaseEntry {
     }
 
     public List<Server> getServers() {
-        return CommonMain.instance.getServers().stream().filter(server -> server.node.id.equals(this.id)).collect(Collectors.toList());
+        return Server.getServers().stream().filter(server -> server.node.id.equals(this.id)).collect(Collectors.toList());
     }
 
     @SuppressWarnings("unused")

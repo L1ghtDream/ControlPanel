@@ -14,6 +14,8 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 @DatabaseTable(table = "servers")
 @NoArgsConstructor
 public class Server extends PermissionContainer {
@@ -39,6 +41,10 @@ public class Server extends PermissionContainer {
 
     public static Server getServer(String serverID) {
         return Utils.getServer(serverID);
+    }
+
+    public static List<Server> getServers() {
+        return CommonMain.instance.databaseManager.getServers();
     }
 
     @Override

@@ -140,6 +140,7 @@ public class BuildProperties {
         return responseString;
     }
 
+    @SuppressWarnings("unused")
     public String getUpdateURL() {
         return Utils.downloadURL;
     }

@@ -36,7 +36,7 @@ public class Utils {
     public static String downloadURL = "https://github.com/L1ghtDream/ControlPanel/releases/tag/latest";
 
     public static Server getServer(String id) {
-        return CommonMain.instance.getServers().stream().filter(server -> server.id.equals(id)).findFirst().orElse(null);
+        return Server.getServers().stream().filter(server -> server.id.equals(id)).findFirst().orElse(null);
     }
 
     public static Node getNode(String id) {

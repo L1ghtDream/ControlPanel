@@ -72,6 +72,7 @@ public class User extends IntegerDatabaseEntry {
         return this.otpSecret != null;
     }
 
+    @SuppressWarnings("unused")
     public void setup2FA(String secret) {
         this.otpSecret = secret;
     }
@@ -94,7 +95,7 @@ public class User extends IntegerDatabaseEntry {
     }
 
     public void updatePassword(String password) {
-        password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+        this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
     }
 
     public void disable2FA() {
