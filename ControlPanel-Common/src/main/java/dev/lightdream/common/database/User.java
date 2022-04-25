@@ -82,4 +82,8 @@ public class User extends IntegerDatabaseEntry {
 
     }
 
+    public List<Server> getServers() {
+        return CommonMain.instance.databaseManager.getServers();
+    }
+
 }

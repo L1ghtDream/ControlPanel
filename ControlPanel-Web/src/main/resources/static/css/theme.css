@@ -706,7 +706,7 @@ td.status .bar {
     color: #99a0ad !important;
 }
 
-td.server {
+td.circle-icon {
     width: 45px;
     padding-right: 0;
 }
@@ -721,7 +721,7 @@ td.server {
     margin-left: 15px;
 }
 
-.panel-table td:not(.server) i {
+.panel-table td:not(.circle-icon) i {
     margin-right: 10px;
     font-size: 21px;
     color: #768093a1;
@@ -729,7 +729,7 @@ td.server {
     top: 2px;
 }
 
-.panel-table td:not(.server) {
+.panel-table td:not(.circle-icon) {
     font-weight: 600;
     font-size: 15px;
 }
@@ -745,4 +745,8 @@ td.server {
 
 .page-content .page-top-bar #logo {
     margin-right: 30px;
+}
+
+.center {
+    text-align: center
 }

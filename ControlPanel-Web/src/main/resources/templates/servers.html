@@ -15,7 +15,7 @@
                         <tr class="grid-card" th:each="server : ${servers}"
                             th:onclick="redirect('/server/[[${server.id}]]')">
                             <span class="server_id" th:th:classappend="${server.id}"></span>
-                            <td class="server">
+                            <td class="circle-icon">
                                 <div class="server-icon"><i class="mdi mdi-server"></i></div>
                             </td>
                             <td class="server-name">

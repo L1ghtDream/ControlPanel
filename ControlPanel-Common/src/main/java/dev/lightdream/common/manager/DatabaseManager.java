@@ -10,6 +10,7 @@ import dev.lightdream.databasemanager.dto.QueryConstrains;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
@@ -133,4 +134,28 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
 
         new Node(nodeID, name, ip, username, sshPort).save();
     }
+
+    public List<Permission> getPermissions(User user) {
+        return get(Permission.class).query(
+                new QueryConstrains().equals("user", user.id)
+        ).query();
+    }
+
+    public List<Server> getServers(User user) {
+        List<Permission> permissions = getPermissions(user);
+        List<Server> servers = new ArrayList<>();
+
+        permissions.forEach(permission -> {
+            if (permission.target.getType().equals(PermissionEnum.PermissionType.SERVER)) {
+                Server server = (Server) permission.target;
+                if (servers.contains(server)) {
+                    return;
+                }
+                servers.add(server);
+            }
+        });
+
+        return servers;
+    }
+
 }
