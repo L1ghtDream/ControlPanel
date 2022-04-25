@@ -7,7 +7,7 @@
     <parent>
         <groupId>dev.lightdream</groupId>
         <artifactId>ControlPanel</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

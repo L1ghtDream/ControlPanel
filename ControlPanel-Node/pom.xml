@@ -7,7 +7,7 @@
     <parent>
         <groupId>dev.lightdream</groupId>
         <artifactId>ControlPanel</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -35,6 +35,12 @@
                             <goal>repackage</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>build-info</id>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
@@ -54,7 +60,7 @@
         <dependency>
             <groupId>dev.lightdream</groupId>
             <artifactId>ControlPanel-Common</artifactId>
-            <version>1.0</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

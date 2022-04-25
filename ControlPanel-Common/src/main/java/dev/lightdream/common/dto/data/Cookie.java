@@ -29,4 +29,12 @@ public class Cookie {
     public User getUser() {
         return CommonMain.instance.getDatabaseManager().getUser(username);
     }
+
+    @Override
+    public String toString() {
+        return "Cookie{" +
+                "username='" + username + '\'' +
+                ", hash='" + hash + '\'' +
+                '}';
+    }
 }

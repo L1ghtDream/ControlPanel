@@ -2,9 +2,13 @@ package dev.lightdream.common;
 
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
-import dev.lightdream.common.dto.CommonConfig;
+import dev.lightdream.common.dto.BuildProperties;
+import dev.lightdream.common.dto.config.CommonConfig;
 import dev.lightdream.common.dto.redis.RedisConfig;
-import dev.lightdream.common.manager.*;
+import dev.lightdream.common.manager.DatabaseManager;
+import dev.lightdream.common.manager.RedisEventListener;
+import dev.lightdream.common.manager.RedisEventManager;
+import dev.lightdream.common.manager.RedisManager;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.dto.DriverConfig;
 import dev.lightdream.databasemanager.dto.SQLConfig;
@@ -20,11 +24,13 @@ import java.util.List;
 public abstract class CommonMain implements DatabaseMain, LoggableMain, FileManagerMain {
 
     public static CommonMain instance;
+    public static final String buildType = "Dev Build";
 
     // Config
     public DriverConfig driverConfig;
     public SQLConfig sqlConfig;
     public RedisConfig redisConfig;
+    public BuildProperties buildProperties;
 
     // Managers
     public DatabaseManager databaseManager;
@@ -33,7 +39,6 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
 
     @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal"})
     private FileManager fileManager;
-
 
     public CommonMain() {
         instance = this;
@@ -45,6 +50,8 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
 
         databaseManager = new DatabaseManager(this);
         redisManager = new RedisManager(getRedisID());
+
+        buildProperties = new BuildProperties();
     }
 
     @SuppressWarnings("unused")

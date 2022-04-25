@@ -1,4 +1,4 @@
-package dev.lightdream.common.dto;
+package dev.lightdream.common.dto.config;
 
 import dev.lightdream.messagebuilder.MessageBuilder;
 

@@ -13,8 +13,8 @@ cd $HOME || exit
 mvn package
 
 # Copy jar to run folder
-cp ControlPanel-Node/target/ControlPanel-Node-1.0.jar .run/Node.jar
-cp ControlPanel-Web/target/ControlPanel-Web-1.0.jar .run/Web.jar
+cp ControlPanel-Node/target/ControlPanel-Node-*.jar .run/Node.jar
+cp ControlPanel-Web/target/ControlPanel-Web-*.jar .run/Web.jar
 
 # Delete unused dirs
 rm ControlPanel-Common/target -r

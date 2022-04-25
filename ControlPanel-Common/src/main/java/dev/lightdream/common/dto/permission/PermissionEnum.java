@@ -6,13 +6,9 @@ import java.util.List;
 public enum PermissionEnum {
 
     // Global perms
+    GLOBAL_ADMIN, // GIves permission to everything
     GLOBAL_MANAGE_USERS, // Create / Delete / Change password / Disable OTP for users
     GLOBAL_MANAGE_NODES, // Create / Delete / Manage nodes
-
-
-    NODE_VIEW, // View node
-    NODE_MANAGE, // Create, Delete, Edit nodes
-    NODE_CREATE_SERVER, // Create server on node
 
     // Server Perms
     SERVER_VIEW, // View server

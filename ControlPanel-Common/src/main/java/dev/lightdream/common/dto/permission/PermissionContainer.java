@@ -29,9 +29,6 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
             case SERVER:
                 target = CommonMain.instance.getDatabaseManager().getServer(id);
                 break;
-            case NODE:
-                target = CommonMain.instance.getDatabaseManager().getNode(id);
-                break;
             case GLOBAL:
                 target = GlobalPermissionContainer.getInstance();
                 break;

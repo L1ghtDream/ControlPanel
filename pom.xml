@@ -5,12 +5,12 @@
 
     <properties>
         <java.version>11</java.version>
-        <module.version>1.0</module.version>
+        <module.version>1.0.0</module.version>
     </properties>
 
     <groupId>dev.lightdream</groupId>
     <artifactId>ControlPanel</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -35,6 +35,10 @@
         <repository>
             <id>jedis</id>
             <url>https://mvnrepository.com/artifact/redis.clients/jedis</url>
+        </repository>
+        <repository>
+            <id>maven</id>
+            <url>https://mvnrepository.com/artifact/org.apache.maven/maven-model</url>
         </repository>
     </repositories>
 
@@ -165,6 +169,14 @@
             <artifactId>jedis</artifactId>
             <version>4.2.2</version>
         </dependency>
+
+        <!-- Maven -->
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model</artifactId>
+            <version>3.8.5</version>
+        </dependency>
+
     </dependencies>
 
 </project>

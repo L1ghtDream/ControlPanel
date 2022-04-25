@@ -1,4 +1,4 @@
-<!--suppress HtmlUnknownTarget -->
+<!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL -->
 <html lang="en">
 <head>
     <style>
@@ -8,19 +8,16 @@
     </style>
 
     <title>Chat WebSocket</title>
-    <!--suppress JSUnresolvedLibraryURL -->
     <script src="https://unpkg.com/kd-shim-sockjs-client@0.3.4/sockjs-0.3.4.js"></script>
-    <!--suppress JSUnresolvedLibraryURL -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
     <script src="/js/scripts.js"></script>
     <script src="/js/websocket.js"></script>
 </head>
 <body onload="disconnect()">
-<!--/*@thymesVar id="server" type="java.lang.String"*/-->
+<!--/*@thymesVar id="server" type="dev.lightdream.common.database.Server"*/-->
 <div id="server" th:text="${server}"></div>
 <div>
     <div>
-        <!--suppress HtmlFormInputWithoutLabel -->
         <input id="from" placeholder="Choose a nickname" type="text"/>
     </div>
     <br/>
@@ -32,7 +29,6 @@
     </div>
     <br/>
     <div id="conversationDiv">
-        <!--suppress HtmlFormInputWithoutLabel -->
         <input id="text" placeholder="Write a message..." type="text"/>
         <button id="sendMessage" onclick="sendMessage();">Send</button>
         <p id="response"></p>

@@ -2,8 +2,8 @@ package dev.lightdream.controlpanel;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.User;
-import dev.lightdream.common.dto.CommonConfig;
 import dev.lightdream.common.dto.cache.CacheRegistry;
+import dev.lightdream.common.dto.config.CommonConfig;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.controlpanel.controller.EndPoints;
@@ -15,6 +15,7 @@ import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
 import org.springframework.boot.SpringApplication;
+
 
 public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
 
@@ -97,5 +98,4 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         config = fileManager.load(Config.class);
         super.loadConfigs(fileManager);
     }
-
 }

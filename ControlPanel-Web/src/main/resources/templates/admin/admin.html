@@ -1,0 +1,31 @@
+<!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL, ThymeleafVariablesResolveInspection -->
+<html lang="en">
+<!--suppress HtmlRequiredTitleElement -->
+<head th:replace="fragments/global :: head(title='Servers')"></head>
+
+<body>
+<div id="page">
+    <div class="page-content">
+        <div th:replace="fragments/global :: topbar"></div>
+        <div th:replace="fragments/global :: sidebar"></div>
+
+        <div class="content-wrap">
+            <div class="container">
+
+                <div class="header">System Information</div>
+                <div class="details">
+                    <span class="name">Version:</span>
+                    <span th:text="' ' + ${version} + ' ' +  ${buildType} + ' ' + ${timestamp}">UNKNOWN</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/global :: scripts"></div>
+<script src="/js/stats.js"></script>
+<script>
+    addStats();
+</script>
+</body>
+</html>

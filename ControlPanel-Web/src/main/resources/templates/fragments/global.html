@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="/css/theme.css" rel="stylesheet">
+    <link href="/css/theme2.css" rel="stylesheet">
     <link crossorigin="anonymous"
           href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/6.2.95/css/materialdesignicons.min.css"
           integrity="sha512-tYefTUoWKpCvU14EKu/b/VxnSaT3+1ZBlL0BhTPSYCiqsMTbGylad3l6HCr9i4vpsDgJIFke+LQBq3MCXko6Qw=="
@@ -29,11 +30,22 @@
             <div id="logo">
                 <a href="index.php"><img alt="logo" src="/images/logo.png"></a>
             </div>
-            <a class="active" href="#">Servers</a>
-            <a href="#">Users</a>
+            <a class="active" href="/">
+                <i class="mdi mdi-server-minus"></i>
+                Servers
+            </a>
         </div>
         <div class="right">
+            <a class="active" href="/">
+                <i class="mdi mdi-magnify"></i>
+                Search
+            </a>
+            <a class="active" href="/admin">
+                <i class="mdi mdi-cogs"></i>
+                Admin
+            </a>
             <a id="logout" class="top-btn login" href="#">
+                <i class="mdi mdi-logout"></i>
                 Logout
             </a>
         </div>
@@ -46,4 +58,36 @@
             referrerpolicy="no-referrer"
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="/js/scripts.js"></script>
+</div>
+
+<div class="page-sidebar" th:fragment="sidebar">
+    <div class="nav-content">
+        <!--
+        <div id="logo">
+            <a href="/"><img src="/images/logo.png" alt="logo"></a>
+        </div>
+        -->
+        <div id="sidebar-links">
+            <ul>
+                <li>
+                    <a href="/admin/nodes">
+                        <i class="mdi mdi-web"></i>
+                        <span>Overview</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/nodes">
+                        <i class="mdi mdi-server"></i>
+                        <span>Nodes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/users">
+                        <i class="mdi mdi-account-group"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>

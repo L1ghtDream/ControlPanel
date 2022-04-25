@@ -30,8 +30,8 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         registerDataType(PermissionContainer.class, "TEXT");
 
         registerSDPair(User.class, user -> user.id, id -> getUser((Integer) id));
-        registerSDPair(Node.class, node -> "\"" + node.getIdentifier() + "\"", id -> (Node) Node.getByIdentifier((String) id));
-        registerSDPair(Server.class, server -> "\"" + server.getIdentifier() + "\"", id -> (Server) Node.getByIdentifier((String) id));
+        registerSDPair(Node.class, node -> "\"" + node.id + "\"", id -> Node.getNode((String)id));
+        registerSDPair(Server.class, server -> "\"" + server.getIdentifier() + "\"", id -> (Server) Server.getByIdentifier((String) id));
         registerSDPair(PermissionEnum.class, permission -> "\"" + permission.toString() + "\"", str -> PermissionEnum.valueOf((String) str));
         registerSDPair(PermissionContainer.class, PermissionContainer::getIdentifier,
                 str -> PermissionContainer.getByIdentifier((String) str));
@@ -46,9 +46,9 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         return get(Node.class).query();
     }
 
-    public Node getNode(String nodeID) {
+    public Node getNode(String id) {
         return get(Node.class).query(
-                        new QueryConstrains().equals("id", nodeID)
+                        new QueryConstrains().equals("id", id)
                 ).query()
                 .stream().findAny().orElse(null);
     }

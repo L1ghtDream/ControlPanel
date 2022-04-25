@@ -169,9 +169,10 @@ body {
     line-height: 38px;
 }
 
-.page-content .page-top-bar .container .left > a:hover {
+.page-content .page-top-bar .container .right > a:hover {
     color: white !important;
 }
+
 
 .content-wrap > div > div {
     display: flex;
@@ -540,6 +541,7 @@ body {
 
     .page-content .page-top-bar .top-btn.login {
         margin-left: auto;
+        flex: 1;
     }
 
     .panel-table th, .panel-table td {
@@ -658,10 +660,6 @@ td.status .bar {
     height: 50px;
     margin-right: -2px;
     border-radius: 100px;
-}
-
-.page-content .page-top-bar .container .left > a.active {
-    color: white !important;
 }
 
 .sn-l {

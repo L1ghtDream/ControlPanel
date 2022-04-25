@@ -2,14 +2,12 @@ package dev.lightdream.common.database;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.cache.CacheRegistry;
-import dev.lightdream.common.dto.permission.PermissionContainer;
-import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.event.impl.ExecuteCommandEvent;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
+import dev.lightdream.databasemanager.dto.entry.impl.StringDatabaseEntry;
 import dev.lightdream.messagebuilder.MessageBuilder;
-import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
@@ -19,8 +17,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @DatabaseTable(table = "nodes")
-@NoArgsConstructor
-public class Node extends PermissionContainer {
+public class Node extends StringDatabaseEntry {
+
+    public Node(){
+        super(CommonMain.instance);
+    }
+
+    public static Node getNode(String id) {
+        return CommonMain.instance.databaseManager.getNode(id);
+    }
 
     //Settings
     @DatabaseField(columnName = "name")
@@ -34,6 +39,7 @@ public class Node extends PermissionContainer {
     public int sshPort;
 
     public Node(String id, String name, String ip, String username, int sshPort) {
+        super(CommonMain.instance);
         this.id = id;
         this.name = name;
         this.ip = ip;
@@ -67,11 +73,6 @@ public class Node extends PermissionContainer {
         }
 
         return output.toString();
-    }
-
-    @Override
-    public PermissionEnum.PermissionType getType() {
-        return PermissionEnum.PermissionType.NODE;
     }
 
     /**

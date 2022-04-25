@@ -2,7 +2,7 @@ package dev.lightdream.node;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
-import dev.lightdream.common.dto.CommonConfig;
+import dev.lightdream.common.dto.config.CommonConfig;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.logger.Logger;
