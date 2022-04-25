@@ -23,9 +23,8 @@ import java.util.List;
 
 public abstract class CommonMain implements DatabaseMain, LoggableMain, FileManagerMain {
 
-    public static CommonMain instance;
     public static final String buildType = "Dev Build";
-
+    public static CommonMain instance;
     // Config
     public DriverConfig driverConfig;
     public SQLConfig sqlConfig;
@@ -56,9 +55,9 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
 
     /**
      * @return The index of the version from github
-     *         0 for Common
-     *         1 for Node
-     *         2 for Web
+     * 0 for Common
+     * 1 for Node
+     * 2 for Web
      */
     public abstract int getReleaseIndex();
 
@@ -67,10 +66,12 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
 
     public abstract String getRedisID();
 
+    @Deprecated
     public List<Server> getServers() {
         return getDatabaseManager().getServers();
     }
 
+    @Deprecated
     public List<Server> getServers(Node node) {
         return getDatabaseManager().getServers(node);
     }

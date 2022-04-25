@@ -8,6 +8,8 @@ import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.databasemanager.dto.entry.impl.IntegerDatabaseEntry;
 
+import java.util.List;
+
 @DatabaseTable(table = "users")
 public class User extends IntegerDatabaseEntry {
 
@@ -29,6 +31,10 @@ public class User extends IntegerDatabaseEntry {
         this.username = username;
         this.password = password;
         this.otpSecret = otpSecret;
+    }
+
+    public static List<User> getUsers() {
+        return CommonMain.instance.databaseManager.getAll(User.class);
     }
 
     @SuppressWarnings("unused")

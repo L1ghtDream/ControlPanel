@@ -104,6 +104,21 @@ public class EndPoints {
     }
 
     @SuppressWarnings("unused")
+    @GetMapping("/admin/users")
+    public String users(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+
+        if (!cookie.validate()) {
+            model.addAttribute("error", "401");
+            return "error.html";
+        }
+
+        model.addAttribute("users", User.getUsers());
+
+        return "admin/user/users.html";
+    }
+
+    @SuppressWarnings("unused")
     @GetMapping("/admin/node/{nodeID}")
     public String node(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64, @PathVariable String nodeID) {
         Cookie cookie = Utils.getCookie(cookieBase64);
