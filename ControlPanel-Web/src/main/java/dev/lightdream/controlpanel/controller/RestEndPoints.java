@@ -1,14 +1,17 @@
 package dev.lightdream.controlpanel.controller;
 
 import com.google.common.hash.Hashing;
+import dev.lightdream.common.database.GlobalPermissionContainer;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.Command;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.data.LoginData;
+import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
+import dev.lightdream.controlpanel.dto.data.NodeData;
 import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,7 @@ public class RestEndPoints {
     }
 
     @MessageMapping("/server/api/server")
+    @ResponseBody
     public Response console(Command command) {
         if (!command.cookie.validate()) {
             return Response.UNAUTHORISED();
@@ -93,6 +97,7 @@ public class RestEndPoints {
     }
 
     @PostMapping("/api/cookie-check")
+    @ResponseBody
     public Response cookieCheck(@CookieValue(value = "login_data") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);
         if (cookie == null) {
@@ -100,5 +105,50 @@ public class RestEndPoints {
         }
         return Response.OK();
     }
+
+    @PostMapping("/api/node/{nodeID}/save")
+    @ResponseBody
+    public Response nodeSettings(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String nodeID, @RequestBody NodeData data) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+        Node node = Node.getNode(nodeID);
+
+        Debugger.log(data);
+
+        if (cookie == null) {
+            Debugger.log(1);
+            return Response.UNAUTHORISED();
+        }
+
+        if (!cookie.getUser().hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES)) {
+            Debugger.log(2);
+            return Response.UNAUTHORISED();
+        }
+        Debugger.log(3);
+
+        node.name = data.name;
+        node.ip = data.ip;
+        node.username = data.username;
+        node.sshPort = data.sshPort;
+        node.save();
+
+        return Response.OK();
+    }
+
+    @PostMapping("/api/node/{nodeID}/delete")
+    @ResponseBody
+    public Response nodeDelete(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String nodeID) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+        Node node = Node.getNode(nodeID);
+
+        if (cookie == null) {
+            Debugger.log(1);
+            return Response.UNAUTHORISED();
+        }
+
+        node.delete();
+
+        return Response.OK();
+    }
+
 
 }

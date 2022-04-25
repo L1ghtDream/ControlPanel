@@ -1,10 +1,7 @@
 package dev.lightdream.common.manager;
 
 import com.google.common.hash.Hashing;
-import dev.lightdream.common.database.Node;
-import dev.lightdream.common.database.Server;
-import dev.lightdream.common.database.User;
-import dev.lightdream.common.database.Permission;
+import dev.lightdream.common.database.*;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.databasemanager.DatabaseMain;
@@ -27,12 +24,14 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         registerDataType(User.class, "INT");
         registerDataType(Server.class, "TEXT");
         registerDataType(PermissionEnum.class, "TEXT");
+        registerDataType(GlobalPermissionContainer.class, "TEXT");
         registerDataType(PermissionContainer.class, "TEXT");
 
         registerSDPair(User.class, user -> user.id, id -> getUser((Integer) id));
-        registerSDPair(Node.class, node -> "\"" + node.id + "\"", id -> Node.getNode((String)id));
+        registerSDPair(Node.class, node -> "\"" + node.id + "\"", id -> Node.getNode((String) id));
         registerSDPair(Server.class, server -> "\"" + server.getIdentifier() + "\"", id -> (Server) Server.getByIdentifier((String) id));
         registerSDPair(PermissionEnum.class, permission -> "\"" + permission.toString() + "\"", str -> PermissionEnum.valueOf((String) str));
+        registerSDPair(GlobalPermissionContainer.class, permission -> "\"" + permission.toString() + "\"", str -> GlobalPermissionContainer.getInstance());
         registerSDPair(PermissionContainer.class, PermissionContainer::getIdentifier,
                 str -> PermissionContainer.getByIdentifier((String) str));
 

@@ -79,28 +79,32 @@
     visibility: visible;
 }
 
-.form-manage{
+.form-manage {
     padding: 7px !important;
     width: 95%;
 }
 
-.setting-button{
+.setting-button {
     padding: 10px;
 }
 
-.block{
+.block {
     display: block !important;
 }
 
-.green{
+.green {
     color: green;
 }
 
-.lime{
+.lime {
     color: lime;
 }
 
-.setting-button{
+.white {
+    color: white;
+}
+
+.setting-button {
     color: white;
     width: 90px;
     padding: 10px;
@@ -114,10 +118,14 @@
     margin-left: 20px;
 }
 
-.save{
+.save {
     background: lime;
 }
 
-.reset{
+.reset {
+    background: #1e2026;
+}
+
+.delete {
     background: red;
 }

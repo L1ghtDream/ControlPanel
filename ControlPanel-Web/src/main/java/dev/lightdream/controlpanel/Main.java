@@ -1,6 +1,7 @@
 package dev.lightdream.controlpanel;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.GlobalPermissionContainer;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.cache.CacheRegistry;
 import dev.lightdream.common.dto.config.CommonConfig;
@@ -76,6 +77,9 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
             databaseManager.getServer("test2").addPermission(user, permission);
             databaseManager.getServer("test3").addPermission(user, permission);
         }
+        GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_ADMIN);
+        GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_MANAGE_NODES);
+        GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_MANAGE_USERS);
     }
 
     public void createNodes() {

@@ -5,7 +5,7 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 
 public class GlobalPermissionContainer extends PermissionContainer {
 
-    public static GlobalPermissionContainer instance;
+    private static GlobalPermissionContainer instance;
 
     public static GlobalPermissionContainer getInstance() {
         if (instance == null) {

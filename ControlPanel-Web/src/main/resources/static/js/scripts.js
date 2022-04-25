@@ -126,3 +126,7 @@ async function callAPI(api, data, callback, failCallback) {
         failCallback(obj);
     }
 }
+
+function reload(){
+    location.reload();
+}

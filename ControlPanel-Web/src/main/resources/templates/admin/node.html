@@ -17,15 +17,15 @@
                     <div class="header">General details</div>
                     <div class="details">
                         <div class="setting">
-                            <label for="node-id">ID: </label>
+                            <label for="id">ID: </label>
                             <br>
-                            <input class="form-control form-manage" disabled="disabled" id="node-id"
+                            <input class="form-control form-manage" disabled="disabled" id="id"
                                    th:value="${node.getID()}">
                         </div>
                         <div class="setting">
-                            <label for="node-name">Name: </label>
+                            <label for="name">Name: </label>
                             <br>
-                            <input class="form-control form-manage" id="node-name" th:value="${node.name}">
+                            <input class="form-control form-manage" id="name" th:value="${node.name}">
                         </div>
                     </div>
                 </div>
@@ -50,19 +50,36 @@
                             <input class="form-control form-manage" id="username" th:value="${node.username}">
                         </div>
                         <div class="setting">
-                            <label for="ssh-port">SSH Port: </label>
+                            <label for="ssh_port">SSH Port: </label>
                             <br>
-                            <input class="form-control form-manage" id="ssh-port" th:value="${node.sshPort}">
+                            <input class="form-control form-manage" id="ssh_port" th:value="${node.sshPort}">
                         </div>
                     </div>
                 </div>
                 <br>
-                        <button class="setting-button save" id="save" type="button">Save</button>
-                        <button class="setting-button reset" id="reset" type="button">Reset</button>
+                <button class="setting-button save" id="save" type="button">Save</button>
+                <button class="setting-button reset" id="reset" type="button">Reset</button>
+                <!-- <button class="setting-button delete" id="delete" type="button">Delete</button> -->
+                <button class="setting-button delete" onclick="location.href='#delete-confirmation'">Delete</button>
+
+                <div id="delete-confirmation" class="overlay block">
+                    <div class="popup">
+                        <h2>Confirm Deleting</h2>
+                        <a class="close white" href="#">&times;</a>
+                        <div class="content">
+                            This action will delete the node from the panel.
+                        </div>
+                        <button class="setting-button delete" id="delete" type="button" style="width: 150px; margin-top: 15px">Confirm Delete</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <div th:replace="fragments/global :: scripts"></div>
+<script src="/js/node.js"></script>
+<script>
+    nodeTemplate();
+</script>
 </body>
 </html>

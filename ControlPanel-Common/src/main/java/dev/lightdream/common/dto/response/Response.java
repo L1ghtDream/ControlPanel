@@ -35,14 +35,4 @@ public class Response {
     public static Response LOCKED(String text) {
         return new Response("423", text);
     }
-
-
-    @Override
-    public String toString() {
-        return "Response{" +
-                "code='" + code + '\'' +
-                ", text='" + text + '\'' +
-                ", data=" + data +
-                '}';
-    }
 }
