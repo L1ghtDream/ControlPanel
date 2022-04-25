@@ -1,6 +1,6 @@
 package dev.lightdream.controlpanel.config;
 
-import dev.lightdream.controlpanel.Main;
+import dev.lightdream.common.database.Server;
 import dev.lightdream.logger.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry config) {
         List<String> paths = new ArrayList<>();
 
-        Main.instance.getServers().forEach(server -> {
+        Server.getServers().forEach(server -> {
             Logger.info("[Broker] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/console\"");
 
             paths.add("/server/" + server.id + "/api/console");
@@ -33,7 +33,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(@NotNull StompEndpointRegistry registry) {
-        Main.instance.getServers().forEach(server -> {
+        Server.getServers().forEach(server -> {
             Logger.info("[Stomp] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/server\"");
 
             registry.addEndpoint("/server/" + server.id + "/api/server");

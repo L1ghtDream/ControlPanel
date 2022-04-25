@@ -69,7 +69,7 @@ public class EndPoints {
         User user = cookie.getUser();
 
         model.addAttribute("servers",
-                Main.instance.getServers().stream().filter(server ->
+                Server.getServers().stream().filter(server ->
                         user.hasPermission(server, PermissionEnum.SERVER_VIEW)).collect(Collectors.toList())
         );
         return "server/servers.html";
@@ -124,7 +124,7 @@ public class EndPoints {
         Cookie cookie = Utils.getCookie(cookieBase64);
         Node node = Node.getNode(nodeID);
 
-        if(node == null) {
+        if (node == null) {
             model.addAttribute("error", "404");
             return "error.html";
         }
@@ -140,7 +140,7 @@ public class EndPoints {
         Cookie cookie = Utils.getCookie(cookieBase64);
         User user = User.getUser(id);
 
-        if(user == null) {
+        if (user == null) {
             model.addAttribute("error", "404");
             return "error.html";
         }
