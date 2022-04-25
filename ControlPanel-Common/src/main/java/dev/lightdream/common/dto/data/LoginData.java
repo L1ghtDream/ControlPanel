@@ -1,13 +1,10 @@
 package dev.lightdream.common.dto.data;
 
 
-import com.google.common.hash.Hashing;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.User;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-
-import java.nio.charset.StandardCharsets;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,8 +17,12 @@ public class LoginData {
     public boolean checkPassword() {
         return true;
         //User user = CommonMain.instance.databaseManager.getUser(username);
-        //return user.password.equals(password) &&
-        //        otp.equals(Utils.getTOTPCode(user.otpSecret));
+        //if (user.has2FA()) {
+        //    return user.password.equals(password) &&
+        //            otp.equals(Utils.getTOTPCode(user.otpSecret));
+        //} else {
+        //    return user.password.equals(password);
+        //}
     }
 
     public Cookie generateCookie() {
@@ -33,9 +34,7 @@ public class LoginData {
 
         return new Cookie(
                 username,
-                Hashing.sha256()
-                        .hashString(username + user.password + user.otpSecret, StandardCharsets.UTF_8)
-                        .toString()
+                user.generateHash()
         );
     }
 

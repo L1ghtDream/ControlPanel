@@ -1,5 +1,6 @@
 package dev.lightdream.common.database;
 
+import com.google.common.hash.Hashing;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
@@ -8,6 +9,7 @@ import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.databasemanager.dto.entry.impl.IntegerDatabaseEntry;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @DatabaseTable(table = "users")
@@ -38,9 +40,9 @@ public class User extends IntegerDatabaseEntry {
     }
 
     @SuppressWarnings("unused")
-    public String generateQR() {
+    public String generateQR(String secret) {
         String path = CommonMain.instance.qrPath() + username + ".png";
-        Utils.createQRCode(Utils.getGoogleAuthenticatorBarCode(this.otpSecret, "admin", "Original.gg"), path);
+        Utils.createQRCode(Utils.getGoogleAuthenticatorBarCode(secret, "admin", "Original.gg"), path);
         return path;
     }
 
@@ -58,4 +60,26 @@ public class User extends IntegerDatabaseEntry {
         }
         PermissionContainer.addPermission(this, permission);
     }
+
+    public boolean has2FA() {
+        return this.otpSecret != null;
+    }
+
+    public void setup2FA(String secret) {
+        this.otpSecret = secret;
+    }
+
+    public String generateHash() {
+        if (has2FA()) {
+            return Hashing.sha256()
+                    .hashString(username + password + otpSecret, StandardCharsets.UTF_8)
+                    .toString();
+        } else {
+            return Hashing.sha256()
+                    .hashString(username + password, StandardCharsets.UTF_8)
+                    .toString();
+        }
+
+    }
+
 }
