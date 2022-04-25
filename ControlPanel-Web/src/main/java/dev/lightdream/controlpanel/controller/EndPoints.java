@@ -124,9 +124,30 @@ public class EndPoints {
         Cookie cookie = Utils.getCookie(cookieBase64);
         Node node = Node.getNode(nodeID);
 
+        if(node == null) {
+            model.addAttribute("error", "404");
+            return "error.html";
+        }
+
         model.addAttribute("node", node);
 
         return "admin/node/node.html";
+    }
+
+    @SuppressWarnings("unused")
+    @GetMapping("/admin/user/{id}")
+    public String user(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64, @PathVariable int id) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+        User user = User.getUser(id);
+
+        if(user == null) {
+            model.addAttribute("error", "404");
+            return "error.html";
+        }
+
+        model.addAttribute("user", user);
+
+        return "admin/user/user.html";
     }
 
     @SuppressWarnings("unused")

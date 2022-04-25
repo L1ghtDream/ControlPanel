@@ -14,7 +14,7 @@
                 <div class="panel-table">
                     <table>
                         <tr class="grid-card" th:each="user : ${users}"
-                            th:onclick="redirect('/admin/user/[[${user.id}]]')">
+                            th:onclick="redirect('/admin/user/[[${user.getID()}]]')">
                             <td class="circle-icon">
                                 <div class="server-icon"><i class="mdi mdi-account"></i></div>
                             </td>

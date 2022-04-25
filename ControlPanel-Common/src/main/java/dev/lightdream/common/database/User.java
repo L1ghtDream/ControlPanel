@@ -35,6 +35,14 @@ public class User extends IntegerDatabaseEntry {
         this.otpSecret = otpSecret;
     }
 
+    public static User getUser(String username) {
+        return CommonMain.instance.databaseManager.getUser(username);
+    }
+
+    public static User getUser(int id) {
+        return CommonMain.instance.databaseManager.getUser(id);
+    }
+
     public static List<User> getUsers() {
         return CommonMain.instance.databaseManager.getAll(User.class);
     }
