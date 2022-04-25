@@ -18,10 +18,8 @@ async function login() {
         username: document.getElementById('username').value,
         password: document.getElementById('password').value,
         otp: document.getElementById('otp').value
-    }, (obj) => {
-        console.log(obj)
-        console.log(obj.data)
-        setCookie("login_data", btoa(JSON.stringify(obj.data)), 10 * 365);
+    }, (data) => {
+        setCookie("login_data", btoa(JSON.stringify(data)), 10 * 365);
         redirect("/")
     });
 }
