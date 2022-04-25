@@ -122,9 +122,7 @@ public class EndPoints {
             nodeBuildProperties.add(new NodeBuildProperties(node, buildProperties));
         });
 
-        model.addAttribute("version", Main.instance.buildProperties.version);
-        model.addAttribute("buildType", Main.instance.buildProperties.buildType);
-        model.addAttribute("timestamp", Main.instance.buildProperties.timestamp);
+        model.addAttribute("build", Main.instance.buildProperties);
         model.addAttribute("nodes", nodeBuildProperties);
 
         return "admin/admin.html";
@@ -143,7 +141,7 @@ public class EndPoints {
     @NoArgsConstructor
     private static class NodeBuildProperties {
         public Node node;
-        public BuildProperties buildProperties;
+        public BuildProperties build;
     }
 
 

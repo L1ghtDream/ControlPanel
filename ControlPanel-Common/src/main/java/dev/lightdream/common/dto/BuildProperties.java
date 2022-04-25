@@ -2,7 +2,6 @@ package dev.lightdream.common.dto;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.logger.Debugger;
 import dev.lightdream.logger.Logger;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -45,9 +44,8 @@ public class BuildProperties {
         version = properties.getProperty("build.version");
         buildType = CommonMain.buildType;
 
-        if (isOutDated()) {
-            int difference = getDifference();
-            if (difference > 100) {
+        if (isOutdated()) {
+            if (isVeryOutdated()) {
                 Logger.error("" +
                         "\n#################### HIGH SEVERITY WARING ####################" +
                         "\nPlease consider upgrading to the latest version of " + getNewestVersion() + "! (version difference: " + getDifference() + ")" +
@@ -67,10 +65,13 @@ public class BuildProperties {
         return this;
     }
 
-    public boolean isOutDated() {
+    public boolean isOutdated() {
         return !version.equals(getNewestVersion());
     }
 
+    public boolean isVeryOutdated() {
+        return getDifference() >= 100;
+    }
 
     /**
      * @return Format of the version is a.b.c
@@ -81,7 +82,7 @@ public class BuildProperties {
      * For each patch version difference the result will be +1
      */
     public int getDifference() {
-        if (!isOutDated()) {
+        if (!isOutdated()) {
             return 0;
         }
 
@@ -129,8 +130,18 @@ public class BuildProperties {
             responseString += ".0";
         }
 
-        Debugger.log(responseString);
+        // TODO Remove
+        responseString = "2.3.4";
+
+        // TODO Remove
+        if (releaseIndex == 1) {
+            responseString = "1.3.4";
+        }
         return responseString;
+    }
+
+    public String getUpdateURL() {
+        return Utils.downloadURL;
     }
 
 }
