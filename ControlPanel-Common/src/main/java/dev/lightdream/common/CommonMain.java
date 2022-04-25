@@ -51,8 +51,16 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         databaseManager = new DatabaseManager(this);
         redisManager = new RedisManager(getRedisID());
 
-        buildProperties = new BuildProperties().load();
+        buildProperties = new BuildProperties().load(getReleaseIndex());
     }
+
+    /**
+     * @return The index of the version from github
+     *         0 for Common
+     *         1 for Node
+     *         2 for Web
+     */
+    public abstract int getReleaseIndex();
 
     @SuppressWarnings("unused")
     public abstract RedisEventListener getRedisEventListener();

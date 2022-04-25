@@ -33,6 +33,8 @@ public class Utils {
     public static int defaultTimeout = 2 * 1000;       // 2 seconds    (2000 milliseconds)
     public static int defaultWaitBeforeIteration = 50; // 0.05 seconds (50 milliseconds  )
 
+    public static String downloadURL = "https://github.com/L1ghtDream/ControlPanel/releases/tag/latest";
+
     public static Server getServer(String id) {
         return CommonMain.instance.getServers().stream().filter(server -> server.id.equals(id)).findFirst().orElse(null);
     }

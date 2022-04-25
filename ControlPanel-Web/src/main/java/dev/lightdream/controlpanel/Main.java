@@ -98,4 +98,9 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         config = fileManager.load(Config.class);
         super.loadConfigs(fileManager);
     }
+
+    @Override
+    public int getReleaseIndex() {
+        return 2;
+    }
 }

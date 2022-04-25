@@ -48,6 +48,11 @@ public class Main extends CommonMain {
     }
 
     @Override
+    public int getReleaseIndex() {
+        return 1;
+    }
+
+    @Override
     public RedisEventListener getRedisEventListener() {
         return redisEventListener;
     }
