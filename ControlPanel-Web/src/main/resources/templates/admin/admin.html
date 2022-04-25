@@ -21,7 +21,9 @@
 
                     <div th:each="node : ${nodes}">
                         <span class="name" th:text="${node.node.name} + ':'"></span>
-                        <span th:text="' ' + ${node.buildProperties.version} + ' ' + ${node.buildProperties.buildType} + ' ' + ${node.buildProperties.timestamp}"></span>
+                        <span th:if="${node.buildProperties} != null"
+                              th:text="' ' + ${node.buildProperties.version} + ' ' + ${node.buildProperties.buildType} + ' ' + ${node.buildProperties.timestamp}"></span>
+                        <span class="red" th:if="${node.buildProperties} == null">OFFLINE</span>
                     </div>
                 </div>
             </div>
