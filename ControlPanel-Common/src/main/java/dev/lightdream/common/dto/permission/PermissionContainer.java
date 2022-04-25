@@ -43,6 +43,9 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
     }
 
     public boolean hasPermission(User user, PermissionEnum permission) {
+        if (user.hasPermission(GlobalPermissionContainer.getInstance(), permission)) {
+            return true;
+        }
         return gerUserPermissions(user).stream().anyMatch(p -> p.permission.equals(permission));
     }
 

@@ -100,7 +100,7 @@ public class EndPoints {
 
         model.addAttribute("nodes", Node.getNodes());
 
-        return "admin/nodes.html";
+        return "admin/node/nodes.html";
     }
 
     @SuppressWarnings("unused")
@@ -111,7 +111,7 @@ public class EndPoints {
 
         model.addAttribute("node", node);
 
-        return "admin/node.html";
+        return "admin/node/node.html";
     }
 
     @SuppressWarnings("unused")
