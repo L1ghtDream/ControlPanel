@@ -27,12 +27,11 @@ public class User extends IntegerDatabaseEntry {
         super(CommonMain.instance);
     }
 
-    @SuppressWarnings("unused")
-    public User(String username, String password, String otpSecret) {
+    public User(String username, String password) {
         super(CommonMain.instance);
         this.username = username;
-        this.password = password;
-        this.otpSecret = otpSecret;
+        this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+        this.otpSecret = null;
     }
 
     public static User getUser(String username) {
@@ -93,5 +92,14 @@ public class User extends IntegerDatabaseEntry {
     public List<Server> getServers() {
         return CommonMain.instance.databaseManager.getServers();
     }
+
+    public void updatePassword(String password) {
+        password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+    }
+
+    public void disable2FA() {
+        this.otpSecret = null;
+    }
+
 
 }

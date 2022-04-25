@@ -40,10 +40,9 @@
                         </div>
                         <div class="setting">
                             <div>2FA:</div>
-                            <button class="setting-button save" id="enable-2fa" style="margin-left: 0"
-                                    th:if="${user.has2FA() == false}"
-                                    type="button">Enable
-                            </button>
+                            <div class="red" th:if="${user.has2FA() == false}">
+                                Disabled
+                            </div>
                             <button class="setting-button delete" id="disable-2fa" style="margin-left: 0"
                                     th:if="${user.has2FA() == true}"
                                     type="button">Disable

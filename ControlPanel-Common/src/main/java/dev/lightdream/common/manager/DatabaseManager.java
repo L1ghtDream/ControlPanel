@@ -1,6 +1,5 @@
 package dev.lightdream.common.manager;
 
-import com.google.common.hash.Hashing;
 import dev.lightdream.common.database.*;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
@@ -9,7 +8,6 @@ import dev.lightdream.databasemanager.database.ProgrammaticHikariDatabaseManager
 import dev.lightdream.databasemanager.dto.QueryConstrains;
 import org.jetbrains.annotations.Nullable;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,16 +103,12 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         ).query();
     }
 
-    public void createUser(String username, String password, String otpSecret) {
+    public void createUser(String username, String password) {
         if (getUser(username) != null) {
             return;
         }
 
-        new User(
-                username,
-                Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString(),
-                otpSecret
-        ).save();
+        new User(username, password).save();
     }
 
 

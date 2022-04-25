@@ -4,6 +4,7 @@ import com.google.common.hash.Hashing;
 import dev.lightdream.common.database.GlobalPermissionContainer;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
+import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.Command;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.data.LoginData;
@@ -12,6 +13,7 @@ import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.dto.data.NodeData;
+import dev.lightdream.controlpanel.dto.data.UserData;
 import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -134,6 +136,55 @@ public class RestEndPoints {
         return Response.OK();
     }
 
+    @PostMapping("/api/user/{userID}/save")
+    @ResponseBody
+    public Response userSettings(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String userID, @RequestBody UserData data) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+        User user = User.getUser(userID);
+
+        Debugger.log(data);
+
+        if (cookie == null) {
+            Debugger.log(1);
+            return Response.UNAUTHORISED();
+        }
+
+        if (!cookie.getUser().hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES)) {
+            Debugger.log(2);
+            return Response.UNAUTHORISED();
+        }
+        Debugger.log(3);
+
+        user.username = data.username;
+        if (data.password != null && !data.password.isEmpty()) {
+            user.updatePassword(data.password);
+        }
+
+        return Response.OK();
+    }
+
+    @PostMapping("/api/user/{userID}/disable-2fa")
+    @ResponseBody
+    public Response userDisable2FA(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String userID) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+        User user = User.getUser(userID);
+
+        if (cookie == null) {
+            Debugger.log(1);
+            return Response.UNAUTHORISED();
+        }
+
+        if (!cookie.getUser().hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS)) {
+            Debugger.log(2);
+            return Response.UNAUTHORISED();
+        }
+
+        user.disable2FA();
+
+
+        return Response.OK();
+    }
+
     @PostMapping("/api/node/{nodeID}/delete")
     @ResponseBody
     public Response nodeDelete(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String nodeID) {
@@ -145,7 +196,33 @@ public class RestEndPoints {
             return Response.UNAUTHORISED();
         }
 
+        if (!cookie.getUser().hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES)) {
+            Debugger.log(2);
+            return Response.UNAUTHORISED();
+        }
+
         node.delete();
+
+        return Response.OK();
+    }
+
+    @PostMapping("/api/user/{userID}/delete")
+    @ResponseBody
+    public Response userDelete(@CookieValue(value = "login_data") String cookieBase64, @PathVariable int userID) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+        User user = User.getUser(userID);
+
+        if (cookie == null) {
+            Debugger.log(1);
+            return Response.UNAUTHORISED();
+        }
+
+        if (!cookie.getUser().hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS)) {
+            Debugger.log(2);
+            return Response.UNAUTHORISED();
+        }
+
+        user.delete();
 
         return Response.OK();
     }

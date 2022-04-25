@@ -16,11 +16,7 @@ async function nodeTemplate() {
     });
 
     document.getElementById('delete').addEventListener('click', function () {
-        deleteNode();
-    });
-
-    document.getElementById('enable-2fa').addEventListener('click', function () {
-        enable2FA();
+        deleteUser();
     });
 
     document.getElementById('disable-2fa').addEventListener('click', function () {
@@ -47,15 +43,7 @@ async function disable2FA() {
     });
 }
 
-async function enable2FA() {
-    let userID = document.getElementById('id').value;
-
-    callAPI("/api/user/" + userID + "/2fa/enable", {}, (data) => {
-        reload();
-    });
-}
-
-async function deleteNode() {
+async function deleteUser() {
     let userID = document.getElementById('id').value;
 
     callAPI("/api/user/" + userID + "/delete", {}, (data) => {
