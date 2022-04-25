@@ -28,15 +28,15 @@ async function save() {
         ip: document.getElementById('ip').value,
         username: document.getElementById('username').value,
         sshPort: document.getElementById('ssh_port').value
-    }, (data) => {
+    }, () => {
         reload();
     });
 }
 
-async function deleteNode(){
+async function deleteNode() {
     let nodeID = document.getElementById('id').value;
 
-    callAPI("/api/node/" + nodeID + "/delete", {}, (data) => {
+    callAPI("/api/node/" + nodeID + "/delete", {}, () => {
         reload();
     });
 }

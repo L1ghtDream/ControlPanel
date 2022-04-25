@@ -1,5 +1,5 @@
 // noinspection JSCheckFunctionSignatures
-async function nodeTemplate() {
+async function userTemplate() {
     document.getElementById("logout").hidden = true;
 
     //Check if the user is already logged in and if so redirect to the home page
@@ -30,7 +30,7 @@ async function save() {
     callAPI("/api/user/" + userID + "/save", {
         password: document.getElementById('password').value,
         username: document.getElementById('username').value
-    }, (data) => {
+    }, () => {
         reload();
     });
 }
@@ -38,7 +38,7 @@ async function save() {
 async function disable2FA() {
     let userID = document.getElementById('id').value;
 
-    callAPI("/api/user/" + userID + "/2fa/disable", {}, (data) => {
+    callAPI("/api/user/" + userID + "/2fa/disable", {}, () => {
         reload();
     });
 }
@@ -46,7 +46,7 @@ async function disable2FA() {
 async function deleteUser() {
     let userID = document.getElementById('id').value;
 
-    callAPI("/api/user/" + userID + "/delete", {}, (data) => {
+    callAPI("/api/user/" + userID + "/delete", {}, () => {
         reload();
     });
 }

@@ -14,14 +14,12 @@ if (error !== null) {
 //    });
 //}
 
+
 //Dashboard sanitization
 //dashBoard();
 
-function getSkinURL(name) {
-    return `https://cravatar.eu/helmavatar/${name}/190.png`
-}
-
-async function verifyCookie() {
+// noinspection JSUnusedGlobalSymbols
+async function verifyCookie() { //TODO:
     let blob = await fetch("/api/login/validate", {
         method: "post",
         body: getCookie("login_data")
@@ -51,7 +49,7 @@ function getCookie(name) {
     return null;
 }
 
-function hasLoginDataInCookies(){
+function hasLoginDataInCookies() {
     let cookie = getCookie("login_data");
     return cookie != null && cookie !== ""
 }
@@ -127,6 +125,6 @@ async function callAPI(api, data, callback, failCallback) {
     }
 }
 
-function reload(){
+function reload() {
     location.reload();
 }
