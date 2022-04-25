@@ -16,8 +16,7 @@ public class CacheManager {
         new Cache<>(cache -> {
             CacheRegistry registry = new CacheRegistry();
 
-            main.getServers(main.getNode()).forEach(server -> {
-
+            main.getNode().getServers().forEach(server -> {
                 ServerStats stats = server.getStats();
 
                 registry.memoryUsageCache.set(server, stats.memoryUsage);

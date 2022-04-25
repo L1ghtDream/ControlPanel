@@ -1,19 +1,22 @@
 package dev.lightdream.common.dto.cache;
 
 import dev.lightdream.common.database.Server;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 
-@AllArgsConstructor
 @NoArgsConstructor
 public class ServersCache<T> {
     public HashMap<String, T> servers = new HashMap<>();
+    public T defaultValue = null;
+
+    public ServersCache(T defaultValue) {
+        this.defaultValue = defaultValue;
+    }
 
     @SuppressWarnings("unused")
     public T get(Server server) {
-        return servers.get(server.getID());
+        return servers.getOrDefault(server.getID(), defaultValue);
     }
 
     @SuppressWarnings("unused")

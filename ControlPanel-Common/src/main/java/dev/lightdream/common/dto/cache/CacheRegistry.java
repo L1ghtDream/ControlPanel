@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CacheRegistry {
 
-    public ServersCache<Double> memoryUsageCache = new ServersCache<>();
-    public ServersCache<Double> memoryAllocationCache = new ServersCache<>();
-    public ServersCache<Double> cpuUsageCache = new ServersCache<>();
-    public ServersCache<Double> storageUsageCache = new ServersCache<>();
-    public ServersCache<Boolean> onlineStatusCache = new ServersCache<>();
+    public ServersCache<Double> memoryUsageCache = new ServersCache<>(0.0);
+    public ServersCache<Double> memoryAllocationCache = new ServersCache<>(0.0);
+    public ServersCache<Double> cpuUsageCache = new ServersCache<>(0.0);
+    public ServersCache<Double> storageUsageCache = new ServersCache<>(0.0);
+    public ServersCache<Boolean> onlineStatusCache = new ServersCache<>(false);
 
     @SuppressWarnings("unused")
     public void updateRegistry(CacheRegistry registry) {
