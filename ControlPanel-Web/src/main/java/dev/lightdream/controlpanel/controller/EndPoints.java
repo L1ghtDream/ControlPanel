@@ -47,7 +47,7 @@ public class EndPoints {
         }
 
         model.addAttribute("server", serverName);
-        return "server.html";
+        return "server/server.html";
     }
 
     @SuppressWarnings("unused")
@@ -72,7 +72,7 @@ public class EndPoints {
                 Main.instance.getServers().stream().filter(server ->
                         user.hasPermission(server, PermissionEnum.SERVER_VIEW)).collect(Collectors.toList())
         );
-        return "servers.html";
+        return "server/servers.html";
     }
 
     @GetMapping("/")
