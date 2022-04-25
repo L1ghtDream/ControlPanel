@@ -4,7 +4,7 @@ if (error !== null) {
 }
 
 //Login
-loginCookie();
+verifyCookie();
 
 //Cancel button
 //const cancel = document.getElementById('cancel');
