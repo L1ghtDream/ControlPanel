@@ -8,7 +8,7 @@ async function loginTemplate() {
         redirect("/");
     }
 
-    document.getElementById('login-submit').addEventListener('click', function () {
+    document.getElementById('submit').addEventListener('click', function () {
         login();
     });
 }

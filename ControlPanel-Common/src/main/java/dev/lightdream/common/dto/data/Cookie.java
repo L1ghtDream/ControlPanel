@@ -17,6 +17,11 @@ public class Cookie {
     public String hash;
 
     public boolean validate() {
+        if (username == null || hash == null
+                || username.equals("") || hash.equals("")) {
+            return false;
+        }
+
         User user = getUser();
 
         return Hashing.sha256()

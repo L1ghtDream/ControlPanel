@@ -76,7 +76,7 @@ public class EndPoints {
     }
 
     @GetMapping("/")
-    public String index(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
+    public String index(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {

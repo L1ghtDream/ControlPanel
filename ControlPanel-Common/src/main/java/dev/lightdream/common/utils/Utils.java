@@ -112,7 +112,10 @@ public class Utils {
         }
     }
 
-    public static Cookie getCookie(String cookie) {
+    public static Cookie getCookie(@NotNull String cookie) {
+        if (cookie.equals("")) {
+            return new Cookie();
+        }
         return Utils.fromJson(Utils.base64Decode(cookie), Cookie.class);
     }
 
