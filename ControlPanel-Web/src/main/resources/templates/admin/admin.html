@@ -20,17 +20,10 @@
                     </div>
 
                     <div th:each="node : ${nodes}">
-                        <span class="name" th:text="${node.node.name}"></span>
+                        <span class="name" th:text="${node.node.name} + ':'"></span>
                         <span th:text="' ' + ${node.buildProperties.version} + ' ' + ${node.buildProperties.buildType} + ' ' + ${node.buildProperties.timestamp}"></span>
                     </div>
                 </div>
-
-                <div class="header">Nodes System Information</div>
-                <div class="details">
-                    <span class="name">Version:</span>
-                    <span th:text="' ' + ${version} + ' ' +  ${buildType} + ' ' + ${timestamp}">UNKNOWN</span>
-                </div>
-
             </div>
         </div>
     </div>

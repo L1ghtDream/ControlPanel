@@ -43,7 +43,7 @@
     padding-left: 40px;
 }
 
-.details > .name {
+.details > div > .name {
     color: white;
 }
 
