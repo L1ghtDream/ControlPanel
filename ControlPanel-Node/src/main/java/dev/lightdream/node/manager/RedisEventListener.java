@@ -23,7 +23,6 @@ public class RedisEventListener extends dev.lightdream.common.manager.RedisEvent
 
     @RedisEventHandler
     public void onCommandExecute(GetBuildPropertiesEvent event) {
-        Main.instance.buildProperties.timestamp = "Test timestamp"; // TODO Remove
         event.respond(Main.instance.buildProperties);
     }
 

@@ -1,9 +1,11 @@
 package dev.lightdream.common.dto.redis.event;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.database.Node;
 import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.event.impl.ResponseEvent;
 import dev.lightdream.common.utils.Utils;
+import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 
 public class RedisEvent {
@@ -20,6 +22,12 @@ public class RedisEvent {
         this.className = getClass().getName();
         this.redisTarget = redisTarget;
     }
+
+    public RedisEvent(Node redisTarget) {
+        this.className = getClass().getName();
+        this.redisTarget = redisTarget.getID();
+    }
+
 
     public RedisEvent() {
         this.className = getClass().getName();
@@ -57,15 +65,19 @@ public class RedisEvent {
     @SuppressWarnings("BusyWait")
     @SneakyThrows
     public RedisResponse sendAndWait(int timeout) {
+        Debugger.log("Starting sendAndWait @ " + System.currentTimeMillis());
         int currentWait = 0;
         RedisResponse response = send();
         while (!response.isFinished()) {
-            Thread.sleep(Utils.defaultTimeout);
-            currentWait += Utils.defaultTimeout;
+            Thread.sleep(Utils.defaultWaitBeforeIteration);
+            currentWait += Utils.defaultWaitBeforeIteration;
             if (currentWait > timeout) {
+                response.timeout();
                 break;
             }
         }
+        Debugger.log("Ending sendAndWait @ " + System.currentTimeMillis());
+
         return response;
     }
 

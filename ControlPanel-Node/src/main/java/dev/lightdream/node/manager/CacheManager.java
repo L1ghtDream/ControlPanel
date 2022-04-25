@@ -29,6 +29,7 @@ public class CacheManager {
             });
 
             new CacheUpdateEvent(registry).send();
+            cache.cancel();
         }, 20 * 1000L); //20 seconds
 
         Logger.good("Caching enabled!");

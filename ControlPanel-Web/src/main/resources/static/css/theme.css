@@ -642,7 +642,6 @@ td.server-name > a {
 .s-label {
     font-size: 9px;
     text-align: center;
-    margin-right: 20px;
     color: #7c8699;
     letter-spacing: .1px;
 }
@@ -667,6 +666,7 @@ td.status .bar {
     font-weight: bold;
     font-size: 18px;
     margin-bottom: 5px;
+    text-align: center;
 }
 
 .sn-s {

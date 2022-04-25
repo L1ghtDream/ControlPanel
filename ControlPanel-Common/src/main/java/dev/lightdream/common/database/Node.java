@@ -4,6 +4,7 @@ import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.cache.CacheRegistry;
 import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.event.impl.ExecuteCommandEvent;
+import dev.lightdream.common.dto.redis.event.impl.PingEvent;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.databasemanager.dto.entry.impl.StringDatabaseEntry;
@@ -167,5 +168,10 @@ public class Node extends StringDatabaseEntry {
         }
 
         return registry;
+    }
+
+    @SuppressWarnings("unused")
+    public boolean isOnline() {
+        return !new PingEvent(this).sendAndWait().hasTimeout();
     }
 }

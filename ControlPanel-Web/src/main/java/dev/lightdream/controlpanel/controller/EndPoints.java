@@ -97,7 +97,8 @@ public class EndPoints {
             return "error.html";
         }
 
-        Debugger.log(cookie);
+        model.addAttribute("nodes", Node.getNodes());
+
         return "admin/nodes.html";
     }
 
@@ -115,6 +116,7 @@ public class EndPoints {
 
         Node.getNodes().forEach(node -> {
             RedisResponse response = new GetBuildPropertiesEvent(node).sendAndWait();
+            Debugger.log(response.hasTimeout());
             BuildProperties buildProperties = response.getResponse(BuildProperties.class);
             Debugger.log(buildProperties);
             nodeBuildProperties.add(new NodeBuildProperties(node, buildProperties));
@@ -125,16 +127,17 @@ public class EndPoints {
         model.addAttribute("timestamp", Main.instance.buildProperties.timestamp);
         model.addAttribute("nodes", nodeBuildProperties);
 
-        Debugger.log(cookie);
         return "admin/admin.html";
     }
 
+    // -------------------- DEV --------------------
+
     @GetMapping("/dev/page_view")
-    public String nodes(String page) {
+    public String dev(String page) {
         return page;
     }
 
-    // -------------------- DEV --------------------
+    // -------------------- Classes --------------------
 
     @AllArgsConstructor
     @NoArgsConstructor

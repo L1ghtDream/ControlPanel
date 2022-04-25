@@ -54,19 +54,24 @@ public class RedisManager {
                     }
 
                     Debugger.info("[Receive-Response   ] [" + channel + "] " + command);
+                    Debugger.log("Received response @ " + System.currentTimeMillis());
                     RedisResponse response = getResponse(responseEvent);
+                    Debugger.log("[2] @ " + System.currentTimeMillis());
                     if (response == null) {
                         return;
                     }
+                    Debugger.log("[3] @ " + System.currentTimeMillis());
                     response.respond(responseEvent.response);
+                    Debugger.log("[7] @ " + System.currentTimeMillis());
                     return;
                 }
 
-                Debugger.info("[Receive            ] [" + channel + "] " + command);
                 RedisEvent redisEvent = Utils.fromJson(command, clazz);
                 if (!redisEvent.redisTarget.equals(listenID)) {
                     Debugger.info("[Receive-Not-Allowed] [" + channel + "] HIDDEN");
+                    return;
                 }
+                Debugger.info("[Receive            ] [" + channel + "] " + command);
                 redisEvent.fireEvent();
             }
 

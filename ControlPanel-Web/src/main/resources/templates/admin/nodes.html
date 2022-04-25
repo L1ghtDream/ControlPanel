@@ -7,6 +7,7 @@
 <div id="page">
     <div class="page-content">
         <div th:replace="fragments/global :: topbar"></div>
+        <div th:replace="fragments/global :: sidebar"></div>
 
         <div class="content-wrap">
             <div class="container">
@@ -14,54 +15,30 @@
                     <table>
                         <tr class="grid-card" th:each="node : ${nodes}"
                             th:onclick="redirect('/node/[[${node.id}]]')">
-                            <!--
-                            <span class="server_id" th:th:classappend="${server.id}"></span>
+
+                            <span class="server_id" th:th:classappend="${node.id}"></span>
                             <td class="server">
                                 <div class="server-icon"><i class="mdi mdi-server"></i></div>
                             </td>
                             <td class="server-name">
                                 <div class="s-label">Name</div>
-                                <div class="sn-l" th:text="${server.name}"></div>
-                                <div class="s-label" th:text="'(' + ${server.node.name} + ')'"></div>
+                                <div class="sn-l" th:utext="${node.name}"></div>
                             </td>
                             <td class="server-type">
-                                <div class="s-label">Server</div>
-                                <i class="mdi mdi-database"></i>
-                                <span th:text="${server.node.name} + ':' + ${server.port}"></span>
-                            </td>
-                            <td class="processor">
-                                <div class="s-label">CPU</div>
-                                <i class="mdi mdi-memory"></i>
-                                <span class="cpu_usage" th:th:classappend="${server.id}">
-                                   Loading...
-                                </span>
-                            </td>
-                            <td class="ram">
-                                <div class="s-label">RAM</div>
-                                <i class="mdi mdi-chip"></i>
-                                <span class="memory_usage" th:th:classappend="${server.id}">
-                                   Loading...
-                                </span>
-                                <span>
-                                    /
-                                </span>
-                                <span class="memory_allocation" th:th:classappend="${server.id}">
-                                   Loading...
-                                </span>
-                            </td>
-                            <td class="storage">
-                                <div class="s-label">Storage</div>
-                                <i class="mdi mdi-cloud"></i>
-                                <span class="storage_usage" th:th:classappend="${server.id}">
-                                   Loading...
-                                </span>
+                                <div class="s-label">Servers</div>
+                                <div style="text-align: center">
+                                    <i class="sn-l mdi mdi-database"></i>
+                                    <span class="sn-l" th:utext="${node.getServers.size}"></span>
+                                </div>
                             </td>
                             <td class="status">
-                                <span class="in_online" th:th:classappend="${server.id}">
-                                   Loading...
-                                </span>
+                                <div class="sn-l">
+                                    <div th:if="${node.isOnline == true}" class="bar"
+                                         style="background: #8bc34a !important; box-shadow: 0 0 10px #8bc34a !important; "></div>
+                                    <div th:if="${node.isOnline == false}" class="bar"
+                                         style="background: #f44336 !important; box-shadow: 0 0 10px #f44336 !important; "></div>
+                                </div>
                             </td>
-                            -->
                         </tr>
 
                     </table>
@@ -71,9 +48,5 @@
     </div>
 </div>
 <div th:replace="fragments/global :: scripts"></div>
-<script src="/js/stats.js"></script>
-<script>
-    addStats();
-</script>
 </body>
 </html>
