@@ -36,29 +36,36 @@
                         <div class="setting">
                             <label for="password">Password: </label>
                             <br>
-                            <input class="form-control form-manage" id="password" th:value="${user.password}">
+                            <input class="form-control form-manage" id="password" type="password">
                         </div>
                         <div class="setting">
-                            <label for="2fa">2FA: </label>
-                            <br>
-                            <input class="form-control form-manage" id="2fa" th:value="${user.otpSecret}">
+                            <div>2FA:</div>
+                            <button class="setting-button save" id="enable" style="margin-left: 0"
+                                    th:if="${user.has2FA() == false}"
+                                    type="button">Enable
+                            </button>
+                            <button class="setting-button delete" id="disable" style="margin-left: 0"
+                                    th:if="${user.has2FA() == true}"
+                                    type="button">Disable
+                            </button>
                         </div>
                     </div>
                 </div>
                 <br>
                 <button class="setting-button save" id="save" type="button">Save</button>
                 <button class="setting-button reset" id="reset" type="button">Reset</button>
-                <!-- <button class="setting-button delete" id="delete" type="button">Delete</button> -->
                 <button class="setting-button delete" onclick="location.href='#delete-confirmation'">Delete</button>
 
-                <div id="delete-confirmation" class="overlay block">
+                <div class="overlay block" id="delete-confirmation">
                     <div class="popup">
                         <h2>Confirm Deleting</h2>
                         <a class="close white" href="#">&times;</a>
                         <div class="content">
                             This action will delete the node from the panel.
                         </div>
-                        <button class="setting-button delete" id="delete" type="button" style="width: 150px; margin-top: 15px">Confirm Delete</button>
+                        <button class="setting-button delete" id="delete" style="width: 150px; margin-top: 15px"
+                                type="button">Confirm Delete
+                        </button>
                     </div>
                 </div>
             </div>
