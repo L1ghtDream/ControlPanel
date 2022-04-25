@@ -41,6 +41,8 @@
     font-size: 14px;
     font-weight: bold;
     padding-left: 40px;
+    padding-bottom: 20px;
+    padding-top: 10px;
 }
 
 .details > div > .name {
@@ -77,3 +79,45 @@
     visibility: visible;
 }
 
+.form-manage{
+    padding: 7px !important;
+    width: 95%;
+}
+
+.setting-button{
+    padding: 10px;
+}
+
+.block{
+    display: block !important;
+}
+
+.green{
+    color: green;
+}
+
+.lime{
+    color: lime;
+}
+
+.setting-button{
+    color: white;
+    width: 90px;
+    padding: 10px;
+    flex: 1;
+    border: none;
+    font-size: 15px;
+    font-weight: 800;
+    border-radius: 8px;
+    outline: none !important;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.save{
+    background: lime;
+}
+
+.reset{
+    background: red;
+}

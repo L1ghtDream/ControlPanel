@@ -104,6 +104,17 @@ public class EndPoints {
     }
 
     @SuppressWarnings("unused")
+    @GetMapping("/admin/node/{nodeID}")
+    public String node(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64, @PathVariable String nodeID) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+        Node node = Node.getNode(nodeID);
+
+        model.addAttribute("node", node);
+
+        return "admin/node.html";
+    }
+
+    @SuppressWarnings("unused")
     @GetMapping("/admin")
     public String admin(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);

@@ -1,0 +1,68 @@
+<!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL, ThymeleafVariablesResolveInspection -->
+<html lang="en">
+<!--suppress HtmlRequiredTitleElement -->
+<head th:replace="fragments/global :: head(title='Servers')"></head>
+
+<body>
+<div id="page">
+    <div class="page-content">
+        <div th:replace="fragments/global :: topbar"></div>
+        <div th:replace="fragments/global :: sidebar"></div>
+
+        <!-- IP Username ssh_port sftp_port-->
+
+        <div class="content-wrap">
+            <div class="container">
+                <div class="block">
+                    <div class="header">General details</div>
+                    <div class="details">
+                        <div class="setting">
+                            <label for="node-id">ID: </label>
+                            <br>
+                            <input class="form-control form-manage" disabled="disabled" id="node-id"
+                                   th:value="${node.getID()}">
+                        </div>
+                        <div class="setting">
+                            <label for="node-name">Name: </label>
+                            <br>
+                            <input class="form-control form-manage" id="node-name" th:value="${node.name}">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="block">
+                    <div class="header">Access</div>
+                    <div class="details">
+                        <div class="setting">
+                            <label for="ip">IP: </label>
+                            <br>
+                            <input class="form-control form-manage" id="ip" th:value="${node.ip}">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="block">
+                    <div class="header">Auth</div>
+                    <div class="details">
+                        <div class="setting">
+                            <label for="username">Unix Username: </label>
+                            <br>
+                            <input class="form-control form-manage" id="username" th:value="${node.username}">
+                        </div>
+                        <div class="setting">
+                            <label for="ssh-port">SSH Port: </label>
+                            <br>
+                            <input class="form-control form-manage" id="ssh-port" th:value="${node.sshPort}">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                        <button class="setting-button save" id="save" type="button">Save</button>
+                        <button class="setting-button reset" id="reset" type="button">Reset</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/global :: scripts"></div>
+</body>
+</html>

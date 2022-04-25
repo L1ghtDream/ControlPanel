@@ -14,7 +14,7 @@
                 <div class="panel-table">
                     <table>
                         <tr class="grid-card" th:each="node : ${nodes}"
-                            th:onclick="redirect('/node/[[${node.id}]]')">
+                            th:onclick="redirect('/admin/node/[[${node.id}]]')">
 
                             <span class="server_id" th:th:classappend="${node.id}"></span>
                             <td class="server">
