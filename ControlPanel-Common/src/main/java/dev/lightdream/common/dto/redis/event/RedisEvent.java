@@ -41,8 +41,7 @@ public class RedisEvent {
     }
 
     public void respond(Object response) {
-        ResponseEvent responseEvent = new ResponseEvent(this, response);
-        CommonMain.instance.redisManager.send(responseEvent);
+        new ResponseEvent(this, response).send();
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -50,12 +49,22 @@ public class RedisEvent {
         return CommonMain.instance.redisManager.send(this);
     }
 
-    @SuppressWarnings("BusyWait")
     @SneakyThrows
     public RedisResponse sendAndWait() {
-        RedisResponse response = CommonMain.instance.redisManager.send(this);
+        return sendAndWait(Utils.defaultTimeout);
+    }
+
+    @SuppressWarnings("BusyWait")
+    @SneakyThrows
+    public RedisResponse sendAndWait(int timeout) {
+        int currentWait = 0;
+        RedisResponse response = send();
         while (!response.isFinished()) {
-            Thread.sleep(100);
+            Thread.sleep(Utils.defaultTimeout);
+            currentWait += Utils.defaultTimeout;
+            if (currentWait > timeout) {
+                break;
+            }
         }
         return response;
     }

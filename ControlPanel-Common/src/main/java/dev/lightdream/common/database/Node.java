@@ -101,13 +101,7 @@ public class Node extends StringDatabaseEntry {
     @SuppressWarnings("BusyWait")
     @SneakyThrows
     private RedisResponse _executeCommandLocal(String command) {
-        RedisResponse response = CommonMain.instance.redisManager.send(new ExecuteCommandEvent(command, this));
-
-        while (!response.isFinished()) {
-            Thread.sleep(100);
-        }
-
-        return response;
+        return new ExecuteCommandEvent(command, this).sendAndWait();
     }
 
     /**

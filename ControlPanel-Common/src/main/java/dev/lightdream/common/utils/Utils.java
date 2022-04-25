@@ -30,6 +30,8 @@ public class Utils {
     private static final Gson gson = new GsonBuilder()
             .disableHtmlEscaping()
             .create();
+    public static int defaultTimeout = 2 * 1000;       // 2 seconds    (2000 milliseconds)
+    public static int defaultWaitBeforeIteration = 50; // 0.05 seconds (50 milliseconds  )
 
     public static Server getServer(String id) {
         return CommonMain.instance.getServers().stream().filter(server -> server.id.equals(id)).findFirst().orElse(null);
@@ -100,6 +102,18 @@ public class Utils {
         return gson.fromJson(json, type);
     }
 
+    public static Double doubleOrNegative(String value) {
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return -1.0;
+        }
+    }
+
+    public static Cookie getCookie(String cookie) {
+        return Utils.fromJson(Utils.base64Decode(cookie), Cookie.class);
+    }
+
     /**
      * @return Formats amount of memory initially in kb into KB, MB, GB, TB according to the size
      */
@@ -116,18 +130,6 @@ public class Utils {
             return decimalFormat.format(usage / 1024 / 1024) + "GB";
         }
         return decimalFormat.format(usage / 1024 / 1024 / 1024) + "TB";
-    }
-
-    public static Double doubleOrNegative(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            return -1.0;
-        }
-    }
-
-    public static Cookie getCookie(String cookie) {
-        return Utils.fromJson(Utils.base64Decode(cookie), Cookie.class);
     }
 
 }
