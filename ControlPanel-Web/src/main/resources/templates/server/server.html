@@ -18,6 +18,7 @@
 <div id="server" th:text="${server}"></div>
 <div>
     <div>
+        <!--suppress HtmlFormInputWithoutLabel -->
         <input id="from" placeholder="Choose a nickname" type="text"/>
     </div>
     <br/>
@@ -29,6 +30,7 @@
     </div>
     <br/>
     <div id="conversationDiv">
+        <!--suppress HtmlFormInputWithoutLabel -->
         <input id="text" placeholder="Write a message..." type="text"/>
         <button id="sendMessage" onclick="sendMessage();">Send</button>
         <p id="response"></p>
