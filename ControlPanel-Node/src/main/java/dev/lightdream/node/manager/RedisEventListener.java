@@ -3,6 +3,7 @@ package dev.lightdream.node.manager;
 import dev.lightdream.common.annotations.RedisEventHandler;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.dto.redis.event.impl.ExecuteCommandEvent;
+import dev.lightdream.common.dto.redis.event.impl.GetBuildPropertiesEvent;
 import dev.lightdream.logger.Debugger;
 import dev.lightdream.node.Main;
 
@@ -20,5 +21,10 @@ public class RedisEventListener extends dev.lightdream.common.manager.RedisEvent
         event.respond(output);
     }
 
+    @RedisEventHandler
+    public void onCommandExecute(GetBuildPropertiesEvent event) {
+        Main.instance.buildProperties.timestamp = "Test timestamp"; // TODO Remove
+        event.respond(Main.instance.buildProperties);
+    }
 
 }

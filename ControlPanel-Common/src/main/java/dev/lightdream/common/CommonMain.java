@@ -51,7 +51,7 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         databaseManager = new DatabaseManager(this);
         redisManager = new RedisManager(getRedisID());
 
-        buildProperties = new BuildProperties();
+        buildProperties = new BuildProperties().load();
     }
 
     @SuppressWarnings("unused")

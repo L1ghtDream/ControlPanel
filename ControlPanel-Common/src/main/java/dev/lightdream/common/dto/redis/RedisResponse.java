@@ -1,5 +1,6 @@
 package dev.lightdream.common.dto.redis;
 
+import com.google.gson.annotations.Expose;
 import dev.lightdream.common.utils.Utils;
 import lombok.NoArgsConstructor;
 
@@ -7,7 +8,8 @@ import lombok.NoArgsConstructor;
 public class RedisResponse {
 
     public int id;
-    public Object response;
+    @Expose
+    private String response;
     private boolean finished = false;
 
     public RedisResponse(int id) {
@@ -19,9 +21,20 @@ public class RedisResponse {
     }
 
     public void respond(Object object) {
-        this.response = object;
+        this.response = Utils.toJson(object);
         markAsFinished();
         // TODO send to redis
+    }
+
+    public <T> T getResponse(Class<T> clazz) {
+        if (response == null) {
+            return null;
+        }
+        return Utils.fromJson(
+                response.replace("\\\"", "\\")
+                        .replace("\"", "")
+                        .replace("\\", "\"")
+                , clazz);
     }
 
     public boolean isFinished() {

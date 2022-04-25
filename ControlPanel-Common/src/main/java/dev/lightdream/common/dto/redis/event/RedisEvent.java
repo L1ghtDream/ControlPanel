@@ -1,6 +1,7 @@
 package dev.lightdream.common.dto.redis.event;
 
 import dev.lightdream.common.CommonMain;
+import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.event.impl.ResponseEvent;
 import dev.lightdream.common.utils.Utils;
 import lombok.SneakyThrows;
@@ -44,8 +45,19 @@ public class RedisEvent {
         CommonMain.instance.redisManager.send(responseEvent);
     }
 
-    public void send() {
-        CommonMain.instance.redisManager.send(this);
+    @SuppressWarnings("UnusedReturnValue")
+    public RedisResponse send() {
+        return CommonMain.instance.redisManager.send(this);
+    }
+
+    @SuppressWarnings("BusyWait")
+    @SneakyThrows
+    public RedisResponse sendAndWait() {
+        RedisResponse response = CommonMain.instance.redisManager.send(this);
+        while (!response.isFinished()) {
+            Thread.sleep(100);
+        }
+        return response;
     }
 
 }

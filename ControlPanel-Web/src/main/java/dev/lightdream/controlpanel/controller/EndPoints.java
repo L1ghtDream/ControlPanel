@@ -1,12 +1,18 @@
 package dev.lightdream.controlpanel.controller;
 
+import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
+import dev.lightdream.common.dto.BuildProperties;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionEnum;
+import dev.lightdream.common.dto.redis.RedisResponse;
+import dev.lightdream.common.dto.redis.event.impl.GetBuildPropertiesEvent;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.logger.Debugger;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -14,6 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("SpringMVCViewInspection")
@@ -103,20 +111,36 @@ public class EndPoints {
             return "error.html";
         }
 
+        List<NodeBuildProperties> nodeBuildProperties = new ArrayList<>();
+
+        Node.getNodes().forEach(node -> {
+            RedisResponse response = new GetBuildPropertiesEvent(node).sendAndWait();
+            BuildProperties buildProperties = response.getResponse(BuildProperties.class);
+            Debugger.log(buildProperties);
+            nodeBuildProperties.add(new NodeBuildProperties(node, buildProperties));
+        });
 
         model.addAttribute("version", Main.instance.buildProperties.version);
         model.addAttribute("buildType", Main.instance.buildProperties.buildType);
         model.addAttribute("timestamp", Main.instance.buildProperties.timestamp);
+        model.addAttribute("nodes", nodeBuildProperties);
 
         Debugger.log(cookie);
         return "admin/admin.html";
     }
 
-    // -------------------- DEV --------------------
-
     @GetMapping("/dev/page_view")
     public String nodes(String page) {
         return page;
+    }
+
+    // -------------------- DEV --------------------
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    private static class NodeBuildProperties {
+        public Node node;
+        public BuildProperties buildProperties;
     }
 
 

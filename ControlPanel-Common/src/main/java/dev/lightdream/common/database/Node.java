@@ -19,14 +19,6 @@ import java.util.stream.Collectors;
 @DatabaseTable(table = "nodes")
 public class Node extends StringDatabaseEntry {
 
-    public Node(){
-        super(CommonMain.instance);
-    }
-
-    public static Node getNode(String id) {
-        return CommonMain.instance.databaseManager.getNode(id);
-    }
-
     //Settings
     @DatabaseField(columnName = "name")
     public String name;
@@ -38,6 +30,10 @@ public class Node extends StringDatabaseEntry {
     @DatabaseField(columnName = "ssh_port")
     public int sshPort;
 
+    public Node() {
+        super(CommonMain.instance);
+    }
+
     public Node(String id, String name, String ip, String username, int sshPort) {
         super(CommonMain.instance);
         this.id = id;
@@ -45,6 +41,10 @@ public class Node extends StringDatabaseEntry {
         this.ip = ip;
         this.username = username;
         this.sshPort = sshPort;
+    }
+
+    public static Node getNode(String id) {
+        return CommonMain.instance.databaseManager.getNode(id);
     }
 
     /**
@@ -75,6 +75,10 @@ public class Node extends StringDatabaseEntry {
         return output.toString();
     }
 
+    public static List<Node> getNodes() {
+        return CommonMain.instance.getNodes();
+    }
+
     /**
      * Executes a command on the node via redis
      *
@@ -87,11 +91,11 @@ public class Node extends StringDatabaseEntry {
             return executeCommandLocal(command);
         }
 
-        RedisResponse response = _executeCommandLocal(command);
-        if (response == null || response.response == null) {
+        String response = _executeCommandLocal(command).getResponse(String.class);
+        if (response == null) {
             return "";
         }
-        return response.response.toString();
+        return response;
     }
 
     @SuppressWarnings("BusyWait")

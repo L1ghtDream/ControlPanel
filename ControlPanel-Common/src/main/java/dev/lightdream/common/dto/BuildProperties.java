@@ -1,11 +1,15 @@
 package dev.lightdream.common.dto;
 
 import dev.lightdream.common.CommonMain;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.InputStream;
 import java.util.Properties;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class BuildProperties {
 
     public String artifact;
@@ -16,7 +20,7 @@ public class BuildProperties {
     public String buildType;
 
     @SneakyThrows
-    public BuildProperties() {
+    public BuildProperties load(){
         Properties properties = new Properties();
         InputStream inputStream = getClass().getResourceAsStream("/META-INF/build-info.properties");
 
@@ -30,6 +34,7 @@ public class BuildProperties {
         timestamp = properties.getProperty("build.time");
         version = properties.getProperty("build.version");
         buildType = CommonMain.buildType;
+        return this;
     }
 
 }
