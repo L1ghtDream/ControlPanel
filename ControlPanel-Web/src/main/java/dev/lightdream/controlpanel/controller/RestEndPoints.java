@@ -82,7 +82,13 @@ public class RestEndPoints {
 
     @PostMapping("/api/login/cookie")
     @ResponseBody
-    public Response loginCookie(@RequestBody Cookie cookie) {
+    public Response loginCookie(@CookieValue(value = "login_data") String cookieBase64) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+
+        if (cookie == null) {
+            return Response.UNAUTHORISED("Invalid cookie");
+        }
+
         if (cookie.validate()) {
             return Response.OK();
         }

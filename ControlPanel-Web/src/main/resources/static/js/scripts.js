@@ -4,7 +4,7 @@ if (error !== null) {
 }
 
 //Login
-//loginCookie();
+loginCookie();
 
 //Cancel button
 //const cancel = document.getElementById('cancel');
@@ -18,14 +18,11 @@ if (error !== null) {
 //Dashboard sanitization
 //dashBoard();
 
-// noinspection JSUnusedGlobalSymbols
-async function verifyCookie() { //TODO:
-    let blob = await fetch("/api/login/validate", {
-        method: "post",
-        body: getCookie("login_data")
-    }).then(response => response.blob());
-
-    return JSON.parse(await blob.text());
+async function verifyCookie() {
+    callAPI("/api/login/cookie", {}, () => {
+    }, () => {
+        eraseCookie("login_data")
+    })
 }
 
 function setCookie(name, value, days) {
