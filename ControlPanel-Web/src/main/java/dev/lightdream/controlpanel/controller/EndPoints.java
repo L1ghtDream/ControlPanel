@@ -77,7 +77,6 @@ public class EndPoints {
 
     @GetMapping("/")
     public String index(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
-        Debugger.log("Cookie: '" + cookieBase64 + "'");
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
@@ -164,9 +163,7 @@ public class EndPoints {
 
         Node.getNodes().forEach(node -> {
             RedisResponse response = new GetBuildPropertiesEvent(node).sendAndWait();
-            Debugger.log(response.hasTimeout());
             BuildProperties buildProperties = response.getResponse(BuildProperties.class);
-            Debugger.log(buildProperties);
             nodeBuildProperties.add(new NodeBuildProperties(node, buildProperties));
         });
 

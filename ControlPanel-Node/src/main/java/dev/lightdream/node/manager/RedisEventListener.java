@@ -16,9 +16,7 @@ public class RedisEventListener extends dev.lightdream.common.manager.RedisEvent
 
     @RedisEventHandler
     public void onCommandExecute(ExecuteCommandEvent event) {
-        String output = Node.executeCommandLocal(event.command);
-        Debugger.log(output);
-        event.respond(output);
+        event.respond(Node.executeCommandLocal(event.command));
     }
 
     @RedisEventHandler

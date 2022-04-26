@@ -7,7 +7,6 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
-import dev.lightdream.logger.Debugger;
 import dev.lightdream.messagebuilder.MessageBuilder;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -187,8 +186,6 @@ public class Server extends PermissionContainer {
             return new ServerStats();
         }
 
-        Debugger.log(command);
-        Debugger.log(output);
         String[] stats = output.split("\n");
 
         return new ServerStats(

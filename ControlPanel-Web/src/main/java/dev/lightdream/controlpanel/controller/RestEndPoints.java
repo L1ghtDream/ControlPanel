@@ -14,7 +14,6 @@ import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.dto.data.NodeData;
 import dev.lightdream.controlpanel.dto.data.UserData;
-import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -99,9 +98,7 @@ public class RestEndPoints {
     @PostMapping("/api/stats/{serverID}")
     @ResponseBody
     public Response cpuUsage(@PathVariable String serverID) {
-        Server server = Server.getServer(serverID);
-        Debugger.log("Getting stats for server " + serverID);
-        return Response.OK(Main.instance.serversCache.getStats(server));
+        return Response.OK(Main.instance.serversCache.getStats(Server.getServer(serverID)));
     }
 
     @PostMapping("/api/cookie-check")
@@ -120,18 +117,13 @@ public class RestEndPoints {
         Cookie cookie = Utils.getCookie(cookieBase64);
         Node node = Node.getNode(nodeID);
 
-        Debugger.log(data);
-
         if (cookie == null) {
-            Debugger.log(1);
             return Response.UNAUTHORISED();
         }
 
         if (!cookie.getUser().hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES)) {
-            Debugger.log(2);
             return Response.UNAUTHORISED();
         }
-        Debugger.log(3);
 
         node.name = data.name;
         node.ip = data.ip;
@@ -148,18 +140,13 @@ public class RestEndPoints {
         Cookie cookie = Utils.getCookie(cookieBase64);
         User user = User.getUser(userID);
 
-        Debugger.log(data);
-
         if (cookie == null) {
-            Debugger.log(1);
             return Response.UNAUTHORISED();
         }
 
         if (!cookie.getUser().hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES)) {
-            Debugger.log(2);
             return Response.UNAUTHORISED();
         }
-        Debugger.log(3);
 
         user.username = data.username;
         if (data.password != null && !data.password.isEmpty()) {
@@ -176,17 +163,14 @@ public class RestEndPoints {
         User user = User.getUser(userID);
 
         if (cookie == null) {
-            Debugger.log(1);
             return Response.UNAUTHORISED();
         }
 
         if (!cookie.getUser().hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS)) {
-            Debugger.log(2);
             return Response.UNAUTHORISED();
         }
 
         user.disable2FA();
-
 
         return Response.OK();
     }
@@ -198,12 +182,10 @@ public class RestEndPoints {
         Node node = Node.getNode(nodeID);
 
         if (cookie == null) {
-            Debugger.log(1);
             return Response.UNAUTHORISED();
         }
 
         if (!cookie.getUser().hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES)) {
-            Debugger.log(2);
             return Response.UNAUTHORISED();
         }
 
@@ -219,12 +201,10 @@ public class RestEndPoints {
         User user = User.getUser(userID);
 
         if (cookie == null) {
-            Debugger.log(1);
             return Response.UNAUTHORISED();
         }
 
         if (!cookie.getUser().hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS)) {
-            Debugger.log(2);
             return Response.UNAUTHORISED();
         }
 

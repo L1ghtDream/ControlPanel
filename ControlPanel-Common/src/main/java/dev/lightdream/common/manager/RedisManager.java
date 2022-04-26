@@ -54,15 +54,11 @@ public class RedisManager {
                     }
 
                     Debugger.info("[Receive-Response   ] [" + channel + "] " + command);
-                    Debugger.log("Received response @ " + System.currentTimeMillis());
                     RedisResponse response = getResponse(responseEvent);
-                    Debugger.log("[2] @ " + System.currentTimeMillis());
                     if (response == null) {
                         return;
                     }
-                    Debugger.log("[3] @ " + System.currentTimeMillis());
                     response.respond(responseEvent.response);
-                    Debugger.log("[7] @ " + System.currentTimeMillis());
                     return;
                 }
 

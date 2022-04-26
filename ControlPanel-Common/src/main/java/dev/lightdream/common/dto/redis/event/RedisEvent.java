@@ -65,7 +65,6 @@ public class RedisEvent {
     @SuppressWarnings("BusyWait")
     @SneakyThrows
     public RedisResponse sendAndWait(int timeout) {
-        Debugger.log("Starting sendAndWait @ " + System.currentTimeMillis());
         int currentWait = 0;
         RedisResponse response = send();
         while (!response.isFinished()) {
@@ -76,7 +75,6 @@ public class RedisEvent {
                 break;
             }
         }
-        Debugger.log("Ending sendAndWait @ " + System.currentTimeMillis());
 
         return response;
     }

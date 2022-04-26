@@ -31,11 +31,8 @@ public class RedisResponse {
     }
 
     public void respond(Object object) {
-        Debugger.log("[4] @ " + System.currentTimeMillis());
         this.response = Utils.toJson(object);
-        Debugger.log("[5] @ " + System.currentTimeMillis());
         markAsFinished();
-        Debugger.log("[6] @ " + System.currentTimeMillis());
     }
 
     public <T> T getResponse(Class<T> clazz) {
