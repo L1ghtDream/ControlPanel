@@ -172,7 +172,19 @@ public class EndPoints {
         return "admin/admin.html";
     }
 
-    //TODO /admin/node/create
+    @SuppressWarnings("unused")
+    @GetMapping("/admin/node/create")
+    public String createNode(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+
+        if (!cookie.validate()) {
+            model.addAttribute("error", "401");
+            return "error.html";
+        }
+
+        return "admin/node/node_create.html";
+    }
+
     //TODO /admin/user/create
 
     // -------------------- DEV --------------------

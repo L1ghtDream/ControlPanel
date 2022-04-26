@@ -141,8 +141,10 @@
     -webkit-transition: all .25s ease;
     transition: all .25s ease;
     padding: 0 12px;
+    text-decoration: none;
 }
 
 .clickable {
     cursor: pointer;
+    text-decoration: none;
 }
