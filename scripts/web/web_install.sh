@@ -1,3 +1,6 @@
+# Vars
+version="1.0.0";
+
 # Installing dependencies
 sudo apt-get install screen                                                     # Web server
 sudo apt-get install openjdk-8-jdk openjdk-11-jdk openjdk-16-jdk openjdk-17-jdk # Java
@@ -7,6 +10,6 @@ wget https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/we
 chmod u+x start.sh
 
 # Get the jar from GitHub releases
-wget https://github.com/L1ghtDream/ControlPanel/releases/download/latest/ControlPanel-Web-1.0.jar ControlPanel-Web.jar
+wget "https://github.com/L1ghtDream/ControlPanel/releases/download/latest/ControlPanel-Web-${version}.jar" -O ControlPanel-Web.jar
 
 # Add to crontab
