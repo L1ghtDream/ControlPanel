@@ -1,4 +1,4 @@
-<!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL, ThymeleafVariablesResolveInspection -->
+<!--suppress JSUnresolvedLibraryURL, ThymeleafVariablesResolveInspection -->
 <html lang="en">
 <!--suppress HtmlRequiredTitleElement -->
 <head th:replace="fragments/global :: head(title='Servers')"></head>
@@ -50,6 +50,44 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="block">
+                    <div class="header">Permissions</div>
+                    <div class="details">
+                        <div class="setting">
+                            <label class="switch">
+                                <div class="panel-table">
+                                    <table>
+                                        <tr>
+                                            <td class="table-row-permissions">
+                                                Administrator
+                                            </td>
+                                            <td class="table-row-permissions">
+                                                <div class="checkbox-container yellow">
+                                                    <input id="administrator" type="checkbox"/>
+                                                    <label for="administrator"></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-row-permissions">
+                                                Test
+                                            </td>
+                                            <td class="table-row-permissions">
+                                                <div class="checkbox-container yellow">
+                                                    <input id="test" type="checkbox"/>
+                                                    <label for="test"></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
                 <br>
                 <button class="setting-button save" id="save" type="button">Save</button>
                 <button class="setting-button reset" id="reset" type="button">Reset</button>

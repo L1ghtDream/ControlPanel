@@ -149,3 +149,7 @@
     cursor: pointer;
     text-decoration: none;
 }
+
+.table-row-permissions{
+    padding: 12px 50px !important;
+}
