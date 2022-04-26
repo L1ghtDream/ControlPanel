@@ -129,3 +129,20 @@
 .delete {
     background: red;
 }
+
+.create-button {
+    text-align: center;
+    color: #9a9fab;
+    background: #1e2026;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 6px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 20%), 0 4px 6px -2px rgb(0 0 0 / 10%);
+    -webkit-transition: all .25s ease;
+    transition: all .25s ease;
+    padding: 0 12px;
+}
+
+.clickable {
+    cursor: pointer;
+}

@@ -10,7 +10,6 @@ import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.event.impl.GetBuildPropertiesEvent;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
-import dev.lightdream.logger.Debugger;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -172,6 +171,9 @@ public class EndPoints {
 
         return "admin/admin.html";
     }
+
+    //TODO /admin/node/create
+    //TODO /admin/user/create
 
     // -------------------- DEV --------------------
 

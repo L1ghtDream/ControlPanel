@@ -11,9 +11,16 @@
 
         <div class="content-wrap">
             <div class="container">
+                <div style="display: flex; justify-content: flex-end">
+                    <a class="create-button clickable" href="/admin/user/create">
+                        <span class="mdi mdi-server-plus"></span>
+                        Create Server
+                    </a>
+                </div>
+
                 <div class="panel-table">
                     <table>
-                        <tr class="grid-card" th:each="user : ${users}"
+                        <tr class="grid-card clickable" th:each="user : ${users}"
                             th:onclick="redirect('/admin/user/[[${user.getID()}]]')">
                             <td class="circle-icon">
                                 <div class="server-icon"><i class="mdi mdi-account"></i></div>

@@ -12,7 +12,7 @@
             <div class="container">
                 <div class="panel-table">
                     <table>
-                        <tr class="grid-card" th:each="server : ${servers}"
+                        <tr class="grid-card clickable" th:each="server : ${servers}"
                             th:onclick="redirect('/server/[[${server.id}]]')">
                             <span class="server_id" th:th:classappend="${server.id}"></span>
                             <td class="circle-icon">
