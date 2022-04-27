@@ -36,9 +36,12 @@ public abstract class RestEndPoints {
 
         User user = cookie.getUser();
 
-        for (PermissionEnum permission : permissions) {
-            if (!user.hasPermission(permissionContainer, permission)) {
-                return Response.UNAUTHORISED();
+        if (permissionContainer != null) {
+
+            for (PermissionEnum permission : permissions) {
+                if (!user.hasPermission(permissionContainer, permission)) {
+                    return Response.UNAUTHORISED();
+                }
             }
         }
 

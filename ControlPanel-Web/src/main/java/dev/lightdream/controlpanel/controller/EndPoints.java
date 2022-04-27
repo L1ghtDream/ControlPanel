@@ -37,10 +37,12 @@ public abstract class EndPoints {
 
         User user = cookie.getUser();
 
-        for (PermissionEnum permission : permissions) {
-            if (!user.hasPermission(permissionContainer, permission)) {
-                model.addAttribute("error", "401");
-                return "error.html";
+        if (permissionContainer != null) {
+            for (PermissionEnum permission : permissions) {
+                if (!user.hasPermission(permissionContainer, permission)) {
+                    model.addAttribute("error", "401");
+                    return "error.html";
+                }
             }
         }
 
