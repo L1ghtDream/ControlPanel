@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class ServerAPI extends RestEndPoints {
+public class ServerAPIRest extends RestEndPoints {
 
-    public static ServerAPI instance;
+    public static ServerAPIRest instance;
 
-    public ServerAPI() {
+    public ServerAPIRest() {
         if (instance == null) {
             instance = this;
         }

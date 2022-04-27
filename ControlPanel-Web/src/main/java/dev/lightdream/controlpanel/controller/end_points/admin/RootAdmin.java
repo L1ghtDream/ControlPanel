@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class Root extends EndPoints {
+public class RootAdmin extends EndPoints {
 
-    public static Root instance;
+    public static RootAdmin instance;
 
-    public Root() {
+    public RootAdmin() {
         if (instance == null) {
             instance = this;
         }

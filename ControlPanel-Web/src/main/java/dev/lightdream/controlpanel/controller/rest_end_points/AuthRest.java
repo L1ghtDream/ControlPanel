@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 
 @Controller
-public class Auth extends RestEndPoints {
+public class AuthRest extends RestEndPoints {
 
-    public static Auth instance;
+    public static AuthRest instance;
 
-    public Auth() {
+    public AuthRest() {
         if (instance == null) {
             instance = this;
         }
