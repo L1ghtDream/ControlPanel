@@ -57,6 +57,7 @@ public class UserRest extends RestEndPoints {
                     usr.setPermission(PermissionEnum.GLOBAL_ADMIN, data.GLOBAL_ADMIN);
                     usr.setPermission(PermissionEnum.GLOBAL_MANAGE_USERS, data.GLOBAL_MANAGE_USERS);
                     usr.setPermission(PermissionEnum.GLOBAL_MANAGE_NODES, data.GLOBAL_MANAGE_NODES);
+                    usr.setPermission(PermissionEnum.GLOBAL_VIEW, data.GLOBAL_VIEW);
                     return Response.OK();
                 });
     }
@@ -78,6 +79,7 @@ public class UserRest extends RestEndPoints {
                     usr.setPermission(PermissionEnum.GLOBAL_ADMIN, data.GLOBAL_ADMIN);
                     usr.setPermission(PermissionEnum.GLOBAL_MANAGE_USERS, data.GLOBAL_MANAGE_USERS);
                     usr.setPermission(PermissionEnum.GLOBAL_MANAGE_NODES, data.GLOBAL_MANAGE_NODES);
+                    usr.setPermission(PermissionEnum.GLOBAL_VIEW, data.GLOBAL_VIEW);
 
                     return Response.OK();
                 },
