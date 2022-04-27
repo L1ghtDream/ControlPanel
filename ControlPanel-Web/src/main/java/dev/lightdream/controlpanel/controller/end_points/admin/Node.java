@@ -1,11 +1,8 @@
 package dev.lightdream.controlpanel.controller.end_points.admin;
 
 import dev.lightdream.common.database.GlobalPermissionContainer;
-import dev.lightdream.common.dto.BuildProperties;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.controlpanel.controller.EndPoints;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -63,13 +60,6 @@ public class Node extends EndPoints {
                 "admin/node/create.html",
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES
         );
-    }
-
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class NodeBuildProperties {
-        public dev.lightdream.common.database.Node node;
-        public BuildProperties build;
     }
 
 }

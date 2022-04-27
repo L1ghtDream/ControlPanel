@@ -8,6 +8,7 @@ import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.event.impl.GetBuildPropertiesEvent;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.controller.EndPoints;
+import dev.lightdream.controlpanel.dto.NodeBuildProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
