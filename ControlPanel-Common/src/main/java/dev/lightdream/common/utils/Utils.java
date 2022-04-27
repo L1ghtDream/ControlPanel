@@ -61,7 +61,7 @@ public class Utils {
 
     @SneakyThrows
     public static void createQRCode(String barCodeData, String filePath) {
-        BitMatrix matrix = new MultiFormatWriter().encode(barCodeData, BarcodeFormat.QR_CODE, 0, 0);
+        BitMatrix matrix = new MultiFormatWriter().encode(barCodeData, BarcodeFormat.QR_CODE, 250, 250);
         FileOutputStream out = new FileOutputStream(filePath);
         MatrixToImageWriter.writeToStream(matrix, "png", out);
         out.close();

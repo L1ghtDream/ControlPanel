@@ -49,8 +49,9 @@ public class User extends IntegerDatabaseEntry {
 
     @SuppressWarnings("unused")
     public String generateQR(String secret) {
-        String path = CommonMain.instance.qrPath() + username + ".png";
-        Utils.createQRCode(Utils.getGoogleAuthenticatorBarCode(secret, "admin", "Original.gg"), path);
+        String path = CommonMain.instance.getConfig().qrURL + username + ".png";
+        Utils.createQRCode(Utils.getGoogleAuthenticatorBarCode(secret, "admin", "Original.gg"),
+                CommonMain.instance.getConfig().qrStorageLocation + username + ".png");
         return path;
     }
 

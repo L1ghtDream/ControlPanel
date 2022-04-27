@@ -68,3 +68,7 @@ async function deleteUser() {
         redirect("/admin/users");
     });
 }
+
+async function enable2FA(){
+    location.href='#enable2fa';
+}

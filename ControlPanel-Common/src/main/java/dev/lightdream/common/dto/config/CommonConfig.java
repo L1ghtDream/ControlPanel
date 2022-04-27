@@ -7,7 +7,8 @@ public class CommonConfig {
     public boolean debug = false;
 
     public String sftpModuleInstallPath = "/home/ControlPanel/modules/SFTP";
-    public String qrStorageLocation = "C:/Users/raduv/OneDrive/Desktop/UserQRs/";
+    public String qrStorageLocation = "/var/www/html/google_auth/qr/";
+    public String qrURL = "http://htz1.original.gg/google_auth/qr/";
 
     @SuppressWarnings("unused")
     public MessageBuilder sftpURL = new MessageBuilder(

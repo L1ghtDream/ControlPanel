@@ -7,12 +7,14 @@ import dev.lightdream.common.dto.cache.CacheRegistry;
 import dev.lightdream.common.dto.config.CommonConfig;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
+import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.dto.Config;
 import dev.lightdream.controlpanel.manager.LogManager;
 import dev.lightdream.controlpanel.manager.RedisEventListener;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
+import dev.lightdream.logger.Debugger;
 import org.springframework.boot.SpringApplication;
 
 
@@ -63,6 +65,8 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         this.redisEventListener = new RedisEventListener(this);
 
         logManager = new LogManager();
+
+        Debugger.log(User.getUser(1).generateQR(Utils.generateSecretKey()));
     }
 
     public void createUsers() {

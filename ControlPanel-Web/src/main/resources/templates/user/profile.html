@@ -14,7 +14,7 @@
         <div class="content-wrap">
             <div class="container">
 
-                <div th:replace="fragments/user :: user (user=${user}, disablePermissions=true)"></div>
+                <div th:replace="fragments/user :: user (user=${user}, disablePermissions=true, enable2FA=true)"></div>
 
                 <br>
                 <button class="setting-button save" id="save-noperms" type="button">Save</button>

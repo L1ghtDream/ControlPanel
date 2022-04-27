@@ -80,10 +80,6 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         return getDatabaseManager().getNodes();
     }
 
-    public String qrPath() {
-        return getConfig().qrStorageLocation;
-    }
-
     public abstract CommonConfig getConfig();
 
     public String getVersion() {
