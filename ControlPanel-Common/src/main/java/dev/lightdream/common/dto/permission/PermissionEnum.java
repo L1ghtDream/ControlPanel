@@ -37,7 +37,6 @@ public enum PermissionEnum {
     }
 
     public enum PermissionType {
-        NODE,
         SERVER,
         GLOBAL
     }
