@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class User extends RestEndPoints {
+public class UserRest extends RestEndPoints {
 
-    public static User instance;
+    public static UserRest instance;
 
-    public User() {
+    public UserRest() {
         if (instance == null) {
             instance = this;
         }
