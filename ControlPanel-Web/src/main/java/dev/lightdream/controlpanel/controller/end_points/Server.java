@@ -40,7 +40,7 @@ public class Server extends EndPoints {
     @GetMapping("/servers")
     public String servers(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         return executeEndPoint(model, request, cookieBase64,
-                "servers/servers.html",
+                "server/servers.html",
                 (user) -> {
                     model.addAttribute("servers", dev.lightdream.common.database.Server.getServers().stream().filter(server -> {
                         //noinspection CodeBlock2Expr
