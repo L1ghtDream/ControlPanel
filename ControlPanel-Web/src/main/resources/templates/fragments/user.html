@@ -31,7 +31,7 @@
                 <div>2FA:</div>
                 <div class="red" th:if="${user.has2FA() == false}">
                     Disabled
-                    <span>
+                    <span th:if="${enable2FA}">
                         <button class="setting-button save" onclick="enable2FA()"
                                 type="button">Enable</button>
                         <div class="overlay block" id="enable2fa">
