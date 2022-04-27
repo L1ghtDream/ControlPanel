@@ -61,6 +61,12 @@ public abstract class RestEndPoints {
     }
 
     @SuppressWarnings("ConfusingArgumentToVarargsMethod")
+    public static Response executeEndPoint(HttpServletRequest request, String cookieBase64,
+                                           LambdaExecutor.ReturnLambdaExecutor<Response, User> callback) {
+        return executeEndPoint(request, cookieBase64, callback, null, null);
+    }
+
+    @SuppressWarnings("ConfusingArgumentToVarargsMethod")
     public static Response executeEndPoint(HttpServletRequest request, String cookieBase64) {
         return executeEndPoint(request, cookieBase64, null, null, null);
     }

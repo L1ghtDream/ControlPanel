@@ -58,7 +58,8 @@
                     <div class="details">
                         <div class="setting">
                             <label class="switch">
-                                <div class="panel-table" style="background: none !important; box-shadow: none !important;">
+                                <div class="panel-table"
+                                     style="background: none !important; box-shadow: none !important;">
                                     <table>
                                         <tr hidden>
                                             <td class="table-row-permissions">
@@ -78,11 +79,14 @@
                                             <td class="table-row-permissions">
                                                 <div class="checkbox-container yellow">
                                                     <!--suppress XmlDuplicatedId -->
-                                                    <input checked
-                                                           id="GLOBAL_ADMIN" th:if="${user.hasPermission('GLOBAL_ADMIN')} == true" type="checkbox"/>
+                                                    <input checked disabled
+                                                           id="GLOBAL_ADMIN"
+                                                           th:if="${user.hasPermission('GLOBAL_ADMIN')} == true"
+                                                           type="checkbox"/>
                                                     <!--suppress XmlDuplicatedId -->
-                                                    <input id="GLOBAL_ADMIN"
-                                                           th:if="${user.hasPermission('GLOBAL_ADMIN')} == false" type="checkbox"/>
+                                                    <input disabled id="GLOBAL_ADMIN"
+                                                           th:if="${user.hasPermission('GLOBAL_ADMIN')} == false"
+                                                           type="checkbox"/>
                                                     <label for="GLOBAL_ADMIN"></label>
                                                 </div>
                                             </td>
@@ -94,11 +98,14 @@
                                             <td class="table-row-permissions">
                                                 <div class="checkbox-container yellow">
                                                     <!--suppress XmlDuplicatedId -->
-                                                    <input checked
-                                                           id="GLOBAL_MANAGE_USERS" th:if="${user.hasPermission('GLOBAL_MANAGE_USERS')} == true" type="checkbox"/>
+                                                    <input checked disabled
+                                                           id="GLOBAL_MANAGE_USERS"
+                                                           th:if="${user.hasPermission('GLOBAL_MANAGE_USERS')} == true"
+                                                           type="checkbox"/>
                                                     <!--suppress XmlDuplicatedId -->
-                                                    <input id="GLOBAL_MANAGE_USERS"
-                                                           th:if="${user.hasPermission('GLOBAL_MANAGE_USERS')} == false" type="checkbox"/>
+                                                    <input disabled id="GLOBAL_MANAGE_USERS"
+                                                           th:if="${user.hasPermission('GLOBAL_MANAGE_USERS')} == false"
+                                                           type="checkbox"/>
                                                     <label for="GLOBAL_MANAGE_USERS"></label>
                                                 </div>
                                             </td>
@@ -111,11 +118,14 @@
                                             <td class="table-row-permissions">
                                                 <div class="checkbox-container yellow">
                                                     <!--suppress XmlDuplicatedId -->
-                                                    <input checked
-                                                           id="GLOBAL_MANAGE_NODES" th:if="${user.hasPermission('GLOBAL_MANAGE_NODES')} == true" type="checkbox"/>
+                                                    <input checked disabled
+                                                           id="GLOBAL_MANAGE_NODES"
+                                                           th:if="${user.hasPermission('GLOBAL_MANAGE_NODES')} == true"
+                                                           type="checkbox"/>
                                                     <!--suppress XmlDuplicatedId -->
-                                                    <input id="GLOBAL_MANAGE_NODES"
-                                                           th:if="${user.hasPermission('GLOBAL_MANAGE_NODES')} == false" type="checkbox"/>
+                                                    <input disabled id="GLOBAL_MANAGE_NODES"
+                                                           th:if="${user.hasPermission('GLOBAL_MANAGE_NODES')} == false"
+                                                           type="checkbox"/>
                                                     <label for="GLOBAL_MANAGE_NODES"></label>
                                                 </div>
                                             </td>
@@ -129,7 +139,7 @@
 
 
                 <br>
-                <button class="setting-button save" id="save" type="button">Save</button>
+                <button class="setting-button save" id="save-noperms" type="button">Save</button>
                 <button class="setting-button reset" id="reset" type="button">Reset</button>
                 <button class="setting-button delete" onclick="location.href='#delete-confirmation'">Delete</button>
 

@@ -25,11 +25,25 @@ public class UserRest extends RestEndPoints {
     @PostMapping("/api/user/{userID}/save")
     @ResponseBody
     public Response userSettings(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
-                                 @PathVariable String userID, @RequestBody UserData.UpdateData data) {
+                                 @PathVariable int userID, @RequestBody UserData.UpdateData data) {
         return executeEndPoint(request, cookieBase64,
                 (user) -> {
                     if (!data.validate()) {
                         return Response.BAD_DATA(data.getInvalidFields());
+                    }
+
+                    boolean isSelf = user.getID().equals(userID);
+
+                    if (!user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS)) {
+                        if (isSelf) {
+                            user.username = data.username;
+
+                            if (data.password != null && !data.password.isEmpty()) {
+                                user.updatePassword(data.password);
+                            }
+                            return Response.OK();
+                        }
+                        return Response.UNAUTHORISED();
                     }
 
                     dev.lightdream.common.database.User usr = dev.lightdream.common.database.User.getUser(userID);
@@ -37,15 +51,14 @@ public class UserRest extends RestEndPoints {
                     usr.username = data.username;
 
                     if (data.password != null && !data.password.isEmpty()) {
-                        user.updatePassword(data.password);
+                        usr.updatePassword(data.password);
                     }
 
                     usr.setPermission(PermissionEnum.GLOBAL_ADMIN, data.GLOBAL_ADMIN);
                     usr.setPermission(PermissionEnum.GLOBAL_MANAGE_USERS, data.GLOBAL_MANAGE_USERS);
                     usr.setPermission(PermissionEnum.GLOBAL_MANAGE_NODES, data.GLOBAL_MANAGE_NODES);
                     return Response.OK();
-                },
-                GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS);
+                });
     }
 
     @PostMapping("/api/user/create")
