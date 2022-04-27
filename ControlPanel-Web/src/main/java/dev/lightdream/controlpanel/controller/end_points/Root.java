@@ -31,4 +31,9 @@ public class Root extends EndPoints {
         );
     }
 
+    @GetMapping("/dev/page_view")
+    public String dev(String page) {
+        return page;
+    }
+
 }

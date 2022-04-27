@@ -9,7 +9,6 @@ import dev.lightdream.controlpanel.controller.end_points.Auth;
 import dev.lightdream.lambda.LambdaExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -76,8 +75,4 @@ public abstract class EndPoints {
 
     // -------------------- DEV --------------------
 
-    @GetMapping("/dev/page_view")
-    public String dev(String page) {
-        return page;
-    }
 }
