@@ -34,6 +34,69 @@
                         </div>
                     </div>
                 </div>
+
+                <br>
+
+                <div class="block">
+                    <div class="header">Permissions</div>
+                    <div class="details">
+                        <div class="setting">
+                            <label class="switch">
+                                <div class="panel-table"
+                                     style="background: none !important; box-shadow: none !important;">
+                                    <table>
+                                        <tr hidden>
+                                            <td class="table-row-permissions">
+                                                HIDDEN
+                                            </td>
+                                            <td class="table-row-permissions">
+                                                <div class="checkbox-container yellow">
+                                                    <input id="hidden" type="checkbox"/>
+                                                    <label for="hidden"></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-row-permissions">
+                                                Administrator <span style="color: #505661">(gives access to all the servers functions)</span>
+                                            </td>
+                                            <td class="table-row-permissions">
+                                                <div class="checkbox-container yellow">
+                                                    <input id="GLOBAL_ADMIN" type="checkbox"/>
+                                                    <label for="GLOBAL_ADMIN"></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-row-permissions">
+                                                Manager Users <span style="color: #505661">(gives access to manager other users)</span>
+                                            </td>
+                                            <td class="table-row-permissions">
+                                                <div class="checkbox-container yellow">
+                                                    <input id="GLOBAL_MANAGE_USERS" type="checkbox"/>
+                                                    <label for="GLOBAL_MANAGE_USERS"></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-row-permissions">
+                                                Manager Node <span
+                                                    style="color: #505661">(gives access to manage nodes)</span>
+                                            </td>
+                                            <td class="table-row-permissions">
+                                                <div class="checkbox-container yellow">
+                                                    <input id="GLOBAL_MANAGE_NODES" type="checkbox"/>
+                                                    <label for="GLOBAL_MANAGE_NODES"></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <br>
                 <button class="setting-button save" id="create" type="button">Create</button>
                 <button class="setting-button reset" id="reset" type="button">Reset</button>

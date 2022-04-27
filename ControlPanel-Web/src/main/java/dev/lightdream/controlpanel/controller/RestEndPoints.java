@@ -160,6 +160,30 @@ public class RestEndPoints {
         return Response.OK();
     }
 
+    @PostMapping("/api/user/{userID}/create")
+    @ResponseBody
+    public Response userCreate(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String userID, @RequestBody UserData data) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+
+        if (cookie == null) {
+            return Response.UNAUTHORISED();
+        }
+
+        if (!cookie.getUser().hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES)) {
+            return Response.UNAUTHORISED();
+        }
+
+        User user = new User(data.username, data.password);
+        user.save();
+        user = User.getUser(data.username);
+
+        user.setPermission(PermissionEnum.GLOBAL_ADMIN, data.GLOBAL_ADMIN);
+        user.setPermission(PermissionEnum.GLOBAL_MANAGE_USERS, data.GLOBAL_MANAGE_USERS);
+        user.setPermission(PermissionEnum.GLOBAL_MANAGE_NODES, data.GLOBAL_MANAGE_NODES);
+
+        return Response.OK();
+    }
+
     @PostMapping("/api/user/{userID}/disable-2fa")
     @ResponseBody
     public Response userDisable2FA(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String userID) {
@@ -219,3 +243,8 @@ public class RestEndPoints {
 
 
 }
+
+/*
+TODO
+Data validation
+ */

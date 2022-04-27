@@ -125,3 +125,12 @@ async function callAPI(api, data, callback, failCallback) {
 function reload() {
     location.reload();
 }
+
+function registerEventListener(object, callback, event = "click") {
+    let element = document.getElementById(object);
+    if (element == null) {
+        console.log("Element not found: " + object);
+        return;
+    }
+    element.addEventListener(event, callback);
+}
