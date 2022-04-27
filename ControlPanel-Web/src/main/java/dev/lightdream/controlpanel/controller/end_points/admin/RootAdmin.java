@@ -47,7 +47,7 @@ public class RootAdmin extends EndPoints {
                     model.addAttribute("nodes", nodeBuildProperties);
                     return null;
                 },
-                GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_GLOBAL_VIEW
+                GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_VIEW
         );
 
     }

@@ -41,6 +41,7 @@ async function sendUser(api, savePermissions = true) {
         data.GLOBAL_ADMIN = document.getElementById('GLOBAL_ADMIN').checked;
         data.GLOBAL_MANAGE_USERS = document.getElementById('GLOBAL_MANAGE_USERS').checked;
         data.GLOBAL_MANAGE_NODES = document.getElementById('GLOBAL_MANAGE_NODES').checked;
+        data.GLOBAL_VIEW = document.getElementById('GLOBAL_VIEW').checked;
     }
 
     callAPI(api, data, () => {

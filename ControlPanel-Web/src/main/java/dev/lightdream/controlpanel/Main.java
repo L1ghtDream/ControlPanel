@@ -76,6 +76,7 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_ADMIN);
         GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_MANAGE_NODES);
         GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_MANAGE_USERS);
+        GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_VIEW);
     }
 
     public void createNodes() {

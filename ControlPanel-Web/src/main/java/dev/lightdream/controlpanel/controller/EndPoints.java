@@ -7,6 +7,7 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.controller.end_points.Auth;
 import dev.lightdream.lambda.LambdaExecutor;
+import dev.lightdream.logger.Debugger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -29,6 +30,8 @@ public abstract class EndPoints {
                                          String template,
                                          LambdaExecutor.ReturnLambdaExecutor<String, User> callback,
                                          PermissionContainer permissionContainer, PermissionEnum... permissions) {
+        Debugger.log("Executing end point with template " + template);
+
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
