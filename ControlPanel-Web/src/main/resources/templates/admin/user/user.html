@@ -51,6 +51,8 @@
                     </div>
                 </div>
 
+                <br>
+
                 <div class="block">
                     <div class="header">Permissions</div>
                     <div class="details">
@@ -58,25 +60,56 @@
                             <label class="switch">
                                 <div class="panel-table">
                                     <table>
-                                        <tr>
+                                        <tr hidden>
                                             <td class="table-row-permissions">
-                                                Administrator
+                                                HIDDEN
                                             </td>
                                             <td class="table-row-permissions">
                                                 <div class="checkbox-container yellow">
-                                                    <input id="administrator" type="checkbox"/>
+                                                    <input id="hidden" type="checkbox"/>
+                                                    <label for="hidden"></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-row-permissions">
+                                                Administrator <span style="color: #505661">(gives access to all the servers functions)</span>
+                                            </td>
+                                            <td class="table-row-permissions">
+                                                <div class="checkbox-container yellow">
+                                                    <!--suppress XmlDuplicatedId -->
+                                                    <input th:if="${user.hasPermission('GLOBAL_ADMIN')} == true" id="administrator" checked type="checkbox"/>
+                                                    <!--suppress XmlDuplicatedId -->
+                                                    <input th:if="${user.hasPermission('GLOBAL_ADMIN')} == false" id="administrator" type="checkbox"/>
                                                     <label for="administrator"></label>
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="table-row-permissions">
-                                                Test
+                                                Manager Users <span style="color: #505661">(gives access to manager other users)</span>
                                             </td>
                                             <td class="table-row-permissions">
                                                 <div class="checkbox-container yellow">
-                                                    <input id="test" type="checkbox"/>
-                                                    <label for="test"></label>
+                                                    <!--suppress XmlDuplicatedId -->
+                                                    <input th:if="${user.hasPermission('GLOBAL_ADMIN')} == true" id="manage_users" checked type="checkbox"/>
+                                                    <!--suppress XmlDuplicatedId -->
+                                                    <input th:if="${user.hasPermission('GLOBAL_ADMIN')} == false" id="manage_users" type="checkbox"/>
+                                                    <label for="manage_users"></label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-row-permissions">
+                                                Manager Node <span style="color: #505661">(gives access to manage nodes)</span>
+                                            </td>
+                                            <td class="table-row-permissions">
+                                                <div class="checkbox-container yellow">
+                                                    <!--suppress XmlDuplicatedId -->
+                                                    <input th:if="${user.hasPermission('GLOBAL_ADMIN')} == true" id="manage_nodes" checked type="checkbox"/>
+                                                    <!--suppress XmlDuplicatedId -->
+                                                    <input th:if="${user.hasPermission('GLOBAL_ADMIN')} == false" id="manage_nodes" type="checkbox"/>
+                                                    <label for="manage_nodes"></label>
                                                 </div>
                                             </td>
                                         </tr>

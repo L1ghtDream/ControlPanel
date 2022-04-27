@@ -8,6 +8,7 @@ import dev.lightdream.common.utils.Utils;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.databasemanager.dto.entry.impl.IntegerDatabaseEntry;
+import dev.lightdream.logger.Debugger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -58,6 +59,17 @@ public class User extends IntegerDatabaseEntry {
             return false;
         }
         return PermissionContainer.hasPermission(this, permission);
+    }
+
+    @SuppressWarnings("unused")
+    public boolean hasPermission(PermissionEnum permission) {
+        return hasPermission(GlobalPermissionContainer.getInstance(), permission);
+    }
+
+    @SuppressWarnings("unused")
+    public boolean hasPermission(String permission) {
+        Debugger.log("1");
+        return hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.valueOf(permission));
     }
 
     @SuppressWarnings("unused")
