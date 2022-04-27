@@ -7,6 +7,7 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.lambda.LambdaExecutor;
+import dev.lightdream.logger.Debugger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
@@ -28,6 +29,8 @@ public abstract class RestEndPoints {
     public static Response executeEndPoint(HttpServletRequest request, String cookieBase64,
                                            LambdaExecutor.ReturnLambdaExecutor<Response, User> callback,
                                            PermissionContainer permissionContainer, PermissionEnum... permissions) {
+        Debugger.log("[Base64] Cookie: " + cookieBase64);
+        Debugger.log("[Ascii ] Cookie: " + Utils.base64Decode(cookieBase64));
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {

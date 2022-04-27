@@ -3,6 +3,7 @@ package dev.lightdream.common.dto.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.User;
+import dev.lightdream.common.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -31,9 +32,6 @@ public class Cookie {
 
     @Override
     public String toString() {
-        return "Cookie{" +
-                "username='" + username + '\'' +
-                ", hash='" + hash + '\'' +
-                '}';
+        return Utils.toJson(this);
     }
 }

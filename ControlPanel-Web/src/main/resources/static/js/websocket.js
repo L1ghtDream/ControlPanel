@@ -74,9 +74,9 @@ async function showMessageOutput(messageOutput) {
     response.innerHTML = response.innerHTML + messageOutput;
     const size = response.innerHTML.split("<br>").length;
 
-    if (size > 25) {
+    if (size > 50) {
         //Remove the first line size-25 lines
-        response.innerHTML = response.innerHTML.substring(getIndex(response.innerHTML, "<br>", size - 25) + 4);
+        response.innerHTML = response.innerHTML.substring(getIndex(response.innerHTML, "<br>", size - 50) + 4);
     }
 
     //Scroll to the bottom
