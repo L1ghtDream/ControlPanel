@@ -1,5 +1,7 @@
-package dev.lightdream.controlpanel.dto.data;
+package dev.lightdream.controlpanel.dto.data.impl;
 
+import dev.lightdream.controlpanel.dto.data.Validatable;
+import dev.lightdream.controlpanel.dto.data.Validate;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
