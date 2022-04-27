@@ -17,7 +17,7 @@ public class Response {
     }
 
     public static Response OK() {
-        return new Response("200", "OK");
+        return OK(null);
     }
 
     public static Response OK(Object data) {
@@ -25,7 +25,7 @@ public class Response {
     }
 
     public static Response UNAUTHORISED() {
-        return new Response("401", "Unauthorised");
+        return UNAUTHORISED("Unauthorised");
     }
 
     public static Response UNAUTHORISED(String text) {
@@ -35,4 +35,18 @@ public class Response {
     public static Response LOCKED(String text) {
         return new Response("423", text);
     }
+
+    public static Response BAD_DATA(Object data) {
+        return new Response("401", "Bad Data", data);
+    }
+
+    public static Response BAD_DATA() {
+        return BAD_DATA(null);
+    }
+
+    public static Response NOT_FOUND() {
+        return new Response("404", "Not Found");
+    }
+
+
 }

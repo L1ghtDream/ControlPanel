@@ -19,7 +19,7 @@ async function save() {
 }
 
 async function create() {
-    sendUser("/api/user/%user_id%/create");
+    sendUser("/api/user/create");
 }
 
 async function sendUser(api) {

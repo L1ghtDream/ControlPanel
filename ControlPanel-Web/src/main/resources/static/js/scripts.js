@@ -59,7 +59,7 @@ function eraseCookie(name) {
 // noinspection JSUnusedGlobalSymbols
 async function loginCookie() {
     if (hasLoginDataInCookies()) {
-        callAPI("/api/cookie-check", {}, () => {
+        callAPI("/api/login/cookie", {}, () => {
         }, () => {
             eraseCookie("login_data");
             redirect("/login");

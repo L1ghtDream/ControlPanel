@@ -7,8 +7,6 @@ import dev.lightdream.common.dto.cache.CacheRegistry;
 import dev.lightdream.common.dto.config.CommonConfig;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
-import dev.lightdream.controlpanel.controller.EndPoints;
-import dev.lightdream.controlpanel.controller.RestEndPoints;
 import dev.lightdream.controlpanel.dto.Config;
 import dev.lightdream.controlpanel.manager.LogManager;
 import dev.lightdream.controlpanel.manager.RedisEventListener;
@@ -24,8 +22,8 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     public static Main instance;
 
     // Spring
-    public EndPoints endPoints;
-    public RestEndPoints restEndPoints;
+    //public EndPoints endPoints;
+    //public RestEndPoints restEndPoints;
 
     //Config
     public Config config;
@@ -62,8 +60,6 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
 
         SpringApplication.run(Executor.class);
 
-        this.endPoints = new EndPoints();
-        this.restEndPoints = new RestEndPoints();
         this.redisEventListener = new RedisEventListener(this);
 
         logManager = new LogManager();
