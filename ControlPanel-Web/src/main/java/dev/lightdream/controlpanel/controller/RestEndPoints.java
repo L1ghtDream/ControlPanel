@@ -81,7 +81,7 @@ public class RestEndPoints {
 
     @PostMapping("/api/login/cookie")
     @ResponseBody
-    public Response loginCookie(@CookieValue(value = "login_data") String cookieBase64) {
+    public Response loginCookie(@CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (cookie == null) {
@@ -103,7 +103,7 @@ public class RestEndPoints {
 
     @PostMapping("/api/cookie-check")
     @ResponseBody
-    public Response cookieCheck(@CookieValue(value = "login_data") String cookieBase64) {
+    public Response cookieCheck(@CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);
         if (cookie == null) {
             return Response.UNAUTHORISED();
@@ -113,7 +113,7 @@ public class RestEndPoints {
 
     @PostMapping("/api/node/{nodeID}/save")
     @ResponseBody
-    public Response nodeSettings(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String nodeID, @RequestBody NodeData data) {
+    public Response nodeSettings(@CookieValue(value = "login_data", defaultValue = "") String cookieBase64, @PathVariable String nodeID, @RequestBody NodeData data) {
         Cookie cookie = Utils.getCookie(cookieBase64);
         Node node = Node.getNode(nodeID);
 
@@ -136,7 +136,7 @@ public class RestEndPoints {
 
     @PostMapping("/api/user/{userID}/save")
     @ResponseBody
-    public Response userSettings(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String userID, @RequestBody UserData data) {
+    public Response userSettings(@CookieValue(value = "login_data", defaultValue = "") String cookieBase64, @PathVariable String userID, @RequestBody UserData data) {
         Cookie cookie = Utils.getCookie(cookieBase64);
         User user = User.getUser(userID);
 
@@ -162,7 +162,7 @@ public class RestEndPoints {
 
     @PostMapping("/api/user/{userID}/create")
     @ResponseBody
-    public Response userCreate(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String userID, @RequestBody UserData data) {
+    public Response userCreate(@CookieValue(value = "login_data", defaultValue = "") String cookieBase64, @PathVariable String userID, @RequestBody UserData data) {
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (cookie == null) {
@@ -186,7 +186,7 @@ public class RestEndPoints {
 
     @PostMapping("/api/user/{userID}/disable-2fa")
     @ResponseBody
-    public Response userDisable2FA(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String userID) {
+    public Response userDisable2FA(@CookieValue(value = "login_data", defaultValue = "") String cookieBase64, @PathVariable String userID) {
         Cookie cookie = Utils.getCookie(cookieBase64);
         User user = User.getUser(userID);
 
@@ -205,7 +205,7 @@ public class RestEndPoints {
 
     @PostMapping("/api/node/{nodeID}/delete")
     @ResponseBody
-    public Response nodeDelete(@CookieValue(value = "login_data") String cookieBase64, @PathVariable String nodeID) {
+    public Response nodeDelete(@CookieValue(value = "login_data", defaultValue = "") String cookieBase64, @PathVariable String nodeID) {
         Cookie cookie = Utils.getCookie(cookieBase64);
         Node node = Node.getNode(nodeID);
 
@@ -224,7 +224,7 @@ public class RestEndPoints {
 
     @PostMapping("/api/user/{userID}/delete")
     @ResponseBody
-    public Response userDelete(@CookieValue(value = "login_data") String cookieBase64, @PathVariable int userID) {
+    public Response userDelete(@CookieValue(value = "login_data", defaultValue = "") String cookieBase64, @PathVariable int userID) {
         Cookie cookie = Utils.getCookie(cookieBase64);
         User user = User.getUser(userID);
 

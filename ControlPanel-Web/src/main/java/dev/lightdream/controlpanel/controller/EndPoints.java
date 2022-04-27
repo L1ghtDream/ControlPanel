@@ -29,7 +29,7 @@ public class EndPoints {
 
     @SuppressWarnings("unused")
     @GetMapping("/server/{serverName}")
-    public String server(Model model, HttpServletRequest request, @PathVariable String serverName, @CookieValue(value = "login_data") String cookieBase64) {
+    public String server(Model model, HttpServletRequest request, @PathVariable String serverName, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
@@ -57,7 +57,7 @@ public class EndPoints {
 
     @SuppressWarnings("unused")
     @GetMapping("/servers")
-    public String servers(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
+    public String servers(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
@@ -85,10 +85,23 @@ public class EndPoints {
         return servers(model, request, cookieBase64);
     }
 
+    @GetMapping("/profile")
+    public String profile(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
+        Cookie cookie = Utils.getCookie(cookieBase64);
+
+        if (!cookie.validate()) {
+            return login(model, request);
+        }
+
+        model.addAttribute("user", cookie.getUser());
+
+        return "user/profile.html";
+    }
+
     // -------------------- ADMIN --------------------
     @SuppressWarnings("unused")
     @GetMapping("/admin/nodes")
-    public String nodes(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
+    public String nodes(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
@@ -103,7 +116,7 @@ public class EndPoints {
 
     @SuppressWarnings("unused")
     @GetMapping("/admin/users")
-    public String users(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
+    public String users(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
@@ -118,7 +131,7 @@ public class EndPoints {
 
     @SuppressWarnings("unused")
     @GetMapping("/admin/node/{nodeID}")
-    public String node(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64, @PathVariable String nodeID) {
+    public String node(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64, @PathVariable String nodeID) {
         Cookie cookie = Utils.getCookie(cookieBase64);
         Node node = Node.getNode(nodeID);
 
@@ -134,7 +147,7 @@ public class EndPoints {
 
     @SuppressWarnings("unused")
     @GetMapping("/admin/user/{id}")
-    public String user(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64, @PathVariable int id) {
+    public String user(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64, @PathVariable int id) {
         Cookie cookie = Utils.getCookie(cookieBase64);
         User user = User.getUser(id);
 
@@ -150,7 +163,7 @@ public class EndPoints {
 
     @SuppressWarnings("unused")
     @GetMapping("/admin")
-    public String admin(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
+    public String admin(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
@@ -174,7 +187,7 @@ public class EndPoints {
 
     @SuppressWarnings("unused")
     @GetMapping("/admin/node/create")
-    public String createNode(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
+    public String createNode(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
@@ -187,7 +200,7 @@ public class EndPoints {
 
     @SuppressWarnings("unused")
     @GetMapping("/admin/user/create")
-    public String createUser(Model model, HttpServletRequest request, @CookieValue(value = "login_data") String cookieBase64) {
+    public String createUser(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
