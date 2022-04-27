@@ -29,7 +29,10 @@ async function save() {
 
     callAPI("/api/user/" + userID + "/save", {
         password: document.getElementById('password').value,
-        username: document.getElementById('username').value
+        username: document.getElementById('username').value,
+        GLOBAL_ADMIN: document.getElementById('GLOBAL_ADMIN').checked,
+        GLOBAL_MANAGE_USERS: document.getElementById('GLOBAL_MANAGE_USERS').checked,
+        GLOBAL_MANAGE_NODES: document.getElementById('GLOBAL_MANAGE_NODES').checked
     }, () => {
         reload();
     });

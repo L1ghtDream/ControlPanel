@@ -43,14 +43,12 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
     }
 
     public boolean hasPermission(User user, PermissionEnum permission) {
-        if (permission.getType().equals(PermissionEnum.PermissionType.SERVER)
-                && gerUserPermissions(user).stream().anyMatch(p -> p.permission.equals(PermissionEnum.GLOBAL_ADMIN))) {
+        if (permission.getType().equals(PermissionEnum.PermissionType.SERVER) && gerUserPermissions(user).stream().anyMatch(p -> p.permission.equals(PermissionEnum.GLOBAL_ADMIN))) {
             return true;
         }
         return gerUserPermissions(user).stream().anyMatch(p -> p.permission.equals(permission));
     }
 
-    @SuppressWarnings("unused")
     public void addPermission(User user, PermissionEnum permissionEnum) {
         if (hasPermission(user, permissionEnum)) {
             return;
@@ -58,15 +56,32 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
         new Permission(user, permissionEnum, this).save();
     }
 
+    public void setPermission(User user, PermissionEnum permissionEnum, boolean value) {
+        if (value) {
+            if (hasPermission(user, permissionEnum)) {
+                // Already has permission
+                return;
+            }
+            // Add permission
+            new Permission(user, permissionEnum, this).save();
+        } else {
+            if (hasPermission(user, permissionEnum)) {
+                // Remove permission
+                removePermission(user, permissionEnum);
+                return;
+            }
+            // Already doesn't have permission
+            return;
+        }
+
+    }
+
     @SuppressWarnings("unused")
     public void removePermission(User user, PermissionEnum permissionEnum) {
         if (!hasPermission(user, permissionEnum)) {
             return;
         }
-        Permission permission = CommonMain.instance.getDatabaseManager().getPermissions(user, this)
-                .stream().filter(p ->
-                        p.permission.equals(permissionEnum)
-                ).findAny().orElse(null);
+        Permission permission = CommonMain.instance.getDatabaseManager().getPermissions(user, this).stream().filter(p -> p.permission.equals(permissionEnum)).findAny().orElse(null);
 
         if (permission == null) {
             return;

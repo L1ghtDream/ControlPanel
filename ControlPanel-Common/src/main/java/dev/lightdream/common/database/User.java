@@ -54,11 +54,11 @@ public class User extends IntegerDatabaseEntry {
         return path;
     }
 
-    public boolean hasPermission(PermissionContainer PermissionContainer, PermissionEnum permission) {
-        if (PermissionContainer == null) {
+    public boolean hasPermission(PermissionContainer permissionContainer, PermissionEnum permission) {
+        if (permissionContainer == null) {
             return false;
         }
-        return PermissionContainer.hasPermission(this, permission);
+        return permissionContainer.hasPermission(this, permission);
     }
 
     @SuppressWarnings("unused")
@@ -73,12 +73,24 @@ public class User extends IntegerDatabaseEntry {
     }
 
     @SuppressWarnings("unused")
-    public void addPermission(PermissionContainer PermissionContainer, PermissionEnum permission) {
-        if (PermissionContainer == null) {
+    public void addPermission(PermissionContainer permissionContainer, PermissionEnum permission) {
+        if (permissionContainer == null) {
             return;
         }
-        PermissionContainer.addPermission(this, permission);
+        permissionContainer.addPermission(this, permission);
     }
+
+    public void setPermission(PermissionContainer permissionContainer, PermissionEnum permission, boolean value) {
+        if (permissionContainer == null) {
+            return;
+        }
+        permissionContainer.setPermission(this, permission, value);
+    }
+
+    public void setPermission(PermissionEnum permission, boolean value) {
+        GlobalPermissionContainer.getInstance().setPermission(this, permission, value);
+    }
+
 
     public boolean has2FA() {
         return this.otpSecret != null;
@@ -87,6 +99,7 @@ public class User extends IntegerDatabaseEntry {
     @SuppressWarnings("unused")
     public void setup2FA(String secret) {
         this.otpSecret = secret;
+        save();
     }
 
     public String generateHash() {
@@ -108,10 +121,12 @@ public class User extends IntegerDatabaseEntry {
 
     public void updatePassword(String password) {
         this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+        save();
     }
 
     public void disable2FA() {
         this.otpSecret = null;
+        save();
     }
 
 

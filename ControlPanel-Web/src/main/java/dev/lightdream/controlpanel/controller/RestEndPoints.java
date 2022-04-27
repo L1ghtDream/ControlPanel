@@ -149,6 +149,10 @@ public class RestEndPoints {
         }
 
         user.username = data.username;
+        user.setPermission(PermissionEnum.GLOBAL_ADMIN, data.GLOBAL_ADMIN);
+        user.setPermission(PermissionEnum.GLOBAL_MANAGE_USERS, data.GLOBAL_MANAGE_USERS);
+        user.setPermission(PermissionEnum.GLOBAL_MANAGE_NODES, data.GLOBAL_MANAGE_NODES);
+
         if (data.password != null && !data.password.isEmpty()) {
             user.updatePassword(data.password);
         }
