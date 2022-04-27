@@ -32,7 +32,7 @@
                 <div class="red" th:if="${user.has2FA() == false}">
                     Disabled
                     <span>
-                        <button class="setting-button save" id="enable-2fa" onclick="enable2FA()"
+                        <button class="setting-button save" onclick="enable2FA()"
                                 type="button">Enable</button>
                         <div class="overlay block" id="enable2fa">
                             <div class="popup">
@@ -45,11 +45,14 @@
 
                                 <img alt="google_auth_qr" src="http://htz1.original.gg/google_auth/qr/admin.png">
 
-                                <label class="light-gray" for="2fa-otp">OTP: </label>
-                                <br>
-                                <input class="form-control form-manage" id="2fa-otp">
+                                <div>
+                                    <label class="light-gray" for="2fa-otp">OTP: </label> <br>
+                                    <input class="form-control form-manage" id="2fa-otp"
+                                           style="width: 100px; text-align: center;">
+                                </div>
 
-                                <button class="setting-button delete" id="delete" style="width: 150px; margin-top: 15px"
+                                <button class="setting-button save" id="enable-2fa"
+                                        style="width: 150px; margin-top: 15px; margin-left: 0;"
                                         type="button">Confirm
                                 </button>
                             </div>
