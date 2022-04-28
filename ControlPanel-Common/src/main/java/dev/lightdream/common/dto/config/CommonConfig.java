@@ -57,6 +57,11 @@ public class CommonConfig {
             "du -s %path% | awk '{print $1}'"
     );
 
+    public MessageBuilder KILL_CMD = new MessageBuilder(
+            "kill -9 $(lsof -t -i :%port%)"
+    );
+
+
 }
 
 
