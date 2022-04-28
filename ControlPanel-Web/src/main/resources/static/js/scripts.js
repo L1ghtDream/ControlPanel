@@ -123,10 +123,10 @@ function reload() {
     location.reload();
 }
 
-function registerEventListener(object, callback, event = "click") {
-    let element = document.getElementById(object);
+function registerEventListener(objectID, callback, event = "click") {
+    let element = document.getElementById(objectID);
     if (element == null) {
-        console.log("Element not found: " + object);
+        console.log("Element not found: " + objectID);
         return;
     }
     element.addEventListener(event, callback);

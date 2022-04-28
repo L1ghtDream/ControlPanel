@@ -38,7 +38,7 @@ function sendMessage(command) {
     const server = document.getElementById("server").innerText;
 
     stompClient.send("/app/server/api/server", {
-            "username": user.username,
+            "username": user.id,
             "password": user.hash
         },
         JSON.stringify({

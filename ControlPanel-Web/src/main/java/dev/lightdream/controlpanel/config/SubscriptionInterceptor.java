@@ -8,6 +8,7 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.service.ConsoleService;
+import dev.lightdream.logger.Debugger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -36,11 +37,14 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         List<String> usernames = headers.getNativeHeader("username");
         List<String> passwords = headers.getNativeHeader("password");
 
+        Debugger.log("[SubscriptionInterceptor#preSend] usernames: " + usernames);
+        Debugger.log("[SubscriptionInterceptor#preSend] passwords: " + passwords);
+
         if (usernames == null || passwords == null) {
             throw new IllegalArgumentException("401. Null credentials");
         }
 
-        Integer userID = Integer.valueOf(usernames.get(0));
+        int userID = Integer.parseInt(usernames.get(0));
         String password = passwords.get(0);
 
         if (command.equals(StompCommand.CONNECT)) {
