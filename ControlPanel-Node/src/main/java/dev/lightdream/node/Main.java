@@ -31,7 +31,6 @@ public class Main extends CommonMain {
         databaseManager = new DatabaseManager(this);
         sftpServerManager = new SFTPServerManager(this);
 
-
         redisEventListener = new RedisEventListener(this);
         cacheManager = new CacheManager(this);
 

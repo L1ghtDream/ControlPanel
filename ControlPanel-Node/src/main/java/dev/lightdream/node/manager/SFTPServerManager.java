@@ -23,7 +23,9 @@ public class SFTPServerManager {
     @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
     @SneakyThrows
     public SFTPServerManager(Main main) {
-        try (SshServer sshd = SshServer.setUpDefaultServer()) {
+        // Needs to not close the port
+        //noinspection resource
+        SshServer sshd = SshServer.setUpDefaultServer();
             // Connection settings
             sshd.setPort(main.config.port);
 
@@ -54,7 +56,6 @@ public class SFTPServerManager {
                                         }
                                 );
                     }
-
             );
 
             sshd.setFileSystemFactory(virtualFileSystemFactory);
@@ -80,7 +81,6 @@ public class SFTPServerManager {
             // Start and log
             sshd.start();
             Logger.good("SFTP Server started");
-        }
     }
 
 }
