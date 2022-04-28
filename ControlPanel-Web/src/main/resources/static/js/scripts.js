@@ -85,12 +85,9 @@ function redirect(path, removeQuotes = true) {
  */
 async function callAPI(api, data, callback, failCallback) {
     const blob = await fetch(api, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+        method: 'post', headers: {
+            'Accept': 'application/json', 'Content-Type': 'application/json'
+        }, body: JSON.stringify(data)
     }).then(response => response.blob());
 
     let json = await blob.text();
@@ -133,4 +130,12 @@ function registerEventListener(object, callback, event = "click") {
         return;
     }
     element.addEventListener(event, callback);
+}
+
+function openTab(url, focus = false) {
+    if (focus) {
+        window.open(url, '_blank').focus();
+        return;
+    }
+    window.open(url, '_blank');
 }

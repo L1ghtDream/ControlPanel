@@ -12,7 +12,7 @@ public class CommonConfig {
 
     @SuppressWarnings("unused")
     public MessageBuilder sftpURL = new MessageBuilder(
-            "sftp://username@host:port/"
+            "sftp://%username%@%host%:%port%/"
     );
 
     // ---------- Urls ----------

@@ -197,4 +197,15 @@ public class Server extends PermissionContainer {
                 true                                     // online status
         );
     }
+
+    public String getSFTPUrl(int userID) {
+        User user = User.getUser(userID);
+
+        return CommonMain.instance.getConfig().sftpURL
+                .parse("username", user.username + "_" + this.getID())
+                .parse("host", node.ip)
+                .parse("port", node.sshPort)
+                .parse();
+    }
+
 }

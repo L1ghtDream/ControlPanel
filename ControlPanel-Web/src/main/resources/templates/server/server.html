@@ -41,7 +41,8 @@
                         <button class="p-btn">Restart</button>
                         <button class="p-btn stop">Stop</button>
                     </div>
-                    <div class="panel panel-default" id="sftp">
+                    <span hidden id="sftp-url" th:text="${server.getSFTPUrl()}"></span>
+                    <div class="panel panel-default" id="sftp" onclick="openTab(document.getElementById('sftp-url').innerText)">
                         SFTP
                         <div class="sf-small">Browse Files</div>
                     </div>
