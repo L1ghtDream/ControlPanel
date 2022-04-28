@@ -15,9 +15,8 @@ public class Log {
         this.logs = logs;
     }
 
-    @SuppressWarnings("unused")
-    public Log(String log) {
-        this.logs.add(log);
+    public Log(String... logs) {
+        this.logs = new ArrayList<>(List.of(logs));
     }
 
     public void addLog(Log log) {

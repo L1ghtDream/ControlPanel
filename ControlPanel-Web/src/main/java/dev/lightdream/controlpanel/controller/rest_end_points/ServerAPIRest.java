@@ -9,6 +9,8 @@ import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
+import dev.lightdream.controlpanel.dto.Log;
+import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -63,15 +65,22 @@ public class ServerAPIRest extends RestEndPoints {
                             command.getCommand().equals("__kill")) {
 
                         if (!user.hasPermission(server, PermissionEnum.SERVER_CONTROL)) {
+                            ConsoleService.instance.sendConsole(server, new Log("You don't have permission to do this!"));
                             return Response.UNAUTHORISED();
                         }
                     }
 
+                    if(command.getCommand().equals("stop")){
+                        ConsoleService.instance.sendConsole(server, new Log("Received stop command", ""));
+                    }
+
                     if (command.getCommand().equals("start")) {
+                        ConsoleService.instance.sendConsole(server, new Log("Received start command", ""));
                         return handleStart(user, server);
                     }
 
                     if (command.getCommand().equals("__kill")) {
+                        ConsoleService.instance.sendConsole(server, new Log("Received kill command", ""));
                         return handleKill(user, server);
                     }
 
@@ -99,6 +108,7 @@ public class ServerAPIRest extends RestEndPoints {
         String response = node.executeCommand("screen -ls " + server.id);
 
         if (!response.contains("No Sockets found") && !response.equals("")) {
+            ConsoleService.instance.sendConsole(server, new Log("Server is already running!", ""));
             return Response.LOCKED("Server is already running");
         }
 
