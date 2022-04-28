@@ -194,7 +194,12 @@
     background: #090a0d;
 }
 
-.console-body{
+.console-body {
     background: none transparent;
-    color:white;
+    color: white;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
 }

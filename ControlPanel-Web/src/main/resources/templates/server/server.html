@@ -12,7 +12,7 @@
                             <span hidden id="server-id" th:text="${server.getID()}"></span>
                             <span th:text="${server.name}"></span>
                             <span id="status"></span>
-                            <span id="online-status" class="status-label" style="margin-right: -30px">
+                            <span class="status-label" id="online-status" style="margin-right: -30px">
                                 <span class="status-label light-gray-bg">Loading...</span>
                             </span>
                         </div>
@@ -65,16 +65,22 @@
                     <div id="stats-ram">
                         <div class="panel panel-default">
                             <div class="panel-heading"><i class="mdi mdi-database-outline"></i>Memory Usage</div>
-                            <div class="panel-body">
-                                <div class="chart-placeholder"></div>
+                            <div class="panel-body" style="background: #090a0d; font-size: 24px; height: 200px; position: relative;">
+                                <div class="chart-placeholder center"
+                                     style="width: 50px; height: 50px; background: none transparent; position: absolute; top: 50%; left: 50%; margin: -25px 0 0 -25px;">
+                                    SOON™
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div id="stats-cpu">
                         <div class="panel panel-default">
                             <div class="panel-heading"><i class="mdi mdi-speedometer"></i>CPU Usage</div>
-                            <div class="panel-body">
-                                <div class="chart-placeholder"></div>
+                            <div class="panel-body" style="background: #090a0d; font-size: 24px; height: 200px; position: relative;">
+                                <div class="chart-placeholder center"
+                                     style="width: 50px; height: 50px; background: none transparent; position: absolute; top: 50%; left: 50%; margin: -25px 0 0 -25px;">
+                                    SOON™
+                                </div>F
                             </div>
                         </div>
                     </div>
