@@ -51,14 +51,18 @@ function getCommand(index = 0) {
     return commandHistory[index];
 }
 
-function registerCommandInMemory(command){
+function registerCommandInMemory(command) {
     commandHistory.splice(1, 0, command)
 }
 
 function sendCommand() {
     updateCommandHistory();
-    document.getElementById("console-iframe").contentWindow.sendMessage(getCommand());
+    sendCommandToIFrame(getCommand())
 
     registerCommandInMemory(getCommand());
     setCommand();
+}
+
+function sendCommandToIFrame(command = "") {
+    document.getElementById("console-iframe").contentWindow.sendMessage(command);
 }

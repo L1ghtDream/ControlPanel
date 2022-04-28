@@ -815,7 +815,7 @@ div#sftp .sf-small {
     cursor: pointer;
 }
 
-.content-wrap.details-wrap .sidebar .panel.panel-controls > .p-btn.stop {
+.content-wrap.details-wrap .sidebar .panel.panel-controls > .p-btn.kill {
     background: #d53e3e !important;
     border-color: transparent !important;
     color: white !important;

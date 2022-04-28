@@ -37,9 +37,9 @@
                         </div>
                     </div>
                     <div class="panel panel-default panel-controls">
-                        <button class="p-btn">Start</button>
-                        <button class="p-btn">Restart</button>
-                        <button class="p-btn stop">Stop</button>
+                        <button class="p-btn" id="start">Start</button>
+                        <button class="p-btn" id="stop">Stop</button>
+                        <button class="p-btn kill" id="kill">Kill</button>
                     </div>
                     <span hidden id="sftp-url" th:text="${server.getSFTPUrl()}"></span>
 
@@ -97,6 +97,7 @@
 <div th:replace="fragments/global :: scripts"></div>
 <script src="/js/console.js"></script>
 <script src="/js/stats.js"></script>
+<script src="/js/server_manager.js"></script>
 <script>
 
     callAPI("/api/user/get", {}, user => {
