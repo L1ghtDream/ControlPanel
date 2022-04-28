@@ -31,6 +31,7 @@ function addStats() {
 }
 
 function statsServerDetails() {
+    let serverID = document.getElementById("server-id").innerText;
     console.log("Executing stats task for server " + serverID);
     getStats(serverID, stats => {
         console.log("Settings the stats for server " + serverID + " to " + JSON.stringify(stats));
@@ -49,7 +50,6 @@ function statsServerDetails() {
 }
 
 function addStatsServerDetails() {
-    let serverID = document.getElementById("server-id").innerText;
     statsServerDetails();
     setInterval(statsServerDetails, 5 * 1000);// 5 seconds
 }
