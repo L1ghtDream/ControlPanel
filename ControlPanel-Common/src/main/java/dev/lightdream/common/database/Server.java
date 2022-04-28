@@ -78,6 +78,7 @@ public class Server extends PermissionContainer {
                 .parse("ram", ram)
                 .parse("server_jar", serverJar)
                 .parse("path", path)
+                .parse("args", args)
                 .parse()
         );
     }
