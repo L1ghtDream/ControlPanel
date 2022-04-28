@@ -35,6 +35,7 @@ public class CommonConfig {
                     "-L -Logfile session.log bash -c " +
                     "\\\"" +
                     "%java% -Xms128M -Xmx%ram% " +
+                    "%args% "+
                     "-Djline.terminal=jline.UnsupportedTerminal " +
                     "-Dterminal.jline=false " +
                     "-Dterminal.ansi=true " +

@@ -120,12 +120,12 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
      * @param ram The server's max ram
      * @param serverJar The server's jar file (server.jar)
      */
-    public void createServer(String serverID, String name, String path, Node node, int port, String java, String ram, String serverJar) {
+    public void createServer(String serverID, String name, String path, Node node, int port, String java, String ram, String serverJar, String args) {
         if (getServer(serverID) != null) {
             return;
         }
 
-        new Server(serverID, name, path, node, port, java, ram, serverJar).save();
+        new Server(serverID, name, path, node, port, java, ram, serverJar, args).save();
     }
 
 

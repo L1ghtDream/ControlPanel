@@ -36,20 +36,22 @@ public class Server extends PermissionContainer {
     @DatabaseField(columnName = "ram")
     public String ram;
     @DatabaseField(columnName = "server_jar")
-
     public String serverJar;
+    @DatabaseField(columnName = "args")
+    public String args;
 
     /**
-     * @param id The server's id
-     * @param name The server's name
-     * @param path The server's path on the machine
-     * @param node The server's node (machine)
-     * @param port The server's port
-     * @param java The server's java version (JDK_8, JDK_11, JDK_16, JDK_17)
-     * @param ram The server's max ram
+     * @param id        The server's id
+     * @param name      The server's name
+     * @param path      The server's path on the machine
+     * @param node      The server's node (machine)
+     * @param port      The server's port
+     * @param java      The server's java version (JDK_8, JDK_11, JDK_16, JDK_17)
+     * @param ram       The server's max ram
      * @param serverJar The server's jar file (server.jar)
+     * @param args      Additional java arguments
      */
-    public Server(String id, String name, String path, Node node, Integer port, String java, String ram, String serverJar) {
+    public Server(String id, String name, String path, Node node, Integer port, String java, String ram, String serverJar, String args) {
         this.id = id;
         this.name = name;
         this.path = path;
@@ -58,6 +60,7 @@ public class Server extends PermissionContainer {
         this.java = java;
         this.ram = ram;
         this.serverJar = serverJar;
+        this.args = args;
     }
 
     public static Server getServer(String serverID) {
@@ -249,7 +252,7 @@ public class Server extends PermissionContainer {
                 .parse();
     }
 
-    public void start(){
+    public void start() {
         createScripts();
         node.executeCommand(CommonMain.instance.getConfig().SERVER_START_CMD
                 .parse("path", this.path)

@@ -88,9 +88,9 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     }
 
     public void createServers() {
-        databaseManager.createServer("test1", "Test Server 1", "/home/test1", databaseManager.getNode("htz-1"), 20001, "JDK_16", "8G", "skyblock.jar");
-        databaseManager.createServer("test2", "Test Server 2", "/home/test2", databaseManager.getNode("htz-1"), 20002, "JDK_16", "8G", "skyblock.jar");
-        databaseManager.createServer("test3", "Test Server 3", "/home/test3", databaseManager.getNode("htz-1"), 20003, "JDK_16", "8G", "skyblock.jar");
+        databaseManager.createServer("test1", "Test Server 1", "/home/test1", databaseManager.getNode("htz-1"), 20001, "JDK_16", "8G", "skyblock.jar", "");
+        databaseManager.createServer("test2", "Test Server 2", "/home/test2", databaseManager.getNode("htz-1"), 20002, "JDK_16", "8G", "skyblock.jar", "");
+        databaseManager.createServer("test3", "Test Server 3", "/home/test3", databaseManager.getNode("htz-1"), 20003, "JDK_16", "8G", "skyblock.jar", "");
     }
 
     @Override
