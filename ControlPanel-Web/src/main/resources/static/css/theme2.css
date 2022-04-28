@@ -183,4 +183,10 @@
     height: 450px;
     width: 100%;
     border-radius: 10px;
+    background: #090a0d;
+}
+
+.console-body{
+    background: none transparent;
+    color:white;
 }

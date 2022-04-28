@@ -3,37 +3,19 @@
 <head>
     <style>
         body {
-            background-color: blue;
+
         }
     </style>
 
     <title>Console Web Socket</title>
 </head>
-<body onload="disconnect()">
+<div th:replace="fragments/global :: head ('Console Web Socket')"></div>
+
+<body class="console-body" onload="disconnect()">
 <!--/*@thymesVar id="server" type="dev.lightdream.common.database.Server"*/-->
-<div id="server" th:text="${server}"></div>
-<div>
-    <div>
-        <!--suppress HtmlFormInputWithoutLabel -->
-        <input id="from" placeholder="Choose a nickname" type="text"/>
-    </div>
-    <br/>
-    <div>
-        <button id="connect" onclick="connect();">Connect</button>
-        <button disabled="disabled" id="disconnect" onclick="disconnect();">
-            Disconnect
-        </button>
-    </div>
-    <br/>
-    <div id="conversationDiv">
-        <!--suppress HtmlFormInputWithoutLabel -->
-        <input id="text" placeholder="Write a message..." type="text"/>
-        <button id="sendMessage" onclick="sendMessage();">Send</button>
-        <p id="response"></p>
-    </div>
-</div>
+<div hidden id="server" th:text="${server}"></div>
+<p id="response"></p>
+</body>
 <div th:replace="fragments/global :: scripts"></div>
 <script src="/js/websocket.js"></script>
-
-</body>
 </html>

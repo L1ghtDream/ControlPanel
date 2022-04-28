@@ -61,6 +61,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><i class="mdi mdi-console"></i>Console</div>
                             <iframe
+                                    allowtransparency="true"
                                     id="console-iframe"
                                     th:src="@{'/server/console/' + ${server}}">
                             </iframe>
@@ -68,7 +69,7 @@
                         <div class="console-input">
                             <span>> </span>
                             <label for="console-input"></label>
-                            <input type="text" id="console-input">
+                            <input id="console-input" type="text">
                         </div>
                     </div>
                     <div id="stats-ram">
