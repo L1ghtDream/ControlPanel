@@ -69,6 +69,6 @@ async function deleteUser() {
     });
 }
 
-async function enable2FA(){
-    location.href='#enable2fa';
+async function enable2FA() {
+    location.href = '#enable2fa';
 }

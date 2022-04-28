@@ -1,4 +1,4 @@
-function serverStats(){
+function serverStats() {
     let serverIDs = document.getElementsByClassName("server_id");
     let memoryUsages = document.getElementsByClassName("memory_usage");
     let memoryAllocations = document.getElementsByClassName("memory_allocation");

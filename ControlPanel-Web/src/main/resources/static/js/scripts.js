@@ -6,18 +6,6 @@ if (error !== null) {
 //Login
 verifyCookie();
 
-//Cancel button
-//const cancel = document.getElementById('cancel');
-//if (cancel !== null) {
-//    cancel.addEventListener('click', function () {
-//        window.location.replace("/");
-//    });
-//}
-
-
-//Dashboard sanitization
-//dashBoard();
-
 async function verifyCookie() {
     callAPI("/api/login/cookie", {}, () => {
     }, () => {
