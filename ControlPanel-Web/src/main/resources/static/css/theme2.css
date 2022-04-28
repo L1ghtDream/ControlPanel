@@ -53,6 +53,10 @@
     color: red;
 }
 
+.red-bg {
+    background: red;
+}
+
 .yellow {
     color: yellow;
 }
@@ -100,6 +104,10 @@
     color: lime;
 }
 
+.lime-bg {
+    background: lime;
+}
+
 .white {
     color: white;
 }
@@ -124,10 +132,6 @@
 
 .reset {
     background: #1e2026;
-}
-
-.delete {
-    background: red;
 }
 
 .create-button {
@@ -156,6 +160,10 @@
 
 .light-gray {
     color: #505661
+}
+
+.light-gray-bg {
+    background: #505661
 }
 
 .console-input {

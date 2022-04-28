@@ -13,7 +13,7 @@
 
 <body class="console-body" onload="disconnect()">
 <!--/*@thymesVar id="server" type="dev.lightdream.common.database.Server"*/-->
-<div hidden id="server" th:text="${server}"></div>
+<div hidden id="server" th:text="${server.getID()}"></div>
 <p id="response"></p>
 </body>
 <div th:replace="fragments/global :: scripts"></div>

@@ -1,46 +1,36 @@
-<html>
+<html lang="en">
 <head th:replace="fragments/global :: head(title='Servers')"></head>
 <body>
 <div id="page">
     <div class="page-content">
-        <div class="page-top-bar">
-            <div class="container">
-                <div class="left">
-                    <div id="logo">
-                        <a href="index.php"><img src="https://i.imgur.com/5MjoUuh.png"></a>
-                    </div>
-                    <a class="active" href="#">Servers</a>
-                    <a href="#">Billing</a>
-                    <a href="#">Users</a>
-                </div>
-                <div class="right">
-                    <a class="top-btn login" href="#">
-                        Logout
-                    </a>
-                </div>
-            </div>
-        </div>
+        <div th:replace="fragments/global :: topbar"></div>
         <div class="content-wrap details-wrap">
             <div class="container">
                 <div class="sidebar">
                     <div class="panel panel-default">
-                        <div class="panel-heading"><i class="mdi mdi-server"></i>SWRP
-                            <div class="status-label online">Online</div>
+                        <div class="panel-heading" style="padding-top: 25px;"><i class="mdi mdi-server"></i>
+                            <span hidden id="server-id" th:text="${server.getID()}"></span>
+                            <span th:text="${server.name}"></span>
+                            <span id="status"></span>
+                            <span id="online-status" class="status-label" style="margin-right: -30px">
+                                <span class="status-label light-gray-bg">Loading...</span>
+                            </span>
                         </div>
                         <div class="panel-body">
                             <div class="panel-features">
                                 <div class="pf">
                                     <i class="mdi mdi-database-outline"></i>
                                     <div class="pf-text">
-                                        <div class="pf-value">0kb</div>
-                                        <div class="pf-label">Out of 3000MB</div>
+                                        <div class="pf-value" id="ram-usage">Loading...</div>
+                                        <div class="pf-label">Out of</div>
+                                        <span id="ram-allocation">Loading...</span>
                                     </div>
                                 </div>
                                 <div class="pf">
                                     <i class="mdi mdi-speedometer"></i>
                                     <div class="pf-text">
-                                        <div class="pf-value">0.00%</div>
-                                        <div class="pf-label">Ram Usage</div>
+                                        <div class="pf-value" id="cpu-usage">Loading...</div>
+                                        <div class="pf-label">CPU Usage</div>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +53,7 @@
                             <iframe
                                     allowtransparency="true"
                                     id="console-iframe"
-                                    th:src="@{'/server/console/' + ${server}}">
+                                    th:src="@{'/server/console/' + ${server.getID()}}">
                             </iframe>
                         </div>
                         <div class="console-input">
@@ -95,5 +85,9 @@
 </div>
 <div th:replace="fragments/global :: scripts"></div>
 <script src="/js/console.js"></script>
+<script src="/js/stats.js"></script>
+<script>
+    addStatsServerDetails()
+</script>
 </body>
 </html>

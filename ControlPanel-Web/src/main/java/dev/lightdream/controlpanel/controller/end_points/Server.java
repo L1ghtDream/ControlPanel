@@ -30,7 +30,7 @@ public class Server extends EndPoints {
         return executeEndPoint(model, request, cookieBase64,
                 "server/server.html",
                 (user) -> {
-                    model.addAttribute("server", serverID); // TODO move to server object
+                    model.addAttribute("server", server);
                     return null;
                 },
                 server, PermissionEnum.SERVER_VIEW
@@ -58,7 +58,7 @@ public class Server extends EndPoints {
         return executeEndPoint(model, request, cookieBase64,
                 "server/server_console.html",
                 (user) -> {
-                    model.addAttribute("server", serverID); // TODO move to server object
+                    model.addAttribute("server", server);
                     return null;
                 },
                 server, PermissionEnum.SERVER_VIEW

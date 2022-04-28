@@ -888,9 +888,9 @@ div#console {
 .status-label {
     font-size: 11px;
     float: right;
-    padding: 4px 15px;
     border-radius: 100px;
-    background: #73b757;
+    margin-top: -6.5px;
+    padding: 8px 20px;
 }
 
 .panel-features {
