@@ -121,12 +121,12 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
     }
 
 
-    public void createNode(String nodeID, String name, String ip, String username, int sshPort) {
+    public void createNode(String nodeID, String name, String ip, String username, int sshPort, int sftpPort) {
         if (getNode(nodeID) != null) {
             return;
         }
 
-        new Node(nodeID, name, ip, username, sshPort).save();
+        new Node(nodeID, name, ip, username, sshPort, sftpPort).save();
     }
 
     public List<Permission> getPermissions(User user) {

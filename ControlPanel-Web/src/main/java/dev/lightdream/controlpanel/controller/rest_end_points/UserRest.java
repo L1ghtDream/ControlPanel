@@ -125,4 +125,16 @@ public class UserRest extends RestEndPoints {
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS
         );
     }
+
+    @PostMapping("/api/user/get")
+    @ResponseBody
+    public Response getUser(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
+        return executeEndPoint(request, cookieBase64,
+                (user) -> {
+                    user.password = "[HIDDEN]";
+                    user.otpSecret = "[HIDDEN]";
+                    return Response.OK(user);
+                }
+        );
+    }
 }

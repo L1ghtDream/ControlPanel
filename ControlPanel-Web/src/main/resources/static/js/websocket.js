@@ -12,14 +12,14 @@ function connect() {
     stompClient = Stomp.over(socket);
 
     stompClient.connect({
-        "username": user.username,
+        "username": user.id,
         "password": user.hash
     }, () => {
         stompClient.subscribe("/server/" + server + "/api/console", function (messageOutput) {
             console.log("Received response @ " + Date.now());
             showMessageOutput(messageOutput.body);
         }, {
-            "username": user.username,
+            "username": user.id,
             "password": user.hash
         });
     });

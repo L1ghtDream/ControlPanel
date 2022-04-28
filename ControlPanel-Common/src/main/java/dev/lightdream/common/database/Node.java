@@ -30,18 +30,22 @@ public class Node extends StringDatabaseEntry {
     public String username;
     @DatabaseField(columnName = "ssh_port")
     public int sshPort;
+    @DatabaseField(columnName = "sftp_port")
+    public int sftpPort;
 
     public Node() {
         super(CommonMain.instance);
     }
 
-    public Node(String id, String name, String ip, String username, int sshPort) {
+    //TODO Add sftp setting in all html templates
+    public Node(String id, String name, String ip, String username, int sshPort, int sftpPort) {
         super(CommonMain.instance);
         this.id = id;
         this.name = name;
         this.ip = ip;
         this.username = username;
         this.sshPort = sshPort;
+        this.sftpPort = sftpPort;
     }
 
     public static Node getNode(String id) {

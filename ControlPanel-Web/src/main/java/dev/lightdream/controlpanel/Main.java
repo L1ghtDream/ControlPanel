@@ -84,7 +84,7 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     }
 
     public void createNodes() {
-        databaseManager.createNode("htz-1", "HTZ-1", "htz1.original.gg", "root", 22);
+        databaseManager.createNode("htz-1", "HTZ-1", "htz1.original.gg", "root", 22, 2222);
     }
 
     public void createServers() {

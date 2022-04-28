@@ -1,5 +1,6 @@
 package dev.lightdream.common.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.hash.Hashing;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.permission.PermissionContainer;
@@ -35,14 +36,17 @@ public class User extends IntegerDatabaseEntry {
         this.otpSecret = null;
     }
 
+    @JsonIgnore
     public static User getUser(String username) {
         return CommonMain.instance.databaseManager.getUser(username);
     }
 
+    @JsonIgnore
     public static User getUser(int id) {
         return CommonMain.instance.databaseManager.getUser(id);
     }
 
+    @JsonIgnore
     public static List<User> getUsers() {
         return CommonMain.instance.databaseManager.getAll(User.class);
     }
@@ -116,6 +120,7 @@ public class User extends IntegerDatabaseEntry {
 
     }
 
+    @JsonIgnore
     public List<Server> getServers() {
         return CommonMain.instance.databaseManager.getServers();
     }

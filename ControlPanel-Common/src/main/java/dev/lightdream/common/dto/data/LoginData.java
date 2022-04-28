@@ -16,6 +16,7 @@ public class LoginData {
 
     public boolean checkPassword() {
         return true;
+        //TODO check password
         //User user = CommonMain.instance.databaseManager.getUser(username);
         //if (user.has2FA()) {
         //    return user.password.equals(password) &&
@@ -33,7 +34,7 @@ public class LoginData {
         User user = CommonMain.instance.databaseManager.getUser(username);
 
         return new Cookie(
-                username,
+                user.id,
                 user.generateHash()
         );
     }

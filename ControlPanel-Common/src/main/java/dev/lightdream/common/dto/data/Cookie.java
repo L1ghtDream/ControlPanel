@@ -11,12 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Cookie {
 
-    public String username;
+    public int id;
     public String hash;
 
     public boolean validate() {
-        if (username == null || hash == null
-                || username.equals("") || hash.equals("")) {
+        if (hash == null || hash.equals("")) {
             return false;
         }
 
@@ -27,7 +26,7 @@ public class Cookie {
 
     @JsonIgnore
     public User getUser() {
-        return CommonMain.instance.getDatabaseManager().getUser(username);
+        return CommonMain.instance.getDatabaseManager().getUser(id);
     }
 
     @Override

@@ -208,4 +208,12 @@ public class Server extends PermissionContainer {
                 .parse();
     }
 
+    public String getSFTPUrl() {
+        return CommonMain.instance.getConfig().sftpURL
+                .parse("username", "%username%_" + this.getID())
+                .parse("host", node.ip)
+                .parse("port", node.sftpPort)
+                .parse();
+    }
+
 }

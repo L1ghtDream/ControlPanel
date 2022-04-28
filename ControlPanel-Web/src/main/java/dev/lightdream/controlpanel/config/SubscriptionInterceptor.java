@@ -40,24 +40,24 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
             throw new IllegalArgumentException("401. Null credentials");
         }
 
-        String user = usernames.get(0);
+        Integer userID = Integer.valueOf(usernames.get(0));
         String password = passwords.get(0);
 
         if (command.equals(StompCommand.CONNECT)) {
-            if (!validateConnection(user, password)) {
+            if (!validateConnection(userID, password)) {
                 throw new IllegalArgumentException("401. Invalid credentials for connect");
             }
         }
 
         if (command.equals(StompCommand.SUBSCRIBE)) {
-            if (!validateSubscription(user, password, headers.getDestination())) {
+            if (!validateSubscription(userID, password, headers.getDestination())) {
                 throw new IllegalArgumentException("401. Invalid credentials for subscribe");
             }
-            sendCurrentLog(user, password, headers.getDestination());
+            sendCurrentLog(userID, password, headers.getDestination());
         }
 
         if (command.equals(StompCommand.SEND)) {
-            if (!validateCommand(user, password, Utils.payloadToString(message))) {
+            if (!validateCommand(userID, password, Utils.payloadToString(message))) {
                 throw new IllegalArgumentException("401. Invalid credentials for send");
             }
         }
@@ -65,38 +65,38 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         return message;
     }
 
-    private boolean validateConnection(String username, String password) {
-        if (username == null || password == null) {
+    private boolean validateConnection(int userID, String password) {
+        if (password == null) {
             return false;
         }
 
-        Cookie cookie = new Cookie(username, password);
+        Cookie cookie = new Cookie(userID, password);
 
         return cookie.validate();
     }
 
-    private boolean validateSubscription(String username, String password, String destination) {
-        if (username == null || password == null || destination == null) {
+    private boolean validateSubscription(int userID, String password, String destination) {
+        if (password == null || destination == null) {
             return false;
         }
 
         // /server/{server}/api/console
         String serverName = destination.split("/")[2];
 
-        Cookie cookie = new Cookie(username, password);
+        Cookie cookie = new Cookie(userID, password);
         User user = cookie.getUser();
         Server server = Utils.getServer(serverName);
 
         return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
     }
 
-    private boolean validateCommand(String username, String password, String commandJson) {
-        if (username == null || password == null || commandJson == null) {
+    private boolean validateCommand(int userID, String password, String commandJson) {
+        if (password == null || commandJson == null) {
             return false;
         }
 
         Command command = Utils.fromJson(commandJson, Command.class);
-        Cookie cookie = new Cookie(username, password);
+        Cookie cookie = new Cookie(userID, password);
         User user = cookie.getUser();
         Server server = command.getServer();
 
@@ -107,7 +107,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
     }
 
-    private void sendCurrentLog(String username, String password, String destination){
+    private void sendCurrentLog(int userID, String password, String destination) {
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override

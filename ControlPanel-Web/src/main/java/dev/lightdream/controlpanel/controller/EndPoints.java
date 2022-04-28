@@ -31,6 +31,8 @@ public abstract class EndPoints {
                                          LambdaExecutor.ReturnLambdaExecutor<String, User> callback,
                                          PermissionContainer permissionContainer, PermissionEnum... permissions) {
         Debugger.log("Executing end point with template " + template);
+        Debugger.log("[Base64] Cookie: " + cookieBase64);
+        Debugger.log("[ASCII ] Cookie: " + Utils.getCookie(cookieBase64));
 
         Cookie cookie = Utils.getCookie(cookieBase64);
 
