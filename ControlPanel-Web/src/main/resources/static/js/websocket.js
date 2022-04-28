@@ -5,14 +5,6 @@ const user = JSON.parse(atob(getCookie("login_data")));
 
 connect();
 
-function setConnected(connected) {
-    document.getElementById("connect").disabled = connected;
-    document.getElementById("disconnect").disabled = !connected;
-    document.getElementById("conversationDiv").style.visibility
-        = connected ? "visible" : "hidden";
-    document.getElementById("response").innerHTML = "";
-}
-
 function connect() {
     const server = document.getElementById("server").innerText;
 
@@ -23,8 +15,6 @@ function connect() {
         "username": user.username,
         "password": user.hash
     }, () => {
-        setConnected(true);
-        console.log("Connected");
         stompClient.subscribe("/server/" + server + "/api/console", function (messageOutput) {
             console.log("Received response @ " + Date.now());
             showMessageOutput(messageOutput.body);
@@ -76,7 +66,7 @@ async function showMessageOutput(messageOutput) {
     const size = response.innerHTML.split("<br>").length;
 
     if (size > 50) {
-        //Remove the first line size-25 lines
+        //Remove the first line size-50 lines
         response.innerHTML = response.innerHTML.substring(getIndex(response.innerHTML, "<br>", size - 50) + 4);
     }
 
