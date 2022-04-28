@@ -1,92 +1,41 @@
-<style>
-    div {
-        color: white;
-    }
-</style>
+<!--suppress HtmlUnknownTarget, JSUnresolvedLibraryURL -->
+<html lang="en">
+<head>
+    <style>
+        body {
+            background-color: blue;
+        }
+    </style>
 
+    <title>Chat WebSocket</title>
+    <script src="https://unpkg.com/kd-shim-sockjs-client@0.3.4/sockjs-0.3.4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="/js/websocket.js"></script>
+</head>
+<body onload="disconnect()">
+<!--/*@thymesVar id="server" type="dev.lightdream.common.database.Server"*/-->
+<div id="server" th:text="${server}"></div>
 <div>
-    // noinspection JSUnresolvedFunction,JSUnresolvedVariable,JSCheckFunctionSignatures,JSIgnoredPromiseFromCall<br>
-<br>
-    let stompClient = null;<br>
-    const user = JSON.parse(atob(getCookie("login_data")));<br>
-<br>
-    function setConnected(connected) {<br>
-    document.getElementById("connect").disabled = connected;<br>
-    document.getElementById("disconnect").disabled = !connected;<br>
-    document.getElementById("conversationDiv").style.visibility<br>
-    = connected ? "visible" : "hidden";<br>
-    document.getElementById("response").innerHTML = "";<br>
-    }<br>
-<br>
-    function connect() {<br>
-    const server = document.getElementById("server").innerText;<br>
-<br>
-    const socket = new SockJS("/server/" + server + "/api/server");<br>
-    stompClient = Stomp.over(socket);<br>
-<br>
-    stompClient.connect({<br>
-    "username": user.username,<br>
-    "password": user.hash<br>
-    }, () => {<br>
-    setConnected(true);<br>
-    console.log("Connected");<br>
-    stompClient.subscribe("/server/" + server + "/api/console", function (messageOutput) {<br>
-    console.log("Received response @ " + Date.now());<br>
-    showMessageOutput(messageOutput.body);<br>
-    }, {<br>
-    "username": user.username,<br>
-    "password": user.hash<br>
-    });<br>
-    });<br>
-    }<br>
-<br>
-    function disconnect() {<br>
-    if (stompClient != null) {<br>
-    stompClient.disconnect();<br>
-    }<br>
-    setConnected(false);<br>
-    console.log("Disconnected");<br>
-    }<br>
-<br>
-    function sendMessage() {<br>
-    console.log("Sending message @ " + Date.now());<br>
-    const server = document.getElementById("server").innerText;<br>
-<br>
-    const text = document.getElementById("text").value;<br>
-    stompClient.send("/app/server/api/server", {<br>
-    "username": user.username,<br>
-    "password": user.hash<br>
-    },<br>
-    JSON.stringify({<br>
-    "command": text,<br>
-    "server": server,<br>
-    "cookie": user<br>
-    }));<br>
-    }<br>
-<br>
-    function getIndex(string, subString, index) {<br>
-    const len = string.length;<br>
-    let i = -1;<br>
-    while (index-- && i++ < len) {<br>
-    i = string.indexOf(subString, i);<br>
-    if (i < 0) {<br>
-    break;<br>
-    }<br>
-    }<br>
-    return i;<br>
-    }<br>
-<br>
-    async function showMessageOutput(messageOutput) {<br>
-    const response = document.getElementById("response");<br>
-    response.innerHTML = response.innerHTML + messageOutput;<br>
-    const size = response.innerHTML.split("<br>").length;<br>
-<br>
-    if (size > 25) {<br>
-    //Remove the first line size-25 lines<br>
-    response.innerHTML = response.innerHTML.substring(getIndex(response.innerHTML, "<br>", size - 25) + 4);<br>
-    }<br>
-<br>
-    //Scroll to the bottom<br>
-    window.scrollTo(0, document.body.scrollHeight);<br>
-    }<br>
+    <div>
+        <!--suppress HtmlFormInputWithoutLabel -->
+        <input id="from" placeholder="Choose a nickname" type="text"/>
+    </div>
+    <br/>
+    <div>
+        <button id="connect" onclick="connect();">Connect</button>
+        <button disabled="disabled" id="disconnect" onclick="disconnect();">
+            Disconnect
+        </button>
+    </div>
+    <br/>
+    <div id="conversationDiv">
+        <!--suppress HtmlFormInputWithoutLabel -->
+        <input id="text" placeholder="Write a message..." type="text"/>
+        <button id="sendMessage" onclick="sendMessage();">Send</button>
+        <p id="response"></p>
+    </div>
 </div>
+
+</body>
+</html>

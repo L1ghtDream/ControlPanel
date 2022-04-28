@@ -51,5 +51,19 @@ public class Server extends EndPoints {
         );
     }
 
+    @GetMapping("/server/console/{serverID}")
+    public String serverConsole(Model model, HttpServletRequest request, @PathVariable String serverID, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
+        dev.lightdream.common.database.Server server = Utils.getServer(serverID);
+
+        return executeEndPoint(model, request, cookieBase64,
+                "server/server_console.html",
+                (user) -> {
+                    model.addAttribute("server", serverID); // TODO move to server object
+                    return null;
+                },
+                server, PermissionEnum.SERVER_VIEW
+        );
+    }
+
 
 }

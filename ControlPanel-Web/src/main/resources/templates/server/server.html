@@ -61,8 +61,8 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><i class="mdi mdi-console"></i>Console</div>
                             <iframe
-                                    src="http://htz1.original.gg:13000/dev/page_view?page=server/server_console.html"
-                                    style="margin: 0; padding: 0; border: 0; height: 500px; width: 100%;">>
+                                    th:src="@{'/server/console/' + ${server}}"
+                                    style="margin: 0; padding: 0; border: 0; height: 450px; width: 100%;">>
                             </iframe>
                         </div>
                     </div>
