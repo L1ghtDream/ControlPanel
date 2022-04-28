@@ -60,7 +60,7 @@ public class ServerAPIRest extends RestEndPoints {
                     if (command.getCommand().equals("start") ||
                             command.getCommand().equals("stop") ||
                             command.getCommand().equals("restart") ||
-                            command.getCommand().equals("kill")) {
+                            command.getCommand().equals("__kill")) {
 
                         if (!user.hasPermission(server, PermissionEnum.SERVER_CONTROL)) {
                             return Response.UNAUTHORISED();
@@ -71,7 +71,7 @@ public class ServerAPIRest extends RestEndPoints {
                         return handleStart(user, server);
                     }
 
-                    if (command.getCommand().equals("kill")) {
+                    if (command.getCommand().equals("__kill")) {
                         return handleKill(user, server);
                     }
 

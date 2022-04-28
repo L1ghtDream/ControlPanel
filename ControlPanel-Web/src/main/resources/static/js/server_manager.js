@@ -7,5 +7,5 @@ registerEventListener("stop", ()=>{
 })
 
 registerEventListener("kill", ()=>{
-    sendCommandToIFrame("kill");
+    sendCommandToIFrame("__kill");
 })
