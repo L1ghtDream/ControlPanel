@@ -135,5 +135,11 @@ public class User extends IntegerDatabaseEntry {
         save();
     }
 
+    public boolean checkRawPassword(String rawPassword) {
+        return Hashing.sha256()
+                .hashString(rawPassword, StandardCharsets.UTF_8)
+                .toString().equals(this.password);
+    }
+
 
 }
