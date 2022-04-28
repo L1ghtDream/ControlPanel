@@ -39,6 +39,7 @@ public class Utils {
         return Server.getServers().stream().filter(server -> server.id.equals(id)).findFirst().orElse(null);
     }
 
+    @SuppressWarnings("unused")
     public static Node getNode(String id) {
         return CommonMain.instance.getNodes().stream().filter(node -> node.id.equals(id)).findFirst().orElse(null);
     }

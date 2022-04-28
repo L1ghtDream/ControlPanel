@@ -14,12 +14,10 @@ public class ServersCache<T> {
         this.defaultValue = defaultValue;
     }
 
-    @SuppressWarnings("unused")
     public T get(Server server) {
         return servers.getOrDefault(server.getID(), defaultValue);
     }
 
-    @SuppressWarnings("unused")
     public void set(Server server, T value) {
         servers.put(server.getID(), value);
     }

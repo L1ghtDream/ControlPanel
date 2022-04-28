@@ -68,10 +68,8 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
             if (hasPermission(user, permissionEnum)) {
                 // Remove permission
                 removePermission(user, permissionEnum);
-                return;
             }
             // Already doesn't have permission
-            return;
         }
 
     }
@@ -99,6 +97,7 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
 
     public abstract PermissionEnum.PermissionType getType();
 
+    @SuppressWarnings("unused")
     public List<Permission> getPermissions() {
         return CommonMain.instance.getDatabaseManager().getPermissions(this);
     }

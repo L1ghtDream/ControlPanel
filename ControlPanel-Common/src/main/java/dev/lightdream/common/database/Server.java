@@ -235,6 +235,7 @@ public class Server extends PermissionContainer {
         );
     }
 
+    @SuppressWarnings("unused")
     public String getSFTPUrl(int userID) {
         User user = User.getUser(userID);
 
@@ -245,6 +246,7 @@ public class Server extends PermissionContainer {
                 .parse();
     }
 
+    @SuppressWarnings("unused")
     public String getSFTPUrl() {
         return CommonMain.instance.getConfig().sftpURL
                 .parse("username", "%username%_" + this.getID())

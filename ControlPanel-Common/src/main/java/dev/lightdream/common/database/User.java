@@ -85,6 +85,7 @@ public class User extends IntegerDatabaseEntry {
         permissionContainer.addPermission(this, permission);
     }
 
+    @SuppressWarnings("unused")
     public void setPermission(PermissionContainer permissionContainer, PermissionEnum permission, boolean value) {
         if (permissionContainer == null) {
             return;

@@ -26,22 +26,22 @@ public class CommonConfig {
     // ---------- Linux Commands ----------
 
     public MessageBuilder SERVER_START_CMD = new MessageBuilder("" +
-                    "echo " +
-                    "\"screen -dmS %id% " +
-                    "-L -Logfile session.log bash -c " +
-                    "\\\"" +
-                    "%java% -Xms128M -Xmx%ram% " +
-                    "%args% "+
-                    "-Djline.terminal=jline.UnsupportedTerminal " +
-                    "-Dterminal.jline=false " +
-                    "-Dterminal.ansi=true " +
-                    "-Dlog4j2.formatMsgNoLookups=true " +
-                    "-jar %server_jar%" +
-                    "\\\"; " +
-                    "screen -S %id% -X colon \\\"logfile flush 0^M\\\"\" " +
-                    "> %path%/start.sh;" +
-                    "cd %path%; " +
-                    "sh start.sh"
+            "echo " +
+            "\"screen -dmS %id% " +
+            "-L -Logfile session.log bash -c " +
+            "\\\"" +
+            "%java% -Xms128M -Xmx%ram% " +
+            "%args% " +
+            "-Djline.terminal=jline.UnsupportedTerminal " +
+            "-Dterminal.jline=false " +
+            "-Dterminal.ansi=true " +
+            "-Dlog4j2.formatMsgNoLookups=true " +
+            "-jar %server_jar%" +
+            "\\\"; " +
+            "screen -S %id% -X colon \\\"logfile flush 0^M\\\"\" " +
+            "> %path%/start.sh;" +
+            "cd %path%; " +
+            "sh start.sh"
     );
 
     public String JDK_8 = "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java";

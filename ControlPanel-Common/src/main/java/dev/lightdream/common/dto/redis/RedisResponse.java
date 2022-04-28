@@ -2,7 +2,6 @@ package dev.lightdream.common.dto.redis;
 
 import com.google.gson.annotations.Expose;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.logger.Debugger;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

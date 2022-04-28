@@ -5,7 +5,6 @@ import dev.lightdream.common.database.Node;
 import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.event.impl.ResponseEvent;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 
 public class RedisEvent {

@@ -9,7 +9,7 @@ public enum PermissionEnum {
     GLOBAL_ADMIN, // Gives permission to all server functions
     GLOBAL_MANAGE_USERS, // Create / Delete / Change password / Disable OTP for users
     GLOBAL_MANAGE_NODES, // Create / Delete / Manage nodes
-    GLOBAL_VIEW, // Create / Delete / Manage nodes //TODO Add everywhere
+    GLOBAL_VIEW, // Create / Delete / Manage nodes 
 
     // Server Perms
     SERVER_VIEW, // View server

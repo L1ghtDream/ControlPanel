@@ -40,6 +40,7 @@ public class Response {
         return new Response("401", "Bad Data", data);
     }
 
+    @SuppressWarnings("unused")
     public static Response BAD_DATA() {
         return BAD_DATA(null);
     }

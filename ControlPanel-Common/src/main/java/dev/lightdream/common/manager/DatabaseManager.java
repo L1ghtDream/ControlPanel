@@ -112,12 +112,12 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
     }
 
     /**
-     * @param name The server's name
-     * @param path The server's path on the machine
-     * @param node The server's node (machine)
-     * @param port The server's port
-     * @param java The server's java version (JDK_8, JDK_11, JDK_16, JDK_17)
-     * @param ram The server's max ram
+     * @param name      The server's name
+     * @param path      The server's path on the machine
+     * @param node      The server's node (machine)
+     * @param port      The server's port
+     * @param java      The server's java version (JDK_8, JDK_11, JDK_16, JDK_17)
+     * @param ram       The server's max ram
      * @param serverJar The server's jar file (server.jar)
      */
     public void createServer(String serverID, String name, String path, Node node, int port, String java, String ram, String serverJar, String args) {
