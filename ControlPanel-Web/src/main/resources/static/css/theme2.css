@@ -150,10 +150,37 @@
     text-decoration: none;
 }
 
-.table-row-permissions{
+.table-row-permissions {
     padding: 12px 50px !important;
 }
 
-.light-gray{
+.light-gray {
     color: #505661
+}
+
+.console-input {
+    color: white;
+    padding: 10px;
+    background: #0f1116;
+    border: 2px solid #1c1f26 !important;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+.console-input input {
+    background: rgb(0, 0, 0, 0);
+    border: 0;
+    border-radius: 8px;
+    color: white;
+    outline: none !important;
+    width: 98%;
+}
+
+#console-iframe {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 450px;
+    width: 100%;
+    border-radius: 10px;
 }

@@ -61,9 +61,14 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><i class="mdi mdi-console"></i>Console</div>
                             <iframe
-                                    th:src="@{'/server/console/' + ${server}}"
-                                    style="margin: 0; padding: 0; border: 0; height: 450px; width: 100%;">>
+                                    id="console-iframe"
+                                    th:src="@{'/server/console/' + ${server}}">
                             </iframe>
+                        </div>
+                        <div class="console-input">
+                            <span>> </span>
+                            <label for="console-input"></label>
+                            <input type="text" id="console-input">
                         </div>
                     </div>
                     <div id="stats-ram">
@@ -87,8 +92,7 @@
         </div>
     </div>
 </div>
-<script crossorigin="anonymous"
-        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<div th:replace="fragments/global :: scripts"></div>
+<script src="/js/console.js"></script>
 </body>
 </html>

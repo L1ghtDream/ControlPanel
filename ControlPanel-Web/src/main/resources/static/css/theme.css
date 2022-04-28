@@ -875,7 +875,7 @@ div#stats-cpu {
 
 div#console {
     flex: 0 0 100%;
-    background: #0000007a !important;
+    /*background: #0000007a !important;*/
     min-height: 300px;
 }
 

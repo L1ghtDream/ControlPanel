@@ -3,6 +3,8 @@
 let stompClient = null;
 const user = JSON.parse(atob(getCookie("login_data")));
 
+connect();
+
 function setConnected(connected) {
     document.getElementById("connect").disabled = connected;
     document.getElementById("disconnect").disabled = !connected;
@@ -41,17 +43,16 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendMessage() {
+function sendMessage(command) {
     console.log("Sending message @ " + Date.now());
     const server = document.getElementById("server").innerText;
 
-    const text = document.getElementById("text").value;
     stompClient.send("/app/server/api/server", {
             "username": user.username,
             "password": user.hash
         },
         JSON.stringify({
-            "command": text,
+            "command": command,
             "server": server,
             "cookie": user
         }));
