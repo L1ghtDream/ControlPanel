@@ -111,6 +111,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
     }
 
+    @SuppressWarnings("unused")
     private void sendCurrentLog(int userID, String password, String destination) {
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {

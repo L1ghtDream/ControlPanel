@@ -25,7 +25,6 @@ public abstract class RestEndPoints {
      * @param permissions         Permissions to check
      * @return Template to render
      */
-    @SuppressWarnings("unused")
     public static Response executeEndPoint(HttpServletRequest request, String cookieBase64,
                                            LambdaExecutor.ReturnLambdaExecutor<Response, User> callback,
                                            PermissionContainer permissionContainer, PermissionEnum... permissions) {
