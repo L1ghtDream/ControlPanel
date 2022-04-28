@@ -37,7 +37,7 @@ public class LogManager {
                 LambdaExecutor.LambdaCatch.NoReturnLambdaCatch.executeCatch(() -> {
                     SSHManager.SSHSession session = SSHManager.createSSHSession(server.node);
 
-                    session.setCommand("tail -f " + server.path + "/session.log");
+                    session.setCommand("tail -f " + server.path + "/session.log -n 50");
 
                     ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
                     session.setOutputStream(responseStream);

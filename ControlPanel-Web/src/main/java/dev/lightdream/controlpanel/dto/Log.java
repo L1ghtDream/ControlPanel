@@ -8,7 +8,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Log {
 
-    public int maxSize = 100;
+    public int maxSize = 50;
     public List<String> logs = new ArrayList<>();
 
     public Log(List<String> logs) {

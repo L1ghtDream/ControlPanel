@@ -6,6 +6,8 @@ import dev.lightdream.common.dto.Command;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
+import dev.lightdream.controlpanel.Main;
+import dev.lightdream.controlpanel.service.ConsoleService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -51,6 +53,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
             if (!validateSubscription(user, password, headers.getDestination())) {
                 throw new IllegalArgumentException("401. Invalid credentials for subscribe");
             }
+            sendCurrentLog(user, password, headers.getDestination());
         }
 
         if (command.equals(StompCommand.SEND)) {
@@ -104,5 +107,21 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
     }
 
+    private void sendCurrentLog(String username, String password, String destination){
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
 
+                        // /server/{server}/api/console
+                        String serverName = destination.split("/")[2];
+
+                        Server server = Utils.getServer(serverName);
+
+                        ConsoleService.instance.sendConsole(server, Main.instance.logManager.getLog(server));
+                    }
+                },
+                500
+        );
+    }
 }
