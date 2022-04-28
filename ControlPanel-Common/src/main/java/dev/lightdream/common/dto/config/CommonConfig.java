@@ -1,5 +1,6 @@
 package dev.lightdream.common.dto.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.lightdream.messagebuilder.MessageBuilder;
 
 public class CommonConfig {
@@ -29,54 +30,70 @@ public class CommonConfig {
     );
 
     public MessageBuilder CREATE_SCRIPT_CMD = new MessageBuilder(
-        "echo %script_code% > %path%/%script_name%"
+            "echo " +
+                    "\"screen -dmS %id% " +
+                    "-L -Logfile session.log bash -c " +
+                    "\\\"" +
+                    "%java% -Xms128M -Xmx%ram% " +
+                    "-Djline.terminal=jline.UnsupportedTerminal " +
+                    "-Dterminal.jline=false " +
+                    "-Dterminal.ansi=true " +
+                    "-Dlog4j2.formatMsgNoLookups=true " +
+                    "-jar %server_jar%" +
+                    "\\\"; " +
+                    "screen -S %id% -X colon \\\"logfile flush 0^M\\\"\" " +
+                    "> %path%/start.sh"
     );
 
-    public MessageBuilder SERVER_START_SCRIPT = new MessageBuilder(
-            "screen -dmS %id% -L -Logfile session.log bash -c \"sh startf.sh\"; screen -S %id% -X colon \"logfile flush 0^M\""
-    );
-
-    public MessageBuilder SERVER_START_F_SCRIPT = new MessageBuilder(
-            "%java% -Xms%ram_min% -Xmx%ram_max% -Djline.terminal=jline.UnsupportedTerminal -Dterminal.jline=false -Dterminal.ansi=true -Dlog4j2.formatMsgNoLookups=true -jar %server_jar%"
-    );
-
-    public String JDK8= "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java";
-    public String JDK11= "/usr/lib/jvm/java-11-openjdk-amd64/bin/java";
-    public String JDK16= "/usr/lib/jvm/java-16-openjdk-amd64/bin/java";
-    public String JDK17= "/usr/lib/jvm/java-17-openjdk-amd64/bin/java";
-
+    public String JDK_8 = "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java";
+    public String JDK_11 = "/usr/lib/jvm/java-11-openjdk-amd64/bin/java";
+    public String JDK_16 = "/usr/lib/jvm/java-16-openjdk-amd64/bin/java";
+    public String JDK_17 = "/usr/lib/jvm/java-17-openjdk-amd64/bin/java";
     public MessageBuilder SFTP_MODULE_INSTALL_CMD = new MessageBuilder(
             "mkdir %path%; cd %path%; wget %url% -O SFTP_module.jar"
     );
-
     public MessageBuilder MEMORY_USAGE_CMD = new MessageBuilder(
             "pmap -x %pid% | tail -n 1 | awk '{print $4}'"
     );
-
     public MessageBuilder MEMORY_ALLOCATED_CMD = new MessageBuilder(
             "jstat -gccapacity %pid% | tail -n 1 | awk '{print $2}'"
             //"pmap -x %pid% | tail -n 1 | awk '{print $3}'"
     );
-
     public MessageBuilder PID_GRAB_CMD = new MessageBuilder(
             "lsof -i :%port% | grep LISTEN | awk '{print $2}'"
     );
-
     public MessageBuilder CPU_USAGE_CMD = new MessageBuilder(
             "top -b -n 1 -p %pid% | tail -n 1 | awk '{print $9}'"
     );
-
     public MessageBuilder EXECUTE_SCRIPT_CMD = new MessageBuilder(
             "curl -s %url% | bash"
     );
-
     public MessageBuilder STORAGE_USAGE_CMD = new MessageBuilder(
             "du -s %path% | awk '{print $1}'"
     );
-
     public MessageBuilder KILL_CMD = new MessageBuilder(
             "kill -9 $(lsof -t -i :%port%)"
     );
+
+    @JsonIgnore
+    public String getJava(String name) {
+        switch (name) {
+            case "8":
+            case "JDK_8":
+                return JDK_8;
+            case "11":
+            case "JDK_11":
+                return JDK_11;
+            case "16":
+            case "JDK_16":
+                return JDK_16;
+            case "17":
+            case "JDK_17":
+                return JDK_17;
+            default:
+                return JDK_8;
+        }
+    }
 
 
 }

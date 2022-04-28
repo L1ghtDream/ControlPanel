@@ -52,7 +52,6 @@ public class ServerAPIRest extends RestEndPoints {
     @MessageMapping("/server/api/server")
     @ResponseBody
     public Response console(Command command) {
-
         Debugger.log(1);
         dev.lightdream.common.database.Server server = Utils.getServer(command.server);
 
@@ -113,11 +112,7 @@ public class ServerAPIRest extends RestEndPoints {
         }
 
         Debugger.log(6);
-        node.executeCommand(Main.instance.config.SERVER_START_CMD
-                .parse("path", server.path)
-                .parse("id", server.id)
-                .parse()
-        );
+        server.start();
 
         return Response.OK();
 

@@ -19,10 +19,10 @@ import java.util.List;
 @NoArgsConstructor
 public class Server extends PermissionContainer {
 
-    //Settings
+    // Settings
     @DatabaseField(columnName = "name")
     public String name;
-    //Location
+    // Location
     @DatabaseField(columnName = "path")
     public String path;
     @DatabaseField(columnName = "node")
@@ -30,12 +30,34 @@ public class Server extends PermissionContainer {
     @DatabaseField(columnName = "port")
     public Integer port;
 
-    public Server(String id, String name, String path, Node node, Integer port) {
+    // Java Settings
+    @DatabaseField(columnName = "java")
+    public String java;
+    @DatabaseField(columnName = "ram")
+    public String ram;
+    @DatabaseField(columnName = "server_jar")
+
+    public String serverJar;
+
+    /**
+     * @param id The server's id
+     * @param name The server's name
+     * @param path The server's path on the machine
+     * @param node The server's node (machine)
+     * @param port The server's port
+     * @param java The server's java version (JDK_8, JDK_11, JDK_16, JDK_17)
+     * @param ram The server's max ram
+     * @param serverJar The server's jar file (server.jar)
+     */
+    public Server(String id, String name, String path, Node node, Integer port, String java, String ram, String serverJar) {
         this.id = id;
         this.name = name;
         this.path = path;
         this.node = node;
         this.port = port;
+        this.java = java;
+        this.ram = ram;
+        this.serverJar = serverJar;
     }
 
     public static Server getServer(String serverID) {
@@ -44,6 +66,17 @@ public class Server extends PermissionContainer {
 
     public static List<Server> getServers() {
         return CommonMain.instance.databaseManager.getServers();
+    }
+
+    public void createScripts() {
+        this.node.executeCommand(CommonMain.instance.getConfig().CREATE_SCRIPT_CMD
+                .parse("id", id)
+                .parse("java", CommonMain.instance.getConfig().getJava(java))
+                .parse("ram", ram)
+                .parse("server_jar", serverJar)
+                .parse("path", path)
+                .parse()
+        );
     }
 
     @Override
@@ -214,6 +247,14 @@ public class Server extends PermissionContainer {
                 .parse("host", node.ip)
                 .parse("port", node.sftpPort)
                 .parse();
+    }
+
+    public void start(){
+        createScripts();
+        node.executeCommand(CommonMain.instance.getConfig().SERVER_START_CMD
+                .parse("path", this.path)
+                .parse()
+        );
     }
 
 }
