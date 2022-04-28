@@ -60,7 +60,7 @@ public class SFTPServerManager {
 
             virtualFileSystemFactory.setUserHomeDir(username, Paths.get(server.path));
 
-            if(!user.hasPermission(server, PermissionEnum.SERVER_FILE_MANAGER)){
+            if (!user.hasPermission(server, PermissionEnum.SERVER_FILE_MANAGER)) {
                 return false;
             }
 
