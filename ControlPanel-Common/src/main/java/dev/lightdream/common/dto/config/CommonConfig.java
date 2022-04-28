@@ -25,8 +25,8 @@ public class CommonConfig {
 
     // ---------- Linux Commands ----------
 
-    public MessageBuilder SERVER_START_CMD = new MessageBuilder(
-            "echo " +
+    public MessageBuilder SERVER_START_CMD = new MessageBuilder("" +
+                    "echo " +
                     "\"screen -dmS %id% " +
                     "-L -Logfile session.log bash -c " +
                     "\\\"" +
