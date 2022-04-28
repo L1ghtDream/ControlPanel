@@ -30,25 +30,28 @@ function addStats() {
 
 }
 
+function statsServerDetails() {
+    console.log("Executing stats task for server " + serverID);
+    getStats(serverID, stats => {
+        console.log("Settings the stats for server " + serverID + " to " + JSON.stringify(stats));
+        document.getElementById("ram-usage").innerText = formatMemory(stats.memoryUsage);
+        document.getElementById("ram-allocation").innerText = formatMemory(stats.memoryAllocation);
+        document.getElementById("cpu-usage").innerText = stats.cpuUsage + "%";
+        let online_status = document.getElementById("online-status");
+        if (stats.isOnline) {
+            online_status.innerHTML = "" +
+                "<div class=\"status-label lime-bg\">Online</div>"
+        } else {
+            online_status.innerHTML = "" +
+                "<div class=\"status-label red-bg\">Offline</div>"
+        }
+    })
+}
+
 function addStatsServerDetails() {
     let serverID = document.getElementById("server-id").innerText;
-    setInterval(() => {
-        console.log("Executing stats task for server " + serverID);
-        getStats(serverID, stats => {
-            console.log("Settings the stats for server " + serverID + " to " + JSON.stringify(stats));
-            document.getElementById("ram-usage").innerText = formatMemory(stats.memoryUsage);
-            document.getElementById("ram-allocation").innerText = formatMemory(stats.memoryAllocation);
-            document.getElementById("cpu-usage").innerText = stats.cpuUsage + "%";
-            let online_status = document.getElementById("online-status");
-            if (stats.isOnline) {
-                online_status.innerHTML = "" +
-                    "<div class=\"status-label lime-bg\">Online</div>"
-            } else {
-                online_status.innerHTML = "" +
-                    "<div class=\"status-label red-bg\">Offline</div>"
-            }
-        })
-    }, 5 * 1000);// 5 seconds
+    statsServerDetails();
+    setInterval(statsServerDetails, 5 * 1000);// 5 seconds
 }
 
 
