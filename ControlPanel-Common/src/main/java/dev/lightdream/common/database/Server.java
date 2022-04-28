@@ -71,8 +71,8 @@ public class Server extends PermissionContainer {
         return CommonMain.instance.databaseManager.getServers();
     }
 
-    public void createScripts() {
-        this.node.executeCommand(CommonMain.instance.getConfig().CREATE_SCRIPT_CMD
+    public void start() {
+        this.node.executeCommand(CommonMain.instance.getConfig().SERVER_START_CMD
                 .parse("id", id)
                 .parse("java", CommonMain.instance.getConfig().getJava(java))
                 .parse("ram", ram)
@@ -250,14 +250,6 @@ public class Server extends PermissionContainer {
                 .parse("host", node.ip)
                 .parse("port", node.sftpPort)
                 .parse();
-    }
-
-    public void start() {
-        createScripts();
-        node.executeCommand(CommonMain.instance.getConfig().SERVER_START_CMD
-                .parse("path", this.path)
-                .parse()
-        );
     }
 
 }

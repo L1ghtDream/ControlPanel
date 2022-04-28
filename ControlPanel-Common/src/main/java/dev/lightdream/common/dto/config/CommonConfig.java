@@ -26,10 +26,6 @@ public class CommonConfig {
     // ---------- Linux Commands ----------
 
     public MessageBuilder SERVER_START_CMD = new MessageBuilder(
-            "cd %path%; sh start.sh"
-    );
-
-    public MessageBuilder CREATE_SCRIPT_CMD = new MessageBuilder(
             "echo " +
                     "\"screen -dmS %id% " +
                     "-L -Logfile session.log bash -c " +
@@ -43,7 +39,9 @@ public class CommonConfig {
                     "-jar %server_jar%" +
                     "\\\"; " +
                     "screen -S %id% -X colon \\\"logfile flush 0^M\\\"\" " +
-                    "> %path%/start.sh"
+                    "> %path%/start.sh;" +
+                    "cd %path%; " +
+                    "sh start.sh"
     );
 
     public String JDK_8 = "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java";
