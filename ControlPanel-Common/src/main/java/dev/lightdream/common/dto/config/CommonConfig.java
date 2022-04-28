@@ -25,8 +25,25 @@ public class CommonConfig {
     // ---------- Linux Commands ----------
 
     public MessageBuilder SERVER_START_CMD = new MessageBuilder(
-            "cd %path%; screen -dmS %id% -L -Logfile session.log bash -c \"sh start.sh\"; screen -S %id% -X colon \"logfile flush 0^M\""
+            "cd %path%; sh start.sh"
     );
+
+    public MessageBuilder CREATE_SCRIPT_CMD = new MessageBuilder(
+        "echo %script_code% > %path%/%script_name%"
+    );
+
+    public MessageBuilder SERVER_START_SCRIPT = new MessageBuilder(
+            "screen -dmS %id% -L -Logfile session.log bash -c \"sh startf.sh\"; screen -S %id% -X colon \"logfile flush 0^M\""
+    );
+
+    public MessageBuilder SERVER_START_F_SCRIPT = new MessageBuilder(
+            "%java% -Xms%ram_min% -Xmx%ram_max% -Djline.terminal=jline.UnsupportedTerminal -Dterminal.jline=false -Dterminal.ansi=true -Dlog4j2.formatMsgNoLookups=true -jar %server_jar%"
+    );
+
+    public String JDK8= "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java";
+    public String JDK11= "/usr/lib/jvm/java-11-openjdk-amd64/bin/java";
+    public String JDK16= "/usr/lib/jvm/java-16-openjdk-amd64/bin/java";
+    public String JDK17= "/usr/lib/jvm/java-17-openjdk-amd64/bin/java";
 
     public MessageBuilder SFTP_MODULE_INSTALL_CMD = new MessageBuilder(
             "mkdir %path%; cd %path%; wget %url% -O SFTP_module.jar"
