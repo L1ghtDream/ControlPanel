@@ -1,6 +1,6 @@
 package dev.lightdream.controlpanel.manager;
 
-import dev.lightdream.common.annotations.RedisEventHandler;
+import dev.lightdream.common.annotation.RedisEventHandler;
 import dev.lightdream.common.dto.redis.event.impl.CacheUpdateEvent;
 import dev.lightdream.controlpanel.Main;
 

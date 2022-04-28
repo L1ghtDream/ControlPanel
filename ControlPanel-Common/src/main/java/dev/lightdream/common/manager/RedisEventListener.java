@@ -1,7 +1,7 @@
 package dev.lightdream.common.manager;
 
 import dev.lightdream.common.CommonMain;
-import dev.lightdream.common.annotations.RedisEventHandler;
+import dev.lightdream.common.annotation.RedisEventHandler;
 import dev.lightdream.common.dto.redis.event.RedisEvent;
 import dev.lightdream.common.dto.redis.event.impl.PingEvent;
 import dev.lightdream.logger.Logger;

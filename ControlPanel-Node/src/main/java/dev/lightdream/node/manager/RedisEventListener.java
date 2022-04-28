@@ -1,10 +1,9 @@
 package dev.lightdream.node.manager;
 
-import dev.lightdream.common.annotations.RedisEventHandler;
+import dev.lightdream.common.annotation.RedisEventHandler;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.dto.redis.event.impl.ExecuteCommandEvent;
 import dev.lightdream.common.dto.redis.event.impl.GetBuildPropertiesEvent;
-import dev.lightdream.logger.Debugger;
 import dev.lightdream.node.Main;
 
 @SuppressWarnings("unused")

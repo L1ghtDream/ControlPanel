@@ -1,4 +1,4 @@
-package dev.lightdream.common.annotations;
+package dev.lightdream.common.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
