@@ -56,7 +56,7 @@ public class Server extends EndPoints {
         dev.lightdream.common.database.Server server = Utils.getServer(serverID);
 
         return executeEndPoint(model, request, cookieBase64,
-                "server/server_console.html",
+                "server/console.html",
                 (user) -> {
                     model.addAttribute("server", server);
                     return null;
@@ -70,7 +70,7 @@ public class Server extends EndPoints {
         dev.lightdream.common.database.Server server = Utils.getServer(serverID);
 
         return executeEndPoint(model, request, cookieBase64,
-                "server/server_settings.html",
+                "server/settings.html",
                 (user) -> {
                     model.addAttribute("server", server);
                     return null;

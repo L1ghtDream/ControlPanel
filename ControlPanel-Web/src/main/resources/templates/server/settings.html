@@ -1,0 +1,147 @@
+<!--suppress HtmlRequiredTitleElement -->
+<html lang="en">
+<head th:replace="fragments/global :: head(title='Servers')"></head>
+<body>
+<div id="page">
+    <div class="page-content">
+        <div th:replace="fragments/global :: topbar"></div>
+        <div th:replace="fragments/server :: topbar"></div>
+
+        <!--
+            @DatabaseField(columnName = "name")
+    public String name;
+    // Location
+    @DatabaseField(columnName = "path")
+    public String path;
+    @DatabaseField(columnName = "node")
+    public Node node;
+    @DatabaseField(columnName = "port")
+    public Integer port;
+
+    // Java Settings
+    @DatabaseField(columnName = "java")
+    public String java;
+    @DatabaseField(columnName = "ram")
+    public String ram;
+    @DatabaseField(columnName = "server_jar")
+    public String serverJar;
+    @DatabaseField(columnName = "args")
+    public String args;
+    -->
+
+        <div class="content-wrap">
+            <div class="container">
+                <div class="block">
+                    <div class="header">General details</div>
+                    <div class="details">
+                        <div class="setting">
+                            <label for="id">ID: </label>
+                            <br>
+                            <input class="form-control form-manage" disabled="disabled" id="id"
+                                   th:value="${server.getID()}">
+                        </div>
+                        <div class="setting">
+                            <label for="name">Name: </label>
+                            <br>
+                            <input class="form-control form-manage" id="name" th:value="${server.name}">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="block">
+                    <div class="header">Access</div>
+                    <div class="details">
+                        <div class="setting">
+                            <label for="path">Path: </label>
+                            <br>
+                            <input class="form-control form-manage" id="path" th:value="${server.path}">
+                        </div>
+                        <div class="setting">
+                            <label for="port">Port: </label>
+                            <br>
+                            <input class="form-control form-manage" id="port" th:value="${server.port}">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="block">
+                    <div class="header">Java</div>
+                    <div class="details">
+                        <div class="setting">
+                            <label for="java">Java Version: </label>
+                            <br>
+                            <select class="form-control form-manage" id="java">
+                                <option value="JDK_8" selected th:if="${server.java} == 'JDK_8'">JDK_8</option>
+                                <option value="JDK_8" th:if="${server.java} != 'JDK_8'">JDK_8</option>
+                                <option value="JDK_11" selected th:if="${server.java} == 'JDK_11'">JDK_11</option>
+                                <option value="JDK_11" th:if="${server.java} != 'JDK_11'">JDK_11</option>
+                                <option value="JDK_16" selected th:if="${server.java} == 'JDK_16'">JDK_16</option>
+                                <option value="JDK_16" th:if="${server.java} != 'JDK_16'">JDK_16</option>
+                                <option value="JDK_17" selected th:if="${server.java} == 'JDK_17'">JDK_17</option>
+                                <option value="JDK_17" th:if="${server.java} != 'JDK_17'">JDK_17</option>
+                            </select>
+                        </div>
+                        <div class="setting">
+                            <label for="ram">Max RAM: </label>
+                            <br>
+                            <input class="form-control form-manage" id="ram" th:value="${server.ram}">
+                        </div>
+                        <div class="setting">
+                            <label for="server_jar">Server jar: </label>
+                            <br>
+                            <input class="form-control form-manage" id="server_jar" th:value="${server.serverJar}">
+                        </div>
+                        <div class="setting">
+                            <label for="args">Args: </label>
+                            <br>
+                            <input class="form-control form-manage" id="args" th:value="${server.args}">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button class="setting-button save" id="save" type="button">Save</button>
+                <button class="setting-button reset" id="reset" type="button">Reset</button>
+                <!-- <button class="setting-button red-bg" id="delete" type="button">Delete</button> -->
+                <button class="setting-button red-bg" onclick="location.href='#delete-confirmation'">Delete</button>
+
+                <div class="overlay block" id="delete-confirmation">
+                    <div class="popup">
+                        <h2>Confirm Deleting</h2>
+                        <a class="close white" href="#">&times;</a>
+                        <div class="content">
+                            This action will delete the node from the panel.
+                        </div>
+                        <button class="setting-button red-bg" id="delete" style="width: 150px; margin-top: 15px"
+                                type="button">Confirm Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/global :: scripts"></div>
+<script src="/js/console.js"></script>
+<script src="/js/stats.js"></script>
+<script src="/js/server_manager.js"></script>
+<script>
+
+    callAPI("/api/user/get", {}, user => {
+        let element = document.getElementById("sftp-url");
+        let url = element.innerText;
+
+        console.log("innerText: " + element.innerText);
+        console.log("url: " + url);
+        console.log("username: " + user.username);
+        url = url.replace("%username%", user.username);
+        console.log("url: " + url);
+
+        element.innerText = url;
+        console.log("innerText: " + element.innerText);
+    })
+</script>
+<script>
+    addStatsServerDetails()
+</script>
+</body>
+</html>
