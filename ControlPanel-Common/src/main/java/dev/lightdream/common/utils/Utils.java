@@ -117,7 +117,11 @@ public class Utils {
         if (cookie.equals("")) {
             return new Cookie();
         }
-        return Utils.fromJson(Utils.base64Decode(cookie), Cookie.class);
+        try {
+            return Utils.fromJson(Utils.base64Decode(cookie), Cookie.class);
+        } catch (Throwable t) {
+            return new Cookie();
+        }
     }
 
     /**
