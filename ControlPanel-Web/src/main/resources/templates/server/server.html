@@ -5,6 +5,28 @@
 <div id="page">
     <div class="page-content">
         <div th:replace="fragments/global :: topbar"></div>
+
+        <div class="page-top-bar" style="background: none; border-bottom: none; box-shadow: none;">
+
+            <div class="container">
+                <div class="left" style="justify-content: center; width: 100%;">
+                    <a class="active" th:href="'/server/' + ${server.getID()} + '/permissions'">
+                        <i class="mdi mdi-account-edit"></i>
+                        User Permissions
+                    </a>
+                    <a class="active" th:href="'/server/' + ${server.getID()} + '/settings'">
+                        <i class="mdi mdi-server-network"></i>
+                        Server Settings
+                    </a>
+                    <a class="active" onclick="openTab(document.getElementById('sftp-url').innerText)" href="">
+                        <i class="mdi mdi-folder-edit"></i>
+                        SFTP
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
         <div class="content-wrap details-wrap">
             <div class="container">
                 <div class="sidebar">
@@ -44,11 +66,13 @@
                     </div>
                     <span hidden id="sftp-url" th:text="${server.getSFTPUrl()}"></span>
 
+                    <!--
                     <div class="panel panel-default" id="sftp"
                          onclick="openTab(document.getElementById('sftp-url').innerText)">
                         SFTP
                         <div class="sf-small">Browse Files</div>
                     </div>
+                    -->
                 </div>
                 <div class="content">
                     <div id="console">
