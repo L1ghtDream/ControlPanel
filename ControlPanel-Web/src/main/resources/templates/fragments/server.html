@@ -5,6 +5,10 @@
 
     <div class="container">
         <div class="left" style="justify-content: center; width: 100%;">
+            <a class="active" th:href="'/server/' + ${server.getID()}">
+                <i class="mdi mdi-console"></i>
+                Console
+            </a>
             <a class="active" th:href="'/server/' + ${server.getID()} + '/permissions'">
                 <i class="mdi mdi-account-edit"></i>
                 User Permissions
