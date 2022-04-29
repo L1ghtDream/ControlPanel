@@ -65,5 +65,19 @@ public class Server extends EndPoints {
         );
     }
 
+    @GetMapping("/server/{serverID}/settings")
+    public String serverSettings(Model model, HttpServletRequest request, @PathVariable String serverID, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
+        dev.lightdream.common.database.Server server = Utils.getServer(serverID);
+
+        return executeEndPoint(model, request, cookieBase64,
+                "server/server_settings.html",
+                (user) -> {
+                    model.addAttribute("server", server);
+                    return null;
+                },
+                server, PermissionEnum.SERVER_VIEW
+        );
+    }
+
 
 }

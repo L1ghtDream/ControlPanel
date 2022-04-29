@@ -1,0 +1,23 @@
+<!--suppress JSUnresolvedLibraryURL, HtmlUnknownTarget, ThymeleafVariablesResolveInspection -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div class="page-top-bar" style="background: none; border-bottom: none; box-shadow: none;" th:fragment="topbar">
+
+    <div class="container">
+        <div class="left" style="justify-content: center; width: 100%;">
+            <a class="active" th:href="'/server/' + ${server.getID()} + '/permissions'">
+                <i class="mdi mdi-account-edit"></i>
+                User Permissions
+            </a>
+            <a class="active" th:href="'/server/' + ${server.getID()} + '/settings'">
+                <i class="mdi mdi-server-network"></i>
+                Server Settings
+            </a>
+            <a class="active" href="" onclick="openTab(document.getElementById('sftp-url').innerText)">
+                <i class="mdi mdi-folder-edit"></i>
+                SFTP
+            </a>
+        </div>
+    </div>
+
+</div>

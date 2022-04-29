@@ -1,0 +1,41 @@
+<!--suppress HtmlRequiredTitleElement -->
+<html lang="en">
+<head th:replace="fragments/global :: head(title='Servers')"></head>
+<body>
+<div id="page">
+    <div class="page-content">
+        <div th:replace="fragments/global :: topbar"></div>
+        <div th:replace="fragments/server :: topbar"></div>
+
+        <div class="content-wrap details-wrap">
+            <div class="container">
+                TEST
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/global :: scripts"></div>
+<script src="/js/console.js"></script>
+<script src="/js/stats.js"></script>
+<script src="/js/server_manager.js"></script>
+<script>
+
+    callAPI("/api/user/get", {}, user => {
+        let element = document.getElementById("sftp-url");
+        let url = element.innerText;
+
+        console.log("innerText: " + element.innerText);
+        console.log("url: " + url);
+        console.log("username: " + user.username);
+        url = url.replace("%username%", user.username);
+        console.log("url: " + url);
+
+        element.innerText = url;
+        console.log("innerText: " + element.innerText);
+    })
+</script>
+<script>
+    addStatsServerDetails()
+</script>
+</body>
+</html>
