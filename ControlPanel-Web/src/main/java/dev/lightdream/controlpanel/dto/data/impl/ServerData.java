@@ -27,17 +27,28 @@ public class ServerData extends Validatable {
     public boolean startIfOffline;
 
     @SuppressWarnings("unused")
-    private boolean validatePort() {
+    public boolean validatePort() {
         return port < 65536 &&
                 port > 0;
     }
 
-    private boolean validateRAM(){
+    public boolean validateRAM() {
         return ram.matches("[0-9]+[KMG]");
     }
 
-    private boolean validateJar(){
+    public boolean validateJar() {
         return serverJar.endsWith(".jar");
+    }
+
+    public boolean validateJava() {
+        return java.equals("8") ||
+                java.equals("JDK_8") ||
+                java.equals("17") ||
+                java.equals("JDK_17") ||
+                java.equals("16") ||
+                java.equals("JDK_16") ||
+                java.equals("11") ||
+                java.equals("JDK_11");
     }
 
 }

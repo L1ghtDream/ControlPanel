@@ -24,12 +24,12 @@ public class NodeData extends Validatable {
 
     @SuppressWarnings("unused")
     @SneakyThrows
-    private boolean validateIP() {
+    public boolean validateIP() {
         return InetAddress.getByName(ip).isReachable(10000);
     }
 
     @SuppressWarnings("unused")
-    private boolean validatePort() {
+    public boolean validatePort() {
         return sshPort < 65536 &&
                 sshPort > 0;
     }

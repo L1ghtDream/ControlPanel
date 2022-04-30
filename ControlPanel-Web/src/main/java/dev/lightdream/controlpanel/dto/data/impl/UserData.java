@@ -19,8 +19,17 @@ public class UserData extends Validatable {
     public boolean GLOBAL_VIEW;
 
     @SuppressWarnings("unused")
-    private boolean validateUsername() {
+    public boolean validateUsername() {
         return User.getUser(username) == null;
+    }
+
+    public boolean validatePassword(String password) {
+        return password.length() > 8 &&
+                password.matches("[@$!%*#?&]") &&
+                password.matches("[0-9]") &&
+                password.matches("[A-Z]") &&
+                password.matches("[a-z]") &&
+                !password.contains(" ");
     }
 
     public static class CreateData extends UserData {
@@ -37,13 +46,8 @@ public class UserData extends Validatable {
          * @return true if password is valid
          */
         @SuppressWarnings("unused")
-        private boolean validatePassword() {
-            return password.length() > 8 &&
-                    password.matches("[@$!%*#?&]") &&
-                    password.matches("[0-9]") &&
-                    password.matches("[A-Z]") &&
-                    password.matches("[a-z]") &&
-                    !password.contains(" ");
+        public boolean validatePassword() {
+            return validatePassword(password);
         }
     }
 
@@ -62,16 +66,8 @@ public class UserData extends Validatable {
          * @return true if password is valid
          */
         @SuppressWarnings("unused")
-        private boolean validatePassword() {
-            if (password == null || password.equals("")) {
-                return true;
-            }
-            return password.length() > 8 &&
-                    password.matches("[@$!%*#?&]") &&
-                    password.matches("[0-9]") &&
-                    password.matches("[A-Z]") &&
-                    password.matches("[a-z]") &&
-                    !password.contains(" ");
+        public boolean validatePassword() {
+            return validatePassword(password);
         }
     }
 
