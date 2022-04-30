@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserData extends Validatable {
 
+    @Validate(validateMethod = "validateID")
+    public int id;
     @Validate(validateMethod = "validateUsername")
     public String username;
 
@@ -20,16 +22,26 @@ public class UserData extends Validatable {
 
     @SuppressWarnings("unused")
     public boolean validateUsername() {
-        return User.getUser(username) == null;
+        User user = User.getUser(username);
+
+        if (user == null) {
+            return true;
+        }
+
+        return user.getID().equals(id);
     }
 
     public boolean validatePassword(String password) {
         return password.length() > 8 &&
-                password.matches("[@$!%*#?&]") &&
-                password.matches("[0-9]") &&
-                password.matches("[A-Z]") &&
-                password.matches("[a-z]") &&
+                password.matches(".*[@$!%*#?&].*") &&
+                password.matches(".*[0-9].*") &&
+                password.matches(".*[A-Z].*") &&
+                password.matches(".*[a-z].*") &&
                 !password.contains(" ");
+    }
+
+    public boolean validateID() {
+        return id == 0 || User.getUser(id) != null;
     }
 
     public static class CreateData extends UserData {
@@ -53,8 +65,6 @@ public class UserData extends Validatable {
 
     public static class UpdateData extends UserData {
 
-        @Validate(validateMethod = "validateID")
-        public int id;
         @Validate(validateMethod = "validatePassword", emptyAllowed = true)
         public String password;
 
@@ -74,10 +84,6 @@ public class UserData extends Validatable {
                 return true;
             }
             return validatePassword(password);
-        }
-
-        public boolean validateID() {
-            return User.getUser(id) != null;
         }
     }
 
