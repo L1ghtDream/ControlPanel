@@ -2,7 +2,11 @@ document.getElementById("logout").hidden = true;
 
 //Check if the user is already logged in and if so redirect to the home page
 if (hasLoginDataInCookies()) {
-    redirect("/");
+    callAPI("/api/login/cookie", {}, () => {
+        redirect("/")
+    }, () => {
+        eraseCookie("login_data")
+    })
 }
 
 registerEventListener("submit", login)
