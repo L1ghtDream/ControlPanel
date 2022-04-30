@@ -6,6 +6,7 @@ registerEventListener("create", createServer);
 async function sendServerData(api) {
 
     callAPI(api, {
+        id: document.getElementById('id').value,
         name: document.getElementById('name').value,
         path: document.getElementById('path').value,
         port: document.getElementById('port').value,

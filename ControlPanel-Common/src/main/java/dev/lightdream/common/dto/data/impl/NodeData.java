@@ -1,5 +1,6 @@
 package dev.lightdream.common.dto.data.impl;
 
+import dev.lightdream.common.database.Node;
 import dev.lightdream.common.dto.data.Validatable;
 import dev.lightdream.common.dto.data.annotation.Validate;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,9 @@ import java.net.InetAddress;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NodeData extends Validatable {
+
+    @Validate(validateMethod = "validateID")
+    public String id;
 
     @Validate()
     public String name;
@@ -32,5 +36,9 @@ public class NodeData extends Validatable {
     public boolean validatePort() {
         return sshPort < 65536 &&
                 sshPort > 0;
+    }
+
+    public boolean validateID() {
+        return Node.getNode(id) != null;
     }
 }

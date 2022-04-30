@@ -5,6 +5,7 @@ registerEventListener("create", createNode)
 
 async function sendNodeData(api){
     callAPI(api, {
+        id: document.getElementById('id').value,
         name: document.getElementById('name').value,
         ip: document.getElementById('ip').value,
         username: document.getElementById('username').value,
