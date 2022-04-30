@@ -3,17 +3,17 @@ registerEventListener("create", create);
 registerEventListener("reset", reload);
 registerEventListener("delete", deleteUser);
 registerEventListener("disable-2fa", disable2FA);
-registerEventListener("save-noperms", () => save(false));
+registerEventListener("save-noperms", save);
 
-async function save(savePermissions = true) {
-    sendUser("/api/user/%user_id%/save", savePermissions);
+async function save() {
+    sendUser("/api/user/%user_id%/save");
 }
 
 async function create() {
-    sendUser("/api/user/create", true);
+    sendUser("/api/user/create");
 }
 
-async function sendUser(api, savePermissions = true) {
+async function sendUser(api) {
     let element = document.getElementById('id');
     let userID = null
     if (element != null) {
@@ -22,25 +22,20 @@ async function sendUser(api, savePermissions = true) {
 
     api = api.replace("%user_id%", userID);
 
-    data = {
+    callAPI(api, {
         id: userID,
         password: document.getElementById('password').value,
         username: document.getElementById('username').value,
-    }
-
-    if (savePermissions) {
-        data.GLOBAL_ADMIN = document.getElementById('GLOBAL_ADMIN').checked;
-        data.GLOBAL_MANAGE_USERS = document.getElementById('GLOBAL_MANAGE_USERS').checked;
-        data.GLOBAL_MANAGE_NODES = document.getElementById('GLOBAL_MANAGE_NODES').checked;
-        data.GLOBAL_VIEW = document.getElementById('GLOBAL_VIEW').checked;
-    }
-
-    callAPI(api, data, () => {
-        if (!savePermissions) {
+        GLOBAL_ADMIN: document.getElementById('GLOBAL_ADMIN').checked,
+        GLOBAL_MANAGE_USERS: document.getElementById('GLOBAL_MANAGE_USERS').checked,
+        GLOBAL_MANAGE_NODES: document.getElementById('GLOBAL_MANAGE_NODES').checked,
+        GLOBAL_VIEW: document.getElementById('GLOBAL_VIEW').checked
+    }, () => {
+        if (api === "/api/user/create") {
+            redirect("/admin/users")
+        } else {
             reload();
-            return;
         }
-        redirect("/admin/users")
     });
 }
 
