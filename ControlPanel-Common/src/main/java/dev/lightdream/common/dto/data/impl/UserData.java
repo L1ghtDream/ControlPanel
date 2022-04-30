@@ -52,7 +52,10 @@ public class UserData extends Validatable {
     }
 
     public static class UpdateData extends UserData {
-        @Validate(validateMethod = "validatePassword")
+
+        @Validate(validateMethod = "validateID")
+        public int id;
+        @Validate(validateMethod = "validatePassword", emptyAllowed = true)
         public String password;
 
         /**
@@ -67,7 +70,14 @@ public class UserData extends Validatable {
          */
         @SuppressWarnings("unused")
         public boolean validatePassword() {
+            if (password.equals("")) {
+                return true;
+            }
             return validatePassword(password);
+        }
+
+        public boolean validateID() {
+            return User.getUser(id) != null;
         }
     }
 

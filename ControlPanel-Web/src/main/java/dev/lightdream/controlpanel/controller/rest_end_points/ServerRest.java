@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class ServerAPIRest extends RestEndPoints {
+public class ServerRest extends RestEndPoints {
 
-    public static ServerAPIRest instance;
+    public static ServerRest instance;
 
-    public ServerAPIRest() {
+    public ServerRest() {
         if (instance == null) {
             instance = this;
         }

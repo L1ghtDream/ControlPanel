@@ -23,6 +23,7 @@ async function sendUser(api, savePermissions = true) {
     api = api.replace("%user_id%", userID);
 
     data = {
+        id: userID,
         password: document.getElementById('password').value,
         username: document.getElementById('username').value,
     }
