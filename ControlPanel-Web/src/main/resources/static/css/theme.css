@@ -4,7 +4,7 @@ body {
 }
 
 .container {
-    padding: 0 30px;
+    padding: 30px;
 }
 
 #page {
@@ -19,10 +19,19 @@ body {
 }
 
 .page-sidebar {
-    width: 15%;
+    margin-top: 75px;
+    width: 230px;
     background: #181b21d9;
     border: none !important;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 20%), 0 4px 6px -2px rgb(0 0 0 / 10%);
+}
+
+.page-top-bar {
+}
+
+.no-sidebar{
+    margin-left: -15px !important;
+
 }
 
 .page-sidebar #logo img {
@@ -85,8 +94,11 @@ body {
 }
 
 .page-content .page-top-bar {
+    margin-top: -50px;
+    margin-left: -245px;
     background: #00000026;
-    height: 78px;
+    height: 75px;
+    margin-right: -15px;
     border-bottom: 1px solid #ffffff0d;
     box-shadow: inset 0 -1px 0 black;
 }
