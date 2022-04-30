@@ -1,4 +1,4 @@
-package dev.lightdream.controlpanel.dto.data;
+package dev.lightdream.controlpanel.dto.data.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 public @interface Validate {
 
-    String validateMethod();
+    String validateMethod() default "";
+
+    boolean emptyAllowed() default false;
 
 }

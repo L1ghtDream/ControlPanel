@@ -1,7 +1,8 @@
 package dev.lightdream.controlpanel.dto.data.impl;
 
+import dev.lightdream.common.database.User;
 import dev.lightdream.controlpanel.dto.data.Validatable;
-import dev.lightdream.controlpanel.dto.data.Validate;
+import dev.lightdream.controlpanel.dto.data.annotation.Validate;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +20,7 @@ public class UserData extends Validatable {
 
     @SuppressWarnings("unused")
     private boolean validateUsername() {
-        return !username.equals("") && !username.equals(" ");
+        return User.getUser(username) == null;
     }
 
     public static class CreateData extends UserData {

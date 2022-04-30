@@ -1,7 +1,7 @@
 package dev.lightdream.controlpanel.dto.data.impl;
 
 import dev.lightdream.controlpanel.dto.data.Validatable;
-import dev.lightdream.controlpanel.dto.data.Validate;
+import dev.lightdream.controlpanel.dto.data.annotation.Validate;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -12,25 +12,15 @@ import java.net.InetAddress;
 @NoArgsConstructor
 public class NodeData extends Validatable {
 
-    @Validate(validateMethod = "validateName")
+    @Validate()
     public String name;
     @Validate(validateMethod = "validateIP")
     public String ip;
 
-    @Validate(validateMethod = "validateSshPort")
+    @Validate(validateMethod = "validatePort")
     public int sshPort;
-    @Validate(validateMethod = "validateUsername")
+    @Validate()
     public String username;
-
-    @SuppressWarnings("unused")
-    private boolean validateName() {
-        return !name.equals("") && !name.equals(" ");
-    }
-
-    @SuppressWarnings("unused")
-    private boolean validateUsername() {
-        return !username.equals("") && !username.equals(" ");
-    }
 
     @SuppressWarnings("unused")
     @SneakyThrows
@@ -39,7 +29,7 @@ public class NodeData extends Validatable {
     }
 
     @SuppressWarnings("unused")
-    private boolean validateSshPort() {
+    private boolean validatePort() {
         return sshPort < 65536 &&
                 sshPort > 0;
     }

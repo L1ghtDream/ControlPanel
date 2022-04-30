@@ -39,6 +39,15 @@ public class Server extends PermissionContainer {
     public String serverJar;
     @DatabaseField(columnName = "args")
     public String args;
+    @DatabaseField(columnName = "start_if_offline")
+    public boolean startIfOffline;
+
+    // Persistent vars
+    /**
+     * The server has been manually killed and therefore should not be restarted automatically.
+     */
+    @DatabaseField(columnName = "killed")
+    public boolean killed;
 
     /**
      * @param id        The server's id
@@ -51,7 +60,8 @@ public class Server extends PermissionContainer {
      * @param serverJar The server's jar file (server.jar)
      * @param args      Additional java arguments
      */
-    public Server(String id, String name, String path, Node node, Integer port, String java, String ram, String serverJar, String args) {
+    public Server(String id, String name, String path, Node node, Integer port, String java, String ram,
+                  String serverJar, String args, boolean startIfOffline) {
         this.id = id;
         this.name = name;
         this.path = path;
@@ -61,6 +71,7 @@ public class Server extends PermissionContainer {
         this.ram = ram;
         this.serverJar = serverJar;
         this.args = args;
+        this.startIfOffline = startIfOffline;
     }
 
     public static Server getServer(String serverID) {
