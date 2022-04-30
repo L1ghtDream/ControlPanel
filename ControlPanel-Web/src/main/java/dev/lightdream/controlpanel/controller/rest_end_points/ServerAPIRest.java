@@ -153,6 +153,7 @@ public class ServerAPIRest extends RestEndPoints {
                     server.serverJar = data.serverJar;
                     server.args = data.args;
                     server.startIfOffline = data.startIfOffline;
+                    server.save();
                     return Response.OK();
                 },
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES
