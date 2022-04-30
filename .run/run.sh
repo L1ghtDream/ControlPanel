@@ -37,3 +37,6 @@ cd "$CURRENT_DIR" || exit
 # Start the node and the web server
 screen -dmS $SCREEN_NAME_WEB -X stuff "java -jar $HOME/.run/Web.jar\n"
 screen -dmS $SCREEN_NAME_NODE -X stuff "java -jar $HOME/.run/Node.jar\n"
+
+echo "Started Web App."
+echo "Started Node."
