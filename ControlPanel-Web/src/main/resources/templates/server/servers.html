@@ -10,6 +10,12 @@
 
         <div class="content-wrap">
             <div class="container">
+                <div style="display: flex; justify-content: flex-end">
+                    <a class="create-button clickable" href="/admin/server/create">
+                        <span class="mdi mdi-server-plus"></span>
+                        Create Server
+                    </a>
+                </div>
                 <div class="panel-table">
                     <table>
                         <tr class="grid-card clickable" th:each="server : ${servers}"

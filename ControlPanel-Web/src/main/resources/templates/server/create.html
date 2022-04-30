@@ -7,9 +7,6 @@
         <div th:replace="fragments/global :: topbar"></div>
         <div th:replace="fragments/server :: topbar"></div>
 
-
-        <!-- TODO: Add server setting for auto-restart -->
-
         <div class="content-wrap">
             <div class="container">
                 <div class="block">
@@ -18,13 +15,12 @@
                         <div class="setting">
                             <label for="id">ID: </label>
                             <br>
-                            <input class="form-control form-manage" disabled="disabled" id="id"
-                                   th:value="${server.getID()}">
+                            <input class="form-control form-manage" id="id">
                         </div>
                         <div class="setting">
                             <label for="name">Name: </label>
                             <br>
-                            <input class="form-control form-manage" id="name" th:value="${server.name}">
+                            <input class="form-control form-manage" id="name">
                         </div>
                     </div>
                 </div>
@@ -35,12 +31,12 @@
                         <div class="setting">
                             <label for="path">Path: </label>
                             <br>
-                            <input class="form-control form-manage" id="path" th:value="${server.path}">
+                            <input class="form-control form-manage" id="path" >
                         </div>
                         <div class="setting">
                             <label for="port">Port: </label>
                             <br>
-                            <input class="form-control form-manage" id="port" th:value="${server.port}">
+                            <input class="form-control form-manage" id="port" >
                         </div>
                     </div>
                 </div>
@@ -52,61 +48,40 @@
                             <label for="java">Java Version: </label>
                             <br>
                             <select class="form-control form-manage" id="java">
-                                <option value="JDK_8" selected th:if="${server.java} == 'JDK_8'">JDK_8</option>
-                                <option value="JDK_8" th:if="${server.java} != 'JDK_8'">JDK_8</option>
-                                <option value="JDK_11" selected th:if="${server.java} == 'JDK_11'">JDK_11</option>
-                                <option value="JDK_11" th:if="${server.java} != 'JDK_11'">JDK_11</option>
-                                <option value="JDK_16" selected th:if="${server.java} == 'JDK_16'">JDK_16</option>
-                                <option value="JDK_16" th:if="${server.java} != 'JDK_16'">JDK_16</option>
-                                <option value="JDK_17" selected th:if="${server.java} == 'JDK_17'">JDK_17</option>
-                                <option value="JDK_17" th:if="${server.java} != 'JDK_17'">JDK_17</option>
+                                <option value="JDK_8" >JDK_8</option>
+                                <option value="JDK_11" >JDK_11</option>
+                                <option value="JDK_16" >JDK_16</option>
+                                <option value="JDK_17" >JDK_17</option>
                             </select>
                         </div>
                         <div class="setting">
                             <label for="ram">Max RAM: </label>
                             <br>
-                            <input class="form-control form-manage" id="ram" th:value="${server.ram}">
+                            <input class="form-control form-manage" id="ram">
                         </div>
                         <div class="setting">
                             <label for="server_jar">Server jar: </label>
                             <br>
-                            <input class="form-control form-manage" id="server_jar" th:value="${server.serverJar}">
+                            <input class="form-control form-manage" id="server_jar">
                         </div>
                         <div class="setting">
                             <label for="args">Args: </label>
                             <br>
-                            <input class="form-control form-manage" id="args" th:value="${server.args}">
+                            <input class="form-control form-manage" id="args">
                         </div>
                         <div class="setting">
                             <label for="start_if_offline">Start if Offline: </label>
                             <br>
                             <select class="form-control form-manage" id="start_if_offline">
-                                <option value="true" selected th:if="${server.startIfOffline} == true">Yes</option>
-                                <option value="true" th:if="${server.startIfOffline} == false">Yes</option>
-                                <option value="false" selected th:if="${server.startIfOffline} == false">No</option>
-                                <option value="false" th:if="${server.startIfOffline} == true">No</option>
+                                <option value="true" >Yes</option>
+                                <option value="false" >No</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <br>
-                <button class="setting-button save" id="save" type="button">Save</button>
+                <button class="setting-button save" id="create" type="button">Create</button>
                 <button class="setting-button reset" id="reset" type="button">Reset</button>
-                <!-- <button class="setting-button red-bg" id="delete" type="button">Delete</button> -->
-                <button class="setting-button red-bg" onclick="location.href='#delete-confirmation'">Delete</button>
-
-                <div class="overlay block" id="delete-confirmation">
-                    <div class="popup">
-                        <h2>Confirm Deleting</h2>
-                        <a class="close white" href="#">&times;</a>
-                        <div class="content">
-                            This action will delete the node from the panel.
-                        </div>
-                        <button class="setting-button red-bg" id="delete" style="width: 150px; margin-top: 15px"
-                                type="button">Confirm Delete
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -114,7 +89,6 @@
 <div th:replace="fragments/global :: scripts"></div>
 <script src="/js/server.js"></script>
 <script>
-
     callAPI("/api/user/get", {}, user => {
         let element = document.getElementById("sftp-url");
         let url = element.innerText;

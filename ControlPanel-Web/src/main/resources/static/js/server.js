@@ -1,21 +1,11 @@
 registerEventListener("save", save);
 registerEventListener("reset", reload);
 registerEventListener("delete", deleteServer);
+registerEventListener("create", createServer);
 
-async function save() {
-    let serverID = document.getElementById('id').value;
+async function sendServerData(api) {
 
-    console.log(serverID)
-    console.log(document.getElementById('name').value);
-    console.log(document.getElementById('path').value);
-    console.log(document.getElementById('port').value);
-    console.log(document.getElementById('java').value);
-    console.log(document.getElementById('ram').value);
-    console.log(document.getElementById('server_jar').value);
-    console.log(document.getElementById('args').value);
-    console.log(document.getElementById('start_if_offline').value);
-
-    callAPI("/api/server/" + serverID + "/save", {
+    callAPI(api, {
         name: document.getElementById('name').value,
         path: document.getElementById('path').value,
         port: document.getElementById('port').value,
@@ -29,6 +19,16 @@ async function save() {
     });
 }
 
+async function save() {
+    let serverID = document.getElementById('id').value;
+    sendServerData("/api/server/" + serverID + "/save")
+}
+
+async function createServer() {
+    let serverID = document.getElementById('id').value;
+    sendServerData("/api/server/" + serverID + "/create")
+}
+
 async function deleteServer() {
     let nodeID = document.getElementById('id').value;
 
@@ -36,3 +36,4 @@ async function deleteServer() {
         reload();
     });
 }
+
