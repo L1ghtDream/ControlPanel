@@ -77,6 +77,16 @@
                             <br>
                             <input class="form-control form-manage" id="args" th:value="${server.args}">
                         </div>
+                        <div class="setting">
+                            <label for="start_if_offline">Start if Offline: </label>
+                            <br>
+                            <select class="form-control form-manage" id="start_if_offline">
+                                <option value="true" selected th:if="${server.startIfOffline} == true">Yes</option>
+                                <option value="true" th:if="${server.startIfOffline} == false">Yes</option>
+                                <option value="false" selected th:if="${server.startIfOffline} == false">No</option>
+                                <option value="false" th:if="${server.startIfOffline} == true">No</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <br>
@@ -102,8 +112,7 @@
     </div>
 </div>
 <div th:replace="fragments/global :: scripts"></div>
-<script src="/js/console.js"></script>
-<script src="/js/stats.js"></script>
+<script src="/js/server.js"></script>
 <script src="/js/server_manager.js"></script>
 <script>
 

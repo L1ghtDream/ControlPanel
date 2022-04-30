@@ -7,6 +7,10 @@ if (error !== null) {
 verifyCookie();
 
 async function verifyCookie() {
+    if (!hasLoginDataInCookies()) {
+        redirect("/");
+    }
+
     callAPI("/api/login/cookie", {}, () => {
     }, () => {
         eraseCookie("login_data")
