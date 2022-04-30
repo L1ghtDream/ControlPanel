@@ -173,7 +173,6 @@ public class ServerAPIRest extends RestEndPoints {
                     }
 
                     Main.instance.databaseManager.createServer(data);
-
                     return Response.OK();
                 },
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS

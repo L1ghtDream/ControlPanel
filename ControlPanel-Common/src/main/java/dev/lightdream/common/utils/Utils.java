@@ -15,6 +15,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Hex;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.messaging.Message;
 
 import java.io.FileOutputStream;
@@ -113,8 +114,8 @@ public class Utils {
         }
     }
 
-    public static Cookie getCookie(@NotNull String cookie) {
-        if (cookie.equals("")) {
+    public static Cookie getCookie(@Nullable String cookie) {
+        if (cookie == null || cookie.equals("")) {
             return new Cookie();
         }
         try {

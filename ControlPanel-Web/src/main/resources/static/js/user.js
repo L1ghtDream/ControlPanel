@@ -1,19 +1,9 @@
-// noinspection JSCheckFunctionSignatures
-async function userTemplate() {
-    document.getElementById("logout").hidden = true;
-
-    //Check if the user is already logged in and if so redirect to the home page
-    if (!hasLoginDataInCookies()) {
-        redirect("/");
-    }
-
-    registerEventListener("save", save);
-    registerEventListener("create", create);
-    registerEventListener("reset", reload);
-    registerEventListener("delete", deleteUser);
-    registerEventListener("disable-2fa", disable2FA);
-    registerEventListener("save-noperms", () => save(false));
-}
+registerEventListener("save", save);
+registerEventListener("create", create);
+registerEventListener("reset", reload);
+registerEventListener("delete", deleteUser);
+registerEventListener("disable-2fa", disable2FA);
+registerEventListener("save-noperms", () => save(false));
 
 async function save(savePermissions = true) {
     sendUser("/api/user/%user_id%/save", savePermissions);

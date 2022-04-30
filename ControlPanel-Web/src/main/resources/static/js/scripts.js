@@ -7,6 +7,10 @@ if (error !== null) {
 verifyCookie();
 
 async function verifyCookie() {
+    if (document.title.includes("Login")) {
+        return;
+    }
+
     if (!hasLoginDataInCookies()) {
         redirect("/");
     }

@@ -1,29 +1,10 @@
-// noinspection JSCheckFunctionSignatures
-async function nodeTemplate() {
-    document.getElementById("logout").hidden = true;
+registerEventListener("save", save)
+registerEventListener("reset", reload)
+registerEventListener("delete", deleteNode)
+registerEventListener("create", createNode)
 
-    //Check if the user is already logged in and if so redirect to the home page
-    if (!hasLoginDataInCookies()) {
-        redirect("/");
-    }
-
-    document.getElementById('save').addEventListener('click', function () {
-        save();
-    });
-
-    document.getElementById('reset').addEventListener('click', function () {
-        reload();
-    });
-
-    document.getElementById('delete').addEventListener('click', function () {
-        deleteNode();
-    });
-}
-
-async function save() {
-    let nodeID = document.getElementById('id').value;
-
-    callAPI("/api/node/" + nodeID + "/save", {
+async function sendNodeData(api){
+    callAPI(api, {
         name: document.getElementById('name').value,
         ip: document.getElementById('ip').value,
         username: document.getElementById('username').value,
@@ -31,6 +12,15 @@ async function save() {
     }, () => {
         reload();
     });
+}
+
+async function createNode(){
+    sendNodeData("/api/node/create")
+}
+
+async function save() {
+    let nodeID = document.getElementById('id').value;
+    sendNodeData("/api/node/" + nodeID + "/save")
 }
 
 async function deleteNode() {

@@ -1,17 +1,11 @@
-// noinspection JSCheckFunctionSignatures
+document.getElementById("logout").hidden = true;
 
-async function loginTemplate() {
-    document.getElementById("logout").hidden = true;
-
-    //Check if the user is already logged in and if so redirect to the home page
-    if (hasLoginDataInCookies()) {
-        redirect("/");
-    }
-
-    document.getElementById('submit').addEventListener('click', function () {
-        login();
-    });
+//Check if the user is already logged in and if so redirect to the home page
+if (hasLoginDataInCookies()) {
+    redirect("/");
 }
+
+registerEventListener("submit", login)
 
 async function login() {
     callAPI("/api/login", {
