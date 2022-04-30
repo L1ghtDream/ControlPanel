@@ -6,9 +6,8 @@
 <body>
 <div id="page">
     <div class="page-content">
-        <div th:replace="fragments/global :: topbar"></div>
-
         <div class="content-wrap">
+            <div th:replace="fragments/global :: topbar(useSidebar=false)"></div>
             <div class="container">
                 <div style="display: flex; justify-content: flex-end">
                     <a class="create-button clickable" href="/admin/server/create">

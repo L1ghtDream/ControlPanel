@@ -1,9 +1,9 @@
 <!--suppress JSUnresolvedLibraryURL, HtmlUnknownTarget, ThymeleafVariablesResolveInspection -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<div class="page-top-bar" style="background: none; border-bottom: none; box-shadow: none;" th:fragment="topbar">
+<div class="page-top-bar" style="background: none; border-bottom: none; box-shadow: none; margin: 0;" th:fragment="topbar">
 
-    <div class="container">
+    <div class="container" style="padding: 0; max-width: 100000px;">
         <div class="left" style="justify-content: center; width: 100%;">
             <a class="active" th:href="'/server/' + ${server.getID()}">
                 <i class="mdi mdi-console"></i>

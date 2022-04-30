@@ -5,18 +5,12 @@
 
 <body>
 <div id="page">
+    <div th:replace="fragments/global :: sidebar"></div>
     <div class="page-content">
-        <div th:replace="fragments/global :: topbar"></div>
-        <div th:replace="fragments/global :: sidebar"></div>
-
-        <!-- IP Username ssh_port sftp_port-->
-
         <div class="content-wrap">
+            <div th:replace="fragments/global :: topbar(useSidebar=true)"></div>
             <div class="container">
-
                 <div th:replace="fragments/user :: user (user=${user}, disablePermissions=false, enable2FA=false)"></div>
-
-
                 <br>
                 <button class="setting-button save" id="save" type="button">Save</button>
                 <button class="setting-button reset" id="reset" type="button">Reset</button>

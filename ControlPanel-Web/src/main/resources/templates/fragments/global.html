@@ -26,37 +26,40 @@
           rel="stylesheet">
 </head>
 
-<div class="page-top-bar" th:fragment="topbar">
-    <div class="container">
-        <div class="left">
-            <div id="logo">
-                <a href="/"><img alt="logo" src="/images/logo.png"></a>
+<div th:fragment="topbar (useSidebar)">
+    <div class="page-top-bar" th:classappend="${useSidebar}==false ? 'no-sidebar' : ''">
+        <div class="container">
+            <div class="left">
+                <div id="logo">
+                    <a href="/"><img alt="logo" src="/images/logo.png"></a>
+                </div>
+                <a class="active" href="/">
+                    <i class="mdi mdi-server-minus"></i>
+                    Servers
+                </a>
             </div>
-            <a class="active" href="/">
-                <i class="mdi mdi-server-minus"></i>
-                Servers
-            </a>
-        </div>
-        <div class="right">
-            <a class="active" href="/">
-                <i class="mdi mdi-magnify"></i>
-                Search
-            </a>
-            <a class="active" href="/admin">
-                <i class="mdi mdi-cogs"></i>
-                Admin
-            </a>
-            <a class="active" href="/profile">
-                <i class="mdi mdi-account-box"></i>
-                Profile
-            </a>
+            <div class="right">
+                <a class="active" href="/">
+                    <i class="mdi mdi-magnify"></i>
+                    Search
+                </a>
+                <a class="active" href="/admin">
+                    <i class="mdi mdi-cogs"></i>
+                    Admin
+                </a>
+                <a class="active" href="/profile">
+                    <i class="mdi mdi-account-box"></i>
+                    Profile
+                </a>
 
 
-            <a id="logout" class="top-btn login" href="#">
-                <i class="mdi mdi-logout"></i>
-                Logout
-            </a>
+                <a id="logout" class="top-btn login" href="#">
+                    <i class="mdi mdi-logout"></i>
+                    Logout
+                </a>
+            </div>
         </div>
+
     </div>
 </div>
 

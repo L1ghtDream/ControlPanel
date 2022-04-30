@@ -6,16 +6,10 @@
 <body>
 <div id="page">
     <div class="page-content">
-        <div th:replace="fragments/global :: topbar"></div>
-        <div th:replace="fragments/global :: sidebar"></div>
-
-        <!-- IP Username ssh_port sftp_port-->
-
         <div class="content-wrap">
+            <div th:replace="fragments/global :: topbar(useSidebar=false)"></div>
             <div class="container">
-
                 <div th:replace="fragments/user :: user (user=${user}, disablePermissions=true, enable2FA=true)"></div>
-
                 <br>
                 <button class="setting-button save" id="save-noperms" type="button">Save</button>
                 <button class="setting-button reset" id="reset" type="button">Reset</button>

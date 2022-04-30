@@ -5,13 +5,10 @@
 
 <body>
 <div id="page">
+    <div th:replace="fragments/global :: sidebar"></div>
     <div class="page-content">
-        <div th:replace="fragments/global :: topbar"></div>
-        <div th:replace="fragments/global :: sidebar"></div>
-
-        <!-- IP Username ssh_port sftp_port-->
-
         <div class="content-wrap">
+            <div th:replace="fragments/global :: topbar(useSidebar=true)"></div>
             <div class="container">
                 <div class="block">
                     <div class="header">General details</div>

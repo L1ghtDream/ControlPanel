@@ -5,11 +5,10 @@
 
 <body>
 <div id="page">
+    <div th:replace="fragments/global :: sidebar"></div>
     <div class="page-content">
-        <div th:replace="fragments/global :: topbar"></div>
-        <div th:replace="fragments/global :: sidebar"></div>
-
         <div class="content-wrap">
+            <div th:replace="fragments/global :: topbar(useSidebar=true)"></div>
             <div class="container">
                 <div style="display: flex; justify-content: flex-end">
                     <a class="create-button clickable" href="/admin/node/create">
