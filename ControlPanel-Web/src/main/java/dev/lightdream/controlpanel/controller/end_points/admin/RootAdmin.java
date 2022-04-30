@@ -33,7 +33,7 @@ public class RootAdmin extends EndPoints {
     @GetMapping("/admin")
     public String admin(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         return executeEndPoint(model, request, cookieBase64,
-                "admin/admin.html",
+                "admin.html",
                 (user) -> {
                     List<NodeBuildProperties> nodeBuildProperties = new ArrayList<>();
 

@@ -26,7 +26,7 @@ public class UserAdmin extends EndPoints {
     @GetMapping("/admin/users")
     public String users(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         return executeEndPoint(model, request, cookieBase64,
-                "admin/user/users.html",
+                "user/users.html",
                 (user) -> {
                     model.addAttribute("users", dev.lightdream.common.database.User.getUsers());
                     return null;
@@ -38,7 +38,7 @@ public class UserAdmin extends EndPoints {
     @GetMapping("/admin/user/{id}")
     public String user(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64, @PathVariable int id) {
         return executeEndPoint(model, request, cookieBase64,
-                "admin/user/user.html",
+                "user/user.html",
                 (user) -> {
                     dev.lightdream.common.database.User usr = dev.lightdream.common.database.User.getUser(id);
 
@@ -57,7 +57,7 @@ public class UserAdmin extends EndPoints {
     public String createUser(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
 
         return executeEndPoint(model, request, cookieBase64,
-                "admin/user/create.html",
+                "user/create.html",
                 null,
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS
         );

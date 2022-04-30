@@ -41,6 +41,8 @@ public class UserRest extends RestEndPoints {
                             if (data.password != null && !data.password.isEmpty()) {
                                 user.updatePassword(data.password);
                             }
+                            user.save();
+
                             return Response.OK();
                         }
                         return Response.UNAUTHORISED();
