@@ -1,11 +1,11 @@
 package dev.lightdream.node.manager;
 
-import dev.lightdream.cache.Cache;
 import dev.lightdream.common.dto.ServerStats;
 import dev.lightdream.common.dto.cache.CacheRegistry;
 import dev.lightdream.common.dto.redis.event.impl.CacheUpdateEvent;
 import dev.lightdream.logger.Logger;
 import dev.lightdream.node.Main;
+import dev.lightdream.runnable.Runnable;
 
 public class CacheManager {
 
@@ -13,7 +13,7 @@ public class CacheManager {
     public CacheManager(Main main) {
         Logger.good("Starting caching...");
 
-        new Cache<>(cache -> {
+        new Runnable(cache -> {
             CacheRegistry registry = new CacheRegistry();
 
             main.getNode().getServers().forEach(server -> {
