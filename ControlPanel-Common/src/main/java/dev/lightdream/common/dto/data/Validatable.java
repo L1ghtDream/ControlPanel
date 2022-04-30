@@ -1,6 +1,7 @@
 package dev.lightdream.common.dto.data;
 
 import dev.lightdream.common.dto.data.annotation.Validate;
+import dev.lightdream.logger.Debugger;
 import dev.lightdream.logger.Logger;
 import lombok.SneakyThrows;
 
@@ -47,6 +48,7 @@ public class Validatable {
 
             if (field.getType().equals(String.class)) {
                 if (!validateString(field, validateAnnotation.emptyAllowed())) {
+                    Debugger.log("Field " + field.getName() + " has failed validation.");
                     return false;
                 }
             }
@@ -61,6 +63,7 @@ public class Validatable {
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
                 Logger.error("Returning false in validate function. See the error above");
+                Debugger.log("Field " + field.getName() + " has failed validation.");
                 return false;
             }
 
@@ -69,20 +72,26 @@ public class Validatable {
                 resultObj = method.invoke(this);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 Logger.error("Returning false in validate function. See the error above");
+                Debugger.log("Field " + field.getName() + " has failed validation.");
                 return false;
             }
             if (!(resultObj instanceof Boolean)) {
                 Logger.error("Validate method must return boolean");
+                Debugger.log("Field " + field.getName() + " has failed validation.");
                 return false;
             }
 
-            return (Boolean) resultObj;
+            boolean output = (Boolean) resultObj;
+            if (!output) {
+                Debugger.log("Field " + field.getName() + " has failed validation.");
+            }
+            return output;
         }
         return true;
     }
 
     private boolean _validateString(String name, boolean emptyAllowed) {
-        if(!emptyAllowed) {
+        if (!emptyAllowed) {
             return name != null && !name.isEmpty();
         }
         return name != null;
