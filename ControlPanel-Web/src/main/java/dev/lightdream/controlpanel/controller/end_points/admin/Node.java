@@ -26,7 +26,7 @@ public class Node extends EndPoints {
     @GetMapping("/admin/nodes")
     public String nodes(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         return executeEndPoint(model, request, cookieBase64,
-                "admin/node/nodes.html",
+                "node/nodes.html",
                 (user) -> {
                     model.addAttribute("nodes", dev.lightdream.common.database.Node.getNodes());
                     return null;
@@ -38,7 +38,7 @@ public class Node extends EndPoints {
     @GetMapping("/admin/node/{nodeID}")
     public String node(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64, @PathVariable String nodeID) {
         return executeEndPoint(model, request, cookieBase64,
-                "admin/node/node.html",
+                "node/node.html",
                 (user) -> {
                     dev.lightdream.common.database.Node node = dev.lightdream.common.database.Node.getNode(nodeID);
 
@@ -57,7 +57,7 @@ public class Node extends EndPoints {
     public String createNode(Model model, HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
 
         return executeEndPoint(model, request, cookieBase64,
-                "admin/node/create.html",
+                "node/create.html",
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES
         );
     }
