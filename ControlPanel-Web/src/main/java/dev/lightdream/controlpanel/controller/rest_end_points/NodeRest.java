@@ -4,7 +4,7 @@ import dev.lightdream.common.database.GlobalPermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
-import dev.lightdream.controlpanel.dto.data.impl.NodeData;
+import dev.lightdream.common.dto.data.impl.NodeData;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package dev.lightdream.controlpanel.dto.data.annotation;
+package dev.lightdream.common.dto.data.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

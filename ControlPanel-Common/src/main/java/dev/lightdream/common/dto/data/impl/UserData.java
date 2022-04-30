@@ -1,8 +1,8 @@
-package dev.lightdream.controlpanel.dto.data.impl;
+package dev.lightdream.common.dto.data.impl;
 
 import dev.lightdream.common.database.User;
-import dev.lightdream.controlpanel.dto.data.Validatable;
-import dev.lightdream.controlpanel.dto.data.annotation.Validate;
+import dev.lightdream.common.dto.data.Validatable;
+import dev.lightdream.common.dto.data.annotation.Validate;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

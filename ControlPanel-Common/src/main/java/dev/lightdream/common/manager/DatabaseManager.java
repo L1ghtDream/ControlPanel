@@ -1,6 +1,7 @@
 package dev.lightdream.common.manager;
 
 import dev.lightdream.common.database.*;
+import dev.lightdream.common.dto.data.impl.ServerData;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.databasemanager.DatabaseMain;
@@ -127,6 +128,15 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         }
 
         new Server(serverID, name, path, node, port, java, ram, serverJar, args, startIfOffline).save();
+    }
+
+    public void createServer(ServerData data) {
+        if (getServer(data.id) != null) {
+            return;
+        }
+
+        new Server(data.id, data.name, data.path, Node.getNode(data.nodeID), data.port, data.java, data.ram,
+                data.serverJar, data.args, data.startIfOffline).save();
     }
 
 

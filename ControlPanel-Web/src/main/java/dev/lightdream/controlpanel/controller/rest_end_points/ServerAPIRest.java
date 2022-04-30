@@ -11,7 +11,7 @@ import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
 import dev.lightdream.controlpanel.dto.Log;
-import dev.lightdream.controlpanel.dto.data.impl.ServerData;
+import dev.lightdream.common.dto.data.impl.ServerData;
 import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
@@ -161,4 +161,24 @@ public class ServerAPIRest extends RestEndPoints {
         );
 
     }
+
+    @PostMapping("/api/server/create")
+    @ResponseBody
+    public Response userCreate(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
+                               @RequestBody ServerData data) {
+        return executeEndPoint(request, cookieBase64,
+                (user) -> {
+                    if (!data.validate()) {
+                        return Response.BAD_DATA(data.getInvalidFields());
+                    }
+
+                    Main.instance.databaseManager.createServer(data);
+
+                    return Response.OK();
+                },
+                GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS
+        );
+    }
+
+    //
 }

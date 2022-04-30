@@ -1,13 +1,20 @@
-package dev.lightdream.controlpanel.dto.data.impl;
+package dev.lightdream.common.dto.data.impl;
 
-import dev.lightdream.controlpanel.dto.data.Validatable;
-import dev.lightdream.controlpanel.dto.data.annotation.Validate;
+import dev.lightdream.common.database.Node;
+import dev.lightdream.common.dto.data.Validatable;
+import dev.lightdream.common.dto.data.annotation.Validate;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServerData extends Validatable {
+
+    @Validate
+    public String id;
+    @Validate(validateMethod = "validateNode")
+    public String nodeID;
+
 
     @Validate
     public String name;
@@ -49,6 +56,10 @@ public class ServerData extends Validatable {
                 java.equals("JDK_16") ||
                 java.equals("11") ||
                 java.equals("JDK_11");
+    }
+
+    public boolean validateNode(){
+        return Node.getNode(nodeID) != null;
     }
 
 }

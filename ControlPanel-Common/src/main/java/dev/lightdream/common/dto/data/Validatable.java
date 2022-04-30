@@ -1,6 +1,6 @@
-package dev.lightdream.controlpanel.dto.data;
+package dev.lightdream.common.dto.data;
 
-import dev.lightdream.controlpanel.dto.data.annotation.Validate;
+import dev.lightdream.common.dto.data.annotation.Validate;
 import dev.lightdream.logger.Logger;
 import lombok.SneakyThrows;
 

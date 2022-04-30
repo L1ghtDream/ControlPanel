@@ -5,6 +5,8 @@ import java.util.List;
 
 public enum PermissionEnum {
 
+    //TODO Add permissions for creating servers
+
     // Global perms
     GLOBAL_ADMIN, // Gives permission to all server functions
     GLOBAL_MANAGE_USERS, // Create / Delete / Change password / Disable OTP for users

@@ -25,8 +25,7 @@ async function save() {
 }
 
 async function createServer() {
-    let serverID = document.getElementById('id').value;
-    sendServerData("/api/server/" + serverID + "/create")
+    sendServerData("/api/server/create")
 }
 
 async function deleteServer() {
