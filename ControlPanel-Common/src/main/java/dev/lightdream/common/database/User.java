@@ -84,6 +84,13 @@ public class User extends IntegerDatabaseEntry {
         permissionContainer.addPermission(this, permission);
     }
 
+    public void removePermission(PermissionContainer permissionContainer, PermissionEnum permission) {
+        if (permissionContainer == null) {
+            return;
+        }
+        permissionContainer.removePermission(this, permission);
+    }
+
     @SuppressWarnings("unused")
     public void setPermission(PermissionContainer permissionContainer, PermissionEnum permission, boolean value) {
         if (permissionContainer == null) {
@@ -103,6 +110,7 @@ public class User extends IntegerDatabaseEntry {
     public List<Permission> getPermissions(PermissionContainer permissionContainer) {
         return CommonMain.instance.databaseManager.getPermissions(this, permissionContainer);
     }
+
 
 
     public boolean has2FA() {

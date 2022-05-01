@@ -208,6 +208,7 @@ public class ServerRest extends RestEndPoints {
 
                     data.permissions.forEach((permission, value) -> {
                         if (!value) {
+                            usr.removePermission(server, PermissionEnum.valueOf(permission));
                             return;
                         }
                         usr.addPermission(server, PermissionEnum.valueOf(permission));

@@ -82,11 +82,11 @@
                                     <td class="table-row-permissions">
                                         <div class="checkbox-container yellow">
                                             <input checked
-                                                   class="permission-input"
+                                                   class="permission-input-update"
                                                    th:id="${permission.getName()+ '_' + user.getID()}"
                                                    th:if="${user.hasPermission(permission.getName())}"
                                                    type="checkbox"/>
-                                            <input class="permission-input"
+                                            <input class="permission-input-update"
                                                    th:id="${permission.getName()+ '_' + user.getID()}"
                                                    th:if="${!user.hasPermission(permission.getName())}"
                                                    type="checkbox"/>

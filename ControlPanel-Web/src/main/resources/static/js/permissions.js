@@ -22,6 +22,23 @@ registerEventListener("add-user", () => {
     })
 })
 
+for (let element in document.getElementsByClassName("permission-input-update")) {
+    registerEventListener(element.id, () => {
+        let permission = element.id.split("_")[0];
+        let user_ID = element.id.split("_")[1];
+
+        let permissionsMap = {}
+
+        permissionsMap[permission] = document.getElementById(element.id).checked;
+
+        callAPI("/api/server/"+serverID + "/permissions/update", {
+            userID: user_ID,
+            permissions: permissionsMap
+        })
+    }, "change")
+}
+
+
 async function removePermission(userID) {
     callAPI("/api/server/" + serverID + "/permission/remove", {
         "id": userID,
