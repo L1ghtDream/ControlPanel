@@ -3,6 +3,8 @@
 <head th:replace="fragments/global :: head(title='Servers')"></head>
 <body>
 <div id="page">
+    <div id="id" hidden th:text="${server.getID()}"></div>
+
     <div class="page-content">
         <div class="content-wrap">
             <div th:replace="fragments/global :: topbar(useSidebar=false)"></div>
