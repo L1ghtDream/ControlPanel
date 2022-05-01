@@ -1,9 +1,6 @@
 package dev.lightdream.controlpanel.controller.rest_end_points;
 
-import dev.lightdream.common.database.GlobalPermissionContainer;
-import dev.lightdream.common.database.Node;
-import dev.lightdream.common.database.Server;
-import dev.lightdream.common.database.User;
+import dev.lightdream.common.database.*;
 import dev.lightdream.common.dto.Command;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.response.Response;
@@ -12,7 +9,10 @@ import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
 import dev.lightdream.controlpanel.dto.Log;
 import dev.lightdream.common.dto.data.impl.ServerData;
+import dev.lightdream.controlpanel.dto.data.PermissionData;
+import dev.lightdream.controlpanel.dto.data.UserID;
 import dev.lightdream.controlpanel.service.ConsoleService;
+import dev.lightdream.databasemanager.dto.entry.DatabaseEntry;
 import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -176,6 +176,46 @@ public class ServerRest extends RestEndPoints {
                     return Response.OK();
                 },
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS
+        );
+    }
+
+    @PostMapping("/api/server/{serverID}/permissions/remove")
+    @ResponseBody
+    public Response removePermission(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
+                                     @RequestBody UserID data, @PathVariable String serverID) {
+        return executeEndPoint(request, cookieBase64,
+                (user) -> {
+                    Server server = Server.getServer(serverID);
+
+                    User usr = User.getUser(data.id);
+                    usr.getPermissions(server).forEach(DatabaseEntry::delete);
+
+                    return Response.OK();
+                },
+                GlobalPermissionContainer.getInstance(), PermissionEnum.SERVER_USER_MANAGER
+        );
+    }
+
+    @PostMapping("/api/server/{serverID}/permissions/update")
+    @ResponseBody
+    public Response updatePermissions(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
+                                      @RequestBody PermissionData data, @PathVariable String serverID) {
+        return executeEndPoint(request, cookieBase64,
+                (user) -> {
+                    Server server = Server.getServer(serverID);
+
+                    User usr = User.getUser(data.userID);
+
+                    data.permissions.forEach((permission, value) -> {
+                        if (!value) {
+                            return;
+                        }
+                        usr.addPermission(server, PermissionEnum.valueOf(permission));
+                    });
+
+                    return Response.OK();
+                },
+                GlobalPermissionContainer.getInstance(), PermissionEnum.SERVER_USER_MANAGER
         );
     }
 

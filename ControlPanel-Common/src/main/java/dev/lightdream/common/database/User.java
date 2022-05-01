@@ -97,11 +97,10 @@ public class User extends IntegerDatabaseEntry {
     }
 
     public List<Permission> getPermissions(String permissionContainerIdentifier) {
-        Debugger.log(permissionContainerIdentifier);
-        PermissionContainer permissionContainer = PermissionContainer.getByIdentifier(permissionContainerIdentifier);
+        return getPermissions(PermissionContainer.getByIdentifier(permissionContainerIdentifier));
+    }
 
-        Debugger.log(permissionContainer);
-        Debugger.log(CommonMain.instance.databaseManager.getPermissions(this, permissionContainer));
+    public List<Permission> getPermissions(PermissionContainer permissionContainer) {
         return CommonMain.instance.databaseManager.getPermissions(this, permissionContainer);
     }
 

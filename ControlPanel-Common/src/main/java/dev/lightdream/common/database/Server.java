@@ -13,6 +13,7 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @DatabaseTable(table = "servers")
@@ -264,6 +265,20 @@ public class Server extends PermissionContainer {
                 .parse("host", node.ip)
                 .parse("port", node.sftpPort)
                 .parse();
+    }
+
+    public List<User> getUsers() {
+        List<Permission> permissions = CommonMain.instance.databaseManager.getPermissions(this);
+        List<User> users = new ArrayList<>();
+
+        permissions.forEach(permission -> {
+            if (users.contains(permission.user)) {
+                return;
+            }
+            users.add(permission.user);
+        });
+
+        return users;
     }
 
 }
