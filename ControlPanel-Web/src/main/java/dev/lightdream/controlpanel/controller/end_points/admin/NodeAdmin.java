@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class Node extends EndPoints {
+public class NodeAdmin extends EndPoints {
 
-    public static Node instance;
+    public static NodeAdmin instance;
 
-    public Node() {
+    public NodeAdmin() {
         if (instance == null) {
             instance = this;
         }

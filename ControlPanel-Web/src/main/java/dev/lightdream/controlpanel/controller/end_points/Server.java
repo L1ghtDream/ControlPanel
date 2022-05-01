@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @Controller
@@ -66,7 +67,8 @@ public class Server extends EndPoints {
     }
 
     @GetMapping("/server/{serverID}/settings")
-    public String serverSettings(Model model, HttpServletRequest request, @PathVariable String serverID, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
+    public String serverSettings(Model model, HttpServletRequest request, @PathVariable String serverID,
+                                 @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         dev.lightdream.common.database.Server server = Utils.getServer(serverID);
 
         return executeEndPoint(model, request, cookieBase64,
@@ -76,6 +78,25 @@ public class Server extends EndPoints {
                     return null;
                 },
                 server, PermissionEnum.SERVER_VIEW
+        );
+    }
+
+    @GetMapping("/server/{serverID}/permissions")
+    public String serverPermissions(Model model, HttpServletRequest request, @PathVariable String serverID,
+                                    @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
+        dev.lightdream.common.database.Server server = Utils.getServer(serverID);
+
+        return executeEndPoint(model, request, cookieBase64,
+                "server/permissions.html",
+                (user) -> {
+                    model.addAttribute("server", server);
+                    model.addAttribute("permissions", PermissionEnum.getOfType(PermissionEnum.PermissionType.SERVER));
+                    model.addAttribute("users", Arrays.asList(
+                            user
+                    ));
+                    return null;
+                },
+                server, PermissionEnum.SERVER_USER_MANAGER
         );
     }
 

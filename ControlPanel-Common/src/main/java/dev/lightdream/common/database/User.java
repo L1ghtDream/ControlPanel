@@ -54,8 +54,7 @@ public class User extends IntegerDatabaseEntry {
     @SuppressWarnings("unused")
     public String generateQR(String secret) {
         String path = CommonMain.instance.getConfig().qrURL + username + ".png";
-        Utils.createQRCode(Utils.getGoogleAuthenticatorBarCode(secret, "admin", "Original.gg"),
-                CommonMain.instance.getConfig().qrStorageLocation + username + ".png");
+        Utils.createQRCode(Utils.getGoogleAuthenticatorBarCode(secret, "admin", "Original.gg"), CommonMain.instance.getConfig().qrStorageLocation + username + ".png");
         return path;
     }
 
@@ -97,6 +96,15 @@ public class User extends IntegerDatabaseEntry {
         GlobalPermissionContainer.getInstance().setPermission(this, permission, value);
     }
 
+    public List<Permission> getPermissions(String permissionContainerIdentifier) {
+        Debugger.log(permissionContainerIdentifier);
+        PermissionContainer permissionContainer = PermissionContainer.getByIdentifier(permissionContainerIdentifier);
+
+        Debugger.log(permissionContainer);
+        Debugger.log(CommonMain.instance.databaseManager.getPermissions(this, permissionContainer));
+        return CommonMain.instance.databaseManager.getPermissions(this, permissionContainer);
+    }
+
 
     public boolean has2FA() {
         return this.otpSecret != null;
@@ -110,13 +118,9 @@ public class User extends IntegerDatabaseEntry {
 
     public String generateHash() {
         if (has2FA()) {
-            return Hashing.sha256()
-                    .hashString(username + password + otpSecret, StandardCharsets.UTF_8)
-                    .toString();
+            return Hashing.sha256().hashString(username + password + otpSecret, StandardCharsets.UTF_8).toString();
         } else {
-            return Hashing.sha256()
-                    .hashString(username + password, StandardCharsets.UTF_8)
-                    .toString();
+            return Hashing.sha256().hashString(username + password, StandardCharsets.UTF_8).toString();
         }
 
     }
@@ -137,9 +141,7 @@ public class User extends IntegerDatabaseEntry {
     }
 
     public boolean checkRawPassword(String rawPassword) {
-        return Hashing.sha256()
-                .hashString(rawPassword, StandardCharsets.UTF_8)
-                .toString().equals(this.password);
+        return Hashing.sha256().hashString(rawPassword, StandardCharsets.UTF_8).toString().equals(this.password);
     }
 
 

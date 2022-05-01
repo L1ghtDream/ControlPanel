@@ -8,19 +8,27 @@ public enum PermissionEnum {
     //TODO Add permissions for creating servers
 
     // Global perms
-    GLOBAL_ADMIN, // Gives permission to all server functions
-    GLOBAL_MANAGE_USERS, // Create / Delete / Change password / Disable OTP for users
-    GLOBAL_MANAGE_NODES, // Create / Delete / Manage nodes
-    GLOBAL_VIEW, // Create / Delete / Manage nodes 
+    GLOBAL_ADMIN("Administrator", "Gives permission to all server functions"),
+    GLOBAL_MANAGE_USERS("Manage users", "Create / Delete / Change password / Disable OTP for users"),
+    GLOBAL_MANAGE_NODES("Manage Nodes", "Create / Delete / Manage nodes"),
+    GLOBAL_VIEW("View Dashboard", "Create / Delete / Manage nodes"),
+    GLOBAL_CREATE_SERVER("Create Server", "Create new servers"),
 
     // Server Perms
-    SERVER_VIEW, // View server
-    SERVER_CONSOLE, // Read, Send commands
-    SERVER_CONTROL, // Start, Stop, Restart, Kill
-    SERVER_MANAGE, // Delete server
-    SERVER_FILE_MANAGER, // Read, Write Files
-    SERVER_USER_MANAGER; // Add, remover users, Change perms
+    SERVER_VIEW("View Server", "View server in server list"),
+    SERVER_CONSOLE("View server console", "Read, Send commands to the server"),
+    SERVER_CONTROL("Control Server", "Start, Stop, Restart, Kill"),
+    SERVER_MANAGE("Manager Server", "Delete server and change server settings"),
+    SERVER_FILE_MANAGER("File Manager", "Read, Write Files using SFTP"),
+    SERVER_USER_MANAGER("User Manager", "Add, remover users, Change perms");
 
+    public String title;
+    public String description;
+
+    PermissionEnum(String Title, String description) {
+        this.title = Title;
+        this.description = description;
+    }
 
     @SuppressWarnings("unused")
     public static List<PermissionEnum> getOfType(PermissionType type) {
@@ -33,6 +41,18 @@ public enum PermissionEnum {
         }
 
         return output;
+    }
+
+    public String getName() {
+        return this.name();
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 
     public PermissionType getType() {

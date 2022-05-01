@@ -30,6 +30,18 @@ public class Permission extends IntegerDatabaseEntry {
         this.target = target;
     }
 
+    public String getTitle() {
+        return permission.title;
+    }
+
+    public String getName() {
+        return permission.name();
+    }
+
+    public String getDescription() {
+        return permission.description;
+    }
+
     @Override
     public void save() {
         if (!permission.getType().equals(target.getType())) {
