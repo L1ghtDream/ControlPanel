@@ -14,6 +14,13 @@ CURRENT_DIR=$(pwd)
 # Kill the existing processes running on ports for web and node
 # shellcheck disable=SC2046
 kill $(lsof -t -i:"$WEB_APP_PORT")
+
+screen -dmS $SCREEN_NAME_WEB -X stuff "^C"
+sleep .5
+screen -dmS $SCREEN_NAME_WEB -X stuff "^C"
+
+screen -dmS $SCREEN_NAME_NODE -X stuff "^C"
+sleep .5
 screen -dmS $SCREEN_NAME_NODE -X stuff "^C"
 
 # Go to the working directory
