@@ -135,3 +135,7 @@ function openTab(url, focus = false) {
     }
     window.open(url, '_blank');
 }
+/*
+TODO:
+Add cute error message in the right corner of the page (with animation)
+ */

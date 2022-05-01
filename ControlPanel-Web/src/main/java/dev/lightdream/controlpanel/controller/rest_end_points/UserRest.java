@@ -1,11 +1,12 @@
 package dev.lightdream.controlpanel.controller.rest_end_points;
 
 import dev.lightdream.common.database.GlobalPermissionContainer;
+import dev.lightdream.common.database.User;
+import dev.lightdream.common.dto.data.impl.UserData;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
-import dev.lightdream.common.dto.data.impl.UserData;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -131,9 +132,9 @@ public class UserRest extends RestEndPoints {
         );
     }
 
-    @PostMapping("/api/user/get")
+    @PostMapping("/api/user/get/cookie")
     @ResponseBody
-    public Response getUser(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
+    public Response getUserCookie(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
         return executeEndPoint(request, cookieBase64,
                 (user) -> {
                     user.password = "[HIDDEN]";
@@ -142,4 +143,18 @@ public class UserRest extends RestEndPoints {
                 }
         );
     }
+
+    @SuppressWarnings("unused")
+    @PostMapping("/api/user/get/id/{username}")
+    @ResponseBody
+    public Response getUserID(HttpServletRequest request, @PathVariable String username) {
+        User user = User.getUser(username);
+        if (user == null) {
+            return Response.NOT_FOUND();
+        }
+        user.password = "[HIDDEN]";
+        user.otpSecret = "[HIDDEN]";
+        return Response.OK(user.id);
+    }
+
 }

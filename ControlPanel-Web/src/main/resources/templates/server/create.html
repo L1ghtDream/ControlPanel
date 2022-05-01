@@ -87,7 +87,7 @@
 <div th:replace="fragments/global :: scripts"></div>
 <script src="/js/server.js"></script>
 <script>
-    callAPI("/api/user/get", {}, user => {
+    callAPI("/api/user/get/cookie", {}, user => {
         let element = document.getElementById("sftp-url");
         let url = element.innerText;
 
