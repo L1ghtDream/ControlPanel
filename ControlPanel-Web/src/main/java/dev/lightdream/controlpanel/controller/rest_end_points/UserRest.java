@@ -132,6 +132,7 @@ public class UserRest extends RestEndPoints {
         );
     }
 
+    @Deprecated
     @PostMapping("/api/user/get/cookie")
     @ResponseBody
     public Response getUserCookie(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64) {
@@ -144,6 +145,7 @@ public class UserRest extends RestEndPoints {
         );
     }
 
+    @Deprecated
     @SuppressWarnings("unused")
     @PostMapping("/api/user/get/id/{username}")
     @ResponseBody
