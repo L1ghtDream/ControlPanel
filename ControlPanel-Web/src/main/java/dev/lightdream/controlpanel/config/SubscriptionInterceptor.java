@@ -3,8 +3,8 @@ package dev.lightdream.controlpanel.config;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.Command;
-import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionEnum;
+import dev.lightdream.common.utils.AuthUtils;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.service.ConsoleService;
@@ -74,9 +74,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
             return false;
         }
 
-        Cookie cookie = new Cookie(userID, password);
-
-        return cookie.validate();
+        return AuthUtils.checkHash(userID, password);
     }
 
     private boolean validateSubscription(int userID, String password, String destination) {
@@ -87,8 +85,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         // /server/{server}/api/console
         String serverName = destination.split("/")[2];
 
-        Cookie cookie = new Cookie(userID, password);
-        User user = cookie.getUser();
+        User user = User.getUser(userID);
         Server server = Utils.getServer(serverName);
 
         return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
@@ -100,8 +97,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         }
 
         Command command = Utils.fromJson(commandJson, Command.class);
-        Cookie cookie = new Cookie(userID, password);
-        User user = cookie.getUser();
+        User user = User.getUser(userID);
         Server server = command.getServer();
 
         if (command.isServerCommand()) {

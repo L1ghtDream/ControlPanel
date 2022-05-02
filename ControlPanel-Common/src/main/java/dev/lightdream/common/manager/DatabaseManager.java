@@ -83,6 +83,10 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
     }
 
     public User getUser(String username) {
+        if(username == null) {
+            return null;
+        }
+
         return get(User.class).query(
                         new QueryConstrains().equals("username", username)
                 ).query()

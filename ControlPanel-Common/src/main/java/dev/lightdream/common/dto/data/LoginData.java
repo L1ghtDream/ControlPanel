@@ -35,6 +35,7 @@ public class LoginData {
 
         return new Cookie(
                 user.id,
+                user.username,
                 user.generateHash()
         );
     }
