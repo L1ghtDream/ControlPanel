@@ -2,6 +2,7 @@ error = document.getElementById("error");
 if (error !== null) {
     error.hidden = true;
 }
+let user;
 
 //Login
 verifyCookie();
@@ -18,7 +19,14 @@ async function verifyCookie() {
     callAPI("/api/login/cookie", {}, () => {
     }, () => {
         eraseCookie("login_data")
+        redirect("/");
     })
+
+    let cookie = getCookie("login_data");
+    if (cookie === null || cookie === "" || cookie === undefined) {
+        return;
+    }
+    user = JSON.parse(cookie);
 }
 
 function setCookie(name, value, days) {
@@ -81,9 +89,12 @@ function redirect(path, removeQuotes = true) {
  */
 async function callAPI(api, data, callback, failCallback) {
     const blob = await fetch(api, {
-        method: 'post', headers: {
-            'Accept': 'application/json', 'Content-Type': 'application/json'
-        }, body: JSON.stringify(data)
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
     }).then(response => response.blob());
 
     let json = await blob.text();

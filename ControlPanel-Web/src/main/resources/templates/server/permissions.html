@@ -3,7 +3,7 @@
 <head th:replace="fragments/global :: head(title='Servers')"></head>
 <body>
 <div id="page">
-    <div id="id" hidden th:text="${server.getID()}"></div>
+    <div hidden id="id" th:text="${server.getID()}"></div>
 
     <div class="page-content">
         <div class="content-wrap">
@@ -109,20 +109,17 @@
 <div th:replace="fragments/global :: scripts"></div>
 <script src="/js/server.js"></script>
 <script>
+    let element = document.getElementById("sftp-url");
+    let url = element.innerText;
 
-    callAPI("/api/user/get/cookie", {}, user => {
-        let element = document.getElementById("sftp-url");
-        let url = element.innerText;
+    console.log("innerText: " + element.innerText);
+    console.log("url: " + url);
+    console.log("username: " + user.username);
+    url = url.replace("%username%", user.username);
+    console.log("url: " + url);
 
-        console.log("innerText: " + element.innerText);
-        console.log("url: " + url);
-        console.log("username: " + user.username);
-        url = url.replace("%username%", user.username);
-        console.log("url: " + url);
-
-        element.innerText = url;
-        console.log("innerText: " + element.innerText);
-    })
+    element.innerText = url;
+    console.log("innerText: " + element.innerText);
 </script>
 </body>
 </html>

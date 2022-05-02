@@ -121,8 +121,6 @@
 <script src="/js/stats.js"></script>
 <script src="/js/server_manager.js"></script>
 <script>
-
-    callAPI("/api/user/get/cookie", {}, user => {
         let element = document.getElementById("sftp-url");
         let url = element.innerText;
 
@@ -134,7 +132,6 @@
 
         element.innerText = url;
         console.log("innerText: " + element.innerText);
-    })
 </script>
 <script>
     addStatsServerDetails()
