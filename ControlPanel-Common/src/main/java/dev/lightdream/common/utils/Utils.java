@@ -11,7 +11,6 @@ import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.data.Cookie;
-import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Hex;
@@ -20,18 +19,19 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.messaging.Message;
 
 import java.io.FileOutputStream;
+import java.lang.reflect.Modifier;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.util.Base64;
-import java.util.regex.Pattern;
 
 public class Utils {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
     private static final Gson gson = new GsonBuilder()
             .disableHtmlEscaping()
+            .excludeFieldsWithModifiers(Modifier.PRIVATE)
             .create();
     public static int defaultTimeout = 2 * 1000;       // 2 seconds    (2000 milliseconds)
     public static int defaultWaitBeforeIteration = 50; // 0.05 seconds (50 milliseconds  )

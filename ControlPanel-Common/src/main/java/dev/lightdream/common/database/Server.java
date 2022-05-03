@@ -1,5 +1,6 @@
 package dev.lightdream.common.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.ServerStats;
 import dev.lightdream.common.dto.permission.PermissionContainer;
@@ -75,10 +76,12 @@ public class Server extends PermissionContainer {
         this.startIfOffline = startIfOffline;
     }
 
+    @JsonIgnore
     public static Server getServer(String serverID) {
         return Utils.getServer(serverID);
     }
 
+    @JsonIgnore
     public static List<Server> getServers() {
         return CommonMain.instance.databaseManager.getServers();
     }
@@ -96,6 +99,7 @@ public class Server extends PermissionContainer {
     }
 
     @Override
+    @JsonIgnore
     public PermissionEnum.PermissionType getType() {
         return PermissionEnum.PermissionType.SERVER;
     }
@@ -106,6 +110,7 @@ public class Server extends PermissionContainer {
     }
 
     @Nullable
+    @JsonIgnore
     public Integer getPID() {
         String output = node.executeCommand(
                 CommonMain.instance.getConfig().PID_GRAB_CMD
@@ -123,6 +128,7 @@ public class Server extends PermissionContainer {
     /**
      * @return The server's memory usage in kb (real)
      */
+    @JsonIgnore
     @SuppressWarnings("unused")
     public Double getMemoryUsage() {
         Integer pid = getPID();
@@ -141,6 +147,7 @@ public class Server extends PermissionContainer {
     /**
      * @return The server's memory allocation in kb (real)
      */
+    @JsonIgnore
     @SuppressWarnings("unused")
     public Double getMemoryAllocation() {
         Integer pid = getPID();
@@ -159,6 +166,7 @@ public class Server extends PermissionContainer {
     /**
      * @return The server's CPU usage in percentages of a core (real)
      */
+    @JsonIgnore
     @SuppressWarnings("unused")
     public Double getCPUUsage() {
         Integer pid = getPID();
@@ -178,6 +186,7 @@ public class Server extends PermissionContainer {
     /**
      * @return The server's storage usage in kb (cached)
      */
+    @JsonIgnore
     @SuppressWarnings("unused")
     public Double getStorageUsage() {
         String data = node.executeCommand(
@@ -201,6 +210,7 @@ public class Server extends PermissionContainer {
         return getPID() != null;
     }
 
+    @JsonIgnore
     public String getServerStatsCommand(@NotNull Integer pid) {
         return new MessageBuilder(" && ",
                 CommonMain.instance.getConfig().MEMORY_USAGE_CMD,
@@ -213,6 +223,7 @@ public class Server extends PermissionContainer {
                 .parse();
     }
 
+    @JsonIgnore
     public ServerStats getStats() {
         Integer pid = getPID();
 
@@ -247,6 +258,7 @@ public class Server extends PermissionContainer {
         );
     }
 
+    @JsonIgnore
     @SuppressWarnings("unused")
     public String getSFTPUrl(int userID) {
         User user = User.getUser(userID);
@@ -258,6 +270,7 @@ public class Server extends PermissionContainer {
                 .parse();
     }
 
+    @JsonIgnore
     @SuppressWarnings("unused")
     public String getSFTPUrl() {
         return CommonMain.instance.getConfig().sftpURL
@@ -267,6 +280,7 @@ public class Server extends PermissionContainer {
                 .parse();
     }
 
+    @JsonIgnore
     public List<User> getUsers() {
         List<Permission> permissions = CommonMain.instance.databaseManager.getPermissions(this);
         List<User> users = new ArrayList<>();
@@ -281,4 +295,8 @@ public class Server extends PermissionContainer {
         return users;
     }
 
+    @Override
+    public String toString() {
+        return Utils.toJson(this);
+    }
 }

@@ -76,6 +76,11 @@ public class User extends IntegerDatabaseEntry {
         return hasPermission(GlobalPermissionContainer.getInstance(), PermissionEnum.valueOf(permission));
     }
 
+    public boolean hasPermission(String serverID, String permission) {
+        Debugger.log("2");
+        return hasPermission(Server.getServer(serverID), PermissionEnum.valueOf(permission));
+    }
+
     @SuppressWarnings("unused")
     public void addPermission(PermissionContainer permissionContainer, PermissionEnum permission) {
         if (permissionContainer == null) {
@@ -103,15 +108,15 @@ public class User extends IntegerDatabaseEntry {
         GlobalPermissionContainer.getInstance().setPermission(this, permission, value);
     }
 
+    @JsonIgnore
     public List<Permission> getPermissions(String permissionContainerIdentifier) {
         return getPermissions(PermissionContainer.getByIdentifier(permissionContainerIdentifier));
     }
 
+    @JsonIgnore
     public List<Permission> getPermissions(PermissionContainer permissionContainer) {
         return CommonMain.instance.databaseManager.getPermissions(this, permissionContainer);
     }
-
-
 
     public boolean has2FA() {
         return this.otpSecret != null;
@@ -151,5 +156,8 @@ public class User extends IntegerDatabaseEntry {
         return Hashing.sha256().hashString(rawPassword, StandardCharsets.UTF_8).toString().equals(this.password);
     }
 
-
+    @Override
+    public String toString() {
+        return Utils.toJson(this);
+    }
 }

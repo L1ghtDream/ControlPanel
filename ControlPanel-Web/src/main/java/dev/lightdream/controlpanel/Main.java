@@ -71,6 +71,8 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
 
     public void createUsers() {
         databaseManager.createUser("admin", "passwd");
+        databaseManager.createUser("test", "passwd");
+
         User user = databaseManager.getUser("admin");
         for (PermissionEnum permission : PermissionEnum.values()) {
             databaseManager.getServer("test1").addPermission(user, permission);

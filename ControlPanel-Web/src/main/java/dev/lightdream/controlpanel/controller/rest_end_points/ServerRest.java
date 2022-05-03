@@ -202,16 +202,29 @@ public class ServerRest extends RestEndPoints {
                                       @RequestBody PermissionData data, @PathVariable String serverID) {
         return executeEndPoint(request, cookieBase64,
                 (user) -> {
-                    Server server = Server.getServer(serverID);
+                    Debugger.log(data);
 
+                    Server server = Server.getServer(serverID);
                     User usr = User.getUser(data.userID);
 
+                    if(server==null || usr==null){
+                        return Response.BAD_DATA();
+                    }
+
+                    Debugger.log(serverID);
+                    Debugger.log(server);
+                    Debugger.log(usr);
+
                     data.permissions.forEach((permission, value) -> {
+                        Debugger.log(permission + " -> " + value);
+
                         if (!value) {
-                            usr.removePermission(server, PermissionEnum.valueOf(permission));
+                            Debugger.log("Removing permission");
+                            usr.removePermission(server, permission);
                             return;
                         }
-                        usr.addPermission(server, PermissionEnum.valueOf(permission));
+                        Debugger.log("Adding permission");
+                        usr.addPermission(server, permission);
                     });
 
                     return Response.OK();

@@ -98,4 +98,9 @@ public class Server extends EndPoints {
     }
 
 
+    @Override
+    public String toString() {
+        return Utils.toJson(this);
+    }
+
 }
