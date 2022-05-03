@@ -7,10 +7,12 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
+import dev.lightdream.controlpanel.dto.data.OTPData;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 @Controller
 public class UserRest extends RestEndPoints {
@@ -101,14 +103,48 @@ public class UserRest extends RestEndPoints {
                 (user) -> {
                     dev.lightdream.common.database.User usr = Main.instance.databaseManager.getUser(userID);
 
+
                     if (usr == null) {
                         return Response.NOT_FOUND();
+                    }
+
+                    if (!Objects.equals(user.id, usr.id)) {
+                        if(!user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS)){
+                            return Response.UNAUTHORISED();
+                        }
                     }
 
                     usr.disable2FA();
                     return Response.OK();
                 },
-                GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS
+                GlobalPermissionContainer.getInstance()
+        );
+    }
+
+    @PostMapping("/api/user/{userID}/enable-2fa")
+    @ResponseBody
+    public Response enable2FA(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
+                              @PathVariable Integer userID, @RequestBody OTPData data) {
+        return executeEndPoint(request, cookieBase64,
+                (user) -> {
+                    dev.lightdream.common.database.User usr = Main.instance.databaseManager.getUser(userID);
+
+                    if (usr == null) {
+                        return Response.NOT_FOUND();
+                    }
+
+                    if (!Objects.equals(user.id, usr.id)) {
+                        if(!user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS)){
+                            return Response.UNAUTHORISED();
+                        }
+                    }
+
+                    if(!user.activate2FA(data.otp)){
+                        return Response.UNAUTHORISED();
+                    }
+                    return Response.OK();
+                },
+                GlobalPermissionContainer.getInstance()
         );
     }
 

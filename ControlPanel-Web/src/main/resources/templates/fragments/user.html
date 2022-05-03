@@ -1,4 +1,4 @@
-<!--suppress JSUnresolvedLibraryURL, HtmlUnknownTarget, ThymeleafVariablesResolveInspection -->
+<!--suppress JSUnresolvedLibraryURL, HtmlUnknownTarget, ThymeleafVariablesResolveInspection, RequiredAttributes -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <div class="block" th:fragment="user (user, disablePermissions, enable2FA)">
@@ -43,7 +43,7 @@
                                     OPT code you see in the app.
                                 </div>
 
-                                <img alt="google_auth_qr" src="http://htz1.original.gg/google_auth/qr/admin.png">
+                                <img alt="google_auth_qr" th:src="@{${user.setup2FA}}">
 
                                 <div>
                                     <label class="light-gray" for="2fa-otp">OTP: </label> <br>

@@ -23,6 +23,8 @@ public class User extends IntegerDatabaseEntry {
     public String password;
     @DatabaseField(columnName = "otp_secret")
     public String otpSecret;
+    @DatabaseField(columnName = "otp_enabled")
+    public boolean otpEnabled;
 
     @SuppressWarnings("unused")
     public User() {
@@ -34,6 +36,7 @@ public class User extends IntegerDatabaseEntry {
         this.username = username;
         this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
         this.otpSecret = null;
+        this.otpEnabled = false;
     }
 
     @JsonIgnore
@@ -124,9 +127,18 @@ public class User extends IntegerDatabaseEntry {
     }
 
     @SuppressWarnings("unused")
-    public void setup2FA(String secret) {
-        this.otpSecret = secret;
+    public String setup2FA() {
+        this.otpSecret = Utils.generateSecretKey();
         save();
+        return generateQR(this.otpSecret);
+    }
+
+    public boolean activate2FA(String code) {
+        if (!Utils.getTOTPCode(this.otpSecret).equals(code)) {
+            return false;
+        }
+        this.otpEnabled = true;
+        return true;
     }
 
     public String generateHash() {

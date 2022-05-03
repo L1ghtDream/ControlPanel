@@ -6,6 +6,7 @@ registerEventListener("reset", reload);
 registerEventListener("delete", deleteUser);
 registerEventListener("disable-2fa", disable2FA);
 registerEventListener("save-noperms", save);
+registerEventListener("enable-2fa", enable2FARequest);
 
 async function save() {
     sendUser("/api/user/%user_id%/save");
@@ -59,4 +60,14 @@ async function deleteUser() {
 
 async function enable2FA() {
     location.href = '#enable2fa';
+}
+
+async function enable2FARequest() {
+    let userID = document.getElementById('id').value;
+
+    callAPI("/api/user/" + userID + "/enable-2fa", {
+        otp: document.getElementById("2fa-otp").value
+    }, () => {
+        reload();
+    });
 }
