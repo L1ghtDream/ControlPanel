@@ -83,21 +83,21 @@
                                         <div class="checkbox-container yellow">
                                             <input checked
                                                    class="permission-input-update"
-                                                   th:id="${permission.getName()+ '_' + user.getID()}"
+                                                   th:id="${permission.getName()+ '__' + user.getID()}"
                                                    th:if="${user.hasPermission(server.getID(), permission.getName())}"
                                                    type="checkbox"/>
                                             <input class="permission-input-update"
-                                                   th:id="${permission.getName()+ '_' + user.getID()}"
+                                                   th:id="${permission.getName()+ '__' + user.getID()}"
                                                    th:if="${!user.hasPermission(server.getID(), permission.getName())}"
                                                    type="checkbox"/>
-                                            <label th:for="${permission.getName()+ '_'  + user.getID()}"></label>
+                                            <label th:for="${permission.getName()+ '__'  + user.getID()}"></label>
                                         </div>
                                     </td>
                                 </tr>
-                                <br>
                             </table>
                         </div>
                     </div>
+                    <br>
                 </div>
                 <br>
                 <button class="setting-button save" id="save" type="button">Save</button>

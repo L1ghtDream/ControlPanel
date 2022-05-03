@@ -88,6 +88,8 @@ function redirect(path, removeQuotes = true) {
  * @returns {Promise<void>}
  */
 async function callAPI(api, data, callback, failCallback) {
+    console.log("Calling API: " + api + " with data: " + JSON.stringify(data));
+
     const blob = await fetch(api, {
         method: 'post',
         headers: {

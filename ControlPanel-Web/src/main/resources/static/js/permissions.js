@@ -45,8 +45,8 @@ registerEventListener("add-user", () => {
 for (let i = 0; i < document.getElementsByClassName("permission-input-update").length; i++) {
     let element = document.getElementsByClassName("permission-input-update")[i];
     registerEventListener(element.id, () => {
-        let permission = element.id.split("_")[0];
-        let user_ID = element.id.split("_")[1];
+        let permission = element.id.split("__")[0];
+        let user_ID = element.id.split("__")[1];
 
         let permissionsMap = {}
 
