@@ -26,7 +26,11 @@ async function verifyCookie() {
     if (cookie === null || cookie === "" || cookie === undefined) {
         return;
     }
-    user = JSON.parse(cookie);
+
+    console.log("[base64] cookie: " + cookie);
+    console.log("[ascii ] cookie: " + cookie);
+
+    user = JSON.parse(atob(cookie));
 }
 
 function setCookie(name, value, days) {
