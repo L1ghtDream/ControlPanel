@@ -652,9 +652,8 @@ td.server-name > a {
 .s-label {
     font-size: 9px;
     text-align: center;
-    /*margin-right: 20px;*/
     color: #7c8699;
-    letter-spacing: .1px;
+    letter-spacing: 1px;
 }
 
 .panel-table > table tr:first-child .bar {
@@ -786,9 +785,8 @@ td.server {
 }
 
 .content-wrap.details-wrap .sidebar .panel {
-    margin: 0;
     padding: 0 !important;
-    margin-bottom: 25px;
+    margin: 0 0 25px;
 }
 
 div#sftp {
@@ -828,7 +826,7 @@ div#sftp .sf-small {
     border: 1px solid #ffffff14 !important;
     border-radius: 6px !important;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     font-size: 11px;
     cursor: pointer;
 }

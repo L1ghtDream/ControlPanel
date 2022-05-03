@@ -16,7 +16,7 @@
     background-color: #fff;
     border-radius: 50%;
     position: absolute;
-    top: 1.5px;
+    top: 2px;
     left: 1px;
     transform: translateX(0);
     transition: transform 0.3s linear;
@@ -36,7 +36,7 @@
 }
 
 .checkbox-container input:checked + label::after {
-    transform: translateX(calc(100% + 0.5px));
+    transform: translateX(calc(100% + 1px));
 }
 
 .active-circle {
