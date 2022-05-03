@@ -1,3 +1,5 @@
+// noinspection JSIgnoredPromiseFromCall,ES6MissingAwait,JSCheckFunctionSignatures
+
 document.getElementById("logout").hidden = true;
 
 //Check if the user is already logged in and if so redirect to the home page

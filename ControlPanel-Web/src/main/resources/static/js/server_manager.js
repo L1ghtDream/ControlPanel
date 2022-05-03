@@ -1,3 +1,5 @@
+// noinspection JSIgnoredPromiseFromCall,ES6MissingAwait,JSCheckFunctionSignatures
+
 registerEventListener("start", () => {
     sendCommandToIFrame("start");
 })

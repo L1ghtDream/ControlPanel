@@ -1,3 +1,5 @@
+// noinspection JSIgnoredPromiseFromCall,ES6MissingAwait,JSCheckFunctionSignatures
+
 error = document.getElementById("error");
 if (error !== null) {
     error.hidden = true;
@@ -125,6 +127,7 @@ async function callAPI(api, data, callback, failCallback) {
             error.hidden = false;
         }
         if (failCallback === undefined) {
+            // noinspection JSUnresolvedVariable
             error.innerText = obj.messageEn;
             return;
         }
@@ -155,6 +158,5 @@ function openTab(url, focus = false) {
 
 /*
 TODO:
-Update the cookie system to also store the username and also check
 Add cute error message in the right corner of the page (with animation)
  */

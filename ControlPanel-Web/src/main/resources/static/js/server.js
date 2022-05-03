@@ -1,3 +1,5 @@
+// noinspection JSIgnoredPromiseFromCall,ES6MissingAwait,JSCheckFunctionSignatures
+
 registerEventListener("save", save);
 registerEventListener("reset", reload);
 registerEventListener("delete", deleteServer);

@@ -1,3 +1,5 @@
+// noinspection JSIgnoredPromiseFromCall,ES6MissingAwait,JSCheckFunctionSignatures
+
 serverID = document.getElementById("id").innerText;
 
 registerEventListener("add-user", () => {
@@ -64,6 +66,7 @@ for (let i = 0; i < document.getElementsByClassName("permission-input-update").l
 }
 
 
+// noinspection JSUnusedGlobalSymbols
 async function removePermission(userID) {
     callAPI("/api/server/" + serverID + "/permissions/remove", {
         "id": userID,

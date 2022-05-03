@@ -1,3 +1,5 @@
+// noinspection JSIgnoredPromiseFromCall,ES6MissingAwait,JSCheckFunctionSignatures,JSStringConcatenationToES6Template
+
 function serverStats() {
     let serverIDs = document.getElementsByClassName("server_id");
     let memoryUsages = document.getElementsByClassName("memory_usage");
