@@ -28,7 +28,11 @@ public abstract class RestEndPoints {
     public static Response executeEndPoint(HttpServletRequest request, String cookieBase64,
                                            LambdaExecutor.ReturnLambdaExecutor<Response, User> callback,
                                            PermissionContainer permissionContainer, PermissionEnum... permissions) {
-        Debugger.log("Received rest request with url " + request.getRequestURI());
+        if (request != null) {
+            Debugger.log("Received rest request with url " + request.getRequestURI());
+        } else {
+            Debugger.log("Received rest request with url unknown");
+        }
 
         Debugger.log("[Base64] Cookie: " + cookieBase64);
         Debugger.log("[Ascii ] Cookie: " + Utils.base64Decode(cookieBase64));

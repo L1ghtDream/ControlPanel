@@ -25,10 +25,10 @@ public class AuthRest extends RestEndPoints {
         }
     }
 
+    @SuppressWarnings("unused")
     @PostMapping("/api/login")
     @ResponseBody
-    public Response login(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
-                          @RequestBody LoginData loginData) {
+    public Response login(HttpServletRequest request,@RequestBody LoginData loginData) {
         loginData.password = Hashing.sha256()
                 .hashString(loginData.password, StandardCharsets.UTF_8)
                 .toString();

@@ -22,8 +22,8 @@ public enum PermissionEnum {
     SERVER_FILE_MANAGER("File Manager", "Read, Write Files using SFTP"),
     SERVER_USER_MANAGER("User Manager", "Add, remover users, Change perms");
 
-    public String title;
-    public String description;
+    public final String title;
+    public final String description;
 
     PermissionEnum(String Title, String description) {
         this.title = Title;
@@ -51,6 +51,7 @@ public enum PermissionEnum {
         return this.title;
     }
 
+    @SuppressWarnings("unused")
     public String getDescription() {
         return this.description;
     }

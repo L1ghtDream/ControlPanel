@@ -122,13 +122,7 @@ public class ServerRest extends RestEndPoints {
             return Response.UNAUTHORISED();
         }
 
-        Node node = server.node;
-
-        //String response = node.executeCommand("screen -ls " + server.id);
-        node.executeCommand(Main.instance.config.KILL_CMD
-                .parse("port", server.port)
-                .parse()
-        );
+        server.kill();
         return Response.OK();
     }
 

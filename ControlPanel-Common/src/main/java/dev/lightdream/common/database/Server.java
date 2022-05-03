@@ -96,6 +96,7 @@ public class Server extends PermissionContainer {
                 .parse("args", args)
                 .parse()
         );
+        this.killed = false;
     }
 
     @Override
@@ -299,4 +300,14 @@ public class Server extends PermissionContainer {
     public String toString() {
         return Utils.toJson(this);
     }
+
+    public void kill() {
+        //String response = node.executeCommand("screen -ls " + server.id);
+        node.executeCommand(CommonMain.instance.getConfig().KILL_CMD
+                .parse("port", this.port)
+                .parse()
+        );
+        killed = true;
+    }
+
 }

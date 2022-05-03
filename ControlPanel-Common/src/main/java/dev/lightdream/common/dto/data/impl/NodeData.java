@@ -38,6 +38,7 @@ public class NodeData extends Validatable {
                 sshPort > 0;
     }
 
+    @SuppressWarnings("unused")
     public boolean validateID() {
         return Node.getNode(id) != null;
     }

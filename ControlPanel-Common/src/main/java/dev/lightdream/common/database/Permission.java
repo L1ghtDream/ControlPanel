@@ -38,6 +38,7 @@ public class Permission extends IntegerDatabaseEntry {
         return permission.name();
     }
 
+    @SuppressWarnings("unused")
     public String getDescription() {
         return permission.description;
     }

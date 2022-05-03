@@ -108,6 +108,7 @@ public class User extends IntegerDatabaseEntry {
         GlobalPermissionContainer.getInstance().setPermission(this, permission, value);
     }
 
+    @SuppressWarnings("unused")
     @JsonIgnore
     public List<Permission> getPermissions(String permissionContainerIdentifier) {
         return getPermissions(PermissionContainer.getByIdentifier(permissionContainerIdentifier));

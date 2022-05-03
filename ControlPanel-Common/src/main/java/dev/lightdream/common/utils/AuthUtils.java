@@ -4,6 +4,7 @@ import dev.lightdream.common.database.User;
 
 public class AuthUtils {
 
+    @SuppressWarnings("unused")
     public static boolean checkHash(String username, String hash) {
         return checkHash(User.getUser(username), hash);
     }
