@@ -38,6 +38,8 @@ registerEventListener("add-user", () => {
         callAPI("/api/server/" + serverID + "/permissions/update", {
             userID: user_ID,
             permissions: permissionsMap
+        }, () => {
+            reload();
         })
     })
 })
@@ -55,13 +57,15 @@ for (let i = 0; i < document.getElementsByClassName("permission-input-update").l
         callAPI("/api/server/" + serverID + "/permissions/update", {
             userID: user_ID,
             permissions: permissionsMap
+        }, () => {
+            reload();
         })
     }, "change")
 }
 
 
 async function removePermission(userID) {
-    callAPI("/api/server/" + serverID + "/permission/remove", {
+    callAPI("/api/server/" + serverID + "/permissions/remove", {
         "id": userID,
     })
 }
