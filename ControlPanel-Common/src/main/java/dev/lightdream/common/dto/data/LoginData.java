@@ -3,6 +3,7 @@ package dev.lightdream.common.dto.data;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.User;
+import dev.lightdream.common.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -15,15 +16,12 @@ public class LoginData {
     public String otp;
 
     public boolean checkPassword() {
-        return true;
-        //TODO check password
-        //User user = CommonMain.instance.databaseManager.getUser(username);
-        //if (user.has2FA()) {
-        //    return user.password.equals(password) &&
-        //            otp.equals(Utils.getTOTPCode(user.otpSecret));
-        //} else {
-        //    return user.password.equals(password);
-        //}
+        User user = CommonMain.instance.databaseManager.getUser(username);
+        if (user.has2FA()) {
+            return user.password.equals(password) && otp.equals(Utils.getTOTPCode(user.otpSecret));
+        } else {
+            return user.password.equals(password);
+        }
     }
 
     public Cookie generateCookie() {
