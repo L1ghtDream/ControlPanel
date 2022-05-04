@@ -154,7 +154,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
 
     public List<Permission> getPermissions(User user) {
         return get(Permission.class).query(
-                new QueryConstrains().equals("user", user.id)
+                new QueryConstrains().equals("user_id", user.id)
         ).query();
     }
 
