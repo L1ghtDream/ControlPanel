@@ -1,7 +1,6 @@
 // noinspection JSUnresolvedFunction,JSUnresolvedVariable,JSCheckFunctionSignatures,JSIgnoredPromiseFromCall
 
 let stompClient = null;
-const user = JSON.parse(atob(getCookie("login_data")));
 
 connect();
 
