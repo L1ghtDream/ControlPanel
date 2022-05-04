@@ -6,7 +6,6 @@ connect();
 
 function connect() {
     const server = document.getElementById("server").innerText;
-
     const socket = new SockJS("/server/" + server + "/api/server");
     stompClient = Stomp.over(socket);
 
@@ -22,14 +21,6 @@ function connect() {
             "password": user.hash
         });
     });
-}
-
-function disconnect() {
-    if (stompClient != null) {
-        stompClient.disconnect();
-    }
-    setConnected(false);
-    console.log("Disconnected");
 }
 
 function sendMessage(command) {
