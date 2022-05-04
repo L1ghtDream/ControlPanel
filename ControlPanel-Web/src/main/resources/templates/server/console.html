@@ -2,7 +2,7 @@
 <html lang="en">
 <div th:replace="fragments/global :: head ('Console Web Socket')"></div>
 
-<body class="console-body" onload="disconnect()">
+<body class="console-body">
 <!--/*@thymesVar id="server" type="dev.lightdream.common.database.Server"*/-->
 <div hidden id="server" th:text="${server.getID()}"></div>
 <p id="response"></p>
