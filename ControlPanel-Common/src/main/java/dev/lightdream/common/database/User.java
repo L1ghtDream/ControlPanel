@@ -123,7 +123,7 @@ public class User extends IntegerDatabaseEntry {
     }
 
     public boolean has2FA() {
-        return this.otpSecret != null;
+        return this.otpSecret != null && otpEnabled;
     }
 
     @SuppressWarnings("unused")
