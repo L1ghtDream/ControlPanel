@@ -74,6 +74,8 @@ public class Server extends PermissionContainer {
         this.serverJar = serverJar;
         this.args = args;
         this.startIfOffline = startIfOffline;
+        this.node.executeCommand("mkdir -p " + path);
+        CommonMain.instance.registerServerWebSocket(this);
     }
 
     @JsonIgnore

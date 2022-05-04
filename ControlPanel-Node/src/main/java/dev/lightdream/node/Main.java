@@ -2,6 +2,7 @@ package dev.lightdream.node;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
+import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.config.CommonConfig;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.filemanager.FileManager;
@@ -44,6 +45,11 @@ public class Main extends CommonMain {
     public void loadConfigs(FileManager fileManager) {
         config = fileManager.load(Config.class);
         super.loadConfigs(fileManager);
+    }
+
+    @Override
+    public void registerServerWebSocket(Server server) {
+        // noop
     }
 
     @Override

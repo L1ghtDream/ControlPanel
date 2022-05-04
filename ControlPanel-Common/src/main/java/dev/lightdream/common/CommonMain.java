@@ -122,4 +122,6 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         return databaseManager;
     }
 
+    public abstract void registerServerWebSocket(Server server);
+
 }

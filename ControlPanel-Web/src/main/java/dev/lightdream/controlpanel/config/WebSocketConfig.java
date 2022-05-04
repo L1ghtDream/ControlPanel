@@ -21,6 +21,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public MessageBrokerRegistry config;
     public StompEndpointRegistry registry;
 
+    private final List<String> paths = new ArrayList<>();
+
     @Override
     public void configureMessageBroker(@NotNull MessageBrokerRegistry config) {
         if (instance == null) {
@@ -29,8 +31,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         if (this.config == null) {
             this.config = config;
         }
-
-        List<String> paths = new ArrayList<>();
 
         Server.getServers().forEach(server -> {
             Logger.info("[Broker] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/console\"");
@@ -60,7 +60,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     public void registerServerWS(Server server){
-        //TODO
+        paths.add("/server/" + server.id + "/api/console");
+
+        config.enableSimpleBroker(paths.toArray(new String[0]));
+
+        registry.addEndpoint("/server/" + server.id + "/api/server");
+        registry.addEndpoint("/server/" + server.id + "/api/server").withSockJS();
     }
 
     public void configureClientInboundChannel(ChannelRegistration registration) {

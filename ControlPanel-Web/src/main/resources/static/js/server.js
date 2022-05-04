@@ -5,7 +5,7 @@ registerEventListener("reset", reload);
 registerEventListener("delete", deleteServer);
 registerEventListener("create", createServer);
 
-async function sendServerData(api, data = {}) {
+async function sendServerData(api, data = {}, callback) {
 
     data["id"] = document.getElementById('id').value;
     data["name"] = document.getElementById('name').value;
@@ -19,7 +19,7 @@ async function sendServerData(api, data = {}) {
 
     callAPI(api, data, () => {
         reload();
-    });
+    }, callback);
 }
 
 async function save() {
@@ -30,6 +30,8 @@ async function save() {
 async function createServer() {
     sendServerData("/api/server/create", {
         nodeID: document.getElementById('node').value,
+    }, () => {
+        redirect("/server/" + document.getElementById('id').value);
     })
 }
 

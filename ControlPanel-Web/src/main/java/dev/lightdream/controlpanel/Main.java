@@ -2,12 +2,14 @@ package dev.lightdream.controlpanel;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.GlobalPermissionContainer;
+import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.cache.CacheRegistry;
 import dev.lightdream.common.dto.config.CommonConfig;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.common.utils.Utils;
+import dev.lightdream.controlpanel.config.WebSocketConfig;
 import dev.lightdream.controlpanel.dto.Config;
 import dev.lightdream.controlpanel.manager.LogManager;
 import dev.lightdream.controlpanel.manager.RedisEventListener;
@@ -22,10 +24,6 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
 
     // Statics
     public static Main instance;
-
-    // Spring
-    //public EndPoints endPoints;
-    //public RestEndPoints restEndPoints;
 
     //Config
     public Config config;
@@ -101,6 +99,11 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     }
 
     @Override
+    public void registerServerWebSocket(Server server) {
+        WebSocketConfig.instance.registerServerWS(server);
+    }
+
+    @Override
     public int getReleaseIndex() {
         return 2;
     }
@@ -108,8 +111,5 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
 
 /*
 TODO
-When creating a server create its home path
-registerServerWS when creating new server
-Redirect the user to the new server after creating a new server
 Add kill screen and ctrl+c to screen when killing a server
  */
