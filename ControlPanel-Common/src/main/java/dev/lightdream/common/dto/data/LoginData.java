@@ -18,7 +18,8 @@ public class LoginData {
     public boolean checkPassword() {
         User user = CommonMain.instance.databaseManager.getUser(username);
         if (user.has2FA()) {
-            return user.password.equals(password) && otp.equals(Utils.getTOTPCode(user.otpSecret));
+            return user.password.equals(password) &&
+                    otp.equals(Utils.getTOTPCode(user.otpSecret));
         } else {
             return user.password.equals(password);
         }
