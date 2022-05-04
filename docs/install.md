@@ -16,6 +16,46 @@ curl -s https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts
 sh start.sh
 ```
 
+## Web Proxy
+
+### Certbot Certificates
+
+### Nginx Configuration
+```nginx
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    '' close;
+}
+
+upstream websocket {
+    server <ip-to-web-app-server>:13000;
+}
+
+server {
+    server_name <domain>;
+
+    location / {
+        proxy_pass http://websocket;   
+        proxy_http_version 1.1;
+	    
+        proxy_set_header        Host $host;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $scheme;
+        proxy_set_header        Origin "";
+        proxy_set_header        Upgrade $http_upgrade;  
+	    proxy_set_header        Connection $connection_upgrade;
+
+        proxy_read_timeout  90;
+    }
+
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/<domain>/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/<domain>/privkey.pem;
+}
+
+```
+
 # Node Installation
 
 Go to the folder your want to install the node to and run
