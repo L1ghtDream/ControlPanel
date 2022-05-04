@@ -105,3 +105,11 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         return 2;
     }
 }
+
+/*
+TODO
+When creating a server create its home path
+registerServerWS when creating new server
+Redirect the user to the new server after creating a new server
+Add kill screen and ctrl+c to screen when killing a server
+ */

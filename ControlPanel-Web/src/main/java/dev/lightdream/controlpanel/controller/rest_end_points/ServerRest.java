@@ -158,8 +158,8 @@ public class ServerRest extends RestEndPoints {
 
     @PostMapping("/api/server/create")
     @ResponseBody
-    public Response userCreate(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
-                               @RequestBody ServerData data) {
+    public Response serverCreate(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
+                                 @RequestBody ServerData data) {
         return executeEndPoint(request, cookieBase64,
                 (user) -> {
                     if (!data.validate()) {

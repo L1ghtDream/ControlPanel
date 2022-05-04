@@ -5,6 +5,7 @@ public enum ConsoleColor {
     // Reset
     RESET("\u001B[m", "</span><span style='color:white'>"),
     RESET_2("\u001B[0m", RESET.html),
+    RESET_4("\u001B[2K", RESET.html),
 
     // Regular Colors
     BLACK("\u001B[30m;1m", RESET.html),

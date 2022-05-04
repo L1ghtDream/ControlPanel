@@ -15,9 +15,9 @@ public class ServerData extends Validatable {
     @Validate(validateMethod = "validateNode")
     public String nodeID;
 
-
     @Validate
     public String name;
+
     @Validate
     public String path;
     @Validate(validateMethod = "validatePort")

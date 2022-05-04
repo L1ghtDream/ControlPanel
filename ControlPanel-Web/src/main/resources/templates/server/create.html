@@ -27,6 +27,13 @@
                     <div class="header">Access</div>
                     <div class="details">
                         <div class="setting">
+                            <label for="node">Node: </label>
+                            <br>
+                            <select class="form-control form-manage" id="node">
+                                <option th:each="node: ${nodes}" th:value="${node.getID()}" th:text="${node.name}"></option>
+                            </select>
+                        </div>
+                        <div class="setting">
                             <label for="path">Path: </label>
                             <br>
                             <input class="form-control form-manage" id="path">

@@ -1,6 +1,7 @@
 package dev.lightdream.controlpanel.controller.end_points.admin;
 
 import dev.lightdream.common.database.GlobalPermissionContainer;
+import dev.lightdream.common.database.Node;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.controlpanel.controller.EndPoints;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,10 @@ public class ServerAdmin extends EndPoints {
 
         return executeEndPoint(model, request, cookieBase64,
                 "server/create.html",
-                null,
+                user->{
+                    model.addAttribute("nodes", Node.getNodes());
+                    return null;
+                },
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS
         );
     }

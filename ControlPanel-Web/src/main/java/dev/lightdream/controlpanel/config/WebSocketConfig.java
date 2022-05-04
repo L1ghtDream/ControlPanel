@@ -17,8 +17,19 @@ import java.util.List;
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    public static WebSocketConfig instance;
+    public MessageBrokerRegistry config;
+    public StompEndpointRegistry registry;
+
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
+    public void configureMessageBroker(@NotNull MessageBrokerRegistry config) {
+        if (instance == null) {
+            instance = this;
+        }
+        if (this.config == null) {
+            this.config = config;
+        }
+
         List<String> paths = new ArrayList<>();
 
         Server.getServers().forEach(server -> {
@@ -33,12 +44,23 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(@NotNull StompEndpointRegistry registry) {
+        if (instance == null) {
+            instance = this;
+        }
+        if (this.registry == null) {
+            this.registry = registry;
+        }
+
         Server.getServers().forEach(server -> {
             Logger.info("[Stomp] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/server\"");
 
             registry.addEndpoint("/server/" + server.id + "/api/server");
             registry.addEndpoint("/server/" + server.id + "/api/server").withSockJS();
         });
+    }
+
+    public void registerServerWS(Server server){
+        //TODO
     }
 
     public void configureClientInboundChannel(ChannelRegistration registration) {

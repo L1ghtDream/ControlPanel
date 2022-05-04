@@ -2,6 +2,8 @@ package dev.lightdream.controlpanel.manager;
 
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.utils.ConsoleColor;
+import dev.lightdream.common.utils.Utils;
+import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.dto.Log;
 import dev.lightdream.controlpanel.service.ConsoleService;
 import dev.lightdream.lambda.LambdaExecutor;
@@ -52,9 +54,28 @@ public class LogManager {
                             output = output.replaceAll(ConsoleColor.UNKNOWN, "");
 
                             List<String> logList = new ArrayList<>(List.of(output.split("\n")));
-                            if (output.endsWith("\n")) {
+                            if (output.endsWith("\n") || output.endsWith(">")) {
                                 logList.replaceAll(s -> s + "<br>");
                             }
+
+                            if (Main.instance.config.deleteArrowStartLine) {
+                                logList.replaceAll(s -> s
+                                        .replace("</span><span style='color:white'>><br>", "")
+                                        .replace("<br>>", "<br>")
+                                        .replaceAll("^[>]", "")
+                                );
+                            }
+
+                            Debugger.log(Utils.toJson(logList));
+
+                            logList.removeIf(s ->
+                                    s.equals("")||
+                                    s.equals("<br>")||
+                                    s.equals("\r<br>")||
+                                    s.equals("\n")
+                            );
+
+                            Debugger.log(Utils.toJson(logList));
 
                             Log newLog = new Log(logList);
                             getLog(server).addLog(newLog);

@@ -7,6 +7,8 @@ public class CommonConfig {
 
     public boolean debug = false;
 
+    public boolean deleteArrowStartLine = true;
+
     public String sftpModuleInstallPath = "/home/ControlPanel/modules/SFTP";
     public String qrStorageLocation = "/var/www/html/google_auth/qr/";
     public String qrURL = "http://htz1.original.gg/google_auth/qr/";
