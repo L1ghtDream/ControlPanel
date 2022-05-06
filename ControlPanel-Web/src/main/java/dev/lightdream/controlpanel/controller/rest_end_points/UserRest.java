@@ -35,28 +35,20 @@ public class UserRest extends RestEndPoints {
                         return Response.BAD_DATA(data.getInvalidFields());
                     }
 
-                    boolean isSelf = user.getID().equals(userID);
-
-                    if (!user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS)) {
-                        if (isSelf) {
-                            user.username = data.username;
-
-                            if (data.password != null && !data.password.isEmpty()) {
-                                user.updatePassword(data.password);
-                            }
-                            user.save();
-
-                            return Response.OK();
-                        }
-                        return Response.UNAUTHORISED();
-                    }
-
                     dev.lightdream.common.database.User usr = dev.lightdream.common.database.User.getUser(userID);
 
-                    usr.username = data.username;
+                    if (user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS) || user.getID().equals(userID)) {
+                        usr.username = "NoOneWillNeverHaveThisUsernameBecauseItWouldBeRidiculousToHaveSuchAUsername";
 
-                    if (data.password != null && !data.password.isEmpty()) {
                         usr.updatePassword(data.password);
+                        usr.save();
+
+                        usr.username = data.username;
+                        usr.save();
+                    }
+
+                    if (!user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS)) {
+                        return Response.UNAUTHORISED();
                     }
 
                     usr.setPermission(PermissionEnum.GLOBAL_ADMIN, data.GLOBAL_ADMIN);
@@ -109,7 +101,7 @@ public class UserRest extends RestEndPoints {
                     }
 
                     if (!Objects.equals(user.id, usr.id)) {
-                        if(!user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS)){
+                        if (!user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS)) {
                             return Response.UNAUTHORISED();
                         }
                     }
@@ -134,12 +126,12 @@ public class UserRest extends RestEndPoints {
                     }
 
                     if (!Objects.equals(user.id, usr.id)) {
-                        if(!user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS)){
+                        if (!user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS)) {
                             return Response.UNAUTHORISED();
                         }
                     }
 
-                    if(!user.activate2FA(data.otp)){
+                    if (!user.activate2FA(data.otp)) {
                         return Response.UNAUTHORISED();
                     }
                     return Response.OK();

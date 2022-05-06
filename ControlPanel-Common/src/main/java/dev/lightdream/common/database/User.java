@@ -156,6 +156,9 @@ public class User extends IntegerDatabaseEntry {
     }
 
     public void updatePassword(String password) {
+        if (password == null || password.isEmpty()) {
+            return;
+        }
         this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
         save();
     }
