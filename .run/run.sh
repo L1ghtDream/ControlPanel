@@ -35,10 +35,9 @@ cp $HOME/ControlPanel-Web/target/ControlPanel-Web-*.jar $HOME/.run/Web.jar
 cp $HOME/ControlPanel-Node/target/ControlPanel-Node-*.jar $HOME/.run/Node.jar
 
 # Delete unused dirs
-# TODO remove comment
-# rm $HOME/ControlPanel-Common/target -r
-# rm $HOME/ControlPanel-Web/target -r
-# rm $HOME/ControlPanel-Node/target -r
+rm $HOME/ControlPanel-Common/target -r
+rm $HOME/ControlPanel-Web/target -r
+rm $HOME/ControlPanel-Node/target -r
 
 # Go back to the working directory
 cd "$CURRENT_DIR" || exit
