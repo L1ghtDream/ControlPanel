@@ -43,21 +43,25 @@ cd "$CURRENT_DIR" || exit
 
 # Start the node and the web server
 screen -dmS $SCREEN_NAME_WEB -X stuff "java -jar $HOME/.run/Web.jar\n"
-screen -dmS $SCREEN_NAME_NODE -X stuff "java -jar $HOME/.run/Node.jar\n"
 
 echo "Started Web App."
 
-echo "Starting node on htz-1"
+for i in 1 2 3 4 5
+do
+  echo "Starting node on htz-$i"
 
-echo "Starting node on htz-5"
+  ssh root@htz$i.original.gg -o StrictHostKeyChecking=no -i $HOME/.run/config/ssh_keys/htz-$i "rm $HOME/.run/Node.jar"
 
-ssh root@htz5.original.gg -o StrictHostKeyChecking=no -i $HOME/.run/config/ssh_keys/htz-5 "rm $HOME/.run/Node.jar"
+  scp -i $HOME/.run/config/ssh_keys/htz-$i $HOME/.run/Node.jar root@htz$i.original.gg:/home/ControlPanel/.run/Node.jar
 
-scp -i $HOME/.run/config/ssh_keys/htz-5 $HOME/.run/Node.jar root@htz5.original.gg:/home/ControlPanel/.run/Node.jar
+  # Killing the current version
+  ssh root@htz$i.original.gg -o StrictHostKeyChecking=no -i $HOME/.run/config/ssh_keys/htz-$i "screen -dmS $SCREEN_NAME_NODE -X stuff \"^C\""
+  sleep .5
+  ssh root@htz$i.original.gg -o StrictHostKeyChecking=no -i $HOME/.run/config/ssh_keys/htz-$i "screen -dmS $SCREEN_NAME_NODE -X stuff \"^C\""
 
-ssh root@htz5.original.gg -o StrictHostKeyChecking=no -i $HOME/.run/config/ssh_keys/htz-5 "screen -dmS $SCREEN_NAME_NODE -X stuff \"^C\""
-sleep .5
-ssh root@htz5.original.gg -o StrictHostKeyChecking=no -i $HOME/.run/config/ssh_keys/htz-5 "screen -dmS $SCREEN_NAME_NODE -X stuff \"^C\""
+  ssh root@htz$i.original.gg -o StrictHostKeyChecking=no -i $HOME/.run/config/ssh_keys/htz-$i "screen -dmS $SCREEN_NAME_NODE -X stuff \"java -jar $HOME/.run/Node.jar\n\""
 
-ssh root@htz5.original.gg -o StrictHostKeyChecking=no -i $HOME/.run/config/ssh_keys/htz-5 "screen -dmS $SCREEN_NAME_NODE -X stuff \"java -jar $HOME/.run/Node.jar\n\""
+done
+
+
 
