@@ -1,10 +1,12 @@
 package dev.lightdream.controlpanel.controller.rest_end_points;
 
 import dev.lightdream.common.database.GlobalPermissionContainer;
+import dev.lightdream.common.dto.data.impl.NodeData;
+import dev.lightdream.common.dto.data.impl.ServerData;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.response.Response;
+import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
-import dev.lightdream.common.dto.data.impl.NodeData;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,6 +64,23 @@ public class NodeRest extends RestEndPoints {
                     return Response.OK();
                 },
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES
+        );
+    }
+
+    @PostMapping("/api/node/create")
+    @ResponseBody
+    public Response serverCreate(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
+                                 @RequestBody NodeData data) {
+        return executeEndPoint(request, cookieBase64,
+                (user) -> {
+                    if (!data.validate()) {
+                        return Response.BAD_DATA(data.getInvalidFields());
+                    }
+
+                    Main.instance.databaseManager.createNode(data);
+                    return Response.OK();
+                },
+                GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS
         );
     }
 

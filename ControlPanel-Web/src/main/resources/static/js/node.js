@@ -11,7 +11,8 @@ async function sendNodeData(api){
         name: document.getElementById('name').value,
         ip: document.getElementById('ip').value,
         username: document.getElementById('username').value,
-        sshPort: document.getElementById('ssh_port').value
+        sshPort: document.getElementById('ssh_port').value,
+        sftpPort: document.getElementById('sftp_port').value
     }, () => {
         reload();
     });

@@ -1,6 +1,7 @@
 package dev.lightdream.common.manager;
 
 import dev.lightdream.common.database.*;
+import dev.lightdream.common.dto.data.impl.NodeData;
 import dev.lightdream.common.dto.data.impl.ServerData;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
@@ -83,7 +84,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
     }
 
     public User getUser(String username) {
-        if(username == null) {
+        if (username == null) {
             return null;
         }
 
@@ -150,6 +151,10 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         }
 
         new Node(nodeID, name, ip, username, sshPort, sftpPort).save();
+    }
+
+    public void createNode(NodeData data) {
+        createNode(data.id, data.name, data.ip, data.username, data.sshPort, data.sftpPort);
     }
 
     public List<Permission> getPermissions(User user) {

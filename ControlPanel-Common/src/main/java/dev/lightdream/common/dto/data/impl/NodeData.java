@@ -23,6 +23,10 @@ public class NodeData extends Validatable {
 
     @Validate(validateMethod = "validatePort")
     public int sshPort;
+
+    @Validate(validateMethod = "validatePort")
+    public int sftpPort;
+
     @Validate()
     public String username;
 
