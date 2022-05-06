@@ -114,8 +114,7 @@ async function callAPI(api, data, callback, failCallback) {
 
         if (obj.code !== "200") {
             if (failCallback === undefined) {
-                error.hidden = false;
-                error.innerText = obj.text;
+                errorNotification(obj.text + ". " + obj.data);
                 return;
             }
             failCallback(obj);
@@ -123,12 +122,8 @@ async function callAPI(api, data, callback, failCallback) {
         }
         callback(obj.data);
     } catch (error) {
-        if (error !== undefined) {
-            error.hidden = false;
-        }
         if (failCallback === undefined) {
-            // noinspection JSUnresolvedVariable
-            error.innerText = obj.messageEn;
+            errorNotification(obj.text + ". " + obj.data);
             return;
         }
         failCallback(obj);
@@ -156,7 +151,14 @@ function openTab(url, focus = false) {
     window.open(url, '_blank');
 }
 
-/*
-TODO:
-Add cute error message in the right corner of the page (with animation)
- */
+function errorNotification(text) {
+    new Notification({
+        text: text,
+        showProgress: false,
+        style: {
+            background: '#DC2626',
+            color: '#ffffff',
+            transition: 'all 350ms linear',
+        },
+    });
+}

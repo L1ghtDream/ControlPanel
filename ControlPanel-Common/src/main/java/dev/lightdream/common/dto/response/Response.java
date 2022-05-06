@@ -37,7 +37,7 @@ public class Response {
     }
 
     public static Response BAD_DATA(Object data) {
-        return new Response("401", "Bad Data", data);
+        return new Response("400", "Bad Data", data);
     }
 
     @SuppressWarnings("unused")
