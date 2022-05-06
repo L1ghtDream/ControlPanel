@@ -16,11 +16,11 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
 
     /**
      * @param identifier Unique identifier for the server / node / global in the format
-     *                   {@link PermissionEnum.PermissionType}_{@link #id}
+     *                   {@link PermissionEnum.Type}_{@link #id}
      * @return The server / node / global context of the identifier
      */
     public static PermissionContainer getByIdentifier(String identifier) {
-        PermissionEnum.PermissionType type = PermissionEnum.PermissionType.valueOf(identifier.split("_")[0]);
+        PermissionEnum.Type type = PermissionEnum.Type.valueOf(identifier.split("_")[0]);
         String id = identifier.split("_")[1];
 
         PermissionContainer target = null;
@@ -43,7 +43,7 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
     }
 
     public boolean hasPermission(User user, PermissionEnum permission) {
-        if (permission.getType().equals(PermissionEnum.PermissionType.SERVER) &&
+        if (permission.getType().equals(PermissionEnum.Type.SERVER) &&
                 CommonMain.instance.getDatabaseManager().getPermissions(user).stream().anyMatch(p ->
                         p.permission.equals(PermissionEnum.GLOBAL_ADMIN))) {
             return true;
@@ -91,13 +91,13 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
     }
 
     /**
-     * @return Unique identifier for the server / node / global in the format {@link PermissionEnum.PermissionType}_{@link #id}
+     * @return Unique identifier for the server / node / global in the format {@link PermissionEnum.Type}_{@link #id}
      */
     public String getIdentifier() {
         return getType() + "_" + id;
     }
 
-    public abstract PermissionEnum.PermissionType getType();
+    public abstract PermissionEnum.Type getType();
 
     @SuppressWarnings("unused")
     public List<Permission> getPermissions() {

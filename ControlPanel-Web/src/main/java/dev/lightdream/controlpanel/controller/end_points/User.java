@@ -1,5 +1,6 @@
 package dev.lightdream.controlpanel.controller.end_points;
 
+import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.controlpanel.controller.EndPoints;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ public class User extends EndPoints {
                 "user/profile.html",
                 (user) -> {
                     model.addAttribute("user", user);
+                    model.addAttribute("permissions", PermissionEnum.getOfType(PermissionEnum.Type.GLOBAL));
                     return null;
                 }
         );

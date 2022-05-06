@@ -5,19 +5,19 @@ registerEventListener("reset", reload);
 registerEventListener("delete", deleteServer);
 registerEventListener("create", createServer);
 
-async function sendServerData(api, data = {}, callback) {
-
-    data["id"] = document.getElementById('id').value;
-    data["name"] = document.getElementById('name').value;
-    data["path"] = document.getElementById('path').value;
-    data["port"] = document.getElementById('port').value;
-    data["java"] = document.getElementById('java').value;
-    data["ram"] = document.getElementById('ram').value;
-    data["serverJar"] = document.getElementById('server_jar').value;
-    data["args"] = document.getElementById('args').value;
-    data["startIfOffline"] = document.getElementById('start_if_offline').value;
-
-    callAPI(api, data, () => {
+async function sendServerData(api, callback) {
+    callAPI(api, {
+        nodeID: document.getElementById('node').value,
+        id: document.getElementById('id').value,
+        name: document.getElementById('name').value,
+        path: document.getElementById('path').value,
+        port: document.getElementById('port').value,
+        java: document.getElementById('java').value,
+        ram: document.getElementById('ram').value,
+        serverJar: document.getElementById('server_jar').value,
+        args: document.getElementById('args').value,
+        startIfOffline: document.getElementById('start_if_offline').value
+    }, () => {
         reload();
     }, callback);
 }
@@ -28,9 +28,7 @@ async function save() {
 }
 
 async function createServer() {
-    sendServerData("/api/server/create", {
-        nodeID: document.getElementById('node').value,
-    }, () => {
+    sendServerData("/api/server/create", () => {
         redirect("/server/" + document.getElementById('id').value);
     })
 }

@@ -31,7 +31,7 @@ public enum PermissionEnum {
     }
 
     @SuppressWarnings("unused")
-    public static List<PermissionEnum> getOfType(PermissionType type) {
+    public static List<PermissionEnum> getOfType(Type type) {
         List<PermissionEnum> output = new ArrayList<>();
 
         for (PermissionEnum value : PermissionEnum.values()) {
@@ -56,11 +56,11 @@ public enum PermissionEnum {
         return this.description;
     }
 
-    public PermissionType getType() {
-        return PermissionType.valueOf(this.name().split("_")[0]);
+    public Type getType() {
+        return Type.valueOf(this.name().split("_")[0]);
     }
 
-    public enum PermissionType {
+    public enum Type {
         SERVER,
         GLOBAL
     }

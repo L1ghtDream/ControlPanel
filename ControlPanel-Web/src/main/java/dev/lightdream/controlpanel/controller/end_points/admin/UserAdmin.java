@@ -47,6 +47,7 @@ public class UserAdmin extends EndPoints {
                         return "error.html";
                     }
                     model.addAttribute("user", usr);
+                    model.addAttribute("permissions", PermissionEnum.getOfType(PermissionEnum.Type.GLOBAL));
                     return null;
                 },
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS
@@ -58,7 +59,10 @@ public class UserAdmin extends EndPoints {
 
         return executeEndPoint(model, request, cookieBase64,
                 "user/create.html",
-                null,
+                user -> {
+                    model.addAttribute("permissions", PermissionEnum.getOfType(PermissionEnum.Type.GLOBAL));
+                    return null;
+                },
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_USERS
         );
     }

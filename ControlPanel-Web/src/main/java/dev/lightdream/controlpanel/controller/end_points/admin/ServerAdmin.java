@@ -27,7 +27,7 @@ public class ServerAdmin extends EndPoints {
 
         return executeEndPoint(model, request, cookieBase64,
                 "server/create.html",
-                user->{
+                user -> {
                     model.addAttribute("nodes", Node.getNodes());
                     return null;
                 },

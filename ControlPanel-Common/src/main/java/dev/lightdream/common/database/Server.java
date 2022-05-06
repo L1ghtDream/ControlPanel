@@ -103,8 +103,8 @@ public class Server extends PermissionContainer {
 
     @Override
     @JsonIgnore
-    public PermissionEnum.PermissionType getType() {
-        return PermissionEnum.PermissionType.SERVER;
+    public PermissionEnum.Type getType() {
+        return PermissionEnum.Type.SERVER;
     }
 
     @SneakyThrows

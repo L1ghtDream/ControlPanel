@@ -1,5 +1,6 @@
 package dev.lightdream.controlpanel.controller.end_points;
 
+import dev.lightdream.common.database.Node;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.controller.EndPoints;
@@ -74,6 +75,7 @@ public class Server extends EndPoints {
                 "server/settings.html",
                 (user) -> {
                     model.addAttribute("server", server);
+                    model.addAttribute("nodes", Node.getNodes());
                     return null;
                 },
                 server, PermissionEnum.SERVER_VIEW
@@ -89,7 +91,7 @@ public class Server extends EndPoints {
                 "server/permissions.html",
                 (user) -> {
                     model.addAttribute("server", server);
-                    model.addAttribute("permissions", PermissionEnum.getOfType(PermissionEnum.PermissionType.SERVER));
+                    model.addAttribute("permissions", PermissionEnum.getOfType(PermissionEnum.Type.SERVER));
                     model.addAttribute("users", server.getUsers());
                     return null;
                 },

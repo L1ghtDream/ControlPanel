@@ -28,6 +28,22 @@
                     <div class="header">Access</div>
                     <div class="details">
                         <div class="setting">
+                            <label for="node">Node: </label>
+                            <br>
+                            <select class="form-control form-manage" disabled id="node">
+                                <option selected
+                                        th:each="node: ${nodes}"
+                                        th:if="${server.node.getID()==node.getID()}"
+                                        th:text="${node.name}"
+                                        th:value="${node.getID()}"></option>
+
+                                <option th:each="node: ${nodes}"
+                                        th:if="${server.node.getID()!=node.getID()}"
+                                        th:text="${node.name}"
+                                        th:value="${node.getID()}"></option>
+                            </select>
+                        </div>
+                        <div class="setting">
                             <label for="path">Path: </label>
                             <br>
                             <input class="form-control form-manage" id="path" th:value="${server.path}">

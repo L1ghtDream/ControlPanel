@@ -163,7 +163,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         List<Server> servers = new ArrayList<>();
 
         permissions.forEach(permission -> {
-            if (permission.target.getType().equals(PermissionEnum.PermissionType.SERVER)) {
+            if (permission.target.getType().equals(PermissionEnum.Type.SERVER)) {
                 Server server = (Server) permission.target;
                 if (servers.contains(server)) {
                     return;

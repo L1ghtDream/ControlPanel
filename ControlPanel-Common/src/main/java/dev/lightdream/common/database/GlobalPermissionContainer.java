@@ -15,8 +15,8 @@ public class GlobalPermissionContainer extends PermissionContainer {
     }
 
     @Override
-    public PermissionEnum.PermissionType getType() {
-        return PermissionEnum.PermissionType.GLOBAL;
+    public PermissionEnum.Type getType() {
+        return PermissionEnum.Type.GLOBAL;
     }
 
 }
