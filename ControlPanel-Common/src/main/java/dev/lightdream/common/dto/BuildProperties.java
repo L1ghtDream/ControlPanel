@@ -130,13 +130,6 @@ public class BuildProperties {
             responseString += ".0";
         }
 
-        // TODO Remove
-        responseString = "2.3.4";
-
-        // TODO Remove
-        if (releaseIndex == 1) {
-            responseString = "1.3.4";
-        }
         return responseString;
     }
 
