@@ -1,5 +1,6 @@
 package dev.lightdream.node.manager;
 
+import dev.lightdream.common.database.Node;
 import dev.lightdream.common.dto.ServerStats;
 import dev.lightdream.common.dto.cache.CacheRegistry;
 import dev.lightdream.common.dto.redis.event.impl.CacheUpdateEvent;
@@ -16,7 +17,15 @@ public class CacheManager {
         new Runnable(cache -> {
             CacheRegistry registry = new CacheRegistry();
 
-            main.getNode().getServers().forEach(server -> {
+            Node node = main.getNode();
+
+            if(node==null){
+                Logger.error("The current node is initialized as a panel node. Please check the config file and " +
+                        "the panel admin page > nodes");
+                return;
+            }
+
+            node.getServers().forEach(server -> {
                 ServerStats stats = server.getStats();
 
                 registry.memoryUsageCache.set(server, stats.memoryUsage);

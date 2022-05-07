@@ -27,11 +27,19 @@ public class RedisManager {
     public RedisManager(String id) {
         Debugger.info("Creating RedisManager with listenID: " + id);
         this.listenID = id;
-        this.jedis = new Jedis(CommonMain.instance.redisConfig.host, CommonMain.instance.redisConfig.port);
-        this.jedis.auth(CommonMain.instance.redisConfig.username, CommonMain.instance.redisConfig.password);
 
-        this.subscriberJedis = new Jedis(CommonMain.instance.redisConfig.host, CommonMain.instance.redisConfig.port);
-        this.subscriberJedis.auth(CommonMain.instance.redisConfig.username, CommonMain.instance.redisConfig.password);
+        String username = CommonMain.instance.redisConfig.username;
+        String password = CommonMain.instance.redisConfig.password;
+        String host = CommonMain.instance.redisConfig.host;
+        int port = CommonMain.instance.redisConfig.port;
+
+        Debugger.log("Connecting to redis server on " + username + "@" + host + ":" + port);
+
+        this.jedis = new Jedis(host, port);
+        this.jedis.auth(username, password);
+
+        this.subscriberJedis = new Jedis(host, port);
+        this.subscriberJedis.auth(username, password);
 
         subscribe();
     }

@@ -45,6 +45,7 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
 
         fileManager = new FileManager(this);
         MessageBuilderManager.init(fileManager);
+        Logger.info("Using config located at " + getDataFolder().getPath());
         loadConfigs(fileManager);
 
         databaseManager = new DatabaseManager(this);
