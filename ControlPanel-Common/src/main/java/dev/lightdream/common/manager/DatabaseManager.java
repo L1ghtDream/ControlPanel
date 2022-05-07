@@ -153,7 +153,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         new Node(nodeID, name, ip, username, sshPort, sftpPort).save();
     }
 
-    public void createNode(NodeData data) {
+    public void createNode(NodeData.Create data) {
         createNode(data.id, data.name, data.ip, data.username, data.sshPort, data.sftpPort);
     }
 

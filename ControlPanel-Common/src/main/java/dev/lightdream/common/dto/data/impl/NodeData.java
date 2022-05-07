@@ -13,8 +13,6 @@ import java.net.InetAddress;
 @NoArgsConstructor
 public class NodeData extends Validatable {
 
-    @Validate(validateMethod = "validateID")
-    public String id;
 
     @Validate()
     public String name;
@@ -42,8 +40,26 @@ public class NodeData extends Validatable {
                 sshPort > 0;
     }
 
-    @SuppressWarnings("unused")
-    public boolean validateID() {
-        return Node.getNode(id) != null;
+    public static class Create extends NodeData {
+        @Validate(validateMethod = "validateID")
+        public String id;
+
+        @SuppressWarnings("unused")
+        public boolean validateID() {
+            return Node.getNode(id) == null;
+        }
     }
+
+
+    public static class Update extends NodeData {
+        @Validate(validateMethod = "validateID")
+        public String id;
+
+        @SuppressWarnings("unused")
+        public boolean validateID() {
+            return Node.getNode(id) != null;
+        }
+    }
+
+
 }

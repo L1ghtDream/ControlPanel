@@ -2,7 +2,6 @@ package dev.lightdream.controlpanel.controller.rest_end_points;
 
 import dev.lightdream.common.database.GlobalPermissionContainer;
 import dev.lightdream.common.dto.data.impl.NodeData;
-import dev.lightdream.common.dto.data.impl.ServerData;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.controlpanel.Main;
@@ -26,7 +25,7 @@ public class NodeRest extends RestEndPoints {
     @PostMapping("/api/node/{nodeID}/save")
     @ResponseBody
     public Response nodeSettings(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
-                                 @PathVariable String nodeID, @RequestBody NodeData data) {
+                                 @PathVariable String nodeID, @RequestBody NodeData.Update data) {
 
         dev.lightdream.common.database.Node node = dev.lightdream.common.database.Node.getNode(nodeID);
 
@@ -70,7 +69,7 @@ public class NodeRest extends RestEndPoints {
     @PostMapping("/api/node/create")
     @ResponseBody
     public Response serverCreate(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
-                                 @RequestBody NodeData data) {
+                                 @RequestBody NodeData.Create data) {
         return executeEndPoint(request, cookieBase64,
                 (user) -> {
                     if (!data.validate()) {
