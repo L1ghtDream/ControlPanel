@@ -19,7 +19,7 @@ public class CacheManager {
 
             Node node = main.getNode();
 
-            if(node==null){
+            if (node == null) {
                 Logger.error("The current node is initialized as a panel node. Please check the config file and " +
                         "the panel admin page > nodes");
                 return;
