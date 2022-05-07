@@ -5,7 +5,7 @@ registerEventListener("reset", reload)
 registerEventListener("delete", deleteNode)
 registerEventListener("create", createNode)
 
-async function sendNodeData(api){
+async function sendNodeData(api, callback) {
     callAPI(api, {
         id: document.getElementById('id').value,
         name: document.getElementById('name').value,
@@ -13,18 +13,20 @@ async function sendNodeData(api){
         username: document.getElementById('username').value,
         sshPort: document.getElementById('ssh_port').value,
         sftpPort: document.getElementById('sftp_port').value
-    }, () => {
-        reload();
-    });
+    }, callback);
 }
 
-async function createNode(){
-    sendNodeData("/api/node/create")
+async function createNode() {
+    sendNodeData("/api/node/create", () => {
+        redirect("/admin/nodes")
+    })
 }
 
 async function save() {
     let nodeID = document.getElementById('id').value;
-    sendNodeData("/api/node/" + nodeID + "/save")
+    sendNodeData("/api/node/" + nodeID + "/save", () => {
+        reload();
+    });
 }
 
 async function deleteNode() {
