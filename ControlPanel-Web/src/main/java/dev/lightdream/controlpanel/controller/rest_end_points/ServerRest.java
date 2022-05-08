@@ -1,14 +1,17 @@
 package dev.lightdream.controlpanel.controller.rest_end_points;
 
-import dev.lightdream.common.database.*;
+import dev.lightdream.common.database.GlobalPermissionContainer;
+import dev.lightdream.common.database.Node;
+import dev.lightdream.common.database.Server;
+import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.Command;
+import dev.lightdream.common.dto.data.impl.ServerData;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.controller.RestEndPoints;
 import dev.lightdream.controlpanel.dto.Log;
-import dev.lightdream.common.dto.data.impl.ServerData;
 import dev.lightdream.controlpanel.dto.data.PermissionData;
 import dev.lightdream.controlpanel.dto.data.UserID;
 import dev.lightdream.controlpanel.service.ConsoleService;
@@ -129,7 +132,7 @@ public class ServerRest extends RestEndPoints {
     @PostMapping("/api/server/{serverID}/save")
     @ResponseBody
     public Response nodeSettings(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
-                                 @PathVariable String serverID, @RequestBody ServerData data) {
+                                 @PathVariable String serverID, @RequestBody ServerData.Update data) {
 
         dev.lightdream.common.database.Server server = dev.lightdream.common.database.Server.getServer(serverID);
 
@@ -149,6 +152,8 @@ public class ServerRest extends RestEndPoints {
                     server.startIfOffline = data.startIfOffline;
                     server.save();
 
+                    server.node.executeCommand("mkdir -p " + server.path);
+
                     return Response.OK();
                 },
                 GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES
@@ -159,13 +164,13 @@ public class ServerRest extends RestEndPoints {
     @PostMapping("/api/server/create")
     @ResponseBody
     public Response serverCreate(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
-                                 @RequestBody ServerData data) {
+                                 @RequestBody ServerData.Create data) {
         return executeEndPoint(request, cookieBase64,
                 (user) -> {
+                    Debugger.log(Utils.toJson(data));
                     if (!data.validate()) {
                         return Response.BAD_DATA(data.getInvalidFields());
                     }
-
                     Main.instance.databaseManager.createServer(data);
                     return Response.OK();
                 },
@@ -201,7 +206,7 @@ public class ServerRest extends RestEndPoints {
                     Server server = Server.getServer(serverID);
                     User usr = User.getUser(data.userID);
 
-                    if(server==null || usr==null){
+                    if (server == null || usr == null) {
                         return Response.BAD_DATA();
                     }
 
@@ -227,5 +232,25 @@ public class ServerRest extends RestEndPoints {
         );
     }
 
-    //
+    //TODO Test
+    @PostMapping("/api/server/{serverID}/delete")
+    @ResponseBody
+    public Response serverDelete(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
+                                 @PathVariable String serverID) {
+        return executeEndPoint(request, cookieBase64,
+                (user) -> {
+                    Debugger.log("Deleting server with id: " + serverID);
+                    dev.lightdream.common.database.Server server = dev.lightdream.common.database.Server.getServer(serverID);
+                    Debugger.log("Deleting server: " + server);
+
+                    if (server == null) {
+                        return Response.NOT_FOUND();
+                    }
+
+                    server.delete();
+                    return Response.OK();
+                },
+                GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES
+        );
+    }
 }

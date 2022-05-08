@@ -1,8 +1,10 @@
 package dev.lightdream.common.dto.data.impl;
 
 import dev.lightdream.common.database.Node;
+import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.data.Validatable;
 import dev.lightdream.common.dto.data.annotation.Validate;
+import dev.lightdream.logger.Debugger;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -10,19 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ServerData extends Validatable {
 
-    @Validate
-    public String id;
     @Validate(validateMethod = "validateNode")
     public String nodeID;
-
     @Validate
     public String name;
-
     @Validate
     public String path;
     @Validate(validateMethod = "validatePort")
     public Integer port;
-
     @Validate(validateMethod = "validateJava")
     public String java;
     @Validate(validateMethod = "validateRAM")
@@ -39,14 +36,17 @@ public class ServerData extends Validatable {
                 port > 0;
     }
 
+    @SuppressWarnings("unused")
     public boolean validateRAM() {
         return ram.matches("[0-9]+[KMG]");
     }
 
+    @SuppressWarnings("unused")
     public boolean validateJar() {
         return serverJar.endsWith(".jar");
     }
 
+    @SuppressWarnings("unused")
     public boolean validateJava() {
         return java.equals("8") ||
                 java.equals("JDK_8") ||
@@ -58,8 +58,31 @@ public class ServerData extends Validatable {
                 java.equals("JDK_11");
     }
 
-    public boolean validateNode(){
+
+    @SuppressWarnings("unused")
+    public boolean validateNode() {
+        Debugger.log("Validating node with ID: " + nodeID);
         return Node.getNode(nodeID) != null;
+    }
+
+    public static class Create extends ServerData {
+        @Validate(validateMethod = "validateID")
+        public String id;
+
+        @SuppressWarnings("unused")
+        public boolean validateID() {
+            return Server.getServer(id) == null;
+        }
+    }
+
+    public static class Update extends ServerData {
+        @Validate(validateMethod = "validateID")
+        public String id;
+
+        @SuppressWarnings("unused")
+        public boolean validateID() {
+            return Server.getServer(id) != null;
+        }
     }
 
 }
