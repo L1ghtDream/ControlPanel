@@ -17,14 +17,12 @@ async function sendServerData(api, callback) {
         serverJar: document.getElementById('server_jar').value,
         args: document.getElementById('args').value,
         startIfOffline: document.getElementById('start_if_offline').value
-    }, () => {
-        reload();
     }, callback);
 }
 
 async function save() {
     let serverID = document.getElementById('id').value;
-    sendServerData("/api/server/" + serverID + "/save")
+    sendServerData("/api/server/" + serverID + "/save", reload)
 }
 
 async function createServer() {
@@ -34,10 +32,10 @@ async function createServer() {
 }
 
 async function deleteServer() {
-    let nodeID = document.getElementById('id').value;
+    let serverID = document.getElementById('id').value;
 
-    callAPI("/api/node/" + nodeID + "/delete", {}, () => {
-        reload();
+    callAPI("/api/server/" + serverID + "/delete", {}, () => {
+        redirect("/")
     });
 }
 
