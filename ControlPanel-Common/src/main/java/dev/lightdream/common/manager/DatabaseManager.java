@@ -135,7 +135,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         new Server(serverID, name, path, node, port, java, ram, serverJar, args, startIfOffline).save();
     }
 
-    public void createServer(ServerData data) {
+    public void createServer(ServerData.Create data) {
         if (getServer(data.id) != null) {
             return;
         }

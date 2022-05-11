@@ -86,6 +86,10 @@ public class BuildProperties {
             return 0;
         }
 
+        if(getNewestVersion().equals("UNKNOWN")) {
+            return 100;
+        }
+
         String[] newestVersion = getNewestVersion().split("\\.");
         String[] version = this.version.split("\\.");
 
@@ -101,36 +105,41 @@ public class BuildProperties {
 
     @SneakyThrows
     public String getNewestVersion() {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(Utils.downloadURL))
-                .GET() // GET is default
-                .build();
+        try {
 
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(Utils.downloadURL))
+                    .GET() // GET is default
+                    .build();
 
-        String responseString = response.body();
+            HttpResponse<String> response = client.send(request,
+                    HttpResponse.BodyHandlers.ofString());
 
-        responseString = responseString.substring(
-                responseString.indexOf("<h3 class=\"d-inline\">Assets</h3>"),
-                responseString.indexOf("<span class=\"px-1 text-bold\">Source code</span>\n" +
-                        "            (zip)")
-        ).split("<span class=\"px-1 text-bold\">")[releaseIndex];
+            String responseString = response.body();
 
-        responseString = responseString.substring(responseString.indexOf("/L1ghtDream/ControlPanel/releases/download/latest/"),
-                responseString.indexOf(".jar\" rel=\"nofollow\" data-skip-pjax>")
-        );
+            responseString = responseString.substring(
+                    responseString.indexOf("<h3 class=\"d-inline\">Assets</h3>"),
+                    responseString.indexOf("<span class=\"px-1 text-bold\">Source code</span>\n" +
+                            "            (zip)")
+            ).split("<span class=\"px-1 text-bold\">")[releaseIndex];
 
-        responseString = responseString.replace("/L1ghtDream/ControlPanel/releases/download/latest/", "");
-        responseString = responseString.split("-")[2];
+            responseString = responseString.substring(responseString.indexOf("/L1ghtDream/ControlPanel/releases/download/latest/"),
+                    responseString.indexOf(".jar\" rel=\"nofollow\" data-skip-pjax>")
+            );
 
-        while (responseString.split("\\.").length < 3) {
-            //noinspection StringConcatenationInLoop
-            responseString += ".0";
+            responseString = responseString.replace("/L1ghtDream/ControlPanel/releases/download/latest/", "");
+            responseString = responseString.split("-")[2];
+
+            while (responseString.split("\\.").length < 3) {
+                //noinspection StringConcatenationInLoop
+                responseString += ".0";
+            }
+
+            return responseString;
+        } catch (Throwable t) {
+            return "UNKNOWN";
         }
-
-        return responseString;
     }
 
     @SuppressWarnings("unused")

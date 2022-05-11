@@ -4,7 +4,7 @@ REMOTE=root@htz1.original.gg
 WORKING_DIR="/home/ControlPanel"
 
 # Sync the files from the local machine to the remote machine
-rsync -avh ../. $REMOTE:/$WORKING_DIR --delete --exclude '.run/config'
+rsync -avh -e "ssh -i config/ssh_keys/htz-1" ../. root@htz1.original.gg:$WORKING_DIR --delete --exclude '.run/config'
 
 # Stop all the currently running processes
 sh kill-all.sh

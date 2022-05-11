@@ -159,7 +159,7 @@ public class ServerRest extends RestEndPoints {
     @PostMapping("/api/server/create")
     @ResponseBody
     public Response serverCreate(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
-                                 @RequestBody ServerData data) {
+                                 @RequestBody ServerData.Create data) {
         return executeEndPoint(request, cookieBase64,
                 (user) -> {
                     if (!data.validate()) {
@@ -227,5 +227,23 @@ public class ServerRest extends RestEndPoints {
         );
     }
 
-    //
+    //TODO Test
+    @PostMapping("/api/server/{serverID}/delete")
+    @ResponseBody
+    public Response serverDelete(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
+                               @PathVariable String serverID) {
+        return executeEndPoint(request, cookieBase64,
+                (user) -> {
+                    dev.lightdream.common.database.Server server = dev.lightdream.common.database.Server.getServer(serverID);
+
+                    if (server == null) {
+                        return Response.NOT_FOUND();
+                    }
+
+                    server.delete();
+                    return Response.OK();
+                },
+                GlobalPermissionContainer.getInstance(), PermissionEnum.GLOBAL_MANAGE_NODES
+        );
+    }
 }

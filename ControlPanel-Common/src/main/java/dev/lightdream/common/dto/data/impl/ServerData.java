@@ -10,10 +10,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ServerData extends Validatable {
 
+    public static class Create extends ServerData{
+        @Validate(validateMethod = "validateID")
+        public String nodeID;
+
+        @SuppressWarnings("unused")
+        public boolean validateID(){
+            return Node.getNode(nodeID) == null;
+        }
+    }
+
+    public static class Update{
+        @Validate(validateMethod = "validateID")
+        public String nodeID;
+
+        @SuppressWarnings("unused")
+        public boolean validateID(){
+            return Node.getNode(nodeID) != null;
+        }
+    }
+
     @Validate
     public String id;
-    @Validate(validateMethod = "validateNode")
-    public String nodeID;
 
     @Validate
     public String name;
@@ -39,14 +57,17 @@ public class ServerData extends Validatable {
                 port > 0;
     }
 
+    @SuppressWarnings("unused")
     public boolean validateRAM() {
         return ram.matches("[0-9]+[KMG]");
     }
 
+    @SuppressWarnings("unused")
     public boolean validateJar() {
         return serverJar.endsWith(".jar");
     }
 
+    @SuppressWarnings("unused")
     public boolean validateJava() {
         return java.equals("8") ||
                 java.equals("JDK_8") ||
@@ -56,10 +77,6 @@ public class ServerData extends Validatable {
                 java.equals("JDK_16") ||
                 java.equals("11") ||
                 java.equals("JDK_11");
-    }
-
-    public boolean validateNode(){
-        return Node.getNode(nodeID) != null;
     }
 
 }
