@@ -75,6 +75,7 @@ public class Server extends PermissionContainer {
         this.args = args;
         this.startIfOffline = startIfOffline;
         this.node.executeCommand("mkdir -p " + path);
+        createStartScript();
         CommonMain.instance.registerServerWebSocket(this);
     }
 
@@ -88,14 +89,22 @@ public class Server extends PermissionContainer {
         return CommonMain.instance.databaseManager.getServers();
     }
 
-    public void start() {
-        this.node.executeCommand(CommonMain.instance.getConfig().SERVER_START_CMD
+    private void createStartScript() {
+        this.node.executeCommand(CommonMain.instance.getConfig().CREATE_START_SCRIPT
                 .parse("id", id)
                 .parse("java", CommonMain.instance.getConfig().getJava(java))
                 .parse("ram", ram)
                 .parse("server_jar", serverJar)
                 .parse("path", path)
                 .parse("args", args)
+                .parse()
+        );
+    }
+
+    public void start() {
+        createStartScript();
+        this.node.executeCommand(CommonMain.instance.getConfig().SERVER_START_CMD
+                .parse("path", path)
                 .parse()
         );
         this.killed = false;
@@ -159,11 +168,13 @@ public class Server extends PermissionContainer {
             return 0.0;
         }
 
-        return Double.parseDouble(node.executeCommand(
+        String output = node.executeCommand(
                 CommonMain.instance.getConfig().MEMORY_ALLOCATED_CMD
-                        .parse("pid", pid.toString())
+                        //.parse("pid", pid.toString())
+                        .parse("path", path)
                         .parse()
-        ).trim());
+        ).trim().replace("-Xmx", "");
+        return Utils.memoryFromString(output);
     }
 
     /**
@@ -254,7 +265,7 @@ public class Server extends PermissionContainer {
         return new ServerStats(
                 this,                              // Server ID
                 Utils.doubleOrNegative(stats[0].trim()), // memory usage
-                Utils.doubleOrNegative(stats[1].trim()), // memory allocation
+                Utils.memoryFromString(stats[1].trim().replace("-Xmx", "")), // memory allocation
                 Utils.doubleOrNegative(stats[2].trim()), // cpu usage
                 Utils.doubleOrNegative(stats[3].trim()), // storage usage
                 true                                     // online status

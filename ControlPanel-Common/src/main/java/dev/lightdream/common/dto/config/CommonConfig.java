@@ -27,7 +27,7 @@ public class CommonConfig {
 
     // ---------- Linux Commands ----------
 
-    public MessageBuilder SERVER_START_CMD = new MessageBuilder("" +
+    public MessageBuilder CREATE_START_SCRIPT = new MessageBuilder("" +
             "echo " +
             "\"screen -dmS %id% " +
             "-L -Logfile session.log bash -c " +
@@ -41,7 +41,10 @@ public class CommonConfig {
             "-jar %server_jar%" +
             "\\\"; " +
             "screen -S %id% -X colon \\\"logfile flush 0^M\\\"\" " +
-            "> %path%/start.sh;" +
+            "> %path%/start.sh;"
+    );
+
+    public MessageBuilder SERVER_START_CMD = new MessageBuilder("" +
             "cd %path%; " +
             "sh start.sh"
     );
@@ -57,7 +60,9 @@ public class CommonConfig {
             "pmap -x %pid% | tail -n 1 | awk '{print $4}'"
     );
     public MessageBuilder MEMORY_ALLOCATED_CMD = new MessageBuilder(
-            "jstat -gccapacity %pid% | tail -n 1 | awk '{print $2}'"
+            "cat %path%/start.sh | awk '{print $11}'" // -Xmx8G
+            //"jcmd %pid% VM.command_line | head -3 | tail -1 | awk '{print $3}'" // -Xmx8G
+            //"jstat -gccapacity %pid% | tail -n 1 | awk '{print $2}'"
             //"pmap -x %pid% | tail -n 1 | awk '{print $3}'"
     );
     public MessageBuilder PID_GRAB_CMD = new MessageBuilder(

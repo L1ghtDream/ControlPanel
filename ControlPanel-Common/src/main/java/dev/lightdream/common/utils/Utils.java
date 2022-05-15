@@ -11,6 +11,7 @@ import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.Node;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.data.Cookie;
+import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Hex;
@@ -125,6 +126,49 @@ public class Utils {
         } catch (Throwable t) {
             return new Cookie();
         }
+    }
+
+    public static Double memoryFromString(String memory) {
+        return memoryFromString(memory, true);
+    }
+
+    public static Double memoryFromString(String memory, boolean shortFormat) {
+        Debugger.log(memory);
+
+        if (memory.length() == 0) {
+            return 0.0;
+        }
+
+        String unit = memory.substring(memory.length() - 1);
+        String value = memory.substring(0, memory.length() - 1);
+
+        Debugger.log("unit: " + unit);
+        Debugger.log("value: " + value);
+
+        if (shortFormat) {
+            switch (unit) {
+                case "K":
+                    return Double.parseDouble(value);
+                case "M":
+                    return Double.parseDouble(value) * 1024;
+                case "G":
+                    return Double.parseDouble(value) * 1024 * 1024;
+                case "T":
+                    return Double.parseDouble(value) * 1024 * 1024 * 1024;
+            }
+            return 0.0;
+        }
+        switch (unit) {
+            case "KB":
+                return Double.parseDouble(value);
+            case "MB":
+                return Double.parseDouble(value) * 1024;
+            case "GB":
+                return Double.parseDouble(value) * 1024 * 1024;
+            case "TB":
+                return Double.parseDouble(value) * 1024 * 1024 * 1024;
+        }
+        return 0.0;
     }
 
     /**
