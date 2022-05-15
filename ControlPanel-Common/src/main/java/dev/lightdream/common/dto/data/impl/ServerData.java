@@ -10,37 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ServerData extends Validatable {
 
-    public static class Create extends ServerData{
-        @Validate(validateMethod = "validateID")
-        public String nodeID;
-
-        @SuppressWarnings("unused")
-        public boolean validateID(){
-            return Node.getNode(nodeID) == null;
-        }
-    }
-
-    public static class Update{
-        @Validate(validateMethod = "validateID")
-        public String nodeID;
-
-        @SuppressWarnings("unused")
-        public boolean validateID(){
-            return Node.getNode(nodeID) != null;
-        }
-    }
-
-    @Validate
-    public String id;
-
+    @Validate(validateMethod = "validateNode")
+    public String nodeID;
     @Validate
     public String name;
-
     @Validate
     public String path;
     @Validate(validateMethod = "validatePort")
     public Integer port;
-
     @Validate(validateMethod = "validateJava")
     public String java;
     @Validate(validateMethod = "validateRAM")
@@ -50,6 +27,11 @@ public class ServerData extends Validatable {
     @Validate(emptyAllowed = true)
     public String args;
     public boolean startIfOffline;
+
+    @SuppressWarnings("unused")
+    public boolean validateNode() {
+        return Node.getNode(nodeID) != null;
+    }
 
     @SuppressWarnings("unused")
     public boolean validatePort() {
@@ -77,6 +59,24 @@ public class ServerData extends Validatable {
                 java.equals("JDK_16") ||
                 java.equals("11") ||
                 java.equals("JDK_11");
+    }
+
+    public static class Create extends ServerData {
+        @Validate(validateMethod = "validateID")
+        public String id;
+
+        public boolean validateID() {
+            return Node.getNode(id) == null;
+        }
+    }
+
+    public static class Update extends ServerData {
+        @Validate(validateMethod = "validateID")
+        public String id;
+
+        public boolean validateID() {
+            return Node.getNode(id) != null;
+        }
     }
 
 }
