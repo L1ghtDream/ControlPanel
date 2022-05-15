@@ -11,6 +11,7 @@ import dev.lightdream.node.dto.Config;
 import dev.lightdream.node.manager.CacheManager;
 import dev.lightdream.node.manager.RedisEventListener;
 import dev.lightdream.node.manager.SFTPServerManager;
+import dev.lightdream.runnable.Runnable;
 
 
 public class Main extends CommonMain {
@@ -35,10 +36,11 @@ public class Main extends CommonMain {
         redisEventListener = new RedisEventListener(this);
         cacheManager = new CacheManager(this);
 
-        // Infinite loop for sftp server keep alive
-        // noinspection InfiniteLoopStatement,StatementWithEmptyBody
-        while (true) {
-        }
+        new Thread(() -> {
+            new Runnable(runnable -> {
+                // noop
+            }, 60 * 1000L); // 1 minute
+        }).start();
     }
 
     @Override
