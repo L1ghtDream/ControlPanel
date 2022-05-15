@@ -60,10 +60,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     public void registerServerWS(Server server){
+        Logger.info("[Broker] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/console\"");
         paths.add("/server/" + server.id + "/api/console");
 
         config.enableSimpleBroker(paths.toArray(new String[0]));
 
+        Logger.info("[Stomp] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/server\"");
         registry.addEndpoint("/server/" + server.id + "/api/server");
         registry.addEndpoint("/server/" + server.id + "/api/server").withSockJS();
     }
