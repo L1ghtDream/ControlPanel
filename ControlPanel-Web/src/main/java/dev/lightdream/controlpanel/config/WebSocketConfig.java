@@ -18,10 +18,9 @@ import java.util.List;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     public static WebSocketConfig instance;
+    private final List<String> paths = new ArrayList<>();
     public MessageBrokerRegistry config;
     public StompEndpointRegistry registry;
-
-    private final List<String> paths = new ArrayList<>();
 
     @Override
     public void configureMessageBroker(@NotNull MessageBrokerRegistry config) {
@@ -32,11 +31,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             this.config = config;
         }
 
-        Server.getServers().forEach(server -> {
-            Logger.info("[Broker] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/console\"");
+        Logger.info("[Broker] Registering @ \"/server/api/console\"");
 
-            paths.add("/server/" + server.id + "/api/console");
-        });
+        paths.add("/server/api/console");
 
         config.enableSimpleBroker(paths.toArray(new String[0]));
         config.setApplicationDestinationPrefixes("/app");
@@ -59,11 +56,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         });
     }
 
-    public void registerServerWS(Server server){
-        Logger.info("[Broker] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/console\"");
-        paths.add("/server/" + server.id + "/api/console");
-
-        config.enableSimpleBroker(paths.toArray(new String[0]));
+    public void registerServerWS(Server server) {
+        //Logger.info("[Broker] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/console\"");
+        //paths.add("/server/" + server.id + "/api/console");
+        //config.enableSimpleBroker(paths.toArray(new String[0]));
 
         Logger.info("[Stomp] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/server\"");
         registry.addEndpoint("/server/" + server.id + "/api/server");

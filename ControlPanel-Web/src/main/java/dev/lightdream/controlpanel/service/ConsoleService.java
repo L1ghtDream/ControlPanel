@@ -2,6 +2,7 @@ package dev.lightdream.controlpanel.service;
 
 import dev.lightdream.common.database.Server;
 import dev.lightdream.controlpanel.dto.Log;
+import dev.lightdream.controlpanel.dto.data.MessageData;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -30,7 +31,9 @@ public class ConsoleService {
             output.append(logMessage);
         });
 
-        messageManager.convertAndSend("/server/" + server.id + "/api/console", output.toString());
+        MessageData data = new MessageData(server.id, output.toString());
+
+        messageManager.convertAndSend("/server/api/console", data.toString());
     }
 
 }
