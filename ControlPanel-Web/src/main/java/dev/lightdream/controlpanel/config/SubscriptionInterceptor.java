@@ -44,24 +44,24 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
             throw new IllegalArgumentException("401. Null credentials");
         }
 
-        int userID = Integer.parseInt(usernames.get(0));
+        String username = usernames.get(0);
         String password = passwords.get(0);
 
         if (command.equals(StompCommand.CONNECT)) {
-            if (!validateConnection(userID, password)) {
+            if (!validateConnection(username, password)) {
                 throw new IllegalArgumentException("401. Invalid credentials for connect");
             }
         }
 
         if (command.equals(StompCommand.SUBSCRIBE)) {
-            if (!validateSubscription(userID, password, headers.getDestination())) {
+            if (!validateSubscription(username, password, headers.getDestination())) {
                 throw new IllegalArgumentException("401. Invalid credentials for subscribe");
             }
-            sendCurrentLog(userID, password, headers.getDestination());
+            sendCurrentLog(username, password, headers.getDestination());
         }
 
         if (command.equals(StompCommand.SEND)) {
-            if (!validateCommand(userID, password, Utils.payloadToString(message))) {
+            if (!validateCommand(username, password, Utils.payloadToString(message))) {
                 throw new IllegalArgumentException("401. Invalid credentials for send");
             }
         }
@@ -69,15 +69,15 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         return message;
     }
 
-    private boolean validateConnection(int userID, String password) {
+    private boolean validateConnection(String username, String password) {
         if (password == null) {
             return false;
         }
 
-        return AuthUtils.checkHash(userID, password);
+        return AuthUtils.checkHash(username, password);
     }
 
-    private boolean validateSubscription(int userID, String password, String destination) {
+    private boolean validateSubscription(String username, String password, String destination) {
         if (password == null || destination == null) {
             return false;
         }
@@ -85,19 +85,19 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
         // /server/{server}/api/console
         String serverName = destination.split("/")[2];
 
-        User user = User.getUser(userID);
+        User user = User.getUser(username);
         Server server = Utils.getServer(serverName);
 
         return user.hasPermission(server, PermissionEnum.SERVER_CONSOLE);
     }
 
-    private boolean validateCommand(int userID, String password, String commandJson) {
+    private boolean validateCommand(String username, String password, String commandJson) {
         if (password == null || commandJson == null) {
             return false;
         }
 
         Command command = Utils.fromJson(commandJson, Command.class);
-        User user = User.getUser(userID);
+        User user = User.getUser(username);
         Server server = command.getServer();
 
         if (command.isServerCommand()) {
@@ -108,7 +108,7 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
     }
 
     @SuppressWarnings("unused")
-    private void sendCurrentLog(int userID, String password, String destination) {
+    private void sendCurrentLog(String username, String password, String destination) {
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
