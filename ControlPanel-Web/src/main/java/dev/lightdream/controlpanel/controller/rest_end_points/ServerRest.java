@@ -131,8 +131,8 @@ public class ServerRest extends RestEndPoints {
 
     @PostMapping("/api/server/{serverID}/save")
     @ResponseBody
-    public Response nodeSettings(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
-                                 @PathVariable String serverID, @RequestBody ServerData.Update data) {
+    public Response serverSettings(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
+                                   @PathVariable String serverID, @RequestBody ServerData.Update data) {
 
         dev.lightdream.common.database.Server server = dev.lightdream.common.database.Server.getServer(serverID);
 

@@ -1,8 +1,10 @@
 package dev.lightdream.common.dto.data.impl;
 
 import dev.lightdream.common.database.Node;
+import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.data.Validatable;
 import dev.lightdream.common.dto.data.annotation.Validate;
+import dev.lightdream.logger.Debugger;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -65,8 +67,10 @@ public class ServerData extends Validatable {
         @Validate(validateMethod = "validateID")
         public String id;
 
+        @SuppressWarnings("unused")
         public boolean validateID() {
-            return Node.getNode(id) == null;
+            Debugger.log("Validating ServerData.Create#id");
+            return Server.getServer(id) == null;
         }
     }
 
@@ -74,8 +78,10 @@ public class ServerData extends Validatable {
         @Validate(validateMethod = "validateID")
         public String id;
 
+        @SuppressWarnings("unused")
         public boolean validateID() {
-            return Node.getNode(id) != null;
+            Debugger.log("Validating ServerData.Update#id");
+            return Server.getServer(id) != null;
         }
     }
 
