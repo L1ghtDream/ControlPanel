@@ -33,7 +33,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         Logger.info("[Broker] Registering @ \"/server/api/console\"");
 
-        paths.add("/server/api");// /
+        paths.add("/server/api/console");// /
 
 
         config.enableSimpleBroker(paths.toArray(new String[0]));

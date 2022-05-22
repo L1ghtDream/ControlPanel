@@ -2,7 +2,6 @@ package dev.lightdream.controlpanel.manager;
 
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.utils.ConsoleColor;
-import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.Main;
 import dev.lightdream.controlpanel.dto.Log;
 import dev.lightdream.controlpanel.service.ConsoleService;
@@ -66,16 +65,12 @@ public class LogManager {
                                 );
                             }
 
-                            Debugger.log(Utils.toJson(logList));
-
                             logList.removeIf(s ->
                                     s.equals("")||
                                     s.equals("<br>")||
                                     s.equals("\r<br>")||
                                     s.equals("\n")
                             );
-
-                            Debugger.log(Utils.toJson(logList));
 
                             Log newLog = new Log(logList);
                             getLog(server).addLog(newLog);
