@@ -66,7 +66,7 @@ public class CommonConfig {
             //"pmap -x %pid% | tail -n 1 | awk '{print $3}'"
     );
     public MessageBuilder PID_GRAB_CMD = new MessageBuilder(
-            "lsof -i :%port% | grep LISTEN | awk '{print $2}'"
+            "lsof -i :%port% | grep *:%port% | awk '{print $2}' | tail -n 1"
     );
     public MessageBuilder CPU_USAGE_CMD = new MessageBuilder(
             "top -b -n 1 -p %pid% | tail -n 1 | awk '{print $9}'"

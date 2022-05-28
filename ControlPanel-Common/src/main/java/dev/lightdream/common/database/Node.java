@@ -7,6 +7,7 @@ import dev.lightdream.common.dto.redis.event.impl.PingEvent;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.databasemanager.dto.entry.impl.StringDatabaseEntry;
+import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
@@ -58,6 +59,8 @@ public class Node extends StringDatabaseEntry {
     @SuppressWarnings("UnusedReturnValue")
     @SneakyThrows
     public static String executeCommandLocal(String command) {
+        Debugger.log("Executing local command: " + command);
+
         Process process = new ProcessBuilder("bash", "-c", command)
                 .redirectErrorStream(true)
                 .start();

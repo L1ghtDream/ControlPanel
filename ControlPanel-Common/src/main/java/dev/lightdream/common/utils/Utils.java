@@ -133,17 +133,12 @@ public class Utils {
     }
 
     public static Double memoryFromString(String memory, boolean shortFormat) {
-        Debugger.log(memory);
-
         if (memory.length() == 0) {
             return 0.0;
         }
 
         String unit = memory.substring(memory.length() - 1);
         String value = memory.substring(0, memory.length() - 1);
-
-        Debugger.log("unit: " + unit);
-        Debugger.log("value: " + value);
 
         if (shortFormat) {
             switch (unit) {
