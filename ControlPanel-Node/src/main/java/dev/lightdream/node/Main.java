@@ -55,6 +55,11 @@ public class Main extends CommonMain {
     }
 
     @Override
+    public void registerServerLog(Server server) {
+
+    }
+
+    @Override
     public int getReleaseIndex() {
         return 1;
     }

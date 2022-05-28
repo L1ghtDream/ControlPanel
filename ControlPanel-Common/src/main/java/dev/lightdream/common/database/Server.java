@@ -77,6 +77,7 @@ public class Server extends PermissionContainer {
         this.node.executeCommand("mkdir -p " + path);
         createStartScript();
         CommonMain.instance.registerServerWebSocket(this);
+        CommonMain.instance.registerServerLog(this);
     }
 
     @JsonIgnore

@@ -104,6 +104,11 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     }
 
     @Override
+    public void registerServerLog(Server server) {
+        logManager.registerLogListener(server);
+    }
+
+    @Override
     public int getReleaseIndex() {
         return 2;
     }
