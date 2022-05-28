@@ -6,19 +6,22 @@ connect();
 
 function connect() {
     const server = document.getElementById("server").innerText;
-    const socket = new SockJS("/server/" + server + "/api/server");
+    const socket = new SockJS("/server/api/server");
     stompClient = Stomp.over(socket);
 
     stompClient.connect({
-        "username": user.id,
+        "username": user.username,
         "password": user.hash
     }, () => {
-        stompClient.subscribe("/server/" + server + "/api/console", function (messageOutput) {
-            console.log("Received response @ " + Date.now());
-            showMessageOutput(messageOutput.body);
+        stompClient.subscribe("/server/api/console", function (messageOutput) {
+            obj = JSON.parse(messageOutput.body);
+            if (obj.server === server) {
+                showMessageOutput(obj.data);
+            }
         }, {
-            "username": user.id,
-            "password": user.hash
+            "username": user.username,
+            "password": user.hash,
+            "server": server
         });
     });
 }
@@ -28,7 +31,7 @@ function sendMessage(command) {
     const server = document.getElementById("server").innerText;
 
     stompClient.send("/app/server/api/server", {
-            "username": user.id,
+            "username": user.username,
             "password": user.hash
         },
         JSON.stringify({
