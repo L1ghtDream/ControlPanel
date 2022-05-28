@@ -49,12 +49,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             this.registry = registry;
         }
 
-        Server.getServers().forEach(server -> {
-            Logger.info("[Stomp] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/server\"");
+        //Server.getServers().forEach(server -> {
+        //    Logger.info("[Stomp] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/server\"");
 
-            registry.addEndpoint("/server/" + server.id + "/api/server");
-            registry.addEndpoint("/server/" + server.id + "/api/server").withSockJS();
-        });
+        registry.addEndpoint("/server/api/server");
+        registry.addEndpoint("/server/api/server").withSockJS();
+        //});
     }
 
     public void registerServerWS(Server server) {
@@ -62,9 +62,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         //paths.add("/server/" + server.id + "/api/console");
         //config.enableSimpleBroker(paths.toArray(new String[0]));
 
-        Logger.info("[Stomp] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/server\"");
-        registry.addEndpoint("/server/" + server.id + "/api/server");
-        registry.addEndpoint("/server/" + server.id + "/api/server").withSockJS();
+        //Logger.info("[Stomp] Registering server: " + server.id + " @ \"/server/" + server.id + "/api/server\"");
+        //registry.addEndpoint("/server/" + server.id + "/api/server");
+        //registry.addEndpoint("/server/" + server.id + "/api/server").withSockJS();
     }
 
     public void configureClientInboundChannel(ChannelRegistration registration) {
