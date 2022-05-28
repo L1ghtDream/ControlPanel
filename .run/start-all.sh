@@ -1,3 +1,5 @@
+#!/bin/bash
+
 HOME=/home/ControlPanel
 SCREEN_NAME_WEB=Web
 SCREEN_NAME_NODE=Node

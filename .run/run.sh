@@ -9,7 +9,7 @@ HOME=/home/ControlPanel
 cd $HOME || exit
 
 # Build the project
-mvn package
+mvn package;
 
 echo "Coping the jar files to the .run directory"
 
