@@ -11,6 +11,7 @@ import dev.lightdream.node.dto.Config;
 import dev.lightdream.node.manager.CacheManager;
 import dev.lightdream.node.manager.RedisEventListener;
 import dev.lightdream.node.manager.SFTPServerManager;
+import dev.lightdream.node.manager.ScheduleManager;
 import dev.lightdream.runnable.Runnable;
 
 
@@ -22,6 +23,7 @@ public class Main extends CommonMain {
     public SFTPServerManager sftpServerManager;
     public RedisEventListener redisEventListener;
     public CacheManager cacheManager;
+    public ScheduleManager scheduleManager;
 
     // Configs
     public Config config;
@@ -35,6 +37,7 @@ public class Main extends CommonMain {
 
         redisEventListener = new RedisEventListener(this);
         cacheManager = new CacheManager(this);
+        scheduleManager = new ScheduleManager();
 
         new Thread(() -> {
             new Runnable(runnable -> {

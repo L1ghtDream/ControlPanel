@@ -8,6 +8,7 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.databasemanager.annotations.database.DatabaseField;
 import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
+import dev.lightdream.logger.Debugger;
 import dev.lightdream.messagebuilder.MessageBuilder;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -46,10 +47,10 @@ public class Server extends PermissionContainer {
 
     // Persistent vars
     /**
-     * The server has been manually killed and therefore should not be restarted automatically.
+     * The server has been manually stopped and therefore should not be restarted automatically.
      */
-    @DatabaseField(columnName = "killed")
-    public boolean killed;
+    @DatabaseField(columnName = "stopped")
+    public boolean stopped;
 
     /**
      * @param id        The server's id
@@ -108,7 +109,7 @@ public class Server extends PermissionContainer {
                 .parse("path", path)
                 .parse()
         );
-        this.killed = false;
+        this.stopped = false;
     }
 
     @Override
@@ -220,9 +221,9 @@ public class Server extends PermissionContainer {
     /**
      * @return Weather the server is running or not
      */
-    @SuppressWarnings("unused")
     public boolean isOnline() {
-        return getPID() != null;
+        //return getPID() != null;
+        return screenExists();
     }
 
     @JsonIgnore
@@ -321,7 +322,34 @@ public class Server extends PermissionContainer {
                 .parse("port", this.port)
                 .parse()
         );
-        killed = true;
+        stopped = true;
     }
 
+    public boolean screenExists() {
+        String response = node.executeCommand("screen -ls " + this.id);
+
+        Debugger.log("Checking if the screen exists for server " + this.id + " with response: " + response);
+
+        return response != null && !response.contains("No Sockets found") && !response.equals("");
+    }
+
+    public void autoRestartCall() {
+
+        Debugger.log("Attempting Auto restarting server " + this.id);
+
+        if (isOnline() || stopped) {
+            return;
+        }
+
+        Debugger.log("------------------");
+        Debugger.log("Server " + this.id + " is offline, restarting...");
+        Debugger.log("------------------");
+        start();
+    }
+
+    public void stop() {
+        this.stopped = true;
+        save();
+        this.sendCommand("stop");
+    }
 }

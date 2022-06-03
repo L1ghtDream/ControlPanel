@@ -72,16 +72,17 @@ public class ServerRest extends RestEndPoints {
                     }
 
                     if (command.getCommand().equals("stop")) {
-                        ConsoleService.instance.sendConsole(server, new Log("Received stop command", ""));
+                        ConsoleService.instance.sendConsole(server, new Log("Received stop command\n", ""));
+                        return handleStop(user, server);
                     }
 
                     if (command.getCommand().equals("start")) {
-                        ConsoleService.instance.sendConsole(server, new Log("Received start command", ""));
+                        ConsoleService.instance.sendConsole(server, new Log("Received start command\n", ""));
                         return handleStart(user, server);
                     }
 
                     if (command.getCommand().equals("__kill")) {
-                        ConsoleService.instance.sendConsole(server, new Log("Received kill command", ""));
+                        ConsoleService.instance.sendConsole(server, new Log("Received kill command\n", ""));
                         return handleKill(user, server);
                     }
 
@@ -118,6 +119,15 @@ public class ServerRest extends RestEndPoints {
 
         return Response.OK();
 
+    }
+
+    private Response handleStop(User user, Server server) {
+        if (!user.hasPermission(server, PermissionEnum.SERVER_CONTROL)) {
+            return Response.UNAUTHORISED();
+        }
+
+        server.stop();
+        return Response.OK();
     }
 
     private Response handleKill(User user, Server server) {
