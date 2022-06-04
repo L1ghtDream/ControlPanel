@@ -327,9 +327,6 @@ public class Server extends PermissionContainer {
 
     public boolean screenExists() {
         String response = node.executeCommand("screen -ls " + this.id);
-
-        Debugger.log("Checking if the screen exists for server " + this.id + " with response: " + response);
-
         return response != null && !response.contains("No Sockets found") && !response.equals("");
     }
 
