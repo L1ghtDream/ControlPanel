@@ -41,6 +41,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         setup(Permission.class);
         setup(User.class);
         setup(Log.class);
+        setup(IPLog.class);
     }
 
     public List<Node> getNodes() {

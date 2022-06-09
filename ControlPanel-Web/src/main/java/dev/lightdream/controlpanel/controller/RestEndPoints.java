@@ -1,5 +1,6 @@
 package dev.lightdream.controlpanel.controller;
 
+import dev.lightdream.common.database.IPLog;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionContainer;
@@ -43,6 +44,9 @@ public abstract class RestEndPoints {
         }
 
         User user = cookie.getUser();
+        if (request != null) {
+            new IPLog(System.currentTimeMillis(), user.username, user.password, request.getHeader("X-FORWARDED-FOR").split(",")[0]);
+        }
 
         if (permissionContainer != null) {
 

@@ -1,5 +1,6 @@
 package dev.lightdream.controlpanel.controller;
 
+import dev.lightdream.common.database.IPLog;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.data.Cookie;
 import dev.lightdream.common.dto.permission.PermissionContainer;
@@ -34,6 +35,7 @@ public abstract class EndPoints {
         Debugger.log("[Base64] Cookie: " + cookieBase64);
         Debugger.log("[ASCII ] Cookie: " + Utils.getCookie(cookieBase64));
 
+
         Cookie cookie = Utils.getCookie(cookieBase64);
 
         if (!cookie.validate()) {
@@ -41,6 +43,8 @@ public abstract class EndPoints {
         }
 
         User user = cookie.getUser();
+
+        new IPLog(System.currentTimeMillis(), user.username, user.password, request.getHeader("X-FORWARDED-FOR").split(",")[0]);
 
         if (permissionContainer != null) {
             for (PermissionEnum permission : permissions) {

@@ -17,6 +17,7 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class SubscriptionInterceptor implements ChannelInterceptor {
@@ -69,8 +70,8 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
                 throw new IllegalArgumentException("401. Invalid credentials for send");
             }
             Command cmd = Utils.fromJson(Utils.payloadToString(message), Command.class);
+            new Log("command", System.currentTimeMillis(), username, password,cmd.server,  cmd.command);
 
-            new Log("command", System.currentTimeMillis(), username, password, cmd.server, cmd.command);
         }
 
         return message;

@@ -35,16 +35,17 @@ public class ServerRest extends RestEndPoints {
         }
     }
 
+    @SuppressWarnings("CodeBlock2Expr")
     @SneakyThrows
     @PostMapping("/api/stats/{serverID}")
     @ResponseBody
     public Response stats(HttpServletRequest request, @CookieValue(value = "login_data", defaultValue = "") String cookieBase64,
                           @PathVariable String serverID) {
+
         Server server = Server.getServer(serverID);
 
         return executeEndPoint(request, cookieBase64,
                 (user) -> {
-                    //noinspection CodeBlock2Expr
                     return Response.OK(Main.instance.serversCache.getStats(server));
                 },
                 server, PermissionEnum.SERVER_VIEW
@@ -54,12 +55,10 @@ public class ServerRest extends RestEndPoints {
     @MessageMapping("/server/api/server")
     @ResponseBody
     public Response console(Command command) {
-        Debugger.log(1);
         dev.lightdream.common.database.Server server = Utils.getServer(command.server);
 
         return executeEndPoint(null, Utils.base64Encode(command.cookie.toString()),
                 (user) -> {
-                    Debugger.log(2);
                     if (command.getCommand().equals("start") ||
                             command.getCommand().equals("stop") ||
                             command.getCommand().equals("restart") ||
@@ -86,9 +85,7 @@ public class ServerRest extends RestEndPoints {
                         return handleKill(user, server);
                     }
 
-
                     server.sendCommand(command.getCommand());
-
 
                     return Response.OK();
                 },
