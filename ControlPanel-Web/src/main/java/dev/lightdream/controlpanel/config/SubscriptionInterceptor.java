@@ -1,5 +1,6 @@
 package dev.lightdream.controlpanel.config;
 
+import dev.lightdream.common.database.Log;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.Command;
@@ -22,47 +23,35 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(@NotNull Message<?> message, @NotNull MessageChannel channel) {
-        Debugger.log(1);
         StompCommand command = (StompCommand) message.getHeaders().get("stompCommand");
 
-        Debugger.log(2);
         if (command == null) {
             throw new IllegalArgumentException("403");
         }
 
-        Debugger.log(3);
         if (command.equals(StompCommand.DISCONNECT)) {
             return message;
         }
 
-        Debugger.log(4);
         StompHeaderAccessor headers = StompHeaderAccessor.wrap(message);
 
-        Debugger.log(5);
         List<String> usernames = headers.getNativeHeader("username");
         List<String> passwords = headers.getNativeHeader("password");
 
-        Debugger.log(6);
         Debugger.log("[SubscriptionInterceptor#preSend] usernames: " + usernames);
         Debugger.log("[SubscriptionInterceptor#preSend] passwords: " + passwords);
 
-        Debugger.log(7);
         if (usernames == null || passwords == null) {
             throw new IllegalArgumentException("401. Null credentials");
         }
 
-        Debugger.log(8);
         String username = usernames.get(0);
         String password = passwords.get(0);
 
-        Debugger.log(9);
         if (command.equals(StompCommand.CONNECT)) {
-            Debugger.log(10);
             if (!validateConnection(username, password)) {
-                Debugger.log(11);
                 throw new IllegalArgumentException("401. Invalid credentials for connect");
             }
-            Debugger.log(12);
         }
 
         if (command.equals(StompCommand.SUBSCRIBE)) {
@@ -79,6 +68,9 @@ public class SubscriptionInterceptor implements ChannelInterceptor {
             if (!validateCommand(username, password, Utils.payloadToString(message))) {
                 throw new IllegalArgumentException("401. Invalid credentials for send");
             }
+            Command cmd = Utils.fromJson(Utils.payloadToString(message), Command.class);
+
+            new Log("command", System.currentTimeMillis(), username, password, cmd.server, cmd.command);
         }
 
         return message;

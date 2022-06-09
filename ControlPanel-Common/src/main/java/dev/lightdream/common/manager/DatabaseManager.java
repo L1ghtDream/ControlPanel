@@ -40,6 +40,7 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         setup(Server.class);
         setup(Permission.class);
         setup(User.class);
+        setup(Log.class);
     }
 
     public List<Node> getNodes() {

@@ -34,8 +34,6 @@ public class ConsoleService {
 
         MessageData data = new MessageData(server.id, output.toString());
 
-        Debugger.log("Sending " + data.toString());
-
         messageManager.convertAndSend("/server/api/console", data.toString());
     }
 
