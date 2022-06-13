@@ -13,6 +13,7 @@ import dev.lightdream.logger.Debugger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @DatabaseTable(table = "users")
 public class User extends IntegerDatabaseEntry {
@@ -152,7 +153,9 @@ public class User extends IntegerDatabaseEntry {
 
     @JsonIgnore
     public List<Server> getServers() {
-        return CommonMain.instance.databaseManager.getServers();
+        return CommonMain.instance.databaseManager.getServers().stream().filter(
+                server -> hasPermission(server, PermissionEnum.SERVER_VIEW)
+        ).collect(Collectors.toList());
     }
 
     public void updatePassword(String password) {

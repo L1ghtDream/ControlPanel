@@ -106,11 +106,10 @@ public class BuildProperties {
     @SneakyThrows
     public String getNewestVersion() {
         try {
-
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(Utils.downloadURL))
-                    .GET() // GET is default
+                    .GET()
                     .build();
 
             HttpResponse<String> response = client.send(request,
@@ -120,8 +119,7 @@ public class BuildProperties {
 
             responseString = responseString.substring(
                     responseString.indexOf("<h3 class=\"d-inline\">Assets</h3>"),
-                    responseString.indexOf("<span class=\"px-1 text-bold\">Source code</span>\n" +
-                            "            (zip)")
+                    responseString.indexOf("<span class=\"px-1 text-bold\">Source code</span>")
             ).split("<span class=\"px-1 text-bold\">")[releaseIndex];
 
             responseString = responseString.substring(responseString.indexOf("/L1ghtDream/ControlPanel/releases/download/latest/"),
@@ -138,6 +136,7 @@ public class BuildProperties {
 
             return responseString;
         } catch (Throwable t) {
+            t.printStackTrace();
             return "UNKNOWN";
         }
     }
