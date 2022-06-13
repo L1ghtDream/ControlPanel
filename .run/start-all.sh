@@ -3,13 +3,12 @@
 HOME=/home/ControlPanel
 SCREEN_NAME_WEB=Web
 SCREEN_NAME_NODE=Node
-WORKING_DIR="/home/ControlPanel"
 CURRENT_DIR="$(pwd)"
 
 for i in 1 2 3 4 5; do
   echo "Sending configs to htz-$i"
 
-  rsync -avh -e --ignore-existing "ssh -i $CURRENT_DIR/config/ssh_keys/htz-$i" config root@htz$i.original.gg:$WORKING_DIR/.run/
+  rsync -avh -e --ignore-existing "ssh -i $CURRENT_DIR/config/ssh_keys/htz-$i" config root@htz$i.original.gg:$HOME/.run/
 
   echo "Starting node on htz-$i"
 
