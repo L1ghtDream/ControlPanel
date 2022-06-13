@@ -65,6 +65,11 @@ public class CommonConfig {
             //"jstat -gccapacity %pid% | tail -n 1 | awk '{print $2}'"
             //"pmap -x %pid% | tail -n 1 | awk '{print $3}'"
     );
+
+    public MessageBuilder SCREEN_LIST_CMD = new MessageBuilder(
+            "screen -ls %id% | grep \".%id%\\s\""
+    );
+
     public MessageBuilder PID_GRAB_CMD = new MessageBuilder(
             "lsof -i :%port% | grep *:%port% | awk '{print $2}' | tail -n 1"
     );
