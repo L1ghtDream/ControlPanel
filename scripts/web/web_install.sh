@@ -5,6 +5,7 @@ version="1.0.0";
 sudo apt-get install screen                                                     # Web server
 sudo apt-get install openjdk-8-jdk openjdk-11-jdk openjdk-16-jdk openjdk-17-jdk # Java
 sudo apt-get install nginx                                                      # Web Proxy
+sudo apt-get install crontab                                                    # Crontab
 
 # Get the start script and make it executable
 wget https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/web/web_start.sh start.sh

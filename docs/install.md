@@ -16,6 +16,19 @@ curl -s https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts
 sh start.sh
 ```
 
+(Optional)
+Now we are going to create an auto restart script. The example bellow is set to auto restart at 3:00 AM (local time)
+```shell
+crontab -e
+```
+
+select your favorite cli text editor (e.g. nano) if prompted
+
+and add the following line at the end of the file. (save and exit)
+```shell
+0 3 * * * bash /home/ControlPanel/.run/restart.sh
+```
+
 ## Web Proxy
 
 ### Certbot Certificates
