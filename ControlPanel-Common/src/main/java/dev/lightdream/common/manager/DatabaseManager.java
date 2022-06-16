@@ -8,6 +8,7 @@ import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.databasemanager.database.ProgrammaticHikariDatabaseManager;
 import dev.lightdream.databasemanager.dto.QueryConstrains;
+import dev.lightdream.logger.Debugger;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -34,7 +35,10 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         registerSDPair(PermissionEnum.class, permission -> "\"" + permission.toString() + "\"", str -> PermissionEnum.valueOf((String) str));
         registerSDPair(GlobalPermissionContainer.class, permission -> "\"" + permission.toString() + "\"", str -> GlobalPermissionContainer.getInstance());
         registerSDPair(PermissionContainer.class, PermissionContainer::getIdentifier,
-                str -> PermissionContainer.getByIdentifier((String) str));
+                str -> {
+                    Debugger.log("[2.1]");
+            return PermissionContainer.getByIdentifier((String) str);
+                });
 
         setup(Node.class);
         setup(Server.class);

@@ -6,7 +6,7 @@ SCREEN_NAME_NODE=Node
 WEB_APP_PORT=13000
 
 
-for i in 1 2 3 4 5; do
+for i in 1 2 3 4; do
   echo "Killing node on htz-$i"
 
   # Killing the current version (if running)

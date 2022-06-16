@@ -54,37 +54,14 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         instance = this;
 
         databaseManager = new DatabaseManager(this);
-        createNodes(); // TODO remove for production
-        createServers(); // TODO remove for production
-        createUsers(); // TODO remove for production
 
         SpringApplication.run(Executor.class);
 
         this.redisEventListener = new RedisEventListener(this);
-
         logManager = new LogManager();
 
+
         Debugger.log(User.getUser(1).generateQR(Utils.generateSecretKey()));
-    }
-
-    public void createUsers() {
-        databaseManager.createUser("admin", "passwd");
-
-        User user = databaseManager.getUser("admin");
-        GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_ADMIN);
-        GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_MANAGE_NODES);
-        GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_MANAGE_USERS);
-        GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_VIEW);
-        GlobalPermissionContainer.getInstance().addPermission(user, PermissionEnum.GLOBAL_CREATE_SERVER);
-    }
-
-    public void createNodes() {
-        databaseManager.createNode("htz-1", "HTZ-1", "htz1.original.gg", "root", 22, 2222);
-        databaseManager.createNode("htz-5", "HTZ-5", "htz5.original.gg", "root", 22, 2222);
-    }
-
-    public void createServers() {
-        databaseManager.createServer("SlimeSkyBlock", "Test Server 2", "/home/SlimeSkyBlock/", databaseManager.getNode("htz-5"), 24000, "JDK_16", "8G", "slimeskyblock.jar", "-javaagent:sw.jar", false);
     }
 
     @Override
@@ -96,11 +73,6 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
     public void loadConfigs(FileManager fileManager) {
         config = fileManager.load(Config.class);
         super.loadConfigs(fileManager);
-    }
-
-    @Override
-    public void registerServerWebSocket(Server server) {
-        WebSocketConfig.instance.registerServerWS(server);
     }
 
     @Override

@@ -53,11 +53,6 @@ public class Main extends CommonMain {
     }
 
     @Override
-    public void registerServerWebSocket(Server server) {
-        // noop
-    }
-
-    @Override
     public void registerServerLog(Server server) {
 
     }
