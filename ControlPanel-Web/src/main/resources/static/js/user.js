@@ -32,7 +32,8 @@ async function sendUser(api) {
         GLOBAL_ADMIN: document.getElementById('GLOBAL_ADMIN').checked,
         GLOBAL_MANAGE_USERS: document.getElementById('GLOBAL_MANAGE_USERS').checked,
         GLOBAL_MANAGE_NODES: document.getElementById('GLOBAL_MANAGE_NODES').checked,
-        GLOBAL_VIEW: document.getElementById('GLOBAL_VIEW').checked
+        GLOBAL_VIEW: document.getElementById('GLOBAL_VIEW').checked,
+        GLOBAL_CREATE_SERVER: document.getElementById('GLOBAL_CREATE_SERVER').checked
     }, () => {
         if (api === "/api/user/create") {
             redirect("/admin/users")
