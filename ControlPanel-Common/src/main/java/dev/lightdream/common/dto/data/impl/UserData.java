@@ -19,6 +19,7 @@ public class UserData extends Validatable {
     public boolean GLOBAL_MANAGE_USERS;
     public boolean GLOBAL_MANAGE_NODES;
     public boolean GLOBAL_VIEW;
+    public boolean GLOBAL_CREATE_SERVER;
 
     @SuppressWarnings("unused")
     public boolean validateUsername() {
