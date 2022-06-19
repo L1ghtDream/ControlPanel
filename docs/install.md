@@ -104,9 +104,9 @@ echo "$(cat id_rsa.pub)" > authorized_keys
 
 ### Additional SSH Key information
 You will want to copy the `id_rsa` to your web app /config/ssh_keys folder.
-You can do this by the following command
+You can do this by the following command. Do not forge to replace `[password]`, `[ip]` and `[node_id]` with yours.
 ```shell
-
+sshpass -p "[password]" scp -r root@[ip]:/home/ControlPanel/config/ssh_keys/[node_id] /root/.ssh/id_rsa
 ```
 
 # Server setup
