@@ -12,7 +12,7 @@ apt upgrade
 Go to the folder your want to install the panel to and run
 
 ```shell
-curl -s https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/web_install.sh | bash
+curl -s https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/web/web_install.sh | bash
 sh start.sh
 ```
 
@@ -74,7 +74,7 @@ server {
 Go to the folder your want to install the node to and run
 
 ```shell
-curl -s https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/node_install.sh | bash
+curl -s https://raw.githubusercontent.com/L1ghtDream/ControlPanel/master/scripts/node/node_install.sh | bash
 sh start.sh
 ```
 
@@ -100,6 +100,13 @@ echo "from=\"[allowed_ip]\" $(cat id_rsa.pub)" > authorized_keys
 ```shell
 ssh-keygen -m PEM
 echo "$(cat id_rsa.pub)" > authorized_keys
+```
+
+### Additional SSH Key information
+You will want to copy the `id_rsa` to your web app /config/ssh_keys folder.
+You can do this by the following command
+```shell
+
 ```
 
 # Server setup
