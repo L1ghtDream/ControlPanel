@@ -5,9 +5,10 @@ SCREEN_NAME_WEB=Web
 SCREEN_NAME_NODE=Node
 CURRENT_DIR="$(pwd)"
 
-for i in 1 2 3 4; do
+for i in 1 2 3 4 5; do
   echo "Sending configs to htz-$i"
 
+  ssh root@htz$i.original.gg -o StrictHostKeyChecking=no -i config/ssh_keys/htz-$i "mkdir -p $HOME/.run"
   rsync -avh -e --ignore-existing "ssh -i $CURRENT_DIR/config/ssh_keys/htz-$i" config root@htz$i.original.gg:$HOME/.run/
 
   echo "Starting node on htz-$i"

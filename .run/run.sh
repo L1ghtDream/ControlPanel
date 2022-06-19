@@ -22,7 +22,7 @@ rm $HOME/ControlPanel-Common/target -r
 rm $HOME/ControlPanel-Web/target -r
 rm $HOME/ControlPanel-Node/target -r
 
-for i in 1 2 3 4; do
+for i in 1 2 3 4 5; do
 
   echo "Sending necessary jars to htz-$i"
 
