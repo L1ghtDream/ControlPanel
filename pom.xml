@@ -30,7 +30,7 @@
         </repository>
         <repository>
             <id>lightdream</id>
-            <url>https://repo.lightdream.dev/repository/LightDream-API/</url>
+            <url>https://repo.lightdream.dev/</url>
         </repository>
         <repository>
             <id>jedis</id>
@@ -39,6 +39,14 @@
         <repository>
             <id>maven</id>
             <url>https://mvnrepository.com/artifact/org.apache.maven/maven-model</url>
+        </repository>
+        <repository>
+            <id>maven</id>
+            <url>https://mvnrepository.com/artifact/org.hibernate/hibernate-core</url>
+        </repository>
+        <repository>
+            <id>maven</id>
+            <url>https://mvnrepository.com/artifact/org.jetbrains/annotations</url>
         </repository>
     </repositories>
 
@@ -134,34 +142,29 @@
 
         <dependency>
             <groupId>dev.lightdream</groupId>
-            <artifactId>Lambda</artifactId>
-            <version>1.1.0</version>
+            <artifactId>lambda</artifactId>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
             <groupId>dev.lightdream</groupId>
-            <artifactId>Logger</artifactId>
-            <version>2.3.2</version>
+            <artifactId>logger</artifactId>
+            <version>3.2.4</version>
         </dependency>
         <dependency>
             <groupId>dev.lightdream</groupId>
-            <artifactId>FileManager</artifactId>
-            <version>2.0.11</version>
+            <artifactId>file-manager</artifactId>
+            <version>2.6.0</version>
         </dependency>
         <dependency>
             <groupId>dev.lightdream</groupId>
-            <artifactId>MessageBuilder</artifactId>
-            <version>2.1.10</version>
+            <artifactId>message-builder</artifactId>
+            <version>3.1.2</version>
         </dependency>
         <!--suppress VulnerableLibrariesLocal -->
         <dependency>
             <groupId>dev.lightdream</groupId>
-            <artifactId>DatabaseManager</artifactId>
-            <version>3.7.1</version>
-        </dependency>
-        <dependency>
-            <groupId>dev.lightdream</groupId>
-            <artifactId>Runnable</artifactId>
-            <version>1.1.0</version>
+            <artifactId>database-manager</artifactId>
+            <version>5.0.4</version>
         </dependency>
 
         <!-- Redis -->
@@ -177,6 +180,22 @@
             <artifactId>maven-model</artifactId>
             <version>3.8.5</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.2.1.Final</version>
+            <type>pom</type>
+        </dependency>
+
+        <!--  -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.0.1</version>
+        </dependency>
+
+
 
     </dependencies>
 

@@ -42,6 +42,9 @@ public class BuildProperties {
         name = properties.getProperty("build.name");
         timestamp = properties.getProperty("build.time");
         version = properties.getProperty("build.version");
+        if(version==null){
+            version="UNKNOWN - DevBuild";
+        }
         buildType = CommonMain.buildType;
 
         if (isOutdated()) {
@@ -105,6 +108,8 @@ public class BuildProperties {
 
     @SneakyThrows
     public String getNewestVersion() {
+        return "UNKNOWN";
+        /*
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
@@ -139,6 +144,7 @@ public class BuildProperties {
             t.printStackTrace();
             return "UNKNOWN";
         }
+         */
     }
 
     @SuppressWarnings("unused")

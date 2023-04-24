@@ -19,4 +19,8 @@ public class GlobalPermissionContainer extends PermissionContainer {
         return PermissionEnum.Type.GLOBAL;
     }
 
+    @Override
+    public String getID() {
+        return "GlobalPermissionContainer";
+    }
 }

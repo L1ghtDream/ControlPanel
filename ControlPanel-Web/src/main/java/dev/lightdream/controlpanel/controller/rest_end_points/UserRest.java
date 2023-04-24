@@ -37,7 +37,7 @@ public class UserRest extends RestEndPoints {
 
                     dev.lightdream.common.database.User usr = dev.lightdream.common.database.User.getUser(userID);
 
-                    if (user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS) || user.getID().equals(userID)) {
+                    if (user.hasPermission(PermissionEnum.GLOBAL_MANAGE_USERS) || user.getID() == (userID)) {
                         usr.username = "NoOneWillNeverHaveThisUsernameBecauseItWouldBeRidiculousToHaveSuchAUsername";
 
                         usr.updatePassword(data.password);

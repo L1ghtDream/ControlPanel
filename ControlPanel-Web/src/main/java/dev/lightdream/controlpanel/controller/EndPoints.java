@@ -7,8 +7,9 @@ import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
 import dev.lightdream.controlpanel.controller.end_points.Auth;
-import dev.lightdream.lambda.LambdaExecutor;
+import dev.lightdream.lambda.lambda.ReturnArgLambdaExecutor;
 import dev.lightdream.logger.Debugger;
+import dev.lightdream.logger.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -29,7 +30,7 @@ public abstract class EndPoints {
      */
     public static String executeEndPoint(Model model, HttpServletRequest request, String cookieBase64,
                                          String template,
-                                         LambdaExecutor.ReturnLambdaExecutor<String, User> callback,
+                                         ReturnArgLambdaExecutor<String, User> callback,
                                          PermissionContainer permissionContainer, PermissionEnum... permissions) {
         Debugger.log("Executing end point with template " + template);
         Debugger.log("[Base64] Cookie: " + cookieBase64);
@@ -44,7 +45,11 @@ public abstract class EndPoints {
 
         User user = cookie.getUser();
 
-        new IPLog(System.currentTimeMillis(), user.username, user.password, request.getHeader("X-FORWARDED-FOR").split(",")[0]);
+        if(request.getHeader("X-FORWARDED-FOR")!=null){
+            new IPLog(System.currentTimeMillis(), user.username, user.password, request.getHeader("X-FORWARDED-FOR").split(",")[0]);
+        }else{
+            Logger.warn("Unable to create ip log");
+        }
 
         if (permissionContainer != null) {
             for (PermissionEnum permission : permissions) {
@@ -68,7 +73,7 @@ public abstract class EndPoints {
     @SuppressWarnings("ConfusingArgumentToVarargsMethod")
     public static String executeEndPoint(Model model, HttpServletRequest request, String cookieBase64,
                                          String template,
-                                         LambdaExecutor.ReturnLambdaExecutor<String, User> callback) {
+                                         ReturnArgLambdaExecutor<String, User> callback) {
         return executeEndPoint(model, request, cookieBase64, template, callback, null, null);
     }
 

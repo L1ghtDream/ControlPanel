@@ -1,25 +1,32 @@
 package dev.lightdream.common.database;
 
 import dev.lightdream.common.CommonMain;
-import dev.lightdream.databasemanager.DatabaseMain;
-import dev.lightdream.databasemanager.annotations.database.DatabaseField;
-import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
-import dev.lightdream.databasemanager.dto.entry.impl.IntegerDatabaseEntry;
+import dev.lightdream.databasemanager.dto.DatabaseEntry;
+import jakarta.persistence.*;
 
-@DatabaseTable(table = "logs")
-public class Log extends IntegerDatabaseEntry {
+@Entity
+@Table(name = "logs",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"id"})
+        }
+)
+public class Log extends DatabaseEntry {
 
-    @DatabaseField(columnName = "type")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true, length = 11)
+    public Integer id;
+    @Column(name = "type")
     public String type;
-    @DatabaseField(columnName = "timestamp")
+    @Column(name = "timestamp")
     public Long timestamp;
-    @DatabaseField(columnName = "user")
+    @Column(name = "user")
     public String user;
-    @DatabaseField(columnName = "password")
+    @Column(name = "password")
     public String password;
-    @DatabaseField(columnName = "server")
+    @Column(name = "server")
     public String server;
-    @DatabaseField(columnName = "log")
+    @Column(name = "log")
     public String log;
 
     public Log(String type, Long timestamp, String user, String password, String server, String log) {
@@ -35,5 +42,10 @@ public class Log extends IntegerDatabaseEntry {
 
     public Log() {
         super(CommonMain.instance);
+    }
+
+    @Override
+    public Integer getID() {
+        return id;
     }
 }

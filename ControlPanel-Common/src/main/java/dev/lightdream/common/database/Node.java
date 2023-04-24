@@ -4,10 +4,9 @@ import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.event.impl.ExecuteCommandEvent;
 import dev.lightdream.common.dto.redis.event.impl.PingEvent;
-import dev.lightdream.databasemanager.annotations.database.DatabaseField;
-import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
-import dev.lightdream.databasemanager.dto.entry.impl.StringDatabaseEntry;
+import dev.lightdream.databasemanager.dto.DatabaseEntry;
 import dev.lightdream.logger.Debugger;
+import jakarta.persistence.*;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
@@ -15,21 +14,29 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@DatabaseTable(table = "nodes")
-public class Node extends StringDatabaseEntry {
+@Entity
+@Table(name = "nodes",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"id"})
+        }
+)
+public class Node extends DatabaseEntry {
 
+    @Id
+    @Column(name = "id", nullable = false, unique = true, length = 11)
+    public String id;
     //Settings
-    @DatabaseField(columnName = "name")
+    @Column(name = "name")
     public String name;
     //Credentials
-    @DatabaseField(columnName = "ip")
+    @Column(name = "ip")
     public String ip;
-    @DatabaseField(columnName = "username")
+    @Column(name = "username")
     public String username;
-    @DatabaseField(columnName = "ssh_port")
-    public int sshPort;
-    @DatabaseField(columnName = "sftp_port")
-    public int sftpPort;
+    @Column(name = "ssh_port")
+    public Integer sshPort;
+    @Column(name = "sftp_port")
+    public Integer sftpPort;
 
     public Node() {
         super(CommonMain.instance);
@@ -92,7 +99,7 @@ public class Node extends StringDatabaseEntry {
      */
     @SneakyThrows
     public String executeCommand(String command) {
-        if (getID().equals(CommonMain.instance.getRedisID())) {
+        if (id.equals(CommonMain.instance.getRedisID())) {
             return executeCommandLocal(command);
         }
 
@@ -137,5 +144,10 @@ public class Node extends StringDatabaseEntry {
     @SuppressWarnings("unused")
     public boolean isOnline() {
         return !new PingEvent(this).sendAndWait().hasTimeout();
+    }
+
+    @Override
+    public String getID() {
+        return id;
     }
 }

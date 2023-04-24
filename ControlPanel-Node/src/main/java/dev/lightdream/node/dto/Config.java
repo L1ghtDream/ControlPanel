@@ -4,7 +4,7 @@ import dev.lightdream.common.dto.config.CommonConfig;
 
 public class Config extends CommonConfig {
 
-    public String nodeID = "htz-1";
+    public String nodeID = "test_1";
     public int port = 2222;
 
 }

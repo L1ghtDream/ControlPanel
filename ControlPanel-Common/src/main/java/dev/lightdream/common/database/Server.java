@@ -6,50 +6,56 @@ import dev.lightdream.common.dto.ServerStats;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.databasemanager.annotations.database.DatabaseField;
-import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
 import dev.lightdream.logger.Debugger;
 import dev.lightdream.messagebuilder.MessageBuilder;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@DatabaseTable(table = "servers")
+@Entity
+@Table(name = "servers",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"id"})
+        }
+)
 @NoArgsConstructor
 public class Server extends PermissionContainer {
 
+    @Id
+    @Column(name = "id", nullable = false, unique = true, length = 11)
+    public String id;
     // Settings
-    @DatabaseField(columnName = "name")
+    @Column(name = "name")
     public String name;
     // Location
-    @DatabaseField(columnName = "path")
+    @Column(name = "path")
     public String path;
-    @DatabaseField(columnName = "node")
+    @ManyToOne
+    @JoinColumn(name = "node")
     public Node node;
-    @DatabaseField(columnName = "port")
+    @Column(name = "port")
     public Integer port;
 
     // Java Settings
-    @DatabaseField(columnName = "java")
+    @Column(name = "java")
     public String java;
-    @DatabaseField(columnName = "ram")
+    @Column(name = "ram")
     public String ram;
-    @DatabaseField(columnName = "server_jar")
+    @Column(name = "server_jar")
     public String serverJar;
-    @DatabaseField(columnName = "args")
+    @Column(name = "args")
     public String args;
-    @DatabaseField(columnName = "start_if_offline")
-    public boolean startIfOffline;
+    @Column(name = "start_if_offline")
+    public Boolean startIfOffline;
 
     // Persistent vars
     /**
      * The server has been manually stopped and therefore should not be restarted automatically.
      */
-    @DatabaseField(columnName = "stopped")
+    @Column(name = "stopped")
     public boolean stopped;
 
     /**
@@ -122,7 +128,6 @@ public class Server extends PermissionContainer {
         node.sendCommandToServer(command, this);
     }
 
-    @Nullable
     @JsonIgnore
     public Integer getPID() {
         String output = node.executeCommand(
@@ -226,12 +231,12 @@ public class Server extends PermissionContainer {
     }
 
     @JsonIgnore
-    public String getServerStatsCommand(@NotNull Integer pid) {
-        return new MessageBuilder(" && ",
-                CommonMain.instance.getConfig().MEMORY_USAGE_CMD,
-                CommonMain.instance.getConfig().MEMORY_ALLOCATED_CMD,
-                CommonMain.instance.getConfig().CPU_USAGE_CMD,
-                CommonMain.instance.getConfig().STORAGE_USAGE_CMD)
+    public String getServerStatsCommand(Integer pid) {
+        return new MessageBuilder(
+                CommonMain.instance.getConfig().MEMORY_USAGE_CMD + " && " +
+                        CommonMain.instance.getConfig().MEMORY_ALLOCATED_CMD + " && " +
+                        CommonMain.instance.getConfig().CPU_USAGE_CMD + " && " +
+                        CommonMain.instance.getConfig().STORAGE_USAGE_CMD + " && ")
                 .parse("path", path)
                 .parse("port", port)
                 .parse("pid", pid)
@@ -301,10 +306,12 @@ public class Server extends PermissionContainer {
         List<User> users = new ArrayList<>();
 
         permissions.forEach(permission -> {
-            if (users.contains(permission.user)) {
+
+            User user = User.getUser(permission.user_id);
+            if (users.contains(user)) {
                 return;
             }
-            users.add(permission.user);
+            users.add(user);
         });
 
         return users;
@@ -350,5 +357,10 @@ public class Server extends PermissionContainer {
         this.stopped = true;
         save();
         this.sendCommand("stop");
+    }
+
+    @Override
+    public String getID() {
+        return id;
     }
 }

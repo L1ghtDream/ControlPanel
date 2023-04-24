@@ -15,7 +15,7 @@ public class ServerStats {
     public Boolean isOnline;
 
     public ServerStats(Server server, Double memoryUsage, Double memoryAllocation, Double cpuUsage, Double storageUsage, Boolean isOnline) {
-        this.serverID = server.getID();
+        this.serverID = server.id;
         this.memoryUsage = memoryUsage;
         this.memoryAllocation = memoryAllocation;
         this.cpuUsage = cpuUsage;

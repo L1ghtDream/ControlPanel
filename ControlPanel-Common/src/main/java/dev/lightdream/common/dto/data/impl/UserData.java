@@ -29,7 +29,7 @@ public class UserData extends Validatable {
             return true;
         }
 
-        return user.getID().equals(id);
+        return user.getID()== id;
     }
 
     public boolean validatePassword(String password) {

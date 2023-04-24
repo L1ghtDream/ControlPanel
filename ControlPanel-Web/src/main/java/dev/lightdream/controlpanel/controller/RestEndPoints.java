@@ -7,8 +7,9 @@ import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.dto.response.Response;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.lambda.LambdaExecutor;
+import dev.lightdream.lambda.lambda.ReturnArgLambdaExecutor;
 import dev.lightdream.logger.Debugger;
+import dev.lightdream.logger.Logger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
@@ -27,7 +28,7 @@ public abstract class RestEndPoints {
      * @return Template to render
      */
     public static Response executeEndPoint(HttpServletRequest request, String cookieBase64,
-                                           LambdaExecutor.ReturnLambdaExecutor<Response, User> callback,
+                                           ReturnArgLambdaExecutor<Response, User> callback,
                                            PermissionContainer permissionContainer, PermissionEnum... permissions) {
         if (request != null) {
             Debugger.log("Received rest request with url " + request.getRequestURI());
@@ -45,7 +46,13 @@ public abstract class RestEndPoints {
 
         User user = cookie.getUser();
         if (request != null) {
-            new IPLog(System.currentTimeMillis(), user.username, user.password, request.getHeader("X-FORWARDED-FOR").split(",")[0]);
+            if(request.getHeader("X-FORWARDED-FOR")!=null){
+                new IPLog(System.currentTimeMillis(), user.username, user.password, request.getHeader("X-FORWARDED-FOR").split(",")[0]);
+            }else{
+                Logger.warn("Unable to create ip log");
+            }
+        }else{
+            Logger.warn("Unable to create ip log");
         }
 
         if (permissionContainer != null) {
@@ -74,7 +81,7 @@ public abstract class RestEndPoints {
 
     @SuppressWarnings("ConfusingArgumentToVarargsMethod")
     public static Response executeEndPoint(HttpServletRequest request, String cookieBase64,
-                                           LambdaExecutor.ReturnLambdaExecutor<Response, User> callback) {
+                                           ReturnArgLambdaExecutor<Response, User> callback) {
         return executeEndPoint(request, cookieBase64, callback, null, null);
     }
 

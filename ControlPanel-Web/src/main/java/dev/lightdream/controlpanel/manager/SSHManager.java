@@ -25,7 +25,7 @@ public class SSHManager {
         private ChannelExec channel;
 
         public SSHSession(Node node) {
-            this.nodeID = node.getID();
+            this.nodeID = node.id;
             this.username = node.username;
             this.ip = node.ip;
             this.port = node.sshPort;

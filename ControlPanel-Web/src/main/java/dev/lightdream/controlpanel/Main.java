@@ -2,21 +2,19 @@ package dev.lightdream.controlpanel;
 
 import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.GlobalPermissionContainer;
+import dev.lightdream.common.database.Permission;
 import dev.lightdream.common.database.Server;
 import dev.lightdream.common.database.User;
 import dev.lightdream.common.dto.cache.CacheRegistry;
 import dev.lightdream.common.dto.config.CommonConfig;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.manager.DatabaseManager;
-import dev.lightdream.common.utils.Utils;
-import dev.lightdream.controlpanel.config.WebSocketConfig;
 import dev.lightdream.controlpanel.dto.Config;
 import dev.lightdream.controlpanel.manager.LogManager;
 import dev.lightdream.controlpanel.manager.RedisEventListener;
 import dev.lightdream.databasemanager.DatabaseMain;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
-import dev.lightdream.logger.Debugger;
 import org.springframework.boot.SpringApplication;
 
 
@@ -60,8 +58,24 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         this.redisEventListener = new RedisEventListener(this);
         logManager = new LogManager();
 
+        User user = User.getUser(1);
 
-        Debugger.log(User.getUser(1).generateQR(Utils.generateSecretKey()));
+        if (user == null) {
+            user = new User(
+                    "admin",
+                    "admin"
+            );
+            user.save();
+            new Permission(
+                    user,
+                    PermissionEnum.GLOBAL_ADMIN,
+                    GlobalPermissionContainer.getInstance().getIdentifier(),
+                    GlobalPermissionContainer.getInstance().getType()
+            ).save();
+        }
+
+
+        //Debugger.log(User.getUser(1).generateQR(Utils.generateSecretKey()));
     }
 
     @Override

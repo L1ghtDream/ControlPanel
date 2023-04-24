@@ -6,13 +6,13 @@ import dev.lightdream.common.database.Server;
 import dev.lightdream.common.dto.config.CommonConfig;
 import dev.lightdream.common.manager.DatabaseManager;
 import dev.lightdream.filemanager.FileManager;
+import dev.lightdream.lambda.ScheduleUtils;
 import dev.lightdream.logger.Logger;
 import dev.lightdream.node.dto.Config;
 import dev.lightdream.node.manager.CacheManager;
 import dev.lightdream.node.manager.RedisEventListener;
 import dev.lightdream.node.manager.SFTPServerManager;
 import dev.lightdream.node.manager.ScheduleManager;
-import dev.lightdream.runnable.Runnable;
 
 
 public class Main extends CommonMain {
@@ -40,9 +40,9 @@ public class Main extends CommonMain {
         scheduleManager = new ScheduleManager();
 
         new Thread(() -> {
-            new Runnable(runnable -> {
+            ScheduleUtils.runTaskTimer(() -> {
                 // noop
-            }, 60 * 1000L); // 1 minute
+            }, 0, 60 * 1000L); // 1 minute
         }).start();
     }
 

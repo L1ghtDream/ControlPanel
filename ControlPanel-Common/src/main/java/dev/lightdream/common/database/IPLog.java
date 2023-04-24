@@ -1,23 +1,29 @@
 package dev.lightdream.common.database;
 
 import dev.lightdream.common.CommonMain;
-import dev.lightdream.databasemanager.annotations.database.DatabaseField;
-import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
-import dev.lightdream.databasemanager.dto.QueryConstrains;
-import dev.lightdream.databasemanager.dto.entry.impl.IntegerDatabaseEntry;
+import dev.lightdream.databasemanager.database.HibernateDatabaseManager;
+import dev.lightdream.databasemanager.dto.DatabaseEntry;
+import jakarta.persistence.*;
 
-import java.util.stream.Collectors;
+@Entity
+@Table(name = "ip_logs",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"id"})
+        }
+)
+public class IPLog extends DatabaseEntry {
 
-@DatabaseTable(table = "ip_logs")
-public class IPLog extends IntegerDatabaseEntry {
-
-    @DatabaseField(columnName = "timestamp")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true, length = 11)
+    public Integer id;
+    @Column(name = "timestamp")
     public Long timestamp;
-    @DatabaseField(columnName = "ip")
+    @Column(name = "ip")
     public String ip;
-    @DatabaseField(columnName = "user")
+    @Column(name = "user")
     public String user;
-    @DatabaseField(columnName = "password")
+    @Column(name = "password")
     public String password;
 
     public IPLog(Long timestamp, String user, String password, String ip) {
@@ -27,18 +33,22 @@ public class IPLog extends IntegerDatabaseEntry {
         this.password = password;
         this.ip = ip;
 
-        if (CommonMain.instance.databaseManager.get(IPLog.class)
-                .query(
-                        new QueryConstrains().and(
-                                new QueryConstrains().equals("ip", ip),
-                                new QueryConstrains().equals("user", user)
-                        )
-                ).query().size() == 0) {
+        HibernateDatabaseManager.Query<IPLog> query = CommonMain.instance.databaseManager.get(IPLog.class);
+        query.query.where(
+                query.builder.equal(query.root.get("ip"), ip),
+                query.builder.equal(query.root.get("user"), user)
+        );
+        if (query.execute().size() == 0) {
             save();
         }
     }
 
     public IPLog() {
         super(CommonMain.instance);
+    }
+
+    @Override
+    public Integer getID() {
+        return id;
     }
 }

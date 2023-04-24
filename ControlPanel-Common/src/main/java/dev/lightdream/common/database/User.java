@@ -6,26 +6,34 @@ import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.databasemanager.annotations.database.DatabaseField;
-import dev.lightdream.databasemanager.annotations.database.DatabaseTable;
-import dev.lightdream.databasemanager.dto.entry.impl.IntegerDatabaseEntry;
+import dev.lightdream.databasemanager.dto.DatabaseEntry;
 import dev.lightdream.logger.Debugger;
+import jakarta.persistence.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@DatabaseTable(table = "users")
-public class User extends IntegerDatabaseEntry {
+@Entity
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"id"})
+        }
+)
+public class User extends DatabaseEntry {
 
-    @DatabaseField(columnName = "username", unique = true)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true, length = 11)
+    public Integer id;
+    @Column(name = "username", unique = true)
     public String username;
-    @DatabaseField(columnName = "password")
+    @Column(name = "password")
     public String password;
-    @DatabaseField(columnName = "otp_secret")
+    @Column(name = "otp_secret")
     public String otpSecret;
-    @DatabaseField(columnName = "otp_enabled")
-    public boolean otpEnabled;
+    @Column(name = "otp_enabled")
+    public Boolean otpEnabled;
 
     @SuppressWarnings("unused")
     public User() {
@@ -178,5 +186,10 @@ public class User extends IntegerDatabaseEntry {
     @Override
     public String toString() {
         return Utils.toJson(this);
+    }
+
+    @Override
+    public Integer getID() {
+        return id;
     }
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class GetBuildPropertiesEvent extends RedisEvent {
 
     public GetBuildPropertiesEvent(Node target) {
-        super(target.getID());
+        super(target.id);
     }
 
 }

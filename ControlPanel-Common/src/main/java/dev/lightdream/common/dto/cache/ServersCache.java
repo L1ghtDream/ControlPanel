@@ -19,7 +19,7 @@ public class ServersCache<T> {
     }
 
     public void set(Server server, T value) {
-        servers.put(server.getID(), value);
+        servers.put(server.id, value);
     }
 
     public void set(ServersCache<T> serversCache) {

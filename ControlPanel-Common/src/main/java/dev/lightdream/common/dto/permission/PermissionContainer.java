@@ -4,22 +4,17 @@ import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.GlobalPermissionContainer;
 import dev.lightdream.common.database.Permission;
 import dev.lightdream.common.database.User;
-import dev.lightdream.databasemanager.dto.entry.impl.StringDatabaseEntry;
+import dev.lightdream.databasemanager.dto.DatabaseEntry;
 import dev.lightdream.logger.Debugger;
 
 import java.util.List;
 
-public abstract class PermissionContainer extends StringDatabaseEntry {
+public abstract class PermissionContainer extends DatabaseEntry {
 
     public PermissionContainer() {
         super(CommonMain.instance);
     }
 
-    /**
-     * @param identifier Unique identifier for the server / node / global in the format
-     *                   {@link PermissionEnum.Type}_{@link #id}
-     * @return The server / node / global context of the identifier
-     */
     public static PermissionContainer getByIdentifier(String identifier) {
         Debugger.log("[3.1]" +identifier);
         PermissionEnum.Type type = PermissionEnum.Type.valueOf(identifier.split("_")[0]);
@@ -54,16 +49,20 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
         Debugger.log("[1.3]"+CommonMain.instance);
         Debugger.log("[1.4]"+CommonMain.instance.getDatabaseManager());
         Debugger.log("[1.5]"+CommonMain.instance.getDatabaseManager().getPermissions(user));
-        if (permission.getType().equals(PermissionEnum.Type.SERVER) &&
+        if (/*permission.getType().equals(PermissionEnum.Type.SERVER) &&*/
                 CommonMain.instance.getDatabaseManager().getPermissions(user).stream().anyMatch(p -> {
                     if (p == null) {
+                        Debugger.log("[1.6] " +false);
                         return false;
                     }
+                    Debugger.log( "[1.7] " +p.permission.equals(PermissionEnum.GLOBAL_ADMIN));
                     return p.permission.equals(PermissionEnum.GLOBAL_ADMIN);
                 })) {
+            Debugger.log("[1.8] " +true);
             return true;
         }
 
+        Debugger.log("[1.9] " + gerUserPermissions(user).stream().anyMatch(p -> p.permission.equals(permission)));
         return gerUserPermissions(user).stream().anyMatch(p -> p.permission.equals(permission));
     }
 
@@ -71,7 +70,7 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
         if (hasPermission(user, permissionEnum)) {
             return;
         }
-        new Permission(user, permissionEnum, this).save();
+        new Permission(user, permissionEnum, getIdentifier(), getType()).save();
     }
 
     public void setPermission(User user, PermissionEnum permissionEnum, boolean value) {
@@ -81,7 +80,7 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
                 return;
             }
             // Add permission
-            new Permission(user, permissionEnum, this).save();
+            new Permission(user, permissionEnum, getIdentifier(), getType()).save();
         } else {
             if (hasPermission(user, permissionEnum)) {
                 // Remove permission
@@ -106,11 +105,8 @@ public abstract class PermissionContainer extends StringDatabaseEntry {
         permission.delete();
     }
 
-    /**
-     * @return Unique identifier for the server / node / global in the format {@link PermissionEnum.Type}_{@link #id}
-     */
     public String getIdentifier() {
-        return getType() + "_" + id;
+        return getType() + "_" + getID();
     }
 
     public abstract PermissionEnum.Type getType();

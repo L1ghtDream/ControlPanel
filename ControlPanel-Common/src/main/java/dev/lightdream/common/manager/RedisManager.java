@@ -5,7 +5,6 @@ import dev.lightdream.common.dto.redis.RedisResponse;
 import dev.lightdream.common.dto.redis.event.RedisEvent;
 import dev.lightdream.common.dto.redis.event.impl.ResponseEvent;
 import dev.lightdream.common.utils.Utils;
-import dev.lightdream.lambda.LambdaExecutor;
 import dev.lightdream.logger.Debugger;
 import dev.lightdream.logger.Logger;
 import redis.clients.jedis.Jedis;
@@ -102,12 +101,14 @@ public class RedisManager {
             try {
                 subscriberJedis.subscribe(subscriberJedisPubSub, CommonMain.instance.redisConfig.channel);
             } catch (Exception e) {
-                LambdaExecutor.LambdaCatch.NoReturnLambdaCatch.executeCatch(() -> {
+                try {
                     Logger.error("Lost connection to redis server. Retrying in 3 seconds...");
                     Thread.sleep(3000);
                     Logger.good("Reconnected to redis server.");
                     startRedisThread();
-                });
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }).start();
     }

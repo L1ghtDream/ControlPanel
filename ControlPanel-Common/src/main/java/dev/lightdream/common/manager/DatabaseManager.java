@@ -1,66 +1,47 @@
 package dev.lightdream.common.manager;
 
+import dev.lightdream.common.CommonMain;
 import dev.lightdream.common.database.*;
 import dev.lightdream.common.dto.data.impl.NodeData;
 import dev.lightdream.common.dto.data.impl.ServerData;
 import dev.lightdream.common.dto.permission.PermissionContainer;
 import dev.lightdream.common.dto.permission.PermissionEnum;
 import dev.lightdream.databasemanager.DatabaseMain;
-import dev.lightdream.databasemanager.database.ProgrammaticHikariDatabaseManager;
-import dev.lightdream.databasemanager.dto.QueryConstrains;
-import dev.lightdream.logger.Debugger;
-import org.jetbrains.annotations.Nullable;
+import dev.lightdream.databasemanager.database.HibernateDatabaseManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
+public class DatabaseManager extends HibernateDatabaseManager {
     public DatabaseManager(DatabaseMain main) {
         super(main);
     }
 
     @Override
-    public void setup() {
-
-        registerDataType(Node.class, "TEXT");
-        registerDataType(User.class, "INT");
-        registerDataType(Server.class, "TEXT");
-        registerDataType(PermissionEnum.class, "TEXT");
-        registerDataType(GlobalPermissionContainer.class, "TEXT");
-        registerDataType(PermissionContainer.class, "TEXT");
-
-        registerSDPair(User.class, user -> user.id, id -> getUser((Integer) id));
-        registerSDPair(Node.class, node -> "\"" + node.id + "\"", id -> Node.getNode((String) id));
-        registerSDPair(Server.class, server -> "\"" + server.getIdentifier() + "\"", id -> (Server) Server.getByIdentifier((String) id));
-        registerSDPair(PermissionEnum.class, permission -> "\"" + permission.toString() + "\"", str -> PermissionEnum.valueOf((String) str));
-        registerSDPair(GlobalPermissionContainer.class, permission -> "\"" + permission.toString() + "\"", str -> GlobalPermissionContainer.getInstance());
-        registerSDPair(PermissionContainer.class, PermissionContainer::getIdentifier,
-                str -> {
-                    Debugger.log("[2.1]");
-            return PermissionContainer.getByIdentifier((String) str);
-                });
-
-        setup(Node.class);
-        setup(Server.class);
-        setup(Permission.class);
-        setup(User.class);
-        setup(Log.class);
-        setup(IPLog.class);
+    protected List<Class<?>> getClasses() {
+        return List.of(
+                IPLog.class,
+                Log.class,
+                Node.class,
+                Permission.class,
+                Server.class,
+                User.class
+        );
     }
 
+
     public List<Node> getNodes() {
-        return get(Node.class).query();
+        return getAll(Node.class);
     }
 
     public Node getNode(String id) {
-        return get(Node.class).query(
-                        new QueryConstrains().equals("id", id)
-                ).query()
-                .stream().findAny().orElse(null);
+        Query<Node> query = get(Node.class);
+        query.query.where(query.builder.equal(query.root.get("id"), id));
+        return query.execute().stream().findAny().orElse(null);
     }
 
     public List<Server> getServers() {
-        return get(Server.class).query();
+        return getAll(Server.class);
     }
 
     /**
@@ -68,77 +49,44 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
      * @return The server of the node
      */
     public List<Server> getServers(Node node) {
-        return get(Server.class)
-                .query(new QueryConstrains()
-                        .equals("node", node.toString())
-                ).query();
+        Query<Server> query = get(Server.class);
+        query.query.where(query.builder.equal(query.root.get("node"), node.toString()));
+        return query.execute();
     }
 
     public Server getServer(String id) {
-        return get(Server.class).query(
-                        new QueryConstrains().equals("id", id)
-                ).query()
-                .stream().findAny().orElse(null);
+        Query<Server> query = get(Server.class);
+        query.query.where(query.builder.equal(query.root.get("id"), id));
+        return query.execute().stream().findAny().orElse(null);
     }
 
-    @Nullable
     public User getUser(int id) {
-        return get(User.class).query(
-                        new QueryConstrains().equals("id", id)
-                ).query()
-                .stream().findAny().orElse(null);
+        Query<User> query = get(User.class);
+        query.query.where(query.builder.equal(query.root.get("id"), id));
+        return query.execute().stream().findAny().orElse(null);
     }
 
     public User getUser(String username) {
-        if (username == null) {
-            return null;
-        }
-
-        return get(User.class).query(
-                        new QueryConstrains().equals("username", username)
-                ).query()
-                .stream().findAny().orElse(null);
+        Query<User> query = get(User.class);
+        query.query.where(query.builder.equal(query.root.get("username"), username));
+        return query.execute().stream().findAny().orElse(null);
     }
 
     public List<Permission> getPermissions(User user, PermissionContainer target) {
-        return get(Permission.class).query(
-                new QueryConstrains().and(
-                        new QueryConstrains().equals("user_id", user.id),
-                        new QueryConstrains().equals("target", target.getIdentifier())
-                )
-        ).query();
+        Query<Permission> query = get(Permission.class);
+        query.query.where(
+                query.builder.equal(query.root.get("user_id"), user.id),
+                query.builder.equal(query.root.get("target"), target.getIdentifier())
+        );
+        return query.execute();
     }
 
     public List<Permission> getPermissions(PermissionContainer target) {
-        return get(Permission.class).query(
-                new QueryConstrains().equals("target", target.getIdentifier())
-        ).query();
-    }
-
-    public void createUser(String username, String password) {
-        if (getUser(username) != null) {
-            return;
-        }
-
-        new User(username, password).save();
-    }
-
-    /**
-     * @param name      The server's name
-     * @param path      The server's path on the machine
-     * @param node      The server's node (machine)
-     * @param port      The server's port
-     * @param java      The server's java version (JDK_8, JDK_11, JDK_16, JDK_17)
-     * @param ram       The server's max ram
-     * @param serverJar The server's jar file (server.jar)
-     */
-    public void createServer(String serverID, String name, String path, Node node, int port, String java, String ram,
-                             String serverJar, String args, boolean startIfOffline) {
-        if (getServer(serverID) != null) {
-            return;
-        }
-
-        new Server(serverID, name, path, node, port, java, ram, serverJar, args, startIfOffline).save();
+        Query<Permission> query = get(Permission.class);
+        query.query.where(
+                query.builder.equal(query.root.get("target"), target.getIdentifier())
+        );
+        return query.execute();
     }
 
     public void createServer(ServerData.Create data) {
@@ -146,8 +94,18 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
             return;
         }
 
-        new Server(data.id, data.name, data.path, Node.getNode(data.nodeID), data.port, data.java, data.ram,
-                data.serverJar, data.args, data.startIfOffline).save();
+        new Server(
+                data.id,
+                data.name,
+                data.path,
+                Node.getNode(data.nodeID),
+                data.port,
+                data.java,
+                data.ram,
+                data.serverJar,
+                data.args,
+                data.startIfOffline
+        ).save();
     }
 
 
@@ -164,9 +122,11 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
     }
 
     public List<Permission> getPermissions(User user) {
-        return get(Permission.class).query(
-                new QueryConstrains().equals("user_id", user.id)
-        ).query();
+        Query<Permission> query = get(Permission.class);
+        query.query.where(
+                query.builder.equal(query.root.get("user_id"), user.id)
+        );
+        return query.execute();
     }
 
     public List<Server> getServers(User user) {
@@ -174,8 +134,8 @@ public class DatabaseManager extends ProgrammaticHikariDatabaseManager {
         List<Server> servers = new ArrayList<>();
 
         permissions.forEach(permission -> {
-            if (permission.target.getType().equals(PermissionEnum.Type.SERVER)) {
-                Server server = (Server) permission.target;
+            if (permission.targetType.equals(PermissionEnum.Type.SERVER)) {
+                Server server = CommonMain.instance.databaseManager.getServer(permission.target);
                 if (servers.contains(server)) {
                     return;
                 }

@@ -10,8 +10,7 @@ import dev.lightdream.common.manager.RedisEventListener;
 import dev.lightdream.common.manager.RedisEventManager;
 import dev.lightdream.common.manager.RedisManager;
 import dev.lightdream.databasemanager.DatabaseMain;
-import dev.lightdream.databasemanager.dto.DriverConfig;
-import dev.lightdream.databasemanager.dto.SQLConfig;
+import dev.lightdream.databasemanager.config.SQLConfig;
 import dev.lightdream.filemanager.FileManager;
 import dev.lightdream.filemanager.FileManagerMain;
 import dev.lightdream.logger.LoggableMain;
@@ -26,7 +25,6 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
     public static final String buildType = "Dev Build";
     public static CommonMain instance;
     // Config
-    public DriverConfig driverConfig;
     public SQLConfig sqlConfig;
     public RedisConfig redisConfig;
     public BuildProperties buildProperties;
@@ -87,19 +85,10 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         return "1.0";
     }
 
-    @Override
-    public boolean debug() {
-        return getConfig().debug;
-    }
 
-    @Override
-    public void log(String s) {
-        System.out.println(s);
-    }
 
     public void loadConfigs(FileManager fileManager) {
         sqlConfig = fileManager.load(SQLConfig.class);
-        driverConfig = fileManager.load(DriverConfig.class);
         redisConfig = fileManager.load(RedisConfig.class);
     }
 
@@ -108,15 +97,7 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
         return new File(System.getProperty("user.dir") + "/config");
     }
 
-    @Override
-    public SQLConfig getSqlConfig() {
-        return sqlConfig;
-    }
 
-    @Override
-    public DriverConfig getDriverConfig() {
-        return driverConfig;
-    }
 
     @Override
     public DatabaseManager getDatabaseManager() {
@@ -125,4 +106,13 @@ public abstract class CommonMain implements DatabaseMain, LoggableMain, FileMana
 
     public abstract void registerServerLog(Server server);
 
+    @Override
+    public boolean debugToConsole() {
+        return getConfig().debug;
+    }
+
+    @Override
+    public SQLConfig getSqlConfig() {
+        return sqlConfig;
+    }
 }

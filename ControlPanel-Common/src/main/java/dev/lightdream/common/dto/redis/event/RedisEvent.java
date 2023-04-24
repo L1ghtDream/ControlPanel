@@ -24,7 +24,7 @@ public class RedisEvent {
 
     public RedisEvent(Node redisTarget) {
         this.className = getClass().getName();
-        this.redisTarget = redisTarget.getID();
+        this.redisTarget = redisTarget.id;
     }
 
 

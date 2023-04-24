@@ -15,7 +15,7 @@ import dev.lightdream.controlpanel.dto.Log;
 import dev.lightdream.controlpanel.dto.data.PermissionData;
 import dev.lightdream.controlpanel.dto.data.UserID;
 import dev.lightdream.controlpanel.service.ConsoleService;
-import dev.lightdream.databasemanager.dto.entry.DatabaseEntry;
+import dev.lightdream.databasemanager.dto.DatabaseEntry;
 import dev.lightdream.logger.Debugger;
 import lombok.SneakyThrows;
 import org.springframework.messaging.handler.annotation.MessageMapping;
