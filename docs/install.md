@@ -109,9 +109,5 @@ You can do this by the following command. Do not forge to replace `[password]`, 
 sshpass -p "[password]" scp -r root@[ip]:/home/ControlPanel/config/ssh_keys/[node_id] /root/.ssh/id_rsa
 ```
 
-# Server setup
 
-# Admin user creation
-
-# User setup
 

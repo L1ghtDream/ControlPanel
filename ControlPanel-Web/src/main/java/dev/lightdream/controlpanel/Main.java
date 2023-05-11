@@ -99,10 +99,3 @@ public class Main extends CommonMain implements FileManagerMain, DatabaseMain {
         return 2;
     }
 }
-
-/*
-TODO
-Add kill screen and ctrl+c to screen when killing a server
-Add notifications in the top right corner
-Add hidden table row to make it so when you near-click the a permission toggle won't affect the permissions
- */
